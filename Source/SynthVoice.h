@@ -19,12 +19,8 @@ class SynthVoice : public SynthesiserVoice
 public:
 	void prepare(const juce::dsp::ProcessSpec& spec)
 	{
-		// TODO
-		//tempBlock = juce::dsp::AudioBlock<float>(heapBlock, spec.numChannels, spec.maximumBlockSize);
-		//processorChain.prepare(spec);
-		
-		processorChain.reset();
-		processorChain.prepare (spec);
+		tempBlock = juce::dsp::AudioBlock<float>(heapBlock, spec.numChannels, spec.maximumBlockSize);
+		processorChain.prepare(spec);
 	}
 
 
@@ -90,65 +86,47 @@ public:
 		}
 	}
 
-	double setOscType ()
+	void updateOsc()
 	{
-		// TODO: use switch
-		if (waveform == 0)
-		{
-			return osc1.sinewave(frequency);
-		}
-		if (waveform == 1)
-		{
-			return osc1.saw(frequency);
-		}
-		if (waveform == 2)
-		{
-			return osc1.square(frequency);
-		}
-		else
-		{
-			return osc1.sinewave(frequency);
-		}
+		// TODO: set osc type
+
+		processorChain.get<osc1Index>().setFrequency(frequency, true);
+		processorChain.get<osc1Index>().setLevel(level);
 	}
 
-	double setEnvelope()
-	{
-		return env1.adsr(setOscType(), env1.trigger) * level;
-	}
+	//double setEnvelope()
+	//{
+	//	return env1.adsr(setOscType(), env1.trigger) * level;
+	//}
 
 	//==============================================================================
 
 	void startNote(int midiNoteNumber, float velocity, SynthesiserSound* sound,
 		int currentPitchWheelPosition) override
 	{
-		env1.trigger = 1; // start env
+		env1.trigger = 1; // remove
 		level = velocity;
 		frequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
 	}
 	
 	//==============================================================================
 
-	void stopNote(float velocity, bool allowTailOff)
+	void stopNote(float velocity, bool allowTailOff) override
 	{
 		level = 0;
-
-		env1.trigger = 0;   // release env
-		allowTailOff = true;
-
-		if (velocity = 0)
-			clearCurrentNote(); // clear voice so it can be used (e.g. press other key)
+		clearCurrentNote();
 	}
 
 	//==============================================================================
 
-	void pitchWheelMoved (int newPitchWheelValue)
+	void pitchWheelMoved (int newPitchWheelValue) override
 	{
 
 	}
 
 	//==============================================================================
 
-	void controllerMoved (int controllerNumber, int newControllerValue)
+	void controllerMoved (int controllerNumber, int newControllerValue) override
 	{
 
 	}
@@ -157,48 +135,47 @@ public:
 
 	void renderNextBlock (AudioBuffer<float> &outputBuffer, int startSample, int numSamples) override
 	{
-		for (int sample = 0; sample < numSamples; sample++)
-		{
-			for (int channel = 0; channel < outputBuffer.getNumChannels(); channel++)
-			{
-				outputBuffer.addSample(channel, startSample, setOscType() * level);
-			}
-
-			++startSample;
-		}
-
-		// do filter stuff
+		updateOsc();
 		updateFilter();
-		dsp::AudioBlock<float> block (outputBuffer);
-		processorChain.process(dsp::ProcessContextReplacing<float> (block));
+		
+		auto block = tempBlock.getSubBlock(0, (size_t)numSamples);
+		block.clear();
+		juce::dsp::ProcessContextReplacing<float> context(block);
+		processorChain.process(context);
+
+		juce::dsp::AudioBlock<float>(outputBuffer)
+			.getSubBlock((size_t)startSample, (size_t)numSamples)
+			.add(tempBlock);
 	}
 
 	//==============================================================================
 
 private:
 
+	//==============================================================================
+	typedef Oscillator<float> Oscillator;
+
 	typedef 
-		dsp::ProcessorDuplicator<juce::dsp::StateVariableFilter::Filter<float>, dsp::StateVariableFilter::Parameters<float>> 
-		Filter;
-	
+		dsp::ProcessorDuplicator<dsp::StateVariableFilter::Filter<float>, 
+		                         dsp::StateVariableFilter::Parameters<float>> Filter;
+
 	enum
 	{
+		osc1Index,
 		filterIndex,
-		//osc1Index,
-		//osc2Index,
-		//masterGainIndex
 	};
 
+	//==============================================================================
+	juce::HeapBlock<char> heapBlock;        // ?
+	juce::dsp::AudioBlock<float> tempBlock; // ?
+	
+	juce::dsp::ProcessorChain<Oscillator, Filter> processorChain;
+
 	double level, frequency;
-	
 	int waveform;
-	
 	int filterType;
 	float filterCutoff, filterRes;
 
-	maxiOsc osc1;
 	maxiEnv env1;
 	
-	
-	juce::dsp::ProcessorChain<Filter> processorChain;
 };
