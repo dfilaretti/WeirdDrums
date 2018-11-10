@@ -23,14 +23,14 @@ public:
 		//tempBlock = juce::dsp::AudioBlock<float>(heapBlock, spec.numChannels, spec.maximumBlockSize);
 		//processorChain.prepare(spec);
 		
-		stateVariableFilter.reset();
-		stateVariableFilter.prepare (spec);
+		processorChain.reset();
+		processorChain.prepare (spec);
 	}
 
 
 	bool canPlaySound(SynthesiserSound* sound)
 	{
-		return dynamic_cast<SynthSound*>(sound) != nullptr;
+		return dynamic_cast<SynthSound*> (sound) != nullptr;
 	}
 
 	//==============================================================================
@@ -60,6 +60,7 @@ public:
 	void updateFilter()
 	{
 		auto sr = getSampleRate();
+		auto& stateVariableFilter = processorChain.get<filterIndex>();
 
 		if (filterType == 0)
 		{
@@ -129,6 +130,8 @@ public:
 
 	void stopNote(float velocity, bool allowTailOff)
 	{
+		level = 0;
+
 		env1.trigger = 0;   // release env
 		allowTailOff = true;
 
@@ -158,7 +161,7 @@ public:
 		{
 			for (int channel = 0; channel < outputBuffer.getNumChannels(); channel++)
 			{
-				outputBuffer.addSample(channel, startSample, setEnvelope());
+				outputBuffer.addSample(channel, startSample, setOscType() * level);
 			}
 
 			++startSample;
@@ -167,23 +170,20 @@ public:
 		// do filter stuff
 		updateFilter();
 		dsp::AudioBlock<float> block (outputBuffer);
-		stateVariableFilter.process(dsp::ProcessContextReplacing<float> (block));
-
-		//dsp::AudioBlock<float> block (outputBuffer);
-		//processorChain.process(dsp::ProcessContextReplacing<float> (block));
+		processorChain.process(dsp::ProcessContextReplacing<float> (block));
 	}
 
 	//==============================================================================
 
 private:
 
-	//enum
-	//{
-	//	osc1Index,
-	//	//osc2Index,
-	//	//filterIndex,
-	//	//masterGainIndex
-	//};
+	enum
+	{
+		filterIndex,
+		//osc1Index,
+		//osc2Index,
+		//masterGainIndex
+	};
 
 	double level;
 	double frequency;
@@ -194,8 +194,5 @@ private:
 	maxiOsc osc1;
 	maxiEnv env1;
 	
-	//juce::dsp::ProcessorChain<Oscillator<float>> processorChain;
-
-	dsp::ProcessorDuplicator<juce::dsp::StateVariableFilter::Filter<float>, dsp::StateVariableFilter::Parameters<float>>
-		stateVariableFilter;
+	juce::dsp::ProcessorChain<dsp::ProcessorDuplicator<juce::dsp::StateVariableFilter::Filter<float>, dsp::StateVariableFilter::Parameters<float>>> processorChain;
 };
