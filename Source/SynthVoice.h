@@ -177,6 +177,10 @@ public:
 
 private:
 
+	typedef 
+		dsp::ProcessorDuplicator<juce::dsp::StateVariableFilter::Filter<float>, dsp::StateVariableFilter::Parameters<float>> 
+		Filter;
+	
 	enum
 	{
 		filterIndex,
@@ -185,14 +189,16 @@ private:
 		//masterGainIndex
 	};
 
-	double level;
-	double frequency;
+	double level, frequency;
+	
 	int waveform;
+	
 	int filterType;
 	float filterCutoff, filterRes;
 
 	maxiOsc osc1;
 	maxiEnv env1;
 	
-	juce::dsp::ProcessorChain<dsp::ProcessorDuplicator<juce::dsp::StateVariableFilter::Filter<float>, dsp::StateVariableFilter::Parameters<float>>> processorChain;
+	
+	juce::dsp::ProcessorChain<Filter> processorChain;
 };
