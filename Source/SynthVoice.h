@@ -11,7 +11,7 @@
 #pragma once
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SynthSound.h"
-#include "Osc.h"
+#include "Oscillator.h"
 #include "Maximilian.h"
 
 class SynthVoice : public SynthesiserVoice

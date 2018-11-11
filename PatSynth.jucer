@@ -10,7 +10,8 @@
         <FILE id="xtuUfg" name="Globals.h" compile="0" resource="0" file="Source/Globals.h"/>
       </GROUP>
       <GROUP id="{5633249D-B53E-0946-92DD-FAC6184FFC44}" name="Processor">
-        <FILE id="zgDNui" name="Osc.h" compile="0" resource="0" file="Source/Osc.h"/>
+        <FILE id="sl9aeW" name="Envelope.h" compile="0" resource="0" file="Source/Envelope.h"/>
+        <FILE id="zgDNui" name="Oscillator.h" compile="0" resource="0" file="Source/Oscillator.h"/>
         <FILE id="vDI0BM" name="Synth.h" compile="0" resource="0" file="Source/Synth.h"/>
         <FILE id="MtrXuF" name="SynthVoice.h" compile="0" resource="0" file="Source/SynthVoice.h"/>
         <FILE id="wgdrqh" name="SynthSound.h" compile="0" resource="0" file="Source/SynthSound.h"/>
