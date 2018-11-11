@@ -12,7 +12,8 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SynthSound.h"
 #include "Oscillator.h"
-#include "Maximilian.h"
+#include "Envelope.h"
+//#include "Maximilian.h"
 
 class SynthVoice : public SynthesiserVoice
 {
@@ -33,10 +34,10 @@ public:
 
 	void getParam(float* attack, float* decay, float* sustain, float* release)
 	{
-		env1.setAttack(double(*attack));
-		env1.setDecay(double(*decay));
-		env1.setSustain(double(*sustain));
-		env1.setRelease(double(*release));
+		processorChain.get<envelopeIndex>().setAttack(double(*attack));
+		processorChain.get<envelopeIndex>().setDecay(double(*decay));
+		processorChain.get<envelopeIndex>().setSustain(double(*sustain));
+		processorChain.get<envelopeIndex>().setRelease(double(*release));
 	}
 
 	void getOscType(float* selection)
@@ -88,23 +89,29 @@ public:
 
 	void updateOsc()
 	{
-		// TODO: set osc type
+		switch (waveform)
+		{
+		case 0:
+			processorChain.get<osc1Index>().setWaveform(Oscillator::sine);
+			break;
+		case 1:
+			processorChain.get<osc1Index>().setWaveform (Oscillator::saw);
+			break;
+		case 2:
+			processorChain.get<osc1Index>().setWaveform(Oscillator::square);
+			break;
+		}
 
 		processorChain.get<osc1Index>().setFrequency(frequency, true);
 		processorChain.get<osc1Index>().setLevel(level);
 	}
-
-	//double setEnvelope()
-	//{
-	//	return env1.adsr(setOscType(), env1.trigger) * level;
-	//}
 
 	//==============================================================================
 
 	void startNote(int midiNoteNumber, float velocity, SynthesiserSound* sound,
 		int currentPitchWheelPosition) override
 	{
-		env1.trigger = 1; // remove
+		processorChain.get<envelopeIndex>().setTrigger (1);
 		level = velocity;
 		frequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
 	}
@@ -113,8 +120,12 @@ public:
 
 	void stopNote(float velocity, bool allowTailOff) override
 	{
-		level = 0;
-		clearCurrentNote();
+		processorChain.get<envelopeIndex>().setTrigger (0);
+
+		allowTailOff = true;
+
+		if (velocity = 0)
+			clearCurrentNote(); // clear voice so it can be used (e.g. press other key)
 	}
 
 	//==============================================================================
@@ -163,19 +174,17 @@ private:
 	{
 		osc1Index,
 		filterIndex,
+		envelopeIndex
 	};
 
 	//==============================================================================
 	juce::HeapBlock<char> heapBlock;        // ?
 	juce::dsp::AudioBlock<float> tempBlock; // ?
 	
-	juce::dsp::ProcessorChain<Oscillator, Filter> processorChain;
+	juce::dsp::ProcessorChain<Oscillator, Filter, Envelope<float>> processorChain;
 
 	double level, frequency;
 	int waveform;
 	int filterType;
 	float filterCutoff, filterRes;
-
-	maxiEnv env1;
-	
 };

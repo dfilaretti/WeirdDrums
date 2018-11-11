@@ -23,17 +23,36 @@ public:
 	}
 
 	//==============================================================================
-	void setFrequency(Type newValue, bool force = false)
+	void setFrequency (Type newValue, bool force = false)
 	{
 		auto& osc = processorChain.template get<oscIndex>();
 		osc.setFrequency(newValue, force);
 	}
 
 	//==============================================================================
-	void setLevel(Type newValue)
+	void setLevel (Type newValue)
 	{
 		auto& gain = processorChain.template get<gainIndex>();
 		gain.setGainLinear(newValue);
+	}
+
+	void setWaveform(int selection)
+	{
+		auto& osc = processorChain.template get<oscIndex>();
+
+		switch (selection) 
+		{
+			case sine: 
+				osc.initialise([](Type x) { return std::sin(x); }, 128);
+				break;
+			case saw: 
+				osc.initialise([](Type x) {
+					return jmap(x, Type(-MathConstants<double>::pi), Type(MathConstants<double>::pi), Type(-1), Type(1));
+				}, 2);
+				break;
+			default:
+				osc.initialise([](Type x) { return std::sin(x); }, 128);
+		}
 	}
 
 	//==============================================================================
@@ -44,7 +63,7 @@ public:
 
 	//==============================================================================
 	template <typename ProcessContext>
-	void process(const ProcessContext& context) noexcept
+	void process (const ProcessContext& context) noexcept
 	{
 		processorChain.process(context);
 	}
@@ -55,8 +74,15 @@ public:
 		processorChain.prepare(spec);
 	}
 
+	enum
+	{
+		sine, 
+		saw,
+		square, // todo 
+	};
 private:
 	//==============================================================================
+	
 	enum
 	{
 		oscIndex,

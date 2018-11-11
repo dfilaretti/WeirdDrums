@@ -72,7 +72,7 @@ private:
 	//==============================================================================
 	const Identifier kValueTreeId = Identifier("PatSynth");
 
-	const int kNumVoices = 6;
+	const int kNumVoices = 2;
 
 	const String kParamNameAttack          = "Attack";
 	const String kParamNameDecay           = "Decay";
