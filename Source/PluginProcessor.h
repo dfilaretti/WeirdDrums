@@ -86,7 +86,7 @@ private:
 
 	const NormalisableRange<float> kParamRangeAttack          = NormalisableRange<float>(0.1f, 5000.0f);
 	const NormalisableRange<float> kParamRangeDecay           = NormalisableRange<float>(0.1f, 5000.0f);
-	const NormalisableRange<float> kParamRangeSustain         = NormalisableRange<float>(0.0f, 1.0f);
+	const NormalisableRange<float> kParamRangeSustain         = NormalisableRange<float>(0.01f, 1.0f);
 	const NormalisableRange<float> kParamRangeRelease         = NormalisableRange<float>(0.1f, 1000.0f);
 	const NormalisableRange<float> kParamRangeWaveType        = NormalisableRange<float>(0, 2);
 	const NormalisableRange<float> kParamRangeFilterType      = NormalisableRange<float>(0, 2);

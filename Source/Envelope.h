@@ -44,9 +44,6 @@ public:
 			// TODO
 		}
 		
-		auto* src = inBlock.getChannelPointer (0);
-		auto* dst = outBlock.getChannelPointer (0);
-
 		for (int channel = 0; channel < numChannels; channel++)
 		{
 			auto* src = inBlock.getChannelPointer (channel);
