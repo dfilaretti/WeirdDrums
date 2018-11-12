@@ -16,7 +16,6 @@
 #include "SynthSound.h"
 #include "Globals.h"
 
-
 //==============================================================================
 /**
 */
@@ -64,16 +63,18 @@ public:
 	AudioProcessorValueTreeState parameters;
 
 private:
+	//==============================================================================
 	Synth mySynth;
 	SynthVoice *myVoice;
 	
+	//==============================================================================
 	double lastSampleRate;
 
 	//==============================================================================
+	const int kNumVoices = 2;
 	const Identifier kValueTreeId = Identifier("PatSynth");
 
-	const int kNumVoices = 2;
-
+	//==============================================================================
 	const String kParamNameAttack          = "Attack";
 	const String kParamNameDecay           = "Decay";
 	const String kParamNameSustain         = "Sustain";
@@ -102,13 +103,8 @@ private:
 	const float kParamDefaultFilterResonance = 1.f;
 
 	//==============================================================================
-	
-
-	//==============================================================================
 	void initValueTree();
 	void initSynth();
-
-	//void updateFilter();
 
 	//==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PatSynthAudioProcessor)

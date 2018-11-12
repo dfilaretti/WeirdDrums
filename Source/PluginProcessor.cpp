@@ -34,101 +34,6 @@ PatSynthAudioProcessor::~PatSynthAudioProcessor()
 }
 
 //==============================================================================
-void PatSynthAudioProcessor::initSynth()
-{
-	// Add voices to the synth
-	mySynth.clearVoices();
-	for (int i = 0; i < kNumVoices; i++)
-	{
-		mySynth.addVoice(new SynthVoice());
-	}
-
-	// Add sounds to the synth
-	mySynth.clearSounds();
-	mySynth.addSound(new SynthSound());
-}
-
-void PatSynthAudioProcessor::initValueTree()
-{
-	// ADSR
-	parameters.createAndAddParameter(
-		Globals::paramIdAttack,
-		kParamNameAttack,
-		String(),
-		kParamRangeAttack,
-		kParamDefaultAttack,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdDecay,
-		kParamNameDecay,
-		String(),
-		kParamRangeDecay,
-		kParamDefaultDecay,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdSustain,
-		kParamNameSustain,
-		String(),
-		kParamRangeSustain,
-		kParamDefaultSustain,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdRelease,
-		kParamNameRelease,
-		String(),
-		kParamRangeRelease,
-		kParamDefaultRelease,
-		nullptr,
-		nullptr);
-
-	// Waveform
-	parameters.createAndAddParameter(
-		Globals::paramIdWaveType,
-		kParamNameWaveType,
-		String(),
-		kParamRangeWaveType,
-		kParamDefaultWaveType,
-		nullptr,
-		nullptr);
-
-	// Filter
-	parameters.createAndAddParameter(
-		Globals::paramIdFilterType,
-		kParamNameFilterType,
-		String(),
-		kParamRangeFilterType,
-		kParamDefaultFilterType,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdFilterCutoff,
-		kParamNameFilterCutoff,
-		String(),
-		kParamRangeFilterCutoff,
-		kParamDefaultFilterCutoff,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdFilterReso,
-		kParamNameFilterResonance,
-		String(),
-		kParamRangeFilterResonance,
-		kParamDefaultFilterResonance,
-		nullptr,
-		nullptr);
-
-	parameters.state = ValueTree (kValueTreeId);
-}
-
-//==============================================================================
 const String PatSynthAudioProcessor::getName() const
 {
     return JucePlugin_Name;
@@ -237,13 +142,14 @@ void PatSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffe
 	{
 		if ((myVoice = dynamic_cast<SynthVoice*> (mySynth.getVoice(i))))
 		{
-			myVoice -> getParam(
+			myVoice -> getEnvelopeParams(
 				parameters.getRawParameterValue (Globals::paramIdAttack), 
 				parameters.getRawParameterValue (Globals::paramIdDecay),
 				parameters.getRawParameterValue (Globals::paramIdSustain),
 				parameters.getRawParameterValue (Globals::paramIdRelease));
 
-			myVoice -> getOscType(parameters.getRawParameterValue (Globals::paramIdWaveType));
+			myVoice -> getOscParams(
+				parameters.getRawParameterValue (Globals::paramIdWaveType));
 		
 			myVoice -> getFilterParams(
 				parameters.getRawParameterValue (Globals::paramIdFilterType),
@@ -262,6 +168,102 @@ void PatSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffe
         buffer.clear (i, 0, buffer.getNumSamples());
 
 	mySynth.renderNextBlock (buffer, midiMessages, 0, buffer.getNumSamples());
+}
+
+//==============================================================================
+// TODO: maybe the synth itself should do this?
+void PatSynthAudioProcessor::initSynth()
+{
+	// Add voices to the synth
+	mySynth.clearVoices();
+	for (int i = 0; i < kNumVoices; i++)
+	{
+		mySynth.addVoice(new SynthVoice());
+	}
+
+	// Add sounds to the synth
+	mySynth.clearSounds();
+	mySynth.addSound(new SynthSound());
+}
+
+void PatSynthAudioProcessor::initValueTree()
+{
+	// ADSR
+	parameters.createAndAddParameter(
+		Globals::paramIdAttack,
+		kParamNameAttack,
+		String(),
+		kParamRangeAttack,
+		kParamDefaultAttack,
+		nullptr,
+		nullptr);
+
+	parameters.createAndAddParameter(
+		Globals::paramIdDecay,
+		kParamNameDecay,
+		String(),
+		kParamRangeDecay,
+		kParamDefaultDecay,
+		nullptr,
+		nullptr);
+
+	parameters.createAndAddParameter(
+		Globals::paramIdSustain,
+		kParamNameSustain,
+		String(),
+		kParamRangeSustain,
+		kParamDefaultSustain,
+		nullptr,
+		nullptr);
+
+	parameters.createAndAddParameter(
+		Globals::paramIdRelease,
+		kParamNameRelease,
+		String(),
+		kParamRangeRelease,
+		kParamDefaultRelease,
+		nullptr,
+		nullptr);
+
+	// Waveform
+	parameters.createAndAddParameter(
+		Globals::paramIdWaveType,
+		kParamNameWaveType,
+		String(),
+		kParamRangeWaveType,
+		kParamDefaultWaveType,
+		nullptr,
+		nullptr);
+
+	// Filter
+	parameters.createAndAddParameter(
+		Globals::paramIdFilterType,
+		kParamNameFilterType,
+		String(),
+		kParamRangeFilterType,
+		kParamDefaultFilterType,
+		nullptr,
+		nullptr);
+
+	parameters.createAndAddParameter(
+		Globals::paramIdFilterCutoff,
+		kParamNameFilterCutoff,
+		String(),
+		kParamRangeFilterCutoff,
+		kParamDefaultFilterCutoff,
+		nullptr,
+		nullptr);
+
+	parameters.createAndAddParameter(
+		Globals::paramIdFilterReso,
+		kParamNameFilterResonance,
+		String(),
+		kParamRangeFilterResonance,
+		kParamDefaultFilterResonance,
+		nullptr,
+		nullptr);
+
+	parameters.state = ValueTree(kValueTreeId);
 }
 
 //==============================================================================

@@ -17,6 +17,11 @@ class Envelope
 {
 public:
 	//==============================================================================
+
+	void prepare(const juce::dsp::ProcessSpec& spec)
+	{
+	}
+
 	void reset() noexcept
 	{
 	}
@@ -42,12 +47,6 @@ public:
 		auto* src = inBlock.getChannelPointer (0);
 		auto* dst = outBlock.getChannelPointer (0);
 
-		//for (int i = 0; i < len; i++)
-		//{
-		//	dst[i] = env.adsr(src[i], env.trigger);
-		//	//dst[i] = src[i];
-		//}
-
 		for (int channel = 0; channel < numChannels; channel++)
 		{
 			auto* src = inBlock.getChannelPointer (channel);
@@ -56,16 +55,12 @@ public:
 			for (int i = 0; i < len; i++)
 			{
 				dst[i] = env.adsr(src[i], env.trigger);
-				//dst[i] = src[i];
 			}
 		}
 	}
 
-	void prepare(const juce::dsp::ProcessSpec& spec)
-	{
-	}
-
 	//==============================================================================
+	
 	void setAttack (float attack)
 	{
 		env.setAttack(attack);
@@ -93,5 +88,4 @@ public:
 
 private:
 	maxiEnv env;
-	//float attack, decay, sustain, release;
 };

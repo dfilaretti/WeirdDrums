@@ -13,83 +13,52 @@
 #include "SynthSound.h"
 #include "Oscillator.h"
 #include "Envelope.h"
-//#include "Maximilian.h"
 
 class SynthVoice : public SynthesiserVoice
 {
 public:
+
 	void prepare(const juce::dsp::ProcessSpec& spec)
 	{
 		tempBlock = juce::dsp::AudioBlock<float>(heapBlock, spec.numChannels, spec.maximumBlockSize);
 		processorChain.prepare(spec);
 	}
 
-
-	bool canPlaySound(SynthesiserSound* sound)
-	{
-		return dynamic_cast<SynthSound*> (sound) != nullptr;
-	}
-
 	//==============================================================================
 
-	void getParam(float* attack, float* decay, float* sustain, float* release)
+	void getEnvelopeParams(float* attack, float* decay, float* sustain, float* release)
 	{
-		processorChain.get<envelopeIndex>().setAttack(double(*attack));
-		processorChain.get<envelopeIndex>().setDecay(double(*decay));
-		processorChain.get<envelopeIndex>().setSustain(double(*sustain));
-		processorChain.get<envelopeIndex>().setRelease(double(*release));
+		envAttack  = *attack;
+		envDecay   = *decay;
+		envSustain = *sustain;
+		envRelease = *release;
 	}
 
-	void getOscType(float* selection)
+	void getOscParams(float* selection)
 	{
-		waveform = *selection;
+		oscWaveform = *selection;
 	}
 
 	void getFilterParams(float* type, float* cutoff, float* res)
 	{
-		filterType = *type;
+		filterType   = *type;
 		filterCutoff = *cutoff;
-		filterRes = *res;
+		filterRes    = *res;
 	}
 	
 	//==============================================================================
 
-	void updateFilter()
+	void updateEnvelopeParams() 
 	{
-		auto sr = getSampleRate();
-		auto& stateVariableFilter = processorChain.get<filterIndex>();
-
-		if (filterType == 0)
-		{
-			stateVariableFilter.state->type =
-				dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
-			stateVariableFilter.state->setCutOffFrequency(sr, filterCutoff, filterRes);
-		}
-
-		if (filterType == 1)
-		{
-			stateVariableFilter.state->type =
-				dsp::StateVariableFilter::Parameters<float>::Type::highPass;
-			stateVariableFilter.state->setCutOffFrequency(sr, filterCutoff, filterRes);
-		}
-
-		if (filterType == 3)
-		{
-			stateVariableFilter.state->type =
-				dsp::StateVariableFilter::Parameters<float>::Type::bandPass;
-			stateVariableFilter.state->setCutOffFrequency(sr, filterCutoff, filterRes);
-		}
-		else
-		{
-			stateVariableFilter.state->type =
-				dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
-			stateVariableFilter.state->setCutOffFrequency(sr, filterCutoff, filterRes);
-		}
+		processorChain.get<envelopeIndex>().setAttack(envAttack);
+		processorChain.get<envelopeIndex>().setDecay(envDecay);
+		processorChain.get<envelopeIndex>().setSustain(envSustain);
+		processorChain.get<envelopeIndex>().setRelease(envRelease);
 	}
 
-	void updateOsc()
+	void updateOscillatorParams()
 	{
-		switch (waveform)
+		switch (oscWaveform)
 		{
 		case 0:
 			processorChain.get<osc1Index>().setWaveform(Oscillator::sine);
@@ -102,52 +71,76 @@ public:
 			break;
 		}
 
-		processorChain.get<osc1Index>().setFrequency(frequency, true);
-		processorChain.get<osc1Index>().setLevel(level);
+		processorChain.get<osc1Index>().setFrequency(oscFrequency, true);
+		processorChain.get<osc1Index>().setLevel(oscLevel);
+	}
+
+	void updateFilterParams()
+	{
+		auto sr = getSampleRate();
+		auto& stateVariableFilter = processorChain.get<filterIndex>();
+
+		switch (filterType)
+		{
+		case 0:
+			stateVariableFilter.state->type =
+				dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
+			break;
+		case 1:
+			stateVariableFilter.state->type =
+				dsp::StateVariableFilter::Parameters<float>::Type::highPass;
+			break;
+		case 2:
+			stateVariableFilter.state->type =
+				dsp::StateVariableFilter::Parameters<float>::Type::bandPass;
+			break;
+		default:
+			stateVariableFilter.state->type =
+				dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
+		}
+
+		stateVariableFilter.state->setCutOffFrequency(sr, filterCutoff, filterRes);
 	}
 
 	//==============================================================================
+	bool canPlaySound(SynthesiserSound* sound) override
+	{
+		return dynamic_cast<SynthSound*> (sound) != nullptr;
+	}
 
 	void startNote(int midiNoteNumber, float velocity, SynthesiserSound* sound,
 		int currentPitchWheelPosition) override
 	{
 		processorChain.get<envelopeIndex>().setTrigger (1);
-		level = velocity;
-		frequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+		oscLevel = velocity;
+		oscFrequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
 	}
 	
-	//==============================================================================
-
 	void stopNote(float velocity, bool allowTailOff) override
 	{
 		processorChain.get<envelopeIndex>().setTrigger (0);
 
-		allowTailOff = true;
+		allowTailOff = true; // ?
 
 		if (velocity = 0)
-			clearCurrentNote(); // clear voice so it can be used (e.g. press other key)
+			clearCurrentNote(); // so that voice can be reused
 	}
-
-	//==============================================================================
 
 	void pitchWheelMoved (int newPitchWheelValue) override
 	{
 
 	}
 
-	//==============================================================================
-
 	void controllerMoved (int controllerNumber, int newControllerValue) override
 	{
 
 	}
 
-	//==============================================================================
-
 	void renderNextBlock (AudioBuffer<float> &outputBuffer, int startSample, int numSamples) override
 	{
-		updateOsc();
-		updateFilter();
+		updateOscillatorParams();
+		updateFilterParams();
+		updateEnvelopeParams();
 		
 		auto block = tempBlock.getSubBlock(0, (size_t)numSamples);
 		block.clear();
@@ -159,13 +152,12 @@ public:
 			.add(tempBlock);
 	}
 
-	//==============================================================================
-
 private:
-
 	//==============================================================================
 	typedef Oscillator<float> Oscillator;
-
+	
+	typedef Envelope<float> Envelope;
+	
 	typedef 
 		dsp::ProcessorDuplicator<dsp::StateVariableFilter::Filter<float>, 
 		                         dsp::StateVariableFilter::Parameters<float>> Filter;
@@ -178,13 +170,18 @@ private:
 	};
 
 	//==============================================================================
-	juce::HeapBlock<char> heapBlock;        // ?
-	juce::dsp::AudioBlock<float> tempBlock; // ?
+	juce::HeapBlock<char> heapBlock;
+	juce::dsp::AudioBlock<float> tempBlock;
 	
-	juce::dsp::ProcessorChain<Oscillator, Filter, Envelope<float>> processorChain;
+	//==============================================================================
+	juce::dsp::ProcessorChain<Oscillator, Filter, Envelope> processorChain;
 
-	double level, frequency;
-	int waveform;
+	//==============================================================================
+	float envAttack, envDecay, envSustain, envRelease;
+	
+	double oscLevel, oscFrequency;
+	int oscWaveform;
+	
 	int filterType;
 	float filterCutoff, filterRes;
 };
