@@ -13,7 +13,7 @@
 #include "Maximilian.h"
 
 template <typename Type>
-class Envelope
+class AdsrEnvelope
 {
 public:
 	//==============================================================================

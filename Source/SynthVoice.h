@@ -12,7 +12,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SynthSound.h"
 #include "Oscillator.h"
-#include "Envelope.h"
+#include "AdsrEnvelope.h"
 
 class SynthVoice : public SynthesiserVoice
 {
@@ -50,6 +50,10 @@ public:
 	{
 		processorChain.get<envelopeIndex>().setAttack(envAttack);
 		processorChain.get<envelopeIndex>().setDecay(envDecay);
+
+		// Although we are using a full ADSR envelope, we use it as an AD  (Attack/Decay) , 
+		// therefore we set Sustain and Release to 0. 
+		// TODO: actually make a ADEnvelope class. 
 		processorChain.get<envelopeIndex>().setSustain(0.0f);
 		processorChain.get<envelopeIndex>().setRelease(0.0f);
 	}
@@ -154,7 +158,7 @@ private:
 	//==============================================================================
 	typedef Oscillator<float> Oscillator;
 	
-	typedef Envelope<float> Envelope;
+	typedef AdsrEnvelope<float> Envelope;
 	
 	typedef 
 		dsp::ProcessorDuplicator<dsp::StateVariableFilter::Filter<float>, 
@@ -172,6 +176,8 @@ private:
 	juce::dsp::AudioBlock<float> tempBlock;
 	
 	//==============================================================================
+	// TODO: are we sure the amp envelope should be here?
+	//       shouldn't it be a control rate envelope?
 	juce::dsp::ProcessorChain<Oscillator, Filter, Envelope> processorChain;
 
 	//==============================================================================

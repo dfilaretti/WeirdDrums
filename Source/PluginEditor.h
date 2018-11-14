@@ -12,9 +12,9 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
-#include "OscillatorEditor.h"
-#include "EnvelopeEditor.h"
-#include "FilterEditor.h"
+#include "OscillatorSectionEditor.h"
+#include "NoiseSectionEditor.h"
+#include "MasterSectionEditor.h"
 
 //==============================================================================
 
@@ -36,9 +36,9 @@ private:
 
     PatSynthAudioProcessor& processor;
 
-	OscillatorEditor oscGui;
-	EnvelopeEditor envGui;
-	FilterEditor filterGui;
+	OscillatorSectionEditor oscGui;
+	MasterSectionEditor envGui;
+	NoiseSectionEditor filterGui;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PatSynthAudioProcessorEditor)
 };
