@@ -144,9 +144,7 @@ void PatSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffe
 		{
 			myVoice -> getEnvelopeParams(
 				parameters.getRawParameterValue (Globals::paramIdAttack), 
-				parameters.getRawParameterValue (Globals::paramIdDecay),
-				parameters.getRawParameterValue (Globals::paramIdSustain),
-				parameters.getRawParameterValue (Globals::paramIdRelease));
+				parameters.getRawParameterValue (Globals::paramIdDecay));
 
 			myVoice -> getOscParams(
 				parameters.getRawParameterValue (Globals::paramIdWaveType));
@@ -204,24 +202,6 @@ void PatSynthAudioProcessor::initValueTree()
 		String(),
 		kParamRangeDecay,
 		kParamDefaultDecay,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdSustain,
-		kParamNameSustain,
-		String(),
-		kParamRangeSustain,
-		kParamDefaultSustain,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdRelease,
-		kParamNameRelease,
-		String(),
-		kParamRangeRelease,
-		kParamDefaultRelease,
 		nullptr,
 		nullptr);
 

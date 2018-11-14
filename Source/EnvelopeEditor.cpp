@@ -32,22 +32,6 @@ EnvelopeEditor::EnvelopeEditor(PatSynthAudioProcessor& p) :
 		processor.parameters, 
 		Globals::paramIdDecay,
 		decaySlider);
-
-	sustainSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
-	sustainSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-	addAndMakeVisible(&sustainSlider);
-	sustainSliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdSustain,
-		sustainSlider);
-
-	releaseSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
-	releaseSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-	addAndMakeVisible(&releaseSlider);
-	releaseSliderAttachment = new SliderAttachment(
-		processor.parameters, 
-		Globals::paramIdRelease,
-		releaseSlider);
 }
 
 EnvelopeEditor::~EnvelopeEditor()
@@ -66,8 +50,6 @@ void EnvelopeEditor::paint (Graphics& g)
 	//static positioning for now due to time, make dynamic later
 	g.drawText("A", 53, 150, 20, 20, Justification::centredTop);
 	g.drawText("D", 77, 150, 20, 20, Justification::centredTop);
-	g.drawText("S", 103, 150, 20, 20, Justification::centredTop);
-	g.drawText("R", 128, 150, 20, 20, Justification::centredTop);
 
 	juce::Rectangle <float> area(25, 25, 150, 150);
 
@@ -81,6 +63,4 @@ void EnvelopeEditor::resized()
 
 	attackSlider.setBounds(area.removeFromLeft(kSliderWidth).removeFromTop(kSliderHeight).withTrimmedTop(10));
 	decaySlider.setBounds(area.removeFromLeft(kSliderWidth).removeFromTop(kSliderHeight).withTrimmedTop(10));
-	sustainSlider.setBounds(area.removeFromLeft(kSliderWidth).removeFromTop(kSliderHeight).withTrimmedTop(10));
-	releaseSlider.setBounds(area.removeFromLeft(kSliderWidth).removeFromTop(kSliderHeight).withTrimmedTop(10));
 }

@@ -26,12 +26,10 @@ public:
 
 	//==============================================================================
 
-	void getEnvelopeParams(float* attack, float* decay, float* sustain, float* release)
+	void getEnvelopeParams(float* attack, float* decay)
 	{
 		envAttack  = *attack;
 		envDecay   = *decay;
-		envSustain = *sustain;
-		envRelease = *release;
 	}
 
 	void getOscParams(float* selection)
@@ -52,8 +50,8 @@ public:
 	{
 		processorChain.get<envelopeIndex>().setAttack(envAttack);
 		processorChain.get<envelopeIndex>().setDecay(envDecay);
-		processorChain.get<envelopeIndex>().setSustain(envSustain);
-		processorChain.get<envelopeIndex>().setRelease(envRelease);
+		processorChain.get<envelopeIndex>().setSustain(0.0f);
+		processorChain.get<envelopeIndex>().setRelease(0.0f);
 	}
 
 	void updateOscillatorParams()
@@ -177,7 +175,7 @@ private:
 	juce::dsp::ProcessorChain<Oscillator, Filter, Envelope> processorChain;
 
 	//==============================================================================
-	float envAttack, envDecay, envSustain, envRelease;
+	float envAttack, envDecay;
 	
 	double oscLevel, oscFrequency;
 	int oscWaveform;

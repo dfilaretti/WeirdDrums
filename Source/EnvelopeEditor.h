@@ -35,15 +35,11 @@ private:
 
 	Slider 
 		attackSlider, 
-		decaySlider, 
-		sustainSlider, 
-		releaseSlider;
+		decaySlider;
 	
 	ScopedPointer<SliderAttachment>
 		attackSliderAttachment, 
-		decaySliderAttachment, 
-		sustainSliderAttachment, 
-		releaseSliderAttachment;
+		decaySliderAttachment;
 
 	PatSynthAudioProcessor& processor;
 
