@@ -27,29 +27,29 @@ public:
     void resized() override;
 
 private:
+	//==============================================================================
 	typedef AudioProcessorValueTreeState::ComboBoxAttachment ComboBoxAttachment;
 	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
 
 	//==============================================================================
-	//const int kWidth  = 250;
-	//const int kHeight = 300;
-	const int kMargin         = 5;
+	//const int kMargin                = 5;
+							         
+	const int kTitleHeight           = 25;
+	const int kWaveformHeight        = 100;
+	const int kAmpWidth              = 100;
+	const int kModWidth              = 150;
 
-	const int kTitleHeight    = 25;
-	const int kWaveformHeight = 100;
-	const int kAmpWidth       = 100;
-	const int kModWidth       = 150;
+	//const int kSliderWidth         = 25;
+	//const int kSliderHeight        = 175;
 
-	const int kSliderWidth  = 25;
-	const int kSliderHeight = 175;
-
+	//==============================================================================
 	const string kMenuItemSineText   = "Sine";
 	const string kMenuItemSawText    = "Saw";
 	const string kMenuItemSquareText = "Square";
 
-	const int kMenuItemSineId   = 1;
-	const int kMenuItemSawId    = 2;
-	const int kMenuItemSquareId = 3;
+	const int kMenuItemSineId        = 1;
+	const int kMenuItemSawId         = 2;
+	const int kMenuItemSquareId      = 3;
 
 	//==============================================================================
 	juce::Rectangle <int>
@@ -65,13 +65,9 @@ private:
 		oscComboBox;
 
 	Slider
-		frequencySlider;
-	
-	Slider
+		frequencySlider,
 		attackSlider,
-		decaySlider;
-
-	Slider
+		decaySlider,
 		pitchEnvDepthSlider,
 		pitchEnvRateSlider;
 
@@ -81,12 +77,8 @@ private:
 
 	ScopedPointer<SliderAttachment>
 		attackSliderAttachment,
-		decaySliderAttachment;
-
-	ScopedPointer<SliderAttachment>
-		frequencySliderAttachment;
-
-	ScopedPointer<SliderAttachment>
+		decaySliderAttachment,
+		frequencySliderAttachment,
 		pitchEnvDepthAttachment,
 		pitchEnvRateSliderAttachment;
 
