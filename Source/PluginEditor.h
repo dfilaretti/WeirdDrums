@@ -29,10 +29,10 @@ public:
     void resized() override;
 
 private:
-	const int kWidth         = 600;
-	const int kHeight        = 200;
-	const int kSectionWidth  = 200;
-	const int kSectionHeight = 200;
+	const int kWidth         = 750;
+	const int kHeight        = 275;
+	const int kSectionWidth  = 250;
+	const int kSectionHeight = kHeight;
 
     PatSynthAudioProcessor& processor;
 

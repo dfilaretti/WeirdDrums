@@ -15,9 +15,6 @@
 NoiseSectionEditor::NoiseSectionEditor(PatSynthAudioProcessor& p) :
 	processor(p)
 {
-	// setup size
-	setSize(kWidth, kHeight);
-
 	// setup filter type combo box
 	filterTypeComboBox.addItem(kMenuItemLowPassText,  kMenuItemLowPassId);
 	filterTypeComboBox.addItem(kMenuItemHighPassText, kMenuItemHighPassId);
@@ -59,10 +56,6 @@ void NoiseSectionEditor::paint (Graphics& g)
 	g.fillAll(Colours::black);
 	g.setColour(Colours::white);
 	g.drawText("Noise", titleArea, Justification::centredTop);
-
-	juce::Rectangle<float> area (25, 25, 150, 150);
-	g.setColour(Colours::yellow);
-	g.drawRoundedRectangle(area, 20.0f, 2.0f);
 }
 
 void NoiseSectionEditor::resized()

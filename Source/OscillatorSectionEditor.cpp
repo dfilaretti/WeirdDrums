@@ -15,8 +15,13 @@
 OscillatorSectionEditor::OscillatorSectionEditor(PatSynthAudioProcessor& p) 
 	: processor(p)
 {
-	// setup size
-	setSize(kWidth, kHeight);
+	frequencySlider.setSliderStyle(Slider::SliderStyle::LinearHorizontal);
+	frequencySlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	addAndMakeVisible(&frequencySlider);
+	//attackSliderAttachment = new SliderAttachment(
+	//	processor.parameters,
+	//	Globals::paramIdAttack,
+	//	frequencySlider);
 
 	// setup combo box
 	oscComboBox.addItem(kMenuItemSineText,   kMenuItemSineId);
@@ -28,6 +33,34 @@ OscillatorSectionEditor::OscillatorSectionEditor(PatSynthAudioProcessor& p)
 		processor.parameters, 
 		Globals::paramIdWaveType, 
 		oscComboBox);
+
+	// amp attack/decay sliders
+	attackSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
+	attackSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	addAndMakeVisible(&attackSlider);
+	attackSliderAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdAttack,
+		attackSlider);
+
+	decaySlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
+	decaySlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	addAndMakeVisible(&decaySlider);
+	decaySliderAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdDecay,
+		decaySlider);
+
+	// pitch env sliders
+	pitchEnvDepthSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+	pitchEnvDepthSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	addAndMakeVisible(&pitchEnvDepthSlider);
+	// TODO: attachment
+
+	pitchEnvRateSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+	pitchEnvRateSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	addAndMakeVisible(&pitchEnvRateSlider);
+	// TODO: attachment
 }
 
 OscillatorSectionEditor::~OscillatorSectionEditor()
@@ -36,22 +69,53 @@ OscillatorSectionEditor::~OscillatorSectionEditor()
 
 void OscillatorSectionEditor::paint (Graphics& g)
 {
-	//background stuff
-	juce::Rectangle<int> titleArea(0, 10, getWidth(), 20);
+	g.setColour(Colours::blueviolet);
+	g.fillRect(titleArea);
 
-	g.fillAll(Colours::black);
 	g.setColour(Colours::white);
-	g.drawText("Osc", titleArea, Justification::centredTop);
+	g.drawText("OSC", titleArea, Justification::centred);
 
+	g.setColour(Colours::darkseagreen);
+	g.fillRect(controlsArea);
 
-	juce::Rectangle <float> area(25, 25, 150, 150);
+	g.setColour(Colours::deeppink);
+	g.fillRect(waveformArea);
 
-	g.setColour(Colours::yellow);
-	g.drawRoundedRectangle(area, 20.0f, 2.0f);
+	g.setColour(Colours::cadetblue);
+	g.fillRect(ampArea);
+
+	g.setColour(Colours::black);
+	g.fillRect(modArea);
 }
 
 void OscillatorSectionEditor::resized()
 {
-	juce::Rectangle<int> area = getLocalBounds().reduced(40);
-	oscComboBox.setBounds(area.removeFromTop(20));
+	// Update rectangles sizes
+	area = getLocalBounds();
+	titleArea = area.removeFromTop(kTitleHeight);
+	controlsArea = area;
+	waveformArea = controlsArea.removeFromTop(kWaveformHeight);
+	ampArea = controlsArea.removeFromRight(kAmpWidth);
+	modArea = controlsArea.removeFromRight(kModWidth);
+
+	// Add waevform selection combobox
+	auto waveformComboBoxArea = waveformArea.removeFromTop(50);
+	oscComboBox.setBounds(waveformComboBoxArea);
+
+	// Add frequency slider
+	auto frequencySliderArea = waveformArea.removeFromTop(50);
+	frequencySlider.setBounds(frequencySliderArea);
+
+	// Add attack/decay sliders
+	auto attackSliderArea = ampArea.removeFromLeft(50);
+	attackSlider.setBounds(attackSliderArea);
+	auto decaySliderArea = ampArea.removeFromLeft(50);
+	decaySlider.setBounds(decaySliderArea);
+
+	// add pitch envelope (rotary) sliders
+	auto pitchEnvSlidersArea = modArea.removeFromRight(75);
+	auto pitchEnvDepthArea = pitchEnvSlidersArea.removeFromTop(75);
+	pitchEnvDepthSlider.setBounds(pitchEnvDepthArea);
+	auto pitchEnvRateArea = pitchEnvSlidersArea.removeFromTop(75);
+	pitchEnvRateSlider.setBounds(pitchEnvRateArea);
 }

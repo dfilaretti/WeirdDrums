@@ -28,11 +28,20 @@ public:
 
 private:
 	typedef AudioProcessorValueTreeState::ComboBoxAttachment ComboBoxAttachment;
+	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
 
 	//==============================================================================
-	
-	const int kWidth  = 200;
-	const int kHeight = 200;
+	//const int kWidth  = 250;
+	//const int kHeight = 300;
+	const int kMargin         = 5;
+
+	const int kTitleHeight    = 25;
+	const int kWaveformHeight = 100;
+	const int kAmpWidth       = 100;
+	const int kModWidth       = 150;
+
+	const int kSliderWidth  = 25;
+	const int kSliderHeight = 175;
 
 	const string kMenuItemSineText   = "Sine";
 	const string kMenuItemSawText    = "Saw";
@@ -42,9 +51,46 @@ private:
 	const int kMenuItemSawId    = 2;
 	const int kMenuItemSquareId = 3;
 
-	ComboBox oscComboBox;
-	ScopedPointer<ComboBoxAttachment> oscComboBoxAttachment;
+	//==============================================================================
+	juce::Rectangle <int>
+		area,
+		titleArea,
+		controlsArea,
+		waveformArea,
+		ampArea,
+		modArea;
 
+	//==============================================================================
+	ComboBox 
+		oscComboBox;
+
+	Slider
+		frequencySlider;
+	
+	Slider
+		attackSlider,
+		decaySlider;
+
+	Slider
+		pitchEnvDepthSlider,
+		pitchEnvRateSlider;
+
+	//==============================================================================
+	ScopedPointer<ComboBoxAttachment> 
+		oscComboBoxAttachment;
+
+	ScopedPointer<SliderAttachment>
+		attackSliderAttachment,
+		decaySliderAttachment;
+
+	ScopedPointer<SliderAttachment>
+		frequencySliderAttachment;
+
+	ScopedPointer<SliderAttachment>
+		pitchEnvDepthAttachment,
+		pitchEnvRateSliderAttachment;
+
+	//==============================================================================
 	PatSynthAudioProcessor& processor;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OscillatorSectionEditor)

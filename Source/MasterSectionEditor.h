@@ -28,18 +28,8 @@ public:
 private:
 	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
 
-	const int kWidth        = 200;
-	const int kHeight       = 200;
-	const int kSliderWidth  = 25;
-	const int kSliderHeight = 175;
-
-	Slider 
-		attackSlider, 
-		decaySlider;
-	
-	ScopedPointer<SliderAttachment>
-		attackSliderAttachment, 
-		decaySliderAttachment;
+	const int kMargin       = 50;
+	const int kTitleHeight  = 20;
 
 	PatSynthAudioProcessor& processor;
 
