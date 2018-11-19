@@ -68,8 +68,10 @@ private:
 		frequencySlider,
 		attackSlider,
 		decaySlider,
-		pitchEnvDepthSlider,
-		pitchEnvRateSlider;
+		pitchEnvAmountSlider,
+		pitchEnvRateSlider,
+		pitchLfoAmountSlider,
+		pitchLfoRateSlider;
 
 	//==============================================================================
 	ScopedPointer<ComboBoxAttachment> 
@@ -79,8 +81,10 @@ private:
 		attackSliderAttachment,
 		decaySliderAttachment,
 		frequencySliderAttachment,
-		pitchEnvDepthAttachment,
-		pitchEnvRateSliderAttachment;
+		pitchEnvAmountAttachment,
+		pitchEnvRateSliderAttachment,
+		pitchLfoAmountAttachment,
+		pitchLfoRateSliderAttachment;
 
 	//==============================================================================
 	PatSynthAudioProcessor& processor;

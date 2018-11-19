@@ -52,15 +52,38 @@ OscillatorSectionEditor::OscillatorSectionEditor(PatSynthAudioProcessor& p)
 		decaySlider);
 
 	// pitch env sliders
-	pitchEnvDepthSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-	pitchEnvDepthSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-	addAndMakeVisible(&pitchEnvDepthSlider);
-	// TODO: attachment
+	pitchEnvAmountSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+	pitchEnvAmountSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	addAndMakeVisible(&pitchEnvAmountSlider);
+	pitchEnvAmountAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdPitchEnvAmount,
+		pitchEnvAmountSlider);
 
 	pitchEnvRateSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	pitchEnvRateSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&pitchEnvRateSlider);
-	// TODO: attachment
+	pitchEnvRateSliderAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdPitchEnvRate,
+		pitchEnvRateSlider);
+
+	// pitch lfo sliders
+	pitchLfoAmountSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+	pitchLfoAmountSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	addAndMakeVisible(&pitchLfoAmountSlider);
+	pitchLfoAmountAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdPitchLfoAmount,
+		pitchLfoAmountSlider);
+
+	pitchLfoRateSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+	pitchLfoRateSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	addAndMakeVisible(&pitchLfoRateSlider);
+	pitchLfoRateSliderAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdPitchLfoRate,
+		pitchLfoRateSlider);
 }
 
 OscillatorSectionEditor::~OscillatorSectionEditor()
@@ -114,8 +137,19 @@ void OscillatorSectionEditor::resized()
 
 	// add pitch envelope (rotary) sliders
 	auto pitchEnvSlidersArea = modArea.removeFromRight(75);
+	
 	auto pitchEnvDepthArea = pitchEnvSlidersArea.removeFromTop(75);
-	pitchEnvDepthSlider.setBounds(pitchEnvDepthArea);
+	pitchEnvAmountSlider.setBounds(pitchEnvDepthArea);
+	
 	auto pitchEnvRateArea = pitchEnvSlidersArea.removeFromTop(75);
 	pitchEnvRateSlider.setBounds(pitchEnvRateArea);
+
+	// add pitch lfo (rotary) sliders
+	auto pitchLfoSlidersArea = modArea.removeFromRight(75);
+
+	auto pitchLfoDepthArea = pitchLfoSlidersArea.removeFromTop(75);
+	pitchLfoAmountSlider.setBounds(pitchLfoDepthArea);
+
+	auto pitchLfoRateArea = pitchLfoSlidersArea.removeFromTop(75);
+	pitchLfoRateSlider.setBounds(pitchLfoRateArea);
 }

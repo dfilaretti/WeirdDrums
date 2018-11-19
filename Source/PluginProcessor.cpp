@@ -142,17 +142,30 @@ void PatSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffe
 	{
 		if ((myVoice = dynamic_cast<SynthVoice*> (mySynth.getVoice(i))))
 		{
+			// amp envelope
 			myVoice -> getEnvelopeParams(
 				parameters.getRawParameterValue (Globals::paramIdAttack), 
 				parameters.getRawParameterValue (Globals::paramIdDecay));
 
+			// osc type
 			myVoice -> getOscParams(
 				parameters.getRawParameterValue (Globals::paramIdWaveType));
 		
+			// filter
 			myVoice -> getFilterParams(
 				parameters.getRawParameterValue (Globals::paramIdFilterType),
 				parameters.getRawParameterValue (Globals::paramIdFilterCutoff),
 				parameters.getRawParameterValue (Globals::paramIdFilterReso));
+
+			// pitch env
+			myVoice -> getPitchEnvParams(
+				parameters.getRawParameterValue(Globals::paramIdPitchEnvAmount),
+				parameters.getRawParameterValue(Globals::paramIdPitchEnvRate));
+
+			// pitch lfo
+			myVoice->getPitchLfoParams(
+				parameters.getRawParameterValue(Globals::paramIdPitchLfoAmount),
+				parameters.getRawParameterValue(Globals::paramIdPitchLfoRate));
 		}
 	}
 
@@ -240,6 +253,45 @@ void PatSynthAudioProcessor::initValueTree()
 		String(),
 		kParamRangeFilterResonance,
 		kParamDefaultFilterResonance,
+		nullptr,
+		nullptr);
+
+	// Pitch envelope
+	parameters.createAndAddParameter(
+		Globals::paramIdPitchEnvAmount,
+		kParamNamePitchEnvAmount,
+		String(),
+		kParamRangePitchEnvAmount,
+		kParamDefaultPitchEnvAmount,
+		nullptr,
+		nullptr);
+
+	parameters.createAndAddParameter(
+		Globals::paramIdPitchEnvRate,
+		kParamNamePitchEnvRate,
+		String(),
+		kParamRangePitchEnvRate,
+		kParamDefaultPitchEnvRate,
+		nullptr,
+		nullptr);
+
+	// Pitch lfo
+
+	parameters.createAndAddParameter(
+		Globals::paramIdPitchLfoAmount,
+		kParamNamePitchLfoAmount,
+		String(),
+		kParamRangePitchLfoAmount,
+		kParamDefaultPitchLfoAmount,
+		nullptr,
+		nullptr);
+
+	parameters.createAndAddParameter(
+		Globals::paramIdPitchLfoRate,
+		kParamNamePitchLfoRate,
+		String(),
+		kParamRangePitchLfoRate,
+		kParamDefaultPitchLfoRate,
 		nullptr,
 		nullptr);
 

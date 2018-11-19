@@ -83,6 +83,10 @@ private:
 	const String kParamNameFilterType      = "Filter Type";
 	const String kParamNameFilterCutoff    = "Cutoff";
 	const String kParamNameFilterResonance = "Resonance";
+	const String kParamNamePitchEnvAmount  = "Pitch Env Amount";
+	const String kParamNamePitchEnvRate    = "Pitch Env Rate";
+	const String kParamNamePitchLfoAmount  = "Pitch Lfo Amount";
+	const String kParamNamePitchLfoRate    = "Pitch Lfo Rate";
 
 	const NormalisableRange<float> kParamRangeAttack          = NormalisableRange<float>(0.1f, 5000.0f);
 	const NormalisableRange<float> kParamRangeDecay           = NormalisableRange<float>(0.1f, 5000.0f);
@@ -92,6 +96,10 @@ private:
 	const NormalisableRange<float> kParamRangeFilterType      = NormalisableRange<float>(0, 2);
 	const NormalisableRange<float> kParamRangeFilterCutoff    = NormalisableRange<float>(20.0f, 10000.0f);
 	const NormalisableRange<float> kParamRangeFilterResonance = NormalisableRange<float>(1.0f, 5.0f);
+	const NormalisableRange<float> kParamRangePitchEnvAmount  = NormalisableRange<float>(0.0f, 100.0f);
+	const NormalisableRange<float> kParamRangePitchEnvRate    = NormalisableRange<float>(0.1f, 10.0f); 
+	const NormalisableRange<float> kParamRangePitchLfoAmount  = NormalisableRange<float>(-100.0f, 100.0f);
+	const NormalisableRange<float> kParamRangePitchLfoRate    = NormalisableRange<float>(0.1f, 40.0f);
 
 	const float kParamDefaultAttack          = .1f;
 	const float kParamDefaultDecay           = .5f;
@@ -101,6 +109,10 @@ private:
 	const float kParamDefaultFilterType      = .1f;
 	const float kParamDefaultFilterCutoff    = 400.f;
 	const float kParamDefaultFilterResonance = 1.f;
+	const float kParamDefaultPitchEnvAmount  = 0.0f;
+	const float kParamDefaultPitchEnvRate    = 0.5f;
+	const float kParamDefaultPitchLfoAmount  = 0.0f;
+	const float kParamDefaultPitchLfoRate    = 0.5f;
 
 	//==============================================================================
 	void initValueTree();

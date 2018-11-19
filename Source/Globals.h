@@ -28,4 +28,14 @@ public:
 	static String paramIdFilterType;
 	static String paramIdFilterCutoff;
 	static String paramIdFilterReso;
+	
+	// Pitch Envelope
+	static String paramIdPitchEnvAmount;
+	static String paramIdPitchEnvRate;
+
+	// Pitch Lfo
+	static String paramIdPitchLfoAmount;
+	static String paramIdPitchLfoRate;
+
+
 };

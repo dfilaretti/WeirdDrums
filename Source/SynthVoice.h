@@ -18,30 +18,54 @@ class SynthVoice : public SynthesiserVoice
 {
 public:
 
+	//==============================================================================
+	//SynthVoice ()
+	//{
+	//	pitchLfo.initialise([] (float x) { return std::sin(x); }, 128);
+	//	pitchLfo.setFrequency (1.0f);
+	//}
+
+	//==============================================================================
 	void prepare(const juce::dsp::ProcessSpec& spec)
 	{
 		tempBlock = juce::dsp::AudioBlock<float>(heapBlock, spec.numChannels, spec.maximumBlockSize);
 		processorChain.prepare(spec);
+
+		pitchLfo.initialise([](float x) { return std::sin(x); }, 128);
+		pitchLfo.setFrequency(1.0f);
+
+		pitchLfo.prepare({ spec.sampleRate / modulationUpdateRate, spec.maximumBlockSize, spec.numChannels });
 	}
 
 	//==============================================================================
-
-	void getEnvelopeParams(float* attack, float* decay)
+	void getEnvelopeParams (float* attack, float* decay)
 	{
 		envAttack  = *attack;
 		envDecay   = *decay;
 	}
 
-	void getOscParams(float* selection)
+	void getOscParams (float* selection)
 	{
 		oscWaveform = *selection;
 	}
 
-	void getFilterParams(float* type, float* cutoff, float* res)
+	void getFilterParams (float* type, float* cutoff, float* res)
 	{
 		filterType   = *type;
 		filterCutoff = *cutoff;
 		filterRes    = *res;
+	}
+
+	void getPitchEnvParams (float* amount, float* rate)
+	{
+		pitchEnvAmount = *amount;
+		pitchEnvRate   = *rate;
+	}
+
+	void getPitchLfoParams(float* amount, float* rate)
+	{
+		pitchLfoAmount = *amount;
+		pitchLfoRate = *rate;
 	}
 	
 	//==============================================================================
@@ -72,9 +96,12 @@ public:
 			processorChain.get<osc1Index>().setWaveform(Oscillator::square);
 			break;
 		}
+	}
 
-		processorChain.get<osc1Index>().setFrequency(oscFrequency, true);
-		processorChain.get<osc1Index>().setLevel(oscLevel);
+	void setOscFreq(float freq, float vel)
+	{
+		processorChain.get<osc1Index>().setFrequency(freq, true);
+		processorChain.get<osc1Index>().setLevel(vel);
 	}
 
 	void updateFilterParams()
@@ -104,6 +131,19 @@ public:
 		stateVariableFilter.state->setCutOffFrequency(sr, filterCutoff, filterRes);
 	}
 
+	void updatePitchEnvelopeParams()
+	{
+		pitchEnv.setDecay(pitchLfoRate * 0.01);
+		pitchEnv.setAttack(0.0f);
+		pitchEnv.setSustain(0.0f);
+		pitchEnv.setRelease(0.0f);
+	}
+
+	void updatePitchLfoParams()
+	{
+		pitchLfo.setFrequency(pitchLfoRate, true);
+	}
+
 	//==============================================================================
 	bool canPlaySound(SynthesiserSound* sound) override
 	{
@@ -113,13 +153,16 @@ public:
 	void startNote(int midiNoteNumber, float velocity, SynthesiserSound* sound,
 		int currentPitchWheelPosition) override
 	{
+		pitchEnv.trigger = 1;
 		processorChain.get<envelopeIndex>().setTrigger (1);
+		
 		oscLevel = velocity;
 		oscFrequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
 	}
 	
 	void stopNote(float velocity, bool allowTailOff) override
 	{
+		pitchEnv.trigger = 0;
 		processorChain.get<envelopeIndex>().setTrigger (0);
 
 		allowTailOff = true; // ?
@@ -143,11 +186,30 @@ public:
 		updateOscillatorParams();
 		updateFilterParams();
 		updateEnvelopeParams();
-		
-		auto block = tempBlock.getSubBlock(0, (size_t)numSamples);
-		block.clear();
-		juce::dsp::ProcessContextReplacing<float> context(block);
-		processorChain.process(context);
+		updatePitchEnvelopeParams();
+		updatePitchLfoParams();
+
+		auto output = tempBlock.getSubBlock(0, (size_t)numSamples);
+		output.clear();
+		for (size_t pos = 0; pos < numSamples;)
+		{
+			auto max = jmin(static_cast<size_t> (numSamples - pos), modulationUpdateCounter);
+			auto block = output.getSubBlock(pos, max);
+			juce::dsp::ProcessContextReplacing<float> context(block);
+			processorChain.process(context);
+
+			pos += max;
+			
+			modulationUpdateCounter -= max;
+			if (modulationUpdateCounter == 0)
+			{
+				modulationUpdateCounter = modulationUpdateRate;
+
+				// apply pitch modulation
+				applyPitchEnv();
+				applyPitchLfo();
+			}
+		}
 
 		juce::dsp::AudioBlock<float>(outputBuffer)
 			.getSubBlock((size_t)startSample, (size_t)numSamples)
@@ -181,6 +243,13 @@ private:
 	juce::dsp::ProcessorChain<Oscillator, Filter, Envelope> processorChain;
 
 	//==============================================================================
+	static constexpr size_t modulationUpdateRate = 100;
+	size_t modulationUpdateCounter = modulationUpdateRate;
+
+	maxiEnv pitchEnv;
+	juce::dsp::Oscillator<float> pitchLfo;
+
+	//==============================================================================
 	float envAttack, envDecay;
 	
 	double oscLevel, oscFrequency;
@@ -188,4 +257,26 @@ private:
 	
 	int filterType;
 	float filterCutoff, filterRes;
+
+	float pitchEnvAmount, pitchEnvRate;
+	float pitchLfoAmount, pitchLfoRate;
+
+	//==============================================================================
+	void applyPitchLfo()
+	{
+		auto pitchLfoOut = pitchLfo.processSample(0.0f);
+
+		if (oscFrequency > 0) // TODO: is this OK? 
+			setOscFreq(oscFrequency + (pitchLfoOut * pitchLfoAmount), oscLevel);
+	}
+
+	void applyPitchEnv()
+	{
+		// TODO
+
+		//double c = 1.0;
+		//float pitchEnvOut = pitchEnv.adsr(c, pitchEnv.trigger);
+		//jassert(pitchEnvOut >= 0);
+		//oscFrequency += pitchEnvOut * 1000;
+	}
 };
