@@ -163,7 +163,7 @@ void PatSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffe
 				parameters.getRawParameterValue(Globals::paramIdPitchEnvRate));
 
 			// pitch lfo
-			myVoice->getPitchLfoParams(
+			myVoice -> getPitchLfoParams(
 				parameters.getRawParameterValue(Globals::paramIdPitchLfoAmount),
 				parameters.getRawParameterValue(Globals::paramIdPitchLfoRate));
 		}

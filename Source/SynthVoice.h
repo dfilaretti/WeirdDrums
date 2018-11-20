@@ -17,14 +17,6 @@
 class SynthVoice : public SynthesiserVoice
 {
 public:
-
-	//==============================================================================
-	//SynthVoice ()
-	//{
-	//	pitchLfo.initialise([] (float x) { return std::sin(x); }, 128);
-	//	pitchLfo.setFrequency (1.0f);
-	//}
-
 	//==============================================================================
 	void prepare(const juce::dsp::ProcessSpec& spec)
 	{
@@ -32,7 +24,6 @@ public:
 		processorChain.prepare(spec);
 
 		pitchLfo.initialise([](float x) { return std::sin(x); }, 128);
-		pitchLfo.setFrequency(1.0f);
 
 		pitchLfo.prepare({ spec.sampleRate / modulationUpdateRate, spec.maximumBlockSize, spec.numChannels });
 	}
@@ -65,7 +56,7 @@ public:
 	void getPitchLfoParams(float* amount, float* rate)
 	{
 		pitchLfoAmount = *amount;
-		pitchLfoRate = *rate;
+		pitchLfoRate   = *rate;
 	}
 	
 	//==============================================================================
@@ -133,7 +124,11 @@ public:
 
 	void updatePitchEnvelopeParams()
 	{
-		pitchEnv.setDecay(pitchLfoRate * 0.01);
+		//auto decay = pitchEnvRate * 1000;
+
+		//Logger::outputDebugString(to_string(decay));
+
+		pitchEnv.setDecay(1000.f * 0.01);
 		pitchEnv.setAttack(0.0f);
 		pitchEnv.setSustain(0.0f);
 		pitchEnv.setRelease(0.0f);
@@ -157,7 +152,7 @@ public:
 		processorChain.get<envelopeIndex>().setTrigger (1);
 		
 		oscLevel = velocity;
-		oscFrequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+		currentNoteFrequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
 	}
 	
 	void stopNote(float velocity, bool allowTailOff) override
@@ -201,13 +196,20 @@ public:
 			pos += max;
 			
 			modulationUpdateCounter -= max;
+
 			if (modulationUpdateCounter == 0)
 			{
 				modulationUpdateCounter = modulationUpdateRate;
 
 				// apply pitch modulation
-				applyPitchEnv();
+				oscFrequency = currentNoteFrequency;
+
 				applyPitchLfo();
+				applyPitchEnv();
+
+				oscFrequency = jlimit<float> (0.0f, 20000.0, oscFrequency);
+				
+				setOscFreq(oscFrequency, oscLevel);
 			}
 		}
 
@@ -252,7 +254,7 @@ private:
 	//==============================================================================
 	float envAttack, envDecay;
 	
-	double oscLevel, oscFrequency;
+	double oscLevel, oscFrequency, currentNoteFrequency;
 	int oscWaveform;
 	
 	int filterType;
@@ -265,18 +267,12 @@ private:
 	void applyPitchLfo()
 	{
 		auto pitchLfoOut = pitchLfo.processSample(0.0f);
-
-		if (oscFrequency > 0) // TODO: is this OK? 
-			setOscFreq(oscFrequency + (pitchLfoOut * pitchLfoAmount), oscLevel);
+		oscFrequency = oscFrequency + (pitchLfoOut * pitchLfoAmount);
 	}
 
 	void applyPitchEnv()
 	{
-		// TODO
-
-		//double c = 1.0;
-		//float pitchEnvOut = pitchEnv.adsr(c, pitchEnv.trigger);
-		//jassert(pitchEnvOut >= 0);
-		//oscFrequency += pitchEnvOut * 1000;
+		float pitchEnvOut = pitchEnv.adsr(1.0f, pitchEnv.trigger);	
+		oscFrequency = oscFrequency + (pitchEnvOut * 1000);
 	}
 };
