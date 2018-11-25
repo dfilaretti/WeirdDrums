@@ -25,7 +25,8 @@ public:
 
 		pitchLfo.initialise([](float x) { return std::sin(x); }, 128);
 
-		pitchLfo.prepare({ spec.sampleRate / modulationUpdateRate, spec.maximumBlockSize, spec.numChannels });
+		auto pitchLfoFactor = 0.01; // TODO: remove eventually!!!
+		pitchLfo.prepare({ spec.sampleRate * pitchLfoFactor, spec.maximumBlockSize, spec.numChannels });
 	}
 
 	//==============================================================================
@@ -60,8 +61,7 @@ public:
 	}
 	
 	//==============================================================================
-
-	void updateEnvelopeParams() 
+	void setOscAmpEnv() 
 	{
 		processorChain.get<envelopeIndex>().setAttack(envAttack);
 		processorChain.get<envelopeIndex>().setDecay(envDecay);
@@ -73,7 +73,7 @@ public:
 		processorChain.get<envelopeIndex>().setRelease(0.0f);
 	}
 
-	void updateOscillatorParams()
+	void setOscWaveform()
 	{
 		switch (oscWaveform)
 		{
@@ -95,7 +95,7 @@ public:
 		processorChain.get<osc1Index>().setLevel(vel);
 	}
 
-	void updateFilterParams()
+	void setOscFilter()
 	{
 		auto sr = getSampleRate();
 		auto& stateVariableFilter = processorChain.get<filterIndex>();
@@ -122,12 +122,8 @@ public:
 		stateVariableFilter.state->setCutOffFrequency(sr, filterCutoff, filterRes);
 	}
 
-	void updatePitchEnvelopeParams()
+	void setOscPitchEnv()
 	{
-		//auto decay = pitchEnvRate * 1000;
-
-		//Logger::outputDebugString(to_string(decay));
-
 		auto pitchEnvFactor = 0.01; // TODO: remove this one after sample rate fixed
 		auto pitchEnvDecay = pitchEnvRate * pitchEnvFactor;
 
@@ -137,7 +133,7 @@ public:
 		pitchEnv.setRelease(0.0f);
 	}
 
-	void updatePitchLfoParams()
+	void setOscPitchLfo()
 	{
 		pitchLfo.setFrequency(pitchLfoRate, true);
 	}
@@ -181,41 +177,30 @@ public:
 
 	void renderNextBlock (AudioBuffer<float> &outputBuffer, int startSample, int numSamples) override
 	{
-		updateOscillatorParams();
-		updateFilterParams();
-		updateEnvelopeParams();
-		updatePitchEnvelopeParams();
-		updatePitchLfoParams();
+		// NOTE: how often should we calculate modulations? Now this is done once per block. 
+		//       Before this commit, it was done more often. What's best? Should probably test 
+		//       in a DAW and observe performance, sound quality etc. Sticking to this now, as it's simpler. 
 
+		// set things up
 		auto output = tempBlock.getSubBlock(0, (size_t)numSamples);
 		output.clear();
-		for (size_t pos = 0; pos < numSamples;)
-		{
-			auto max = jmin(static_cast<size_t> (numSamples - pos), modulationUpdateCounter);
-			auto block = output.getSubBlock(pos, max);
-			juce::dsp::ProcessContextReplacing<float> context(block);
-			processorChain.process(context);
-
-			pos += max;
-			
-			modulationUpdateCounter -= max;
-
-			if (modulationUpdateCounter == 0)
-			{
-				modulationUpdateCounter = modulationUpdateRate;
-
-				// apply pitch modulation
-				oscFrequency = currentNoteFrequency;
-
-				applyPitchLfo();
-				applyPitchEnv();
-
-				oscFrequency = jlimit<float> (0.0f, 20000.0, oscFrequency);
-				
-				setOscFreq(oscFrequency, oscLevel);
-			}
-		}
-
+		juce::dsp::ProcessContextReplacing<float> context(output);
+		// set processors with params
+		setOscWaveform();
+		setOscFilter();
+		setOscAmpEnv();
+		setOscPitchEnv();
+		setOscPitchLfo();
+		// calculate osc frequency (w/ modulation)
+		oscFrequency = currentNoteFrequency;
+		applyPitchLfo();
+		applyPitchEnv();
+		oscFrequency = jlimit<float>(0.0f, 20000.0, oscFrequency);
+		// set osc freqency
+		setOscFreq(oscFrequency, oscLevel);
+		// process this block! 
+		processorChain.process(context);
+		// write down output
 		juce::dsp::AudioBlock<float>(outputBuffer)
 			.getSubBlock((size_t)startSample, (size_t)numSamples)
 			.add(tempBlock);
@@ -246,10 +231,6 @@ private:
 	// TODO: are we sure the amp envelope should be here?
 	//       shouldn't it be a control rate envelope?
 	juce::dsp::ProcessorChain<Oscillator, Filter, Envelope> processorChain;
-
-	//==============================================================================
-	static constexpr size_t modulationUpdateRate = 100;
-	size_t modulationUpdateCounter = modulationUpdateRate;
 
 	maxiEnv pitchEnv;
 	juce::dsp::Oscillator<float> pitchLfo;

@@ -276,7 +276,6 @@ void PatSynthAudioProcessor::initValueTree()
 		nullptr);
 
 	// Pitch lfo
-
 	parameters.createAndAddParameter(
 		Globals::paramIdPitchLfoAmount,
 		kParamNamePitchLfoAmount,
