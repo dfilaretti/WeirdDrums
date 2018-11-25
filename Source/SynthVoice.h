@@ -128,7 +128,10 @@ public:
 
 		//Logger::outputDebugString(to_string(decay));
 
-		pitchEnv.setDecay(1000.f * 0.01);
+		auto pitchEnvFactor = 0.01; // TODO: remove this one after sample rate fixed
+		auto pitchEnvDecay = pitchEnvRate * pitchEnvFactor;
+
+		pitchEnv.setDecay(pitchEnvDecay);
 		pitchEnv.setAttack(0.0f);
 		pitchEnv.setSustain(0.0f);
 		pitchEnv.setRelease(0.0f);
@@ -272,7 +275,9 @@ private:
 
 	void applyPitchEnv()
 	{
+		auto pitchEnvDepth = pitchEnvAmount;
+
 		float pitchEnvOut = pitchEnv.adsr(1.0f, pitchEnv.trigger);	
-		oscFrequency = oscFrequency + (pitchEnvOut * 1000);
+		oscFrequency = oscFrequency + (pitchEnvOut * pitchEnvDepth);
 	}
 };
