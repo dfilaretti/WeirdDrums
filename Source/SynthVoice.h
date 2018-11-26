@@ -20,11 +20,22 @@ public:
 	//==============================================================================
 	void prepare(const juce::dsp::ProcessSpec& spec)
 	{
-		tempBlock = juce::dsp::AudioBlock<float>(heapBlock, spec.numChannels, spec.maximumBlockSize);
-		processorChain.prepare(spec);
+		// init buffers
+		oscSectionBlock    = juce::dsp::AudioBlock<float>(oscSectionHeapBlock,    spec.numChannels, spec.maximumBlockSize);
+		noiseSectionBlock  = juce::dsp::AudioBlock<float>(noiseSectionHeapBlock,  spec.numChannels, spec.maximumBlockSize);
+		masterSectionBlock = juce::dsp::AudioBlock<float>(masterSectionHeapBlock, spec.numChannels, spec.maximumBlockSize);
+		
+		// prepare processing chains
+		oscSectionProcessorChain.prepare(spec);
+		noiseSectionProcessorChain.prepare(spec);
+		masterSectionProcessorChain.prepare(spec);
 
+		//// TODO: remove
+		//noiseSectionProcessorChain.get<0>().setFrequency(110, true);
+		//noiseSectionProcessorChain.get<0>().setLevel(0.2);
+
+		// init modulation
 		pitchLfo.initialise([](float x) { return std::sin(x); }, 128);
-
 		auto pitchLfoFactor = 0.01; // TODO: remove eventually!!!
 		pitchLfo.prepare({ spec.sampleRate * pitchLfoFactor, spec.maximumBlockSize, spec.numChannels });
 	}
@@ -63,14 +74,14 @@ public:
 	//==============================================================================
 	void setOscAmpEnv() 
 	{
-		processorChain.get<envelopeIndex>().setAttack(envAttack);
-		processorChain.get<envelopeIndex>().setDecay(envDecay);
+		oscSectionProcessorChain.get<envelopeIndex>().setAttack(envAttack);
+		oscSectionProcessorChain.get<envelopeIndex>().setDecay(envDecay);
 
 		// Although we are using a full ADSR envelope, we use it as an AD  (Attack/Decay) , 
 		// therefore we set Sustain and Release to 0. 
 		// TODO: actually make a ADEnvelope class. 
-		processorChain.get<envelopeIndex>().setSustain(0.0f);
-		processorChain.get<envelopeIndex>().setRelease(0.0f);
+		oscSectionProcessorChain.get<envelopeIndex>().setSustain(0.0f);
+		oscSectionProcessorChain.get<envelopeIndex>().setRelease(0.0f);
 	}
 
 	void setOscWaveform()
@@ -78,27 +89,27 @@ public:
 		switch (oscWaveform)
 		{
 		case 0:
-			processorChain.get<osc1Index>().setWaveform(Oscillator::sine);
+			oscSectionProcessorChain.get<osc1Index>().setWaveform(Oscillator::sine);
 			break;
 		case 1:
-			processorChain.get<osc1Index>().setWaveform (Oscillator::saw);
+			oscSectionProcessorChain.get<osc1Index>().setWaveform (Oscillator::saw);
 			break;
 		case 2:
-			processorChain.get<osc1Index>().setWaveform(Oscillator::square);
+			oscSectionProcessorChain.get<osc1Index>().setWaveform(Oscillator::square);
 			break;
 		}
 	}
 
 	void setOscFreq(float freq, float vel)
 	{
-		processorChain.get<osc1Index>().setFrequency(freq, true);
-		processorChain.get<osc1Index>().setLevel(vel);
+		oscSectionProcessorChain.get<osc1Index>().setFrequency(freq, true);
+		oscSectionProcessorChain.get<osc1Index>().setLevel(vel);
 	}
 
 	void setOscFilter()
 	{
 		auto sr = getSampleRate();
-		auto& stateVariableFilter = processorChain.get<filterIndex>();
+		auto& stateVariableFilter = oscSectionProcessorChain.get<filterIndex>();
 
 		switch (filterType)
 		{
@@ -148,7 +159,7 @@ public:
 		int currentPitchWheelPosition) override
 	{
 		pitchEnv.trigger = 1;
-		processorChain.get<envelopeIndex>().setTrigger (1);
+		oscSectionProcessorChain.get<envelopeIndex>().setTrigger (1);
 		
 		oscLevel = velocity;
 		currentNoteFrequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
@@ -157,7 +168,7 @@ public:
 	void stopNote(float velocity, bool allowTailOff) override
 	{
 		pitchEnv.trigger = 0;
-		processorChain.get<envelopeIndex>().setTrigger (0);
+		oscSectionProcessorChain.get<envelopeIndex>().setTrigger (0);
 
 		allowTailOff = true; // ?
 
@@ -181,13 +192,17 @@ public:
 		//       Before this commit, it was done more often. What's best? Should probably test 
 		//       in a DAW and observe performance, sound quality etc. Sticking to this now, as it's simpler. 
 
+		// OSC section 
+		// =============================
+		// =============================
+		// =============================
+
 		// set things up
-		auto output = tempBlock.getSubBlock(0, (size_t)numSamples);
-		output.clear();
-		juce::dsp::ProcessContextReplacing<float> context(output);
+		auto oscSectionOutput = oscSectionBlock.getSubBlock(0, (size_t)numSamples);
+		oscSectionOutput.clear();
+		juce::dsp::ProcessContextReplacing<float> oscSectionContext (oscSectionOutput);
 		// set processors with params
 		setOscWaveform();
-		setOscFilter();
 		setOscAmpEnv();
 		setOscPitchEnv();
 		setOscPitchLfo();
@@ -199,11 +214,49 @@ public:
 		// set osc freqency
 		setOscFreq(oscFrequency, oscLevel);
 		// process this block! 
-		processorChain.process(context);
+		oscSectionProcessorChain.process (oscSectionContext);
+		
+		// NOISE section 
+		// =============================
+		// =============================
+		// =============================
+		
+		// set things up
+		auto noiseSectionOutput = noiseSectionBlock.getSubBlock(0, (size_t)numSamples);
+		noiseSectionOutput.clear();
+		juce::dsp::ProcessContextReplacing<float> noiseSectionContext(noiseSectionOutput);
+
+		setOscFilter();
+		// set env
+		// set stuff
+		noiseSectionProcessorChain.process(noiseSectionContext);
+
+		// MASTER section 
+		// =============================
+		// =============================
+		// =============================
+
+		// set things up
+		auto masterSectionOutput = masterSectionBlock.getSubBlock(0, (size_t)numSamples);
+		masterSectionOutput.clear();
+		juce::dsp::ProcessContextReplacing<float> masterSectionContext(masterSectionOutput);
+
+		// sum OSC and NOISE sections
+		masterSectionOutput
+			.add(oscSectionBlock)
+			.add(noiseSectionBlock);
+
+		// TODO: global level, EQ, distortion etc. 
+		masterSectionProcessorChain.process (masterSectionContext);
+
 		// write down output
+		//juce::dsp::AudioBlock<float>(outputBuffer)
+		//	.getSubBlock((size_t)startSample, (size_t)numSamples)
+		//	.add(oscSectionBlock)
+		//	.add(noiseSectionBlock);
 		juce::dsp::AudioBlock<float>(outputBuffer)
 			.getSubBlock((size_t)startSample, (size_t)numSamples)
-			.add(tempBlock);
+			.add(masterSectionBlock);
 	}
 
 private:
@@ -224,14 +277,23 @@ private:
 	};
 
 	//==============================================================================
-	juce::HeapBlock<char> heapBlock;
-	juce::dsp::AudioBlock<float> tempBlock;
+	juce::HeapBlock<char> oscSectionHeapBlock;
+	juce::dsp::AudioBlock<float> oscSectionBlock;
+
+	juce::HeapBlock<char> noiseSectionHeapBlock;
+	juce::dsp::AudioBlock<float> noiseSectionBlock;
+
+	juce::HeapBlock<char> masterSectionHeapBlock;
+	juce::dsp::AudioBlock<float> masterSectionBlock;
 	
 	//==============================================================================
 	// TODO: are we sure the amp envelope should be here?
 	//       shouldn't it be a control rate envelope?
-	juce::dsp::ProcessorChain<Oscillator, Filter, Envelope> processorChain;
+	juce::dsp::ProcessorChain<Oscillator, Filter, Envelope> oscSectionProcessorChain;
+	juce::dsp::ProcessorChain<Oscillator> noiseSectionProcessorChain; // TODO
+	juce::dsp::ProcessorChain<Filter> masterSectionProcessorChain; // TODO
 
+	//==============================================================================
 	maxiEnv pitchEnv;
 	juce::dsp::Oscillator<float> pitchLfo;
 
