@@ -30,10 +30,6 @@ public:
 		noiseSectionProcessorChain.prepare(spec);
 		masterSectionProcessorChain.prepare(spec);
 
-		//// TODO: remove
-		//noiseSectionProcessorChain.get<0>().setFrequency(110, true);
-		//noiseSectionProcessorChain.get<0>().setLevel(0.2);
-
 		// init modulation
 		pitchLfo.initialise([](float x) { return std::sin(x); }, 128);
 		auto pitchLfoFactor = 0.01; // TODO: remove eventually!!!
@@ -273,11 +269,6 @@ public:
 		// TODO: global level, EQ, distortion etc. 
 		masterSectionProcessorChain.process (masterSectionContext);
 
-		// write down output
-		//juce::dsp::AudioBlock<float>(outputBuffer)
-		//	.getSubBlock((size_t)startSample, (size_t)numSamples)
-		//	.add(oscSectionBlock)
-		//	.add(noiseSectionBlock);
 		juce::dsp::AudioBlock<float>(outputBuffer)
 			.getSubBlock((size_t)startSample, (size_t)numSamples)
 			.add(masterSectionBlock);
