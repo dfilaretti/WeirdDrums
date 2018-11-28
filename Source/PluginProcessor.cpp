@@ -168,7 +168,7 @@ void PatSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffe
 				parameters.getRawParameterValue(Globals::paramIdPitchLfoRate));
 
 			// noise amp envelope
-			myVoice->getNoiseEnvelopeParams(
+			myVoice -> getNoiseEnvelopeParams(
 				parameters.getRawParameterValue(Globals::paramIdNoiseAttack),
 				parameters.getRawParameterValue(Globals::paramIdNoiseDecay));
 		}

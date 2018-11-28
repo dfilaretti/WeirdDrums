@@ -50,6 +50,9 @@ public:
 					return jmap(x, Type(-MathConstants<double>::pi), Type(MathConstants<double>::pi), Type(-1), Type(1));
 				}, 2);
 				break;
+			case noise:
+
+				break;
 			default:
 				osc.initialise([](Type x) { return std::sin(x); }, 128);
 		}
@@ -79,6 +82,7 @@ public:
 		sine, 
 		saw,
 		square, // todo 
+		noise
 	};
 private:
 	//==============================================================================

@@ -53,8 +53,6 @@ public:
 		noiseEnvDecay = *decay;
 	}
 
-	
-
 	void getOscParams (float* selection)
 	{
 		oscWaveform = *selection;
@@ -82,42 +80,57 @@ public:
 	//==============================================================================
 	void setOscAmpEnv() 
 	{
-		oscSectionProcessorChain.get<envelopeIndex>().setAttack(envAttack);
-		oscSectionProcessorChain.get<envelopeIndex>().setDecay(envDecay);
-
+		oscSectionProcessorChain.get<oscSectionEnvelopeIndex>().setAttack(envAttack);
+		oscSectionProcessorChain.get<oscSectionEnvelopeIndex>().setDecay(envDecay);
 		// Although we are using a full ADSR envelope, we use it as an AD  (Attack/Decay) , 
 		// therefore we set Sustain and Release to 0. 
 		// TODO: actually make a ADEnvelope class. 
-		oscSectionProcessorChain.get<envelopeIndex>().setSustain(0.0f);
-		oscSectionProcessorChain.get<envelopeIndex>().setRelease(0.0f);
+		oscSectionProcessorChain.get<oscSectionEnvelopeIndex>().setSustain(0.0f);
+		oscSectionProcessorChain.get<oscSectionEnvelopeIndex>().setRelease(0.0f);
+	}
+
+	void setNoiseAmpEnv()
+	{
+		noiseSectionProcessorChain.get<noiseSectionEnvelopeIndex>().setAttack(noiseEnvAttack);
+		noiseSectionProcessorChain.get<noiseSectionEnvelopeIndex>().setDecay(noiseEnvDecay);
+		// Although we are using a full ADSR envelope, we use it as an AD  (Attack/Decay) , 
+		// therefore we set Sustain and Release to 0. 
+		// TODO: actually make a ADEnvelope class. 
+		noiseSectionProcessorChain.get<noiseSectionEnvelopeIndex>().setSustain(0.0f);
+		noiseSectionProcessorChain.get<noiseSectionEnvelopeIndex>().setRelease(0.0f);
 	}
 
 	void setOscWaveform()
 	{
+		// TODO: this should be white noise
+		// TODO: move away from here
+		noiseSectionProcessorChain.get<noiseSectionOscIndex>().setWaveform(Oscillator::saw);
+		noiseSectionProcessorChain.get<noiseSectionOscIndex>().setLevel(0.5);
+	
 		switch (oscWaveform)
 		{
 		case 0:
-			oscSectionProcessorChain.get<osc1Index>().setWaveform(Oscillator::sine);
+			oscSectionProcessorChain.get<oscSectionOscIndex>().setWaveform(Oscillator::sine);
 			break;
 		case 1:
-			oscSectionProcessorChain.get<osc1Index>().setWaveform (Oscillator::saw);
+			oscSectionProcessorChain.get<oscSectionOscIndex>().setWaveform (Oscillator::saw);
 			break;
 		case 2:
-			oscSectionProcessorChain.get<osc1Index>().setWaveform(Oscillator::square);
+			oscSectionProcessorChain.get<oscSectionOscIndex>().setWaveform(Oscillator::square);
 			break;
 		}
 	}
 
 	void setOscFreq(float freq, float vel)
 	{
-		oscSectionProcessorChain.get<osc1Index>().setFrequency(freq, true);
-		oscSectionProcessorChain.get<osc1Index>().setLevel(vel);
+		oscSectionProcessorChain.get<oscSectionOscIndex>().setFrequency(freq, true);
+		oscSectionProcessorChain.get<oscSectionOscIndex>().setLevel(vel);
 	}
 
-	void setOscFilter()
+	void setNoiseFilter()
 	{
 		auto sr = getSampleRate();
-		auto& stateVariableFilter = oscSectionProcessorChain.get<filterIndex>();
+		auto& stateVariableFilter = noiseSectionProcessorChain.get<noiseSectionFilterIndex>();
 
 		switch (filterType)
 		{
@@ -167,7 +180,8 @@ public:
 		int currentPitchWheelPosition) override
 	{
 		pitchEnv.trigger = 1;
-		oscSectionProcessorChain.get<envelopeIndex>().setTrigger (1);
+		oscSectionProcessorChain.get<oscSectionEnvelopeIndex>().setTrigger(1);
+		noiseSectionProcessorChain.get<noiseSectionEnvelopeIndex>().setTrigger(1);
 		
 		oscLevel = velocity;
 		currentNoteFrequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
@@ -176,7 +190,8 @@ public:
 	void stopNote(float velocity, bool allowTailOff) override
 	{
 		pitchEnv.trigger = 0;
-		oscSectionProcessorChain.get<envelopeIndex>().setTrigger (0);
+		oscSectionProcessorChain.get<oscSectionEnvelopeIndex>().setTrigger (0);
+		noiseSectionProcessorChain.get<noiseSectionEnvelopeIndex>().setTrigger (0);
 
 		allowTailOff = true; // ?
 
@@ -234,7 +249,8 @@ public:
 		noiseSectionOutput.clear();
 		juce::dsp::ProcessContextReplacing<float> noiseSectionContext(noiseSectionOutput);
 
-		setOscFilter();
+		setNoiseFilter();
+		setNoiseAmpEnv();
 		// set env
 		// set stuff
 		noiseSectionProcessorChain.process(noiseSectionContext);
@@ -277,11 +293,17 @@ private:
 		dsp::ProcessorDuplicator<dsp::StateVariableFilter::Filter<float>, 
 		                         dsp::StateVariableFilter::Parameters<float>> Filter;
 
-	enum
+	enum OscSection
 	{
-		osc1Index,
-		filterIndex,
-		envelopeIndex
+		oscSectionOscIndex,
+		oscSectionEnvelopeIndex
+	};
+
+	enum NoiseSection
+	{
+		noiseSectionOscIndex,
+		noiseSectionFilterIndex,
+		noiseSectionEnvelopeIndex
 	};
 
 	//==============================================================================
@@ -297,8 +319,8 @@ private:
 	//==============================================================================
 	// TODO: are we sure the amp envelope should be here?
 	//       shouldn't it be a control rate envelope?
-	juce::dsp::ProcessorChain<Oscillator, Filter, Envelope> oscSectionProcessorChain;
-	juce::dsp::ProcessorChain<Oscillator> noiseSectionProcessorChain; // TODO
+	juce::dsp::ProcessorChain<Oscillator, Envelope> oscSectionProcessorChain;
+	juce::dsp::ProcessorChain<Oscillator, Filter, Envelope> noiseSectionProcessorChain; // TODO
 	juce::dsp::ProcessorChain<Filter> masterSectionProcessorChain; // TODO
 
 	//==============================================================================
