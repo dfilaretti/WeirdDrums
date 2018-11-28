@@ -47,6 +47,14 @@ public:
 		envDecay   = *decay;
 	}
 
+	void getNoiseEnvelopeParams (float* attack, float* decay)
+	{
+		noiseEnvAttack = *attack;
+		noiseEnvDecay = *decay;
+	}
+
+	
+
 	void getOscParams (float* selection)
 	{
 		oscWaveform = *selection;
@@ -296,9 +304,9 @@ private:
 	//==============================================================================
 	maxiEnv pitchEnv;
 	juce::dsp::Oscillator<float> pitchLfo;
-
+	
 	//==============================================================================
-	float envAttack, envDecay;
+	float noiseEnvAttack, noiseEnvDecay;
 	
 	double oscLevel, oscFrequency, currentNoteFrequency;
 	int oscWaveform;
@@ -308,6 +316,9 @@ private:
 
 	float pitchEnvAmount, pitchEnvRate;
 	float pitchLfoAmount, pitchLfoRate;
+
+	//==============================================================================
+	float envAttack, envDecay;
 
 	//==============================================================================
 	void applyPitchLfo()

@@ -166,6 +166,11 @@ void PatSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffe
 			myVoice -> getPitchLfoParams(
 				parameters.getRawParameterValue(Globals::paramIdPitchLfoAmount),
 				parameters.getRawParameterValue(Globals::paramIdPitchLfoRate));
+
+			// noise amp envelope
+			myVoice->getNoiseEnvelopeParams(
+				parameters.getRawParameterValue(Globals::paramIdNoiseAttack),
+				parameters.getRawParameterValue(Globals::paramIdNoiseDecay));
 		}
 	}
 
@@ -291,6 +296,27 @@ void PatSynthAudioProcessor::initValueTree()
 		String(),
 		kParamRangePitchLfoRate,
 		kParamDefaultPitchLfoRate,
+		nullptr,
+		nullptr);
+
+	// NOISE SECTION
+
+	// Noise amp
+	parameters.createAndAddParameter(
+		Globals::paramIdNoiseAttack,
+		kParamNameNoiseAttack,
+		String(),
+		kParamRangeNoiseAttack,
+		kParamDefaultNoiseAttack,
+		nullptr,
+		nullptr);
+
+	parameters.createAndAddParameter(
+		Globals::paramIdNoiseDecay,
+		kParamNameNoiseDecay,
+		String(),
+		kParamRangeNoiseDecay,
+		kParamDefaultNoiseDecay,
 		nullptr,
 		nullptr);
 

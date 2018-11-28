@@ -28,3 +28,10 @@ String Globals::paramIdPitchEnvRate   = "PITCH-ENV-RATE";
 String Globals::paramIdPitchLfoAmount = "PITCH-LFO-AMOUNT";
 String Globals::paramIdPitchLfoRate   = "PITCH-LFO-RATE";
 
+//=======================================================
+// NOISE SECTION
+//=======================================================
+
+// NOISE AMPLITUDE
+String Globals::paramIdNoiseAttack    = "NOISE-ATTACK";
+String Globals::paramIdNoiseDecay     = "NOISE-DECAY";

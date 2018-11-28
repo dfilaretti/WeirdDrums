@@ -26,34 +26,58 @@ public:
     void resized() override;
 
 private:
+	//==============================================================================
 	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
 	typedef AudioProcessorValueTreeState::ComboBoxAttachment ComboBoxAttachment;
 
-	const int kWidth = 200;
-	const int kHeight = 200;
+	//==============================================================================
+	//const int kMargin                = 5;
 
+	const int kTitleHeight = 25;
+	const int kWaveformHeight = 100;
+	const int kAmpWidth = 100;
+	const int kModWidth = 150;
+
+	//const int kSliderWidth         = 25;
+	//const int kSliderHeight        = 175;
+
+	//==============================================================================
 	const string kMenuItemLowPassText  = "Low Pass";
 	const string kMenuItemHighPassText = "High Pass";
 	const string kMenuItemBandPassText = "Band Pass";
 
+	//==============================================================================
 	const int kMenuItemLowPassId   = 1;
 	const int kMenuItemHighPassId  = 2;
 	const int kMenuItemSBandPassId = 3;
 
+	//==============================================================================
 	ComboBox 
 		filterTypeComboBox;
 	
 	ScopedPointer<ComboBoxAttachment> 
 		filterTypeComboBoxAttachment;
 
-	Slider 
-		filterCutoffSlider, 
-		filterResonanceSlider;
+	Slider filterCutoffSlider, filterResonanceSlider;
+	Slider attackSlider, decaySlider;
 
 	ScopedPointer<SliderAttachment>
 		filterCutoffSliderAttachment,
 		filterResonanceSliderAttachment;
 
+	ScopedPointer<SliderAttachment>
+		attackSliderAttachment, decaySliderAttachment;
+
+	//==============================================================================
+	juce::Rectangle <int>
+		area,
+		titleArea,
+		controlsArea,
+		waveformArea,
+		ampArea,
+		miscArea;
+
+	//==============================================================================
 	PatSynthAudioProcessor& processor;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NoiseSectionEditor)

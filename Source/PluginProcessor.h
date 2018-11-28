@@ -87,6 +87,8 @@ private:
 	const String kParamNamePitchEnvRate    = "Pitch Env Rate";
 	const String kParamNamePitchLfoAmount  = "Pitch Lfo Amount";
 	const String kParamNamePitchLfoRate    = "Pitch Lfo Rate";
+	const String kParamNameNoiseAttack     = "Attack";
+	const String kParamNameNoiseDecay      = "Decay";
 
 	const NormalisableRange<float> kParamRangeAttack          = NormalisableRange<float>(0.1f, 5000.0f);
 	const NormalisableRange<float> kParamRangeDecay           = NormalisableRange<float>(0.1f, 5000.0f);
@@ -100,6 +102,8 @@ private:
 	const NormalisableRange<float> kParamRangePitchEnvRate    = NormalisableRange<float>(0.1f, 1000.0f); 
 	const NormalisableRange<float> kParamRangePitchLfoAmount  = NormalisableRange<float>(-100.0f, 100.0f);
 	const NormalisableRange<float> kParamRangePitchLfoRate    = NormalisableRange<float>(0.1f, 40.0f);
+	const NormalisableRange<float> kParamRangeNoiseAttack     = NormalisableRange<float>(0.1f, 5000.0f);
+	const NormalisableRange<float> kParamRangeNoiseDecay      = NormalisableRange<float>(0.1f, 5000.0f);
 
 	const float kParamDefaultAttack          = .1f;
 	const float kParamDefaultDecay           = .5f;
@@ -113,6 +117,8 @@ private:
 	const float kParamDefaultPitchEnvRate    = 0.5f;
 	const float kParamDefaultPitchLfoAmount  = 0.0f;
 	const float kParamDefaultPitchLfoRate    = 0.5f;
+	const float kParamDefaultNoiseAttack     = .1f;
+	const float kParamDefaultNoiseDecay      = .5f;
 
 	//==============================================================================
 	void initValueTree();

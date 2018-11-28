@@ -97,18 +97,6 @@ void OscillatorSectionEditor::paint (Graphics& g)
 
 	g.setColour(Colours::white);
 	g.drawText("OSC", titleArea, Justification::centred);
-
-	//g.setColour(Colours::darkseagreen);
-	//g.fillRect(controlsArea);
-
-	//g.setColour(Colours::deeppink);
-	//g.fillRect(waveformArea);
-
-	//g.setColour(Colours::cadetblue);
-	//g.fillRect(ampArea);
-
-	//g.setColour(Colours::black);
-	//g.fillRect(modArea);
 }
 
 void OscillatorSectionEditor::resized()

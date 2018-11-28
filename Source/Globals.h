@@ -15,6 +15,10 @@
 class Globals
 {
 public:
+	//=======================================================
+	// OSC SECTION
+	//=======================================================
+	
 	// ADSR param IDs
 	static String paramIdAttack;
 	static String paramIdDecay;
@@ -36,6 +40,14 @@ public:
 	// Pitch Lfo
 	static String paramIdPitchLfoAmount;
 	static String paramIdPitchLfoRate;
+
+	//=======================================================
+	// NOISE SECTION
+	//=======================================================
+
+	// Noise amplitude
+	static String paramIdNoiseAttack;
+	static String paramIdNoiseDecay;
 
 
 };

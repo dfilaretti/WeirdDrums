@@ -27,7 +27,7 @@ NoiseSectionEditor::NoiseSectionEditor(PatSynthAudioProcessor& p) :
 		filterTypeComboBox);
 
 	// setup cutoff slider
-	filterCutoffSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+	filterCutoffSlider.setSliderStyle(Slider::LinearHorizontal);
 	filterCutoffSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&filterCutoffSlider);
 	filterCutoffSliderAttachment = new SliderAttachment(
@@ -44,6 +44,24 @@ NoiseSectionEditor::NoiseSectionEditor(PatSynthAudioProcessor& p) :
 		processor.parameters, 
 		Globals::paramIdFilterReso,
 		filterResonanceSlider);
+
+	// setup attack slider
+	attackSlider.setSliderStyle(Slider::LinearVertical);
+	attackSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	addAndMakeVisible(&attackSlider);
+	attackSliderAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdNoiseAttack,
+		attackSlider);
+
+	// setup decay slider
+	decaySlider.setSliderStyle(Slider::LinearVertical);
+	decaySlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	addAndMakeVisible(&decaySlider);
+	decaySliderAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdNoiseDecay,
+		decaySlider);
 }
 
 NoiseSectionEditor::~NoiseSectionEditor()
@@ -52,16 +70,56 @@ NoiseSectionEditor::~NoiseSectionEditor()
 
 void NoiseSectionEditor::paint (Graphics& g)
 {
-	juce::Rectangle<int> titleArea(0, 10, getWidth(), 20);
-	g.fillAll(Colours::black);
+	g.setColour(Colours::purple);
+	g.fillRect(titleArea);
+
 	g.setColour(Colours::white);
-	g.drawText("Noise", titleArea, Justification::centredTop);
+	g.drawText("NOISE", titleArea, Justification::centred);
 }
 
 void NoiseSectionEditor::resized()
 {
-	juce::Rectangle<int> area = getLocalBounds().reduced(40);
-	filterTypeComboBox.setBounds(area.removeFromTop(20));
-	filterCutoffSlider.setBounds(30, 100, 70, 70);
-	filterResonanceSlider.setBounds(100, 100, 70, 70);
+	//juce::Rectangle<int> area = getLocalBounds().reduced(40);
+	//filterTypeComboBox.setBounds(area.removeFromTop(20));
+	//filterCutoffSlider.setBounds(30, 100, 70, 70);
+	//filterResonanceSlider.setBounds(100, 100, 70, 70);
+
+	// Update rectangles sizes
+	area = getLocalBounds();
+	titleArea = area.removeFromTop(kTitleHeight);
+	controlsArea = area;
+	waveformArea = controlsArea.removeFromTop(kWaveformHeight);
+	ampArea = controlsArea.removeFromRight(kAmpWidth);
+	miscArea = controlsArea.removeFromRight(kModWidth);
+
+	// Add filter type combobox
+	auto filterTypeComboBoxArea = waveformArea.removeFromTop(50);
+	filterTypeComboBox.setBounds(filterTypeComboBoxArea);
+
+	// Add frequency slider
+	auto frequencySliderArea = waveformArea.removeFromTop(50);
+	filterCutoffSlider.setBounds(frequencySliderArea);
+
+	// Add attack/decay sliders
+	auto attackSliderArea = ampArea.removeFromLeft(50);
+	attackSlider.setBounds(attackSliderArea);
+	auto decaySliderArea = ampArea.removeFromLeft(50);
+	decaySlider.setBounds(decaySliderArea);
+
+	// add pitch envelope (rotary) sliders
+	auto pitchEnvSlidersArea = miscArea.removeFromRight(75);
+
+	// TODO: nothing here yet
+	//auto pitchEnvDepthArea = pitchEnvSlidersArea.removeFromTop(75);
+	//pitchEnvAmountSlider.setBounds(pitchEnvDepthArea);
+
+	//auto pitchEnvRateArea = pitchEnvSlidersArea.removeFromTop(75);
+	//pitchEnvRateSlider.setBounds(pitchEnvRateArea);
+
+	// add pitch lfo (rotary) sliders
+	auto pitchLfoSlidersArea = miscArea.removeFromRight(75);
+
+	auto filterResonanceArea = pitchLfoSlidersArea.removeFromTop(75);
+	filterResonanceSlider.setBounds(filterResonanceArea);
+
 }
