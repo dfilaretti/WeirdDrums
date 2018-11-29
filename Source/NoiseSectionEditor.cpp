@@ -23,7 +23,7 @@ NoiseSectionEditor::NoiseSectionEditor(PatSynthAudioProcessor& p) :
 	addAndMakeVisible(&filterTypeComboBox);
 	filterTypeComboBoxAttachment = new ComboBoxAttachment(
 		processor.parameters, 
-		Globals::paramIdFilterType, 
+		Globals::paramIdNoiseFilterType, 
 		filterTypeComboBox);
 
 	// setup cutoff slider
@@ -32,7 +32,7 @@ NoiseSectionEditor::NoiseSectionEditor(PatSynthAudioProcessor& p) :
 	addAndMakeVisible(&filterCutoffSlider);
 	filterCutoffSliderAttachment = new SliderAttachment(
 		processor.parameters, 
-		Globals::paramIdFilterCutoff,
+		Globals::paramIdNoiseFilterCutoff,
 		filterCutoffSlider);
 	filterCutoffSlider.setSkewFactorFromMidPoint(1000.0); // NB: must be after init the attachment ^^^
 
@@ -42,7 +42,7 @@ NoiseSectionEditor::NoiseSectionEditor(PatSynthAudioProcessor& p) :
 	addAndMakeVisible(&filterResonanceSlider);
 	filterResonanceSliderAttachment = new SliderAttachment(
 		processor.parameters, 
-		Globals::paramIdFilterReso,
+		Globals::paramIdNoiseFilterReso,
 		filterResonanceSlider);
 
 	// setup attack slider
@@ -109,14 +109,7 @@ void NoiseSectionEditor::resized()
 	// add pitch envelope (rotary) sliders
 	auto pitchEnvSlidersArea = miscArea.removeFromRight(75);
 
-	// TODO: nothing here yet
-	//auto pitchEnvDepthArea = pitchEnvSlidersArea.removeFromTop(75);
-	//pitchEnvAmountSlider.setBounds(pitchEnvDepthArea);
-
-	//auto pitchEnvRateArea = pitchEnvSlidersArea.removeFromTop(75);
-	//pitchEnvRateSlider.setBounds(pitchEnvRateArea);
-
-	// add pitch lfo (rotary) sliders
+	// --
 	auto pitchLfoSlidersArea = miscArea.removeFromRight(75);
 
 	auto filterResonanceArea = pitchLfoSlidersArea.removeFromTop(75);

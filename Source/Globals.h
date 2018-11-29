@@ -28,11 +28,6 @@ public:
 	// osc param IDs
 	static String paramIdWaveType;
 
-	// filter param IDs
-	static String paramIdFilterType;
-	static String paramIdFilterCutoff;
-	static String paramIdFilterReso;
-	
 	// Pitch Envelope
 	static String paramIdPitchEnvAmount;
 	static String paramIdPitchEnvRate;
@@ -45,9 +40,22 @@ public:
 	// NOISE SECTION
 	//=======================================================
 
+	// filter param IDs
+	static String paramIdNoiseFilterType;
+	static String paramIdNoiseFilterCutoff;
+	static String paramIdNoiseFilterReso;
 	// Noise amplitude
 	static String paramIdNoiseAttack;
 	static String paramIdNoiseDecay;
 
+	//=======================================================
+	// MASTER SECTION
+	//=======================================================
 
+	static String paramIdMasterMix;
+	static String paramIdMasterEqFreq;
+	static String paramIdMasterEqGain;
+	static String paramIdMasterDistort;
+	static String paramIdMasterLevel;
+	static String paramIdMasterPan;
 };

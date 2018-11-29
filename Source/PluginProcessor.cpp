@@ -153,9 +153,9 @@ void PatSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffe
 		
 			// filter
 			myVoice -> getFilterParams(
-				parameters.getRawParameterValue (Globals::paramIdFilterType),
-				parameters.getRawParameterValue (Globals::paramIdFilterCutoff),
-				parameters.getRawParameterValue (Globals::paramIdFilterReso));
+				parameters.getRawParameterValue (Globals::paramIdNoiseFilterType),
+				parameters.getRawParameterValue (Globals::paramIdNoiseFilterCutoff),
+				parameters.getRawParameterValue (Globals::paramIdNoiseFilterReso));
 
 			// pitch env
 			myVoice -> getPitchEnvParams(
@@ -233,34 +233,6 @@ void PatSynthAudioProcessor::initValueTree()
 		nullptr,
 		nullptr);
 
-	// Filter
-	parameters.createAndAddParameter(
-		Globals::paramIdFilterType,
-		kParamNameFilterType,
-		String(),
-		kParamRangeFilterType,
-		kParamDefaultFilterType,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdFilterCutoff,
-		kParamNameFilterCutoff,
-		String(),
-		kParamRangeFilterCutoff,
-		kParamDefaultFilterCutoff,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdFilterReso,
-		kParamNameFilterResonance,
-		String(),
-		kParamRangeFilterResonance,
-		kParamDefaultFilterResonance,
-		nullptr,
-		nullptr);
-
 	// Pitch envelope
 	parameters.createAndAddParameter(
 		Globals::paramIdPitchEnvAmount,
@@ -301,6 +273,34 @@ void PatSynthAudioProcessor::initValueTree()
 
 	// NOISE SECTION
 
+	// Filter
+	parameters.createAndAddParameter(
+		Globals::paramIdNoiseFilterType,
+		kParamNameFilterType,
+		String(),
+		kParamRangeFilterType,
+		kParamDefaultFilterType,
+		nullptr,
+		nullptr);
+
+	parameters.createAndAddParameter(
+		Globals::paramIdNoiseFilterCutoff,
+		kParamNameFilterCutoff,
+		String(),
+		kParamRangeFilterCutoff,
+		kParamDefaultFilterCutoff,
+		nullptr,
+		nullptr);
+
+	parameters.createAndAddParameter(
+		Globals::paramIdNoiseFilterReso,
+		kParamNameFilterResonance,
+		String(),
+		kParamRangeFilterResonance,
+		kParamDefaultFilterResonance,
+		nullptr,
+		nullptr);
+
 	// Noise amp
 	parameters.createAndAddParameter(
 		Globals::paramIdNoiseAttack,
@@ -319,6 +319,10 @@ void PatSynthAudioProcessor::initValueTree()
 		kParamDefaultNoiseDecay,
 		nullptr,
 		nullptr);
+
+	// MASTER SECTION
+
+	// TODO
 
 	parameters.state = ValueTree(kValueTreeId);
 }

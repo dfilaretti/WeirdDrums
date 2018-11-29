@@ -26,10 +26,44 @@ public:
     void resized() override;
 
 private:
+	//==============================================================================
 	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
 
-	const int kMargin       = 50;
-	const int kTitleHeight  = 20;
+	//==============================================================================
+	//const int kMargin                = 5;
+
+	const int kTitleHeight = 25;
+	const int kWaveformHeight = 100;
+	const int kAmpWidth = 100;
+	const int kModWidth = 150;
+
+	//const int kSliderWidth         = 25;
+	//const int kSliderHeight        = 175;
+
+	//==============================================================================
+
+	Slider mixSlider;
+	Slider eqFreqSlider;
+	Slider distortSlider;
+	Slider eqGainSlider;
+	Slider levelSlider;
+	Slider panSlider;
+
+	ScopedPointer<SliderAttachment> mixSliderAttachment;
+	ScopedPointer<SliderAttachment> eqFreqSliderAttachment;
+	ScopedPointer<SliderAttachment> distortSliderAttachment;
+	ScopedPointer<SliderAttachment> eqGainSliderAttachment;
+	ScopedPointer<SliderAttachment> levelSliderAttachment;
+	ScopedPointer<SliderAttachment> panSliderAttachment;
+
+	//==============================================================================
+	juce::Rectangle <int>
+		area,
+		titleArea,
+		controlsArea,
+		waveformArea,
+		ampArea,
+		miscArea;
 
 	PatSynthAudioProcessor& processor;
 

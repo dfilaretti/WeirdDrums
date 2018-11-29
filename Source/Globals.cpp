@@ -17,10 +17,6 @@ String Globals::paramIdSustain        = "SUSTAIN";
 String Globals::paramIdRelease        = "RELEASE";
 // OSC
 String Globals::paramIdWaveType       = "WAVE-TYPE";
-// FILTER
-String Globals::paramIdFilterType     = "FILTER-TYPE";
-String Globals::paramIdFilterCutoff   = "FILTER-CUTOFF";
-String Globals::paramIdFilterReso     = "FILTER-RESONANCE";
 // PITCH ENVELOPE
 String Globals::paramIdPitchEnvAmount = "PITCH-ENV-AMOUNT";
 String Globals::paramIdPitchEnvRate   = "PITCH-ENV-RATE";
@@ -32,6 +28,25 @@ String Globals::paramIdPitchLfoRate   = "PITCH-LFO-RATE";
 // NOISE SECTION
 //=======================================================
 
+// NOISE FILTER
+String Globals::paramIdNoiseFilterType     = "FILTER-TYPE";
+String Globals::paramIdNoiseFilterCutoff   = "FILTER-CUTOFF";
+String Globals::paramIdNoiseFilterReso     = "FILTER-RESONANCE";
 // NOISE AMPLITUDE
 String Globals::paramIdNoiseAttack    = "NOISE-ATTACK";
 String Globals::paramIdNoiseDecay     = "NOISE-DECAY";
+
+//=======================================================
+// MASTER SECTION
+//=======================================================
+
+// OSC/NOISE MIX
+String Globals::paramIdMasterMix      = "MASTER-MIX";
+// GLOBAL EQ
+String Globals::paramIdMasterEqFreq   = "MASTER-EQ-FREQ";
+String Globals::paramIdMasterEqGain   = "MASTER-EQ-GAIN";
+// DISTORTION
+String Globals::paramIdMasterDistort  = "MASTER-DISTORT";
+// LEVEL & PAN
+String Globals::paramIdMasterLevel    = "MASTER-LEVEL";
+String Globals::paramIdMasterPan      = "MASTER-PAN";
