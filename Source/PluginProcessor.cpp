@@ -151,11 +151,6 @@ void PatSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffe
 			myVoice -> getOscParams(
 				parameters.getRawParameterValue (Globals::paramIdWaveType));
 		
-			// filter
-			myVoice -> getFilterParams(
-				parameters.getRawParameterValue (Globals::paramIdNoiseFilterType),
-				parameters.getRawParameterValue (Globals::paramIdNoiseFilterCutoff),
-				parameters.getRawParameterValue (Globals::paramIdNoiseFilterReso));
 
 			// pitch env
 			myVoice -> getPitchEnvParams(
@@ -167,10 +162,39 @@ void PatSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffe
 				parameters.getRawParameterValue(Globals::paramIdPitchLfoAmount),
 				parameters.getRawParameterValue(Globals::paramIdPitchLfoRate));
 
+			// NOISE SECTION
+			
+			// filter
+			myVoice -> getNoiseFilterParams(
+				parameters.getRawParameterValue (Globals::paramIdNoiseFilterType),
+				parameters.getRawParameterValue (Globals::paramIdNoiseFilterCutoff),
+				parameters.getRawParameterValue (Globals::paramIdNoiseFilterReso));
+
 			// noise amp envelope
 			myVoice -> getNoiseEnvelopeParams(
 				parameters.getRawParameterValue(Globals::paramIdNoiseAttack),
 				parameters.getRawParameterValue(Globals::paramIdNoiseDecay));
+			
+			// MASTER SECTION
+
+			// osc/noise mix
+			myVoice->getMasterMixParams(
+				parameters.getRawParameterValue(Globals::paramIdMasterMix));
+
+			// master EQ
+			myVoice->getMasterEqParams(
+				parameters.getRawParameterValue(Globals::paramIdMasterEqFreq),
+				parameters.getRawParameterValue(Globals::paramIdMasterEqGain));
+
+			// master distortion
+			myVoice->getMasterDistortionParams(
+				parameters.getRawParameterValue(Globals::paramIdMasterDistort));
+
+			// master volume + pan
+			myVoice->getMasterLevelAndPanParams(
+				parameters.getRawParameterValue(Globals::paramIdMasterLevel),
+				parameters.getRawParameterValue(Globals::paramIdMasterPan));
+
 		}
 	}
 
@@ -276,28 +300,28 @@ void PatSynthAudioProcessor::initValueTree()
 	// Filter
 	parameters.createAndAddParameter(
 		Globals::paramIdNoiseFilterType,
-		kParamNameFilterType,
+		kParamNameNoiseFilterType,
 		String(),
-		kParamRangeFilterType,
-		kParamDefaultFilterType,
+		kParamRangeNoiseFilterType,
+		kParamDefaultNoiseFilterType,
 		nullptr,
 		nullptr);
 
 	parameters.createAndAddParameter(
 		Globals::paramIdNoiseFilterCutoff,
-		kParamNameFilterCutoff,
+		kParamNameNoiseFilterCutoff,
 		String(),
-		kParamRangeFilterCutoff,
-		kParamDefaultFilterCutoff,
+		kParamRangeNoiseFilterCutoff,
+		kParamDefaultNoiseFilterCutoff,
 		nullptr,
 		nullptr);
 
 	parameters.createAndAddParameter(
 		Globals::paramIdNoiseFilterReso,
-		kParamNameFilterResonance,
+		kParamNameNoiseFilterResonance,
 		String(),
-		kParamRangeFilterResonance,
-		kParamDefaultFilterResonance,
+		kParamRangeNoiseFilterResonance,
+		kParamDefaultNoiseFilterResonance,
 		nullptr,
 		nullptr);
 
@@ -322,7 +346,59 @@ void PatSynthAudioProcessor::initValueTree()
 
 	// MASTER SECTION
 
-	// TODO
+	parameters.createAndAddParameter(
+		Globals::paramIdMasterMix,
+		kParamNameMasterMix,
+		String(),
+		kParamRangeMasterMix,
+		kParamDefaultMasterMix,
+		nullptr,
+		nullptr);
+
+	parameters.createAndAddParameter(
+		Globals::paramIdMasterEqFreq,
+		kParamNameMasterEqFreq,
+		String(),
+		kParamRangeMasterEqFreq,
+		kParamDefaultMasterEqFreq,
+		nullptr,
+		nullptr);
+
+	parameters.createAndAddParameter(
+		Globals::paramIdMasterEqGain,
+		kParamNameMasterEqGain,
+		String(),
+		kParamRangeMasterEqGain,
+		kParamDefaultMasterEqGain,
+		nullptr,
+		nullptr);
+
+	parameters.createAndAddParameter(
+		Globals::paramIdMasterDistort,
+		kParamNameMasterDistort,
+		String(),
+		kParamRangeMasterDistort,
+		kParamDefaultMasterDistort,
+		nullptr,
+		nullptr);
+
+	parameters.createAndAddParameter(
+		Globals::paramIdMasterLevel,
+		kParamNameMasterLevel,
+		String(),
+		kParamRangeMasterLevel,
+		kParamDefaultMasterLevel,
+		nullptr,
+		nullptr);
+
+	parameters.createAndAddParameter(
+		Globals::paramIdMasterPan,
+		kParamNameMasterPan,
+		String(),
+		kParamRangeMasterPan,
+		kParamDefaultMasterPan,
+		nullptr,
+		nullptr);
 
 	parameters.state = ValueTree(kValueTreeId);
 }

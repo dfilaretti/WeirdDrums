@@ -37,28 +37,17 @@ public:
 	}
 
 	//==============================================================================
+	
+	// OSC SECTION
 	void getEnvelopeParams (float* attack, float* decay)
 	{
 		envAttack  = *attack;
 		envDecay   = *decay;
 	}
 
-	void getNoiseEnvelopeParams (float* attack, float* decay)
-	{
-		noiseEnvAttack = *attack;
-		noiseEnvDecay = *decay;
-	}
-
 	void getOscParams (float* selection)
 	{
 		oscWaveform = *selection;
-	}
-
-	void getFilterParams (float* type, float* cutoff, float* res)
-	{
-		filterType   = *type;
-		filterCutoff = *cutoff;
-		filterRes    = *res;
 	}
 
 	void getPitchEnvParams (float* amount, float* rate)
@@ -71,6 +60,45 @@ public:
 	{
 		pitchLfoAmount = *amount;
 		pitchLfoRate   = *rate;
+	}
+
+	// NOISE SECTION
+	
+	void getNoiseFilterParams (float* type, float* cutoff, float* res)
+	{
+		filterType   = *type;
+		filterCutoff = *cutoff;
+		filterRes    = *res;
+	}
+
+	void getNoiseEnvelopeParams (float* attack, float* decay)
+	{
+		noiseEnvAttack = *attack;
+		noiseEnvDecay = *decay;
+	}
+
+	// MASTER SECTION
+
+	void getMasterMixParams(float* mix)
+	{
+		this->mix = *mix;
+	}
+
+	void getMasterEqParams(float* freq, float* gain)
+	{
+		eqFreq = *freq;
+		eqGain = *gain;
+	}
+
+	void getMasterDistortionParams(float* amount)
+	{
+		distortionAmount = *amount;
+	}
+
+	void getMasterLevelAndPanParams(float* level, float* pan)
+	{
+		this->level = *level;
+		this->pan = *pan;
 	}
 	
 	//==============================================================================
@@ -319,16 +347,23 @@ private:
 	juce::dsp::Oscillator<float> pitchLfo;
 	
 	//==============================================================================
-	float noiseEnvAttack, noiseEnvDecay;
 	
+	// OSC 
+
 	double oscLevel, oscFrequency, currentNoteFrequency;
 	int oscWaveform;
+	float pitchEnvAmount, pitchEnvRate;
+	float pitchLfoAmount, pitchLfoRate;
+
+	// NOISE 
 	
 	int filterType;
 	float filterCutoff, filterRes;
+	float noiseEnvAttack, noiseEnvDecay;
 
-	float pitchEnvAmount, pitchEnvRate;
-	float pitchLfoAmount, pitchLfoRate;
+	// MASTER 
+
+	float mix, eqFreq, eqGain, distortionAmount, level, pan;
 
 	//==============================================================================
 	float envAttack, envDecay;
