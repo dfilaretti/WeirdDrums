@@ -39,6 +39,8 @@ public:
 	void setWaveform(int selection)
 	{
 		auto& osc = processorChain.template get<oscIndex>();
+		
+		Random random;
 
 		switch (selection) 
 		{
@@ -51,7 +53,7 @@ public:
 				}, 2);
 				break;
 			case noise:
-
+				osc.initialise([&random](Type x) { return (random.nextFloat() * 0.25f - 0.125f);}, 128);
 				break;
 			default:
 				osc.initialise([](Type x) { return std::sin(x); }, 128);
@@ -92,6 +94,8 @@ private:
 		oscIndex,
 		gainIndex
 	};
+	
+	//Random random;
 
 	juce::dsp::ProcessorChain<juce::dsp::Oscillator<Type>, juce::dsp::Gain<Type>> processorChain;
 };

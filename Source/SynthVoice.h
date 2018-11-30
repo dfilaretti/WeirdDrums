@@ -128,8 +128,9 @@ public:
 	{
 		// TODO: this should be white noise
 		// TODO: move away from here
-		noiseSectionProcessorChain.get<noiseSectionOscIndex>().setWaveform(Oscillator::saw);
-		noiseSectionProcessorChain.get<noiseSectionOscIndex>().setLevel(0.5);
+		noiseSectionProcessorChain.get<noiseSectionOscIndex>().setWaveform(Oscillator::noise);
+		noiseSectionProcessorChain.get<noiseSectionOscIndex>().setLevel(10);
+		noiseSectionProcessorChain.get<noiseSectionOscIndex>().setFrequency(65.0, true);
 	
 		switch (oscWaveform)
 		{
@@ -262,7 +263,7 @@ public:
 		setOscFreq(oscFrequency, oscLevel);
 		// process this block! 
 		oscSectionProcessorChain.process (oscSectionContext);
-		
+
 		// NOISE section 
 		// =============================
 		// =============================
@@ -275,7 +276,6 @@ public:
 
 		setNoiseFilter();
 		setNoiseAmpEnv();
-		// set env
 		// set stuff
 		noiseSectionProcessorChain.process(noiseSectionContext);
 
@@ -283,6 +283,10 @@ public:
 		// =============================
 		// =============================
 		// =============================
+
+		// scale OSC and NOISE according to the MIX param
+		oscSectionBlock.multiply (1 - mix);
+		noiseSectionBlock.multiply (mix);
 
 		// set things up
 		auto masterSectionOutput = masterSectionBlock.getSubBlock(0, (size_t)numSamples);
@@ -293,6 +297,10 @@ public:
 		masterSectionOutput
 			.add(oscSectionBlock)
 			.add(noiseSectionBlock);
+
+		// apply MASTER level
+		// TODO: make it in DB?
+		masterSectionBlock.multiply (level);
 
 		// TODO: global level, EQ, distortion etc. 
 		masterSectionProcessorChain.process (masterSectionContext);
