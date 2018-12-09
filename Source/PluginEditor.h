@@ -18,7 +18,8 @@
 
 //==============================================================================
 
-class PatSynthAudioProcessorEditor  : public AudioProcessorEditor
+class PatSynthAudioProcessorEditor  : 
+	public AudioProcessorEditor
 {
 public:
     PatSynthAudioProcessorEditor (PatSynthAudioProcessor&);
@@ -29,6 +30,11 @@ public:
     void resized() override;
 
 private:
+	//==============================================================================
+	MidiKeyboardState keyboardState;
+	MidiKeyboardComponent keyboardComponent;
+
+	//==============================================================================
 	const int kWidth         = 750;
 	const int kHeight        = 275;
 	const int kSectionWidth  = 250;

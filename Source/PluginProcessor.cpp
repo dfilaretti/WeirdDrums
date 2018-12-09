@@ -25,12 +25,21 @@ PatSynthAudioProcessor::PatSynthAudioProcessor()
 	parameters(*this, nullptr)
 #endif
 {	
-	initValueTree ();
-	initSynth ();
+	// Add voices to the synth
+	mySynth.clearVoices();
+	for (int i = 0; i < 1; i++)
+	{
+		mySynth.addVoice(new MyVoice());
+	}
+
+	// Add sounds to the synth
+	mySynth.clearSounds();
+	mySynth.addSound(new MySound());
 }
 
 PatSynthAudioProcessor::~PatSynthAudioProcessor()
 {
+	
 }
 
 //==============================================================================
@@ -98,8 +107,7 @@ void PatSynthAudioProcessor::changeProgramName (int index, const String& newName
 //==============================================================================
 void PatSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-	mySynth.prepare ({ sampleRate, (uint32) samplesPerBlock, 2 });
-	//midiMessageCollector.reset(sampleRate); // ?
+	mySynth.setCurrentPlaybackSampleRate(sampleRate);
 }
 
 void PatSynthAudioProcessor::releaseResources()
@@ -134,273 +142,20 @@ bool PatSynthAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts)
 
 void PatSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
-    ScopedNoDenormals noDenormals;
-    auto totalNumInputChannels  = getTotalNumInputChannels();
-    auto totalNumOutputChannels = getTotalNumOutputChannels();
+	ScopedNoDenormals noDenormals;
+	auto totalNumInputChannels = getTotalNumInputChannels();
+	auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-	for (int i = 0; i < mySynth.getNumVoices(); i++)
-	{
-		if ((myVoice = dynamic_cast<SynthVoice*> (mySynth.getVoice(i))))
-		{
-			// amp envelope
-			myVoice -> getEnvelopeParams(
-				parameters.getRawParameterValue (Globals::paramIdAttack), 
-				parameters.getRawParameterValue (Globals::paramIdDecay));
+	// In case we have more outputs than inputs, this code clears any output
+	// channels that didn't contain input data, (because these aren't
+	// guaranteed to be empty - they may contain garbage).
+	// This is here to avoid people getting screaming feedback
+	// when they first compile a plugin, but obviously you don't need to keep
+	// this code if your algorithm always overwrites all the output channels.
+	for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
+		buffer.clear(i, 0, buffer.getNumSamples());
 
-			// osc type
-			myVoice -> getOscParams(
-				parameters.getRawParameterValue (Globals::paramIdWaveType));
-		
-
-			// pitch env
-			myVoice -> getPitchEnvParams(
-				parameters.getRawParameterValue(Globals::paramIdPitchEnvAmount),
-				parameters.getRawParameterValue(Globals::paramIdPitchEnvRate));
-
-			// pitch lfo
-			myVoice -> getPitchLfoParams(
-				parameters.getRawParameterValue(Globals::paramIdPitchLfoAmount),
-				parameters.getRawParameterValue(Globals::paramIdPitchLfoRate));
-
-			// NOISE SECTION
-			
-			// filter
-			myVoice -> getNoiseFilterParams(
-				parameters.getRawParameterValue (Globals::paramIdNoiseFilterType),
-				parameters.getRawParameterValue (Globals::paramIdNoiseFilterCutoff),
-				parameters.getRawParameterValue (Globals::paramIdNoiseFilterReso));
-
-			// noise amp envelope
-			myVoice -> getNoiseEnvelopeParams(
-				parameters.getRawParameterValue(Globals::paramIdNoiseAttack),
-				parameters.getRawParameterValue(Globals::paramIdNoiseDecay));
-			
-			// MASTER SECTION
-
-			// osc/noise mix
-			myVoice->getMasterMixParams(
-				parameters.getRawParameterValue(Globals::paramIdMasterMix));
-
-			// master EQ
-			myVoice->getMasterEqParams(
-				parameters.getRawParameterValue(Globals::paramIdMasterEqFreq),
-				parameters.getRawParameterValue(Globals::paramIdMasterEqGain));
-
-			// master distortion
-			myVoice->getMasterDistortionParams(
-				parameters.getRawParameterValue(Globals::paramIdMasterDistort));
-
-			// master volume + pan
-			myVoice->getMasterLevelAndPanParams(
-				parameters.getRawParameterValue(Globals::paramIdMasterLevel),
-				parameters.getRawParameterValue(Globals::paramIdMasterPan));
-
-		}
-	}
-
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // This is here to avoid people getting screaming feedback
-    // when they first compile a plugin, but obviously you don't need to keep
-    // this code if your algorithm always overwrites all the output channels.
-    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-        buffer.clear (i, 0, buffer.getNumSamples());
-
-	mySynth.renderNextBlock (buffer, midiMessages, 0, buffer.getNumSamples());
-}
-
-//==============================================================================
-// TODO: maybe the synth itself should do this?
-void PatSynthAudioProcessor::initSynth()
-{
-	// Add voices to the synth
-	mySynth.clearVoices();
-	for (int i = 0; i < kNumVoices; i++)
-	{
-		mySynth.addVoice(new SynthVoice());
-	}
-
-	// Add sounds to the synth
-	mySynth.clearSounds();
-	mySynth.addSound(new SynthSound());
-}
-
-void PatSynthAudioProcessor::initValueTree()
-{
-	// ADSR
-	parameters.createAndAddParameter(
-		Globals::paramIdAttack,
-		kParamNameAttack,
-		String(),
-		kParamRangeAttack,
-		kParamDefaultAttack,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdDecay,
-		kParamNameDecay,
-		String(),
-		kParamRangeDecay,
-		kParamDefaultDecay,
-		nullptr,
-		nullptr);
-
-	// Waveform
-	parameters.createAndAddParameter(
-		Globals::paramIdWaveType,
-		kParamNameWaveType,
-		String(),
-		kParamRangeWaveType,
-		kParamDefaultWaveType,
-		nullptr,
-		nullptr);
-
-	// Pitch envelope
-	parameters.createAndAddParameter(
-		Globals::paramIdPitchEnvAmount,
-		kParamNamePitchEnvAmount,
-		String(),
-		kParamRangePitchEnvAmount,
-		kParamDefaultPitchEnvAmount,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdPitchEnvRate,
-		kParamNamePitchEnvRate,
-		String(),
-		kParamRangePitchEnvRate,
-		kParamDefaultPitchEnvRate,
-		nullptr,
-		nullptr);
-
-	// Pitch lfo
-	parameters.createAndAddParameter(
-		Globals::paramIdPitchLfoAmount,
-		kParamNamePitchLfoAmount,
-		String(),
-		kParamRangePitchLfoAmount,
-		kParamDefaultPitchLfoAmount,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdPitchLfoRate,
-		kParamNamePitchLfoRate,
-		String(),
-		kParamRangePitchLfoRate,
-		kParamDefaultPitchLfoRate,
-		nullptr,
-		nullptr);
-
-	// NOISE SECTION
-
-	// Filter
-	parameters.createAndAddParameter(
-		Globals::paramIdNoiseFilterType,
-		kParamNameNoiseFilterType,
-		String(),
-		kParamRangeNoiseFilterType,
-		kParamDefaultNoiseFilterType,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdNoiseFilterCutoff,
-		kParamNameNoiseFilterCutoff,
-		String(),
-		kParamRangeNoiseFilterCutoff,
-		kParamDefaultNoiseFilterCutoff,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdNoiseFilterReso,
-		kParamNameNoiseFilterResonance,
-		String(),
-		kParamRangeNoiseFilterResonance,
-		kParamDefaultNoiseFilterResonance,
-		nullptr,
-		nullptr);
-
-	// Noise amp
-	parameters.createAndAddParameter(
-		Globals::paramIdNoiseAttack,
-		kParamNameNoiseAttack,
-		String(),
-		kParamRangeNoiseAttack,
-		kParamDefaultNoiseAttack,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdNoiseDecay,
-		kParamNameNoiseDecay,
-		String(),
-		kParamRangeNoiseDecay,
-		kParamDefaultNoiseDecay,
-		nullptr,
-		nullptr);
-
-	// MASTER SECTION
-
-	parameters.createAndAddParameter(
-		Globals::paramIdMasterMix,
-		kParamNameMasterMix,
-		String(),
-		kParamRangeMasterMix,
-		kParamDefaultMasterMix,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdMasterEqFreq,
-		kParamNameMasterEqFreq,
-		String(),
-		kParamRangeMasterEqFreq,
-		kParamDefaultMasterEqFreq,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdMasterEqGain,
-		kParamNameMasterEqGain,
-		String(),
-		kParamRangeMasterEqGain,
-		kParamDefaultMasterEqGain,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdMasterDistort,
-		kParamNameMasterDistort,
-		String(),
-		kParamRangeMasterDistort,
-		kParamDefaultMasterDistort,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdMasterLevel,
-		kParamNameMasterLevel,
-		String(),
-		kParamRangeMasterLevel,
-		kParamDefaultMasterLevel,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdMasterPan,
-		kParamNameMasterPan,
-		String(),
-		kParamRangeMasterPan,
-		kParamDefaultMasterPan,
-		nullptr,
-		nullptr);
-
-	parameters.state = ValueTree(kValueTreeId);
+	mySynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 }
 
 //==============================================================================
@@ -417,18 +172,18 @@ AudioProcessorEditor* PatSynthAudioProcessor::createEditor()
 //==============================================================================
 void PatSynthAudioProcessor::getStateInformation (MemoryBlock& destData)
 {
-	auto state = parameters.copyState();
-	std::unique_ptr<XmlElement> xml(state.createXml());
-	copyXmlToBinary(*xml, destData);
+	//auto state = parameters.copyState();
+	//std::unique_ptr<XmlElement> xml(state.createXml());
+	//copyXmlToBinary(*xml, destData);
 }
 
 void PatSynthAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
-	std::unique_ptr<XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
+	//std::unique_ptr<XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
 
-	if (xmlState.get() != nullptr)
-		if (xmlState->hasTagName(parameters.state.getType()))
-			parameters.replaceState(ValueTree::fromXml(*xmlState));
+	//if (xmlState.get() != nullptr)
+	//	if (xmlState->hasTagName(parameters.state.getType()))
+	//		parameters.replaceState(ValueTree::fromXml(*xmlState));
 }
 
 //==============================================================================
@@ -437,3 +192,4 @@ AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new PatSynthAudioProcessor();
 }
+

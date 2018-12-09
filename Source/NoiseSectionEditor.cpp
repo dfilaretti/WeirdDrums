@@ -34,7 +34,7 @@ NoiseSectionEditor::NoiseSectionEditor(PatSynthAudioProcessor& p) :
 		processor.parameters, 
 		Globals::paramIdNoiseFilterCutoff,
 		filterCutoffSlider);
-	filterCutoffSlider.setSkewFactorFromMidPoint(1000.0); // NB: must be after init the attachment ^^^
+	//filterCutoffSlider.setSkewFactorFromMidPoint(1000.0); // NB: must be after init the attachment ^^^
 
 	// setup resonance slider
 	filterResonanceSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);

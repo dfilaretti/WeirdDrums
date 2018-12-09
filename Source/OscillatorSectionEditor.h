@@ -43,9 +43,9 @@ private:
 	//const int kSliderHeight        = 175;
 
 	//==============================================================================
-	const string kMenuItemSineText   = "Sine";
-	const string kMenuItemSawText    = "Saw";
-	const string kMenuItemSquareText = "Square";
+	const String kMenuItemSineText   = "Sine";
+	const String kMenuItemSawText    = "Saw";
+	const String kMenuItemSquareText = "Square";
 
 	const int kMenuItemSineId        = 1;
 	const int kMenuItemSawId         = 2;
