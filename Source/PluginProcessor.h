@@ -11,11 +11,10 @@
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "Synth.h"
+#include "SynthVoice.h"
+#include "SynthSound.h"
 #include "Globals.h"
-#include "MySynth.h"
-#include "MyVoice.h"
-#include "MySound.h"
-//#include "DspFaust.h"
 
 //==============================================================================
 /**
@@ -62,16 +61,97 @@ public:
 
 	//==============================================================================
 	AudioProcessorValueTreeState parameters;
-	
+
 private:
 	//==============================================================================
-	//DspFaust dspFaust;
-	MySynth mySynth;
-	//SynthVoice *myVoice;
-
+	Synth mySynth;
+	SynthVoice *myVoice;
+	
+	//==============================================================================
+	double lastSampleRate;
 
 	//==============================================================================
+	const int kNumVoices = 2;
 	const Identifier kValueTreeId = Identifier("PatSynth");
+
+	//==============================================================================
+	// OSC SECTION
+	const String kParamNameAttack          = "Attack";
+	const String kParamNameDecay           = "Decay";
+	const String kParamNameSustain         = "Sustain";
+	const String kParamNameRelease         = "Release";
+	const String kParamNameWaveType        = "Wave Type";
+	const String kParamNamePitchEnvAmount  = "Pitch Env Amount";
+	const String kParamNamePitchEnvRate    = "Pitch Env Rate";
+	const String kParamNamePitchLfoAmount  = "Pitch Lfo Amount";
+	const String kParamNamePitchLfoRate    = "Pitch Lfo Rate";
+	// NOISE SECTION
+	const String kParamNameNoiseFilterType      = "Filter Type";
+	const String kParamNameNoiseFilterCutoff    = "Cutoff";
+	const String kParamNameNoiseFilterResonance = "Resonance";
+	const String kParamNameNoiseAttack     = "Attack";
+	const String kParamNameNoiseDecay      = "Decay";
+	// MASTER SECTION
+	const String kParamNameMasterMix       = "Mix";
+	const String kParamNameMasterEqFreq    = "EqFreq";
+	const String kParamNameMasterEqGain    = "EqGain";
+	const String kParamNameMasterDistort   = "Distort";
+	const String kParamNameMasterLevel     = "Level";
+	const String kParamNameMasterPan       = "Pan";
+
+	//==============================================================================
+	// OSC SECTION
+	const NormalisableRange<float> kParamRangeAttack          = NormalisableRange<float>(0.1f, 5000.0f);
+	const NormalisableRange<float> kParamRangeDecay           = NormalisableRange<float>(0.1f, 5000.0f);
+	const NormalisableRange<float> kParamRangeSustain         = NormalisableRange<float>(0.0f, 1.0f);
+	const NormalisableRange<float> kParamRangeRelease         = NormalisableRange<float>(0.1f, 1000.0f);
+	const NormalisableRange<float> kParamRangeWaveType        = NormalisableRange<float>(0, 2);
+	const NormalisableRange<float> kParamRangePitchEnvAmount  = NormalisableRange<float>(-1000.0f, 1000.0f);
+	const NormalisableRange<float> kParamRangePitchEnvRate    = NormalisableRange<float>(0.1f, 1000.0f); 
+	const NormalisableRange<float> kParamRangePitchLfoAmount  = NormalisableRange<float>(-100.0f, 100.0f);
+	const NormalisableRange<float> kParamRangePitchLfoRate    = NormalisableRange<float>(0.1f, 40.0f);
+	// NOISE SECTION
+	const NormalisableRange<float> kParamRangeNoiseFilterType      = NormalisableRange<float>(0, 2);
+	const NormalisableRange<float> kParamRangeNoiseFilterCutoff    = NormalisableRange<float>(20.0f, 10000.0f);
+	const NormalisableRange<float> kParamRangeNoiseFilterResonance = NormalisableRange<float>(1.0f, 5.0f);
+	const NormalisableRange<float> kParamRangeNoiseAttack     = NormalisableRange<float>(0.1f, 5000.0f);
+	const NormalisableRange<float> kParamRangeNoiseDecay      = NormalisableRange<float>(0.1f, 5000.0f);
+	// MASTER SECTION
+	const NormalisableRange<float> kParamRangeMasterMix       = NormalisableRange<float>(0, 1);
+	const NormalisableRange<float> kParamRangeMasterEqFreq    = NormalisableRange<float>(20, 15000);
+	const NormalisableRange<float> kParamRangeMasterEqGain    = NormalisableRange<float>(-12, 12); // db
+	const NormalisableRange<float> kParamRangeMasterDistort   = NormalisableRange<float>(0, 10); // ?
+	const NormalisableRange<float> kParamRangeMasterLevel     = NormalisableRange<float>(0, 2); // TODO: make it in db 
+	const NormalisableRange<float> kParamRangeMasterPan       = NormalisableRange<float>(-1, 1);
+
+	//==============================================================================
+	// OSC SECTION
+	const float kParamDefaultAttack          = .1f;
+	const float kParamDefaultDecay           = .5f;
+	const float kParamDefaultSustain         = .8f;
+	const float kParamDefaultRelease         = .2f;
+	const float kParamDefaultWaveType        = 0.f;
+	const float kParamDefaultPitchEnvAmount  = 0.0f;
+	const float kParamDefaultPitchEnvRate    = 0.5f;
+	const float kParamDefaultPitchLfoAmount  = 0.0f;
+	const float kParamDefaultPitchLfoRate    = 0.5f;
+	// NOISE SECTION
+	const float kParamDefaultNoiseFilterType      = .1f;
+	const float kParamDefaultNoiseFilterCutoff    = 400.f;
+	const float kParamDefaultNoiseFilterResonance = 1.f;
+	const float kParamDefaultNoiseAttack     = .1f;
+	const float kParamDefaultNoiseDecay      = .5f;
+	// MASTER SECTION
+	const float kParamDefaultMasterMix       = 0.5f;
+	const float kParamDefaultMasterEqFreq    = 1000.f;
+	const float kParamDefaultMasterEqGain    = 0.f;
+	const float kParamDefaultMasterDistort   = 0.f;
+	const float kParamDefaultMasterLevel     = 1.f;
+	const float kParamDefaultMasterPan       = 0.f;
+
+	//==============================================================================
+	void initValueTree();
+	void initSynth();
 
 	//==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PatSynthAudioProcessor)

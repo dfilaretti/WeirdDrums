@@ -13,7 +13,7 @@
 
 //==============================================================================
 PatSynthAudioProcessorEditor::PatSynthAudioProcessorEditor (PatSynthAudioProcessor& p)
-    : AudioProcessorEditor (&p), processor (p), oscGui (p), envGui (p), filterGui (p), keyboardComponent(keyboardState, MidiKeyboardComponent::horizontalKeyboard)
+    : AudioProcessorEditor (&p), processor (p), oscGui (p), envGui (p), filterGui (p)
 {
     setSize (kWidth, kHeight);
 
@@ -41,4 +41,3 @@ void PatSynthAudioProcessorEditor::resized()
 	filterGui.setBounds(area.removeFromLeft(kSectionWidth).removeFromTop(kSectionHeight));
 	envGui.setBounds(area.removeFromLeft(kSectionWidth).removeFromTop(kSectionHeight));
 }
-
