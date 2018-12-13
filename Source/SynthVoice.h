@@ -21,8 +21,11 @@ public:
 	{
 		
 		m_oscAmpEnv.setSampleRate(spec.sampleRate / m_modulationUpdateRate); // TODO: change this value to something "real"!
+		m_noiseAmpEnv.setSampleRate(spec.sampleRate / m_modulationUpdateRate); // TODO: change this value to something "real"!
+		
 		auto f = 1.0f;
-		m_oscAmpEnv.setParameters({ 0.001f * f, 0.5f * f, 0.1f * f, 0.2f * f});
+		m_oscAmpEnv.setParameters({ 0.001f * f, 0.5f * f, 0.1f * f, 0.2f * f });
+		m_noiseAmpEnv.setParameters({ 0.001f * f, 0.5f * f, 0.1f * f, 0.2f * f});
 
 
 		// init buffers
@@ -39,6 +42,9 @@ public:
 		pitchLfo.initialise([](float x) { return std::sin(x); }, 128);
 		auto pitchLfoFactor = 0.01; // TODO: remove eventually!!!
 		pitchLfo.prepare({ spec.sampleRate * pitchLfoFactor, spec.maximumBlockSize, spec.numChannels });
+
+
+
 	}
 
 	//==============================================================================
@@ -68,7 +74,7 @@ public:
 	}
 
 	// NOISE SECTION
-	
+
 	void getNoiseFilterParams (float* type, float* cutoff, float* res)
 	{
 		filterType   = *type;
@@ -119,6 +125,13 @@ public:
 		//oscSectionProcessorChain.get<oscSectionEnvelopeIndex>().setRelease(0.0f);
 	}
 
+	void setNoiseOscWaveform()
+	{
+		// init noise oscillator
+		noiseSectionProcessorChain.get<noiseSectionOscIndex>().setWaveform(Oscillator::noise);
+		/*noiseSectionProcessorChain.get<noiseSectionOscIndex>().setLevel(1);*/
+	}
+
 	void setNoiseAmpEnv()
 	{
 
@@ -136,9 +149,8 @@ public:
 	{
 		// TODO: this should be white noise
 		// TODO: move away from here
-		noiseSectionProcessorChain.get<noiseSectionOscIndex>().setWaveform(Oscillator::noise);
-		noiseSectionProcessorChain.get<noiseSectionOscIndex>().setLevel(1);
-		//noiseSectionProcessorChain.get<noiseSectionOscIndex>().setFrequency(65.0, true);
+		//noiseSectionProcessorChain.get<noiseSectionOscIndex>().setWaveform(Oscillator::noise);
+		//noiseSectionProcessorChain.get<noiseSectionOscIndex>().setLevel(1);
 	
 		switch (oscWaveform)
 		{
@@ -213,14 +225,16 @@ public:
 		int currentPitchWheelPosition) override
 	{
 		m_oscAmpEnv.noteOn();
-		
-		oscVelocity = velocity;
+		m_noiseAmpEnv.noteOn();
+
+		m_currentNoteVelocity = velocity;
 		currentNoteFrequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
 	}
 	
 	void stopNote(float velocity, bool allowTailOff) override
 	{
 		m_oscAmpEnv.noteOff();
+		m_noiseAmpEnv.noteOff();
 
 		allowTailOff = true; // ?
 
@@ -249,7 +263,6 @@ public:
 		noiseSectionOutput.clear();
 		masterSectionOutput.clear();
 
-
 		// MASTER section 
 		// =============================
 		// =============================
@@ -277,16 +290,21 @@ public:
 
 				setOscWaveform();
 				auto currentAmpEnv = m_oscAmpEnv.getNextSample();
-				auto oscLevel      = currentAmpEnv * oscVelocity;
-				oscFrequency       
-					= currentNoteFrequency;
+				auto oscLevel      = currentAmpEnv * m_currentNoteVelocity;
+				oscFrequency       = currentNoteFrequency;
 				setOscFreq (oscFrequency, oscLevel);
 
 				// NOISE section 
 				// =============================
 
+				setNoiseOscWaveform();
 				setNoiseFilter();
-				
+				auto currentNoiseEnv = m_noiseAmpEnv.getNextSample();
+				auto noiseLevel = currentNoiseEnv * m_currentNoteVelocity;
+				noiseSectionProcessorChain.get<noiseSectionOscIndex>().setLevel(noiseLevel);
+
+
+				// ---
 				m_modulationUpdateCounter = m_modulationUpdateRate;
 			}
 			
@@ -323,11 +341,11 @@ private:
 
 	//==============================================================================
 	ADSR m_oscAmpEnv;
+	ADSR m_oscPitchEnv;
+	ADSR m_noiseAmpEnv;
 
 	//==============================================================================
 	typedef Oscillator<float> Oscillator;
-	
-	//typedef AdsrEnvelope<float> Envelope;
 	
 	typedef 
 		dsp::ProcessorDuplicator<dsp::StateVariableFilter::Filter<float>, 
@@ -369,9 +387,11 @@ private:
 	
 	//==============================================================================
 	
+	double m_currentNoteVelocity;
+
 	// OSC 
 
-	double oscVelocity, oscFrequency, currentNoteFrequency;
+	double oscFrequency, currentNoteFrequency;
 	int oscWaveform;
 	float pitchEnvAmount, pitchEnvRate;
 	float pitchLfoAmount, pitchLfoRate;
