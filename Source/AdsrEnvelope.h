@@ -10,7 +10,7 @@
 
 #pragma once
 #include "../JuceLibraryCode/JuceHeader.h"
-#include "Maximilian.h"
+//#include "Maximilian.h"
 
 template <typename Type>
 class AdsrEnvelope

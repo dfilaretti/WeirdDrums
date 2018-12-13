@@ -12,7 +12,6 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SynthSound.h"
 #include "Oscillator.h"
-#include "AdsrEnvelope.h"
 
 class SynthVoice : public SynthesiserVoice
 {
@@ -20,6 +19,11 @@ public:
 	//==============================================================================
 	void prepare(const juce::dsp::ProcessSpec& spec)
 	{
+		
+		m_oscAmpEnv.setSampleRate(440); // TODO: change this value to something "real"!
+		m_oscAmpEnv.setParameters({ 0.1f,0.5f,0.1f,5.0f });
+
+
 		// init buffers
 		oscSectionBlock    = juce::dsp::AudioBlock<float>(oscSectionHeapBlock,    spec.numChannels, spec.maximumBlockSize);
 		noiseSectionBlock  = juce::dsp::AudioBlock<float>(noiseSectionHeapBlock,  spec.numChannels, spec.maximumBlockSize);
@@ -104,24 +108,27 @@ public:
 	//==============================================================================
 	void setOscAmpEnv() 
 	{
-		oscSectionProcessorChain.get<oscSectionEnvelopeIndex>().setAttack(envAttack);
-		oscSectionProcessorChain.get<oscSectionEnvelopeIndex>().setDecay(envDecay);
+
+		//oscSectionProcessorChain.get<oscSectionEnvelopeIndex>().setAttack(envAttack);
+		//oscSectionProcessorChain.get<oscSectionEnvelopeIndex>().setDecay(envDecay);
 		// Although we are using a full ADSR envelope, we use it as an AD  (Attack/Decay) , 
 		// therefore we set Sustain and Release to 0. 
 		// TODO: actually make a ADEnvelope class. 
-		oscSectionProcessorChain.get<oscSectionEnvelopeIndex>().setSustain(0.0f);
-		oscSectionProcessorChain.get<oscSectionEnvelopeIndex>().setRelease(0.0f);
+		//oscSectionProcessorChain.get<oscSectionEnvelopeIndex>().setSustain(0.0f);
+		//oscSectionProcessorChain.get<oscSectionEnvelopeIndex>().setRelease(0.0f);
 	}
 
 	void setNoiseAmpEnv()
 	{
-		noiseSectionProcessorChain.get<noiseSectionEnvelopeIndex>().setAttack(noiseEnvAttack);
-		noiseSectionProcessorChain.get<noiseSectionEnvelopeIndex>().setDecay(noiseEnvDecay);
+
+
+		//noiseSectionProcessorChain.get<noiseSectionEnvelopeIndex>().setAttack(noiseEnvAttack);
+		//noiseSectionProcessorChain.get<noiseSectionEnvelopeIndex>().setDecay(noiseEnvDecay);
 		// Although we are using a full ADSR envelope, we use it as an AD  (Attack/Decay) , 
 		// therefore we set Sustain and Release to 0. 
 		// TODO: actually make a ADEnvelope class. 
-		noiseSectionProcessorChain.get<noiseSectionEnvelopeIndex>().setSustain(0.0f);
-		noiseSectionProcessorChain.get<noiseSectionEnvelopeIndex>().setRelease(0.0f);
+		//noiseSectionProcessorChain.get<noiseSectionEnvelopeIndex>().setSustain(0.0f);
+		//noiseSectionProcessorChain.get<noiseSectionEnvelopeIndex>().setRelease(0.0f);
 	}
 
 	void setOscWaveform()
@@ -184,10 +191,10 @@ public:
 		auto pitchEnvFactor = 0.01; // TODO: remove this one after sample rate fixed
 		auto pitchEnvDecay = pitchEnvRate * pitchEnvFactor;
 
-		pitchEnv.setDecay(pitchEnvDecay);
-		pitchEnv.setAttack(0.0f);
-		pitchEnv.setSustain(0.0f);
-		pitchEnv.setRelease(0.0f);
+		//pitchEnv.setDecay(pitchEnvDecay);
+		//pitchEnv.setAttack(0.0f);
+		//pitchEnv.setSustain(0.0f);
+		//pitchEnv.setRelease(0.0f);
 	}
 
 	void setOscPitchLfo()
@@ -204,9 +211,11 @@ public:
 	void startNote(int midiNoteNumber, float velocity, SynthesiserSound* sound,
 		int currentPitchWheelPosition) override
 	{
-		pitchEnv.trigger = 1;
-		oscSectionProcessorChain.get<oscSectionEnvelopeIndex>().setTrigger(1);
-		noiseSectionProcessorChain.get<noiseSectionEnvelopeIndex>().setTrigger(1);
+		m_oscAmpEnv.noteOn();
+
+		//pitchEnv.trigger = 1;
+		//oscSectionProcessorChain.get<oscSectionEnvelopeIndex>().setTrigger(1);
+		//noiseSectionProcessorChain.get<noiseSectionEnvelopeIndex>().setTrigger(1);
 		
 		oscLevel = velocity;
 		currentNoteFrequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
@@ -214,9 +223,11 @@ public:
 	
 	void stopNote(float velocity, bool allowTailOff) override
 	{
-		pitchEnv.trigger = 0;
-		oscSectionProcessorChain.get<oscSectionEnvelopeIndex>().setTrigger (0);
-		noiseSectionProcessorChain.get<noiseSectionEnvelopeIndex>().setTrigger (0);
+		m_oscAmpEnv.noteOff();
+
+		//pitchEnv.trigger = 0;
+		//oscSectionProcessorChain.get<oscSectionEnvelopeIndex>().setTrigger (0);
+		//noiseSectionProcessorChain.get<noiseSectionEnvelopeIndex>().setTrigger (0);
 
 		allowTailOff = true; // ?
 
@@ -259,7 +270,12 @@ public:
 		applyPitchLfo();
 		applyPitchEnv();
 		oscFrequency = jlimit<float>(0.0f, 20000.0, oscFrequency);
-		// set osc freqency
+		
+		// calculate osc amp (w/ modulation)
+		auto currentAmpEnv = m_oscAmpEnv.getNextSample();
+		oscLevel *= currentAmpEnv;
+
+		// set osc freqency + level
 		setOscFreq(oscFrequency, oscLevel);
 		// process this block! 
 		oscSectionProcessorChain.process (oscSectionContext);
@@ -276,7 +292,6 @@ public:
 
 		setNoiseFilter();
 		setNoiseAmpEnv();
-		// set stuff
 		noiseSectionProcessorChain.process(noiseSectionContext);
 
 		// MASTER section 
@@ -311,10 +326,12 @@ public:
 	}
 
 private:
+	ADSR m_oscAmpEnv;
+
 	//==============================================================================
 	typedef Oscillator<float> Oscillator;
 	
-	typedef AdsrEnvelope<float> Envelope;
+	//typedef AdsrEnvelope<float> Envelope;
 	
 	typedef 
 		dsp::ProcessorDuplicator<dsp::StateVariableFilter::Filter<float>, 
@@ -323,14 +340,14 @@ private:
 	enum OscSection
 	{
 		oscSectionOscIndex,
-		oscSectionEnvelopeIndex
+		//oscSectionEnvelopeIndex
 	};
 
 	enum NoiseSection
 	{
 		noiseSectionOscIndex,
 		noiseSectionFilterIndex,
-		noiseSectionEnvelopeIndex
+		//noiseSectionEnvelopeIndex
 	};
 
 	//==============================================================================
@@ -346,12 +363,12 @@ private:
 	//==============================================================================
 	// TODO: are we sure the amp envelope should be here?
 	//       shouldn't it be a control rate envelope?
-	juce::dsp::ProcessorChain<Oscillator, Envelope> oscSectionProcessorChain;
-	juce::dsp::ProcessorChain<Oscillator, Filter, Envelope> noiseSectionProcessorChain; // TODO
+	juce::dsp::ProcessorChain<Oscillator> oscSectionProcessorChain;
+	juce::dsp::ProcessorChain<Oscillator, Filter> noiseSectionProcessorChain; // TODO
 	juce::dsp::ProcessorChain<Filter> masterSectionProcessorChain; // TODO
 
 	//==============================================================================
-	maxiEnv pitchEnv;
+	//maxiEnv pitchEnv;
 	juce::dsp::Oscillator<float> pitchLfo;
 	
 	//==============================================================================
@@ -385,9 +402,9 @@ private:
 
 	void applyPitchEnv()
 	{
-		auto pitchEnvDepth = pitchEnvAmount;
+		/*auto pitchEnvDepth = pitchEnvAmount;
 
 		float pitchEnvOut = pitchEnv.adsr(1.0f, pitchEnv.trigger);	
-		oscFrequency = oscFrequency + (pitchEnvOut * pitchEnvDepth);
+		oscFrequency = oscFrequency + (pitchEnvOut * pitchEnvDepth);*/
 	}
 };
