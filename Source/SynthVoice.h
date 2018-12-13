@@ -22,7 +22,7 @@ public:
 		
 		m_oscAmpEnv.setSampleRate(spec.sampleRate / m_modulationUpdateRate); // TODO: change this value to something "real"!
 		auto f = 1.0f;
-		m_oscAmpEnv.setParameters({ 0.1f * f, 0.5f * f, 0.1f * f, 5.0f * f});
+		m_oscAmpEnv.setParameters({ 0.001f * f, 0.5f * f, 0.1f * f, 0.2f * f});
 
 
 		// init buffers
@@ -137,8 +137,8 @@ public:
 		// TODO: this should be white noise
 		// TODO: move away from here
 		noiseSectionProcessorChain.get<noiseSectionOscIndex>().setWaveform(Oscillator::noise);
-		noiseSectionProcessorChain.get<noiseSectionOscIndex>().setLevel(10);
-		noiseSectionProcessorChain.get<noiseSectionOscIndex>().setFrequency(65.0, true);
+		noiseSectionProcessorChain.get<noiseSectionOscIndex>().setLevel(1);
+		//noiseSectionProcessorChain.get<noiseSectionOscIndex>().setFrequency(65.0, true);
 	
 		switch (oscWaveform)
 		{
@@ -260,16 +260,12 @@ public:
 			auto max = jmin(static_cast<size_t> (numSamples - pos), m_modulationUpdateCounter);
 
 			auto oscBlock    = oscSectionOutput.getSubBlock(pos, max);
-			//auto noiseBlock  = noiseSectionOutput.getSubBlock (pos, max);
-			//auto masterBlock = masterSectionOutput.getSubBlock(pos, max);
+			auto noiseBlock  = noiseSectionOutput.getSubBlock (pos, max);
+			auto masterBlock = masterSectionOutput.getSubBlock(pos, max);
 
 			juce::dsp::ProcessContextReplacing<float> oscSectionContext (oscBlock);
-			//juce::dsp::ProcessContextReplacing<float> noiseSectionContext (noiseBlock);
-			//juce::dsp::ProcessContextReplacing<float> masterSectionContext (masterBlock);
-
-			oscSectionProcessorChain.process (oscSectionContext);
-			//noiseSectionProcessorChain.process (noiseSectionContext);
-			//masterSectionProcessorChain.process (masterSectionContext);
+			juce::dsp::ProcessContextReplacing<float> noiseSectionContext (noiseBlock);
+			juce::dsp::ProcessContextReplacing<float> masterSectionContext (masterBlock);
 			
 			pos += max;
 			m_modulationUpdateCounter -= max;
@@ -282,40 +278,42 @@ public:
 				setOscWaveform();
 				auto currentAmpEnv = m_oscAmpEnv.getNextSample();
 				auto oscLevel      = currentAmpEnv * oscVelocity;
-				oscFrequency = currentNoteFrequency;
+				oscFrequency       
+					= currentNoteFrequency;
 				setOscFreq (oscFrequency, oscLevel);
 
 				// NOISE section 
 				// =============================
 
-				//setNoiseFilter();
+				setNoiseFilter();
 				
 				m_modulationUpdateCounter = m_modulationUpdateRate;
 			}
 			
+			oscSectionProcessorChain.process (oscSectionContext);
+			noiseSectionProcessorChain.process (noiseSectionContext);
+			masterSectionProcessorChain.process (masterSectionContext);
+
 			// scale OSC and NOISE according to the MIX param
-			//oscSectionBlock.multiply (1 - mix);
-			//noiseSectionBlock.multiply (mix);
+			
+			oscBlock.multiply (1 - mix);
+			noiseBlock.multiply (mix);
 
 			// sum OSC and NOISE sections
-			//masterSectionOutput
-				//.add(oscSectionBlock);
-				//.add(noiseSectionBlock);
+			masterBlock
+				.add(oscBlock)
+				.add(noiseBlock);
 
 			// apply MASTER level
 			// TODO: make it in DB?
-			//masterSectionBlock.multiply (level);
-			
-
-			// ---
-
+			masterBlock.multiply (level);
 		
 		}
 
 
 		juce::dsp::AudioBlock<float> (outputBuffer)
 			.getSubBlock ((size_t)startSample, (size_t)numSamples)
-			.add (oscSectionBlock);
+			.add (masterSectionBlock);
 	}
 
 private:
