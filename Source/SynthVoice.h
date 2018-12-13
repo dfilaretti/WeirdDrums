@@ -20,8 +20,9 @@ public:
 	void prepare(const juce::dsp::ProcessSpec& spec)
 	{
 		
-		m_oscAmpEnv.setSampleRate(440); // TODO: change this value to something "real"!
-		m_oscAmpEnv.setParameters({ 0.1f,0.5f,0.1f,5.0f });
+		m_oscAmpEnv.setSampleRate(spec.sampleRate / m_modulationUpdateRate); // TODO: change this value to something "real"!
+		auto f = 1.0f;
+		m_oscAmpEnv.setParameters({ 0.1f * f, 0.5f * f, 0.1f * f, 5.0f * f});
 
 
 		// init buffers
@@ -199,7 +200,7 @@ public:
 
 	void setOscPitchLfo()
 	{
-		pitchLfo.setFrequency(pitchLfoRate, true);
+		//pitchLfo.setFrequency(pitchLfoRate, true);
 	}
 
 	//==============================================================================
@@ -212,22 +213,14 @@ public:
 		int currentPitchWheelPosition) override
 	{
 		m_oscAmpEnv.noteOn();
-
-		//pitchEnv.trigger = 1;
-		//oscSectionProcessorChain.get<oscSectionEnvelopeIndex>().setTrigger(1);
-		//noiseSectionProcessorChain.get<noiseSectionEnvelopeIndex>().setTrigger(1);
 		
-		oscLevel = velocity;
+		oscVelocity = velocity;
 		currentNoteFrequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
 	}
 	
 	void stopNote(float velocity, bool allowTailOff) override
 	{
 		m_oscAmpEnv.noteOff();
-
-		//pitchEnv.trigger = 0;
-		//oscSectionProcessorChain.get<oscSectionEnvelopeIndex>().setTrigger (0);
-		//noiseSectionProcessorChain.get<noiseSectionEnvelopeIndex>().setTrigger (0);
 
 		allowTailOff = true; // ?
 
@@ -247,85 +240,90 @@ public:
 
 	void renderNextBlock (AudioBuffer<float> &outputBuffer, int startSample, int numSamples) override
 	{
-		// NOTE: how often should we calculate modulations? Now this is done once per block. 
-		//       Before this commit, it was done more often. What's best? Should probably test 
-		//       in a DAW and observe performance, sound quality etc. Sticking to this now, as it's simpler. 
 
-		// OSC section 
-		// =============================
-		// =============================
-		// =============================
-
-		// set things up
-		auto oscSectionOutput = oscSectionBlock.getSubBlock(0, (size_t)numSamples);
+		auto oscSectionOutput    = oscSectionBlock.getSubBlock(0, (size_t)numSamples);
+		auto noiseSectionOutput  = noiseSectionBlock.getSubBlock(0, (size_t)numSamples);
+		auto masterSectionOutput = masterSectionBlock.getSubBlock(0, (size_t)numSamples);
+		
 		oscSectionOutput.clear();
-		juce::dsp::ProcessContextReplacing<float> oscSectionContext (oscSectionOutput);
-		// set processors with params
-		setOscWaveform();
-		setOscAmpEnv();
-		setOscPitchEnv();
-		setOscPitchLfo();
-		// calculate osc frequency (w/ modulation)
-		oscFrequency = currentNoteFrequency;
-		applyPitchLfo();
-		applyPitchEnv();
-		oscFrequency = jlimit<float>(0.0f, 20000.0, oscFrequency);
-		
-		// calculate osc amp (w/ modulation)
-		auto currentAmpEnv = m_oscAmpEnv.getNextSample();
-		oscLevel *= currentAmpEnv;
-
-		// set osc freqency + level
-		setOscFreq(oscFrequency, oscLevel);
-		// process this block! 
-		oscSectionProcessorChain.process (oscSectionContext);
-
-		// NOISE section 
-		// =============================
-		// =============================
-		// =============================
-		
-		// set things up
-		auto noiseSectionOutput = noiseSectionBlock.getSubBlock(0, (size_t)numSamples);
 		noiseSectionOutput.clear();
-		juce::dsp::ProcessContextReplacing<float> noiseSectionContext(noiseSectionOutput);
+		masterSectionOutput.clear();
 
-		setNoiseFilter();
-		setNoiseAmpEnv();
-		noiseSectionProcessorChain.process(noiseSectionContext);
 
 		// MASTER section 
 		// =============================
 		// =============================
 		// =============================
 
-		// scale OSC and NOISE according to the MIX param
-		oscSectionBlock.multiply (1 - mix);
-		noiseSectionBlock.multiply (mix);
+		for (size_t pos = 0; pos < numSamples;)
+		{
+			auto max = jmin(static_cast<size_t> (numSamples - pos), m_modulationUpdateCounter);
 
-		// set things up
-		auto masterSectionOutput = masterSectionBlock.getSubBlock(0, (size_t)numSamples);
-		masterSectionOutput.clear();
-		juce::dsp::ProcessContextReplacing<float> masterSectionContext(masterSectionOutput);
+			auto oscBlock    = oscSectionOutput.getSubBlock(pos, max);
+			//auto noiseBlock  = noiseSectionOutput.getSubBlock (pos, max);
+			//auto masterBlock = masterSectionOutput.getSubBlock(pos, max);
 
-		// sum OSC and NOISE sections
-		masterSectionOutput
-			.add(oscSectionBlock)
-			.add(noiseSectionBlock);
+			juce::dsp::ProcessContextReplacing<float> oscSectionContext (oscBlock);
+			//juce::dsp::ProcessContextReplacing<float> noiseSectionContext (noiseBlock);
+			//juce::dsp::ProcessContextReplacing<float> masterSectionContext (masterBlock);
 
-		// apply MASTER level
-		// TODO: make it in DB?
-		masterSectionBlock.multiply (level);
+			oscSectionProcessorChain.process (oscSectionContext);
+			//noiseSectionProcessorChain.process (noiseSectionContext);
+			//masterSectionProcessorChain.process (masterSectionContext);
+			
+			pos += max;
+			m_modulationUpdateCounter -= max;
+		
+			if (m_modulationUpdateCounter == 0)
+			{
+				// OSC section 
+				// =============================
 
-		// TODO: global level, EQ, distortion etc. 
-		masterSectionProcessorChain.process (masterSectionContext);
+				setOscWaveform();
+				auto currentAmpEnv = m_oscAmpEnv.getNextSample();
+				auto oscLevel      = currentAmpEnv * oscVelocity;
+				oscFrequency = currentNoteFrequency;
+				setOscFreq (oscFrequency, oscLevel);
 
-		juce::dsp::AudioBlock<float>(outputBuffer)
-			.getSubBlock((size_t)startSample, (size_t)numSamples)
-			.add(masterSectionBlock);
+				// NOISE section 
+				// =============================
+
+				//setNoiseFilter();
+				
+				m_modulationUpdateCounter = m_modulationUpdateRate;
+			}
+			
+			// scale OSC and NOISE according to the MIX param
+			//oscSectionBlock.multiply (1 - mix);
+			//noiseSectionBlock.multiply (mix);
+
+			// sum OSC and NOISE sections
+			//masterSectionOutput
+				//.add(oscSectionBlock);
+				//.add(noiseSectionBlock);
+
+			// apply MASTER level
+			// TODO: make it in DB?
+			//masterSectionBlock.multiply (level);
+			
+
+			// ---
+
+		
+		}
+
+
+		juce::dsp::AudioBlock<float> (outputBuffer)
+			.getSubBlock ((size_t)startSample, (size_t)numSamples)
+			.add (oscSectionBlock);
 	}
 
 private:
+	//==============================================================================
+	static constexpr size_t m_modulationUpdateRate = 10;
+	size_t m_modulationUpdateCounter = m_modulationUpdateRate;
+
+	//==============================================================================
 	ADSR m_oscAmpEnv;
 
 	//==============================================================================
@@ -375,7 +373,7 @@ private:
 	
 	// OSC 
 
-	double oscLevel, oscFrequency, currentNoteFrequency;
+	double oscVelocity, oscFrequency, currentNoteFrequency;
 	int oscWaveform;
 	float pitchEnvAmount, pitchEnvRate;
 	float pitchLfoAmount, pitchLfoRate;
