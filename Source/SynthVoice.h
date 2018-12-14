@@ -19,18 +19,12 @@ public:
 	//==============================================================================
 	void prepare(const juce::dsp::ProcessSpec& spec)
 	{
-		
-		m_oscAmpEnv.setSampleRate(spec.sampleRate / m_modulationUpdateRate); // TODO: change this value to something "real"!
-		m_noiseAmpEnv.setSampleRate(spec.sampleRate / m_modulationUpdateRate); // TODO: change this value to something "real"!
-		
-		auto f = 1.0f;
-		m_oscAmpEnv.setParameters({ 0.001f * f, 0.5f * f, 0.1f * f, 0.2f * f });
-		m_noiseAmpEnv.setParameters({ 0.001f * f, 0.5f * f, 0.1f * f, 0.2f * f});
-
+		m_oscAmpEnv.setParameters ({ 0.001f, 0.5f, 0.1f, 0.2f  });
+		m_noiseAmpEnv.setParameters ({ 0.001f, 0.5f, 0.1f, 0.2f });
 
 		// init buffers
-		oscSectionBlock    = juce::dsp::AudioBlock<float>(oscSectionHeapBlock,    spec.numChannels, spec.maximumBlockSize);
-		noiseSectionBlock  = juce::dsp::AudioBlock<float>(noiseSectionHeapBlock,  spec.numChannels, spec.maximumBlockSize);
+		oscSectionBlock    = juce::dsp::AudioBlock<float>(oscSectionHeapBlock, spec.numChannels, spec.maximumBlockSize);
+		noiseSectionBlock  = juce::dsp::AudioBlock<float>(noiseSectionHeapBlock, spec.numChannels, spec.maximumBlockSize);
 		masterSectionBlock = juce::dsp::AudioBlock<float>(masterSectionHeapBlock, spec.numChannels, spec.maximumBlockSize);
 		
 		// prepare processing chains
@@ -39,12 +33,12 @@ public:
 		masterSectionProcessorChain.prepare(spec);
 
 		// init modulation
+		m_oscAmpEnv.setSampleRate(spec.sampleRate / m_modulationUpdateRate);
+		m_noiseAmpEnv.setSampleRate(spec.sampleRate / m_modulationUpdateRate);
+		m_oscPitchEnv.setSampleRate(spec.sampleRate / m_modulationUpdateRate);
+		
 		pitchLfo.initialise([](float x) { return std::sin(x); }, 128);
-		auto pitchLfoFactor = 0.01; // TODO: remove eventually!!!
-		pitchLfo.prepare({ spec.sampleRate * pitchLfoFactor, spec.maximumBlockSize, spec.numChannels });
-
-
-
+		pitchLfo.prepare({ spec.sampleRate / m_modulationUpdateRate, spec.maximumBlockSize, spec.numChannels });
 	}
 
 	//==============================================================================
@@ -85,7 +79,7 @@ public:
 	void getNoiseEnvelopeParams (float* attack, float* decay)
 	{
 		noiseEnvAttack = *attack;
-		noiseEnvDecay = *decay;
+		noiseEnvDecay  = *decay;
 	}
 
 	// MASTER SECTION
@@ -109,110 +103,19 @@ public:
 	void getMasterLevelAndPanParams(float* level, float* pan)
 	{
 		this->level = *level;
-		this->pan = *pan;
+		this->pan   = *pan;
 	}
 	
 	//==============================================================================
-	void setOscAmpEnv() 
-	{
-
-		//oscSectionProcessorChain.get<oscSectionEnvelopeIndex>().setAttack(envAttack);
-		//oscSectionProcessorChain.get<oscSectionEnvelopeIndex>().setDecay(envDecay);
-		// Although we are using a full ADSR envelope, we use it as an AD  (Attack/Decay) , 
-		// therefore we set Sustain and Release to 0. 
-		// TODO: actually make a ADEnvelope class. 
-		//oscSectionProcessorChain.get<oscSectionEnvelopeIndex>().setSustain(0.0f);
-		//oscSectionProcessorChain.get<oscSectionEnvelopeIndex>().setRelease(0.0f);
-	}
-
-	void setNoiseOscWaveform()
-	{
-		// init noise oscillator
-		noiseSectionProcessorChain.get<noiseSectionOscIndex>().setWaveform(Oscillator::noise);
-		/*noiseSectionProcessorChain.get<noiseSectionOscIndex>().setLevel(1);*/
-	}
-
-	void setNoiseAmpEnv()
-	{
-
-
-		//noiseSectionProcessorChain.get<noiseSectionEnvelopeIndex>().setAttack(noiseEnvAttack);
-		//noiseSectionProcessorChain.get<noiseSectionEnvelopeIndex>().setDecay(noiseEnvDecay);
-		// Although we are using a full ADSR envelope, we use it as an AD  (Attack/Decay) , 
-		// therefore we set Sustain and Release to 0. 
-		// TODO: actually make a ADEnvelope class. 
-		//noiseSectionProcessorChain.get<noiseSectionEnvelopeIndex>().setSustain(0.0f);
-		//noiseSectionProcessorChain.get<noiseSectionEnvelopeIndex>().setRelease(0.0f);
-	}
-
-	void setOscWaveform()
-	{
-		// TODO: this should be white noise
-		// TODO: move away from here
-		//noiseSectionProcessorChain.get<noiseSectionOscIndex>().setWaveform(Oscillator::noise);
-		//noiseSectionProcessorChain.get<noiseSectionOscIndex>().setLevel(1);
-	
-		switch (oscWaveform)
-		{
-		case 0:
-			oscSectionProcessorChain.get<oscSectionOscIndex>().setWaveform(Oscillator::sine);
-			break;
-		case 1:
-			oscSectionProcessorChain.get<oscSectionOscIndex>().setWaveform (Oscillator::saw);
-			break;
-		case 2:
-			oscSectionProcessorChain.get<oscSectionOscIndex>().setWaveform(Oscillator::square);
-			break;
-		}
-	}
-
-	void setOscFreq(float freq, float vel)
-	{
-		oscSectionProcessorChain.get<oscSectionOscIndex>().setFrequency(freq, true);
-		oscSectionProcessorChain.get<oscSectionOscIndex>().setLevel(vel);
-	}
-
-	void setNoiseFilter()
-	{
-		auto sr = getSampleRate();
-		auto& stateVariableFilter = noiseSectionProcessorChain.get<noiseSectionFilterIndex>();
-
-		switch (filterType)
-		{
-		case 0:
-			stateVariableFilter.state->type =
-				dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
-			break;
-		case 1:
-			stateVariableFilter.state->type =
-				dsp::StateVariableFilter::Parameters<float>::Type::highPass;
-			break;
-		case 2:
-			stateVariableFilter.state->type =
-				dsp::StateVariableFilter::Parameters<float>::Type::bandPass;
-			break;
-		default:
-			stateVariableFilter.state->type =
-				dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
-		}
-
-		stateVariableFilter.state->setCutOffFrequency(sr, filterCutoff, filterRes);
-	}
 
 	void setOscPitchEnv()
 	{
-		auto pitchEnvFactor = 0.01; // TODO: remove this one after sample rate fixed
-		auto pitchEnvDecay = pitchEnvRate * pitchEnvFactor;
+		auto pitchEnvDecay = pitchEnvRate;
 
 		//pitchEnv.setDecay(pitchEnvDecay);
 		//pitchEnv.setAttack(0.0f);
 		//pitchEnv.setSustain(0.0f);
 		//pitchEnv.setRelease(0.0f);
-	}
-
-	void setOscPitchLfo()
-	{
-		//pitchLfo.setFrequency(pitchLfoRate, true);
 	}
 
 	//==============================================================================
@@ -226,17 +129,17 @@ public:
 	{
 		m_oscAmpEnv.noteOn();
 		m_noiseAmpEnv.noteOn();
+		m_oscPitchEnv.noteOn();
 
 		m_currentNoteVelocity = velocity;
 		currentNoteFrequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
 	}
 	
-	void stopNote(float velocity, bool allowTailOff) override
+	void stopNote(float velocity, bool allowTailOf) override
 	{
 		m_oscAmpEnv.noteOff();
 		m_noiseAmpEnv.noteOff();
-
-		allowTailOff = true; // ?
+		m_oscPitchEnv.noteOff();
 
 		if (velocity = 0)
 			clearCurrentNote(); // so that voice can be reused
@@ -244,17 +147,14 @@ public:
 
 	void pitchWheelMoved (int newPitchWheelValue) override
 	{
-
 	}
 
 	void controllerMoved (int controllerNumber, int newControllerValue) override
 	{
-
 	}
 
 	void renderNextBlock (AudioBuffer<float> &outputBuffer, int startSample, int numSamples) override
 	{
-
 		auto oscSectionOutput    = oscSectionBlock.getSubBlock(0, (size_t)numSamples);
 		auto noiseSectionOutput  = noiseSectionBlock.getSubBlock(0, (size_t)numSamples);
 		auto masterSectionOutput = masterSectionBlock.getSubBlock(0, (size_t)numSamples);
@@ -288,46 +188,77 @@ public:
 				// OSC section 
 				// =============================
 
-				setOscWaveform();
+				// amp modulation
+				m_oscAmpEnv.setParameters({ envAttack, envDecay, 0, 0 });
 				auto currentAmpEnv = m_oscAmpEnv.getNextSample();
 				auto oscLevel      = currentAmpEnv * m_currentNoteVelocity;
+
 				oscFrequency       = currentNoteFrequency;
-				setOscFreq (oscFrequency, oscLevel);
+				
+				// pitch LFO
+				pitchLfo.setFrequency (pitchLfoRate, true);
+				auto pitchLfoOut = pitchLfo.processSample (0.0f);
+				oscFrequency = oscFrequency + (pitchLfoOut * pitchLfoAmount);
+
+				// pitch env
+				m_oscPitchEnv.setParameters ({ 0.001, pitchEnvRate, 0, 0 });
+				auto pitchEnvDepth = pitchEnvAmount;
+				float pitchEnvOut = m_oscPitchEnv.getNextSample();
+				oscFrequency = oscFrequency + (pitchEnvOut * pitchEnvDepth);
+
+				// update osc with computed params
+				oscSectionProcessorChain.get<oscSectionOscIndex>().setWaveform (oscWaveform);
+				oscSectionProcessorChain.get<oscSectionOscIndex>().setFrequency (oscFrequency, true);
+				oscSectionProcessorChain.get<oscSectionOscIndex>().setLevel (oscLevel);
 
 				// NOISE section 
 				// =============================
 
-				setNoiseOscWaveform();
-				setNoiseFilter();
+				noiseSectionProcessorChain.get<noiseSectionOscIndex>().setWaveform (Oscillator::noise);
+				
+				{
+					auto sr = getSampleRate();
+					auto& filter = noiseSectionProcessorChain.get<noiseSectionFilterIndex>();
+
+					switch (filterType)
+					{
+					case 0:
+						filter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
+						break;
+					case 1:
+						filter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::highPass;
+						break;
+					case 2:
+						filter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::bandPass;
+						break;
+					default:
+						filter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
+					}
+
+					filter.state->setCutOffFrequency(sr, filterCutoff, filterRes);
+				}
+				
+				m_noiseAmpEnv.setParameters({ noiseEnvAttack, noiseEnvDecay, 0, 0 });
 				auto currentNoiseEnv = m_noiseAmpEnv.getNextSample();
 				auto noiseLevel = currentNoiseEnv * m_currentNoteVelocity;
-				noiseSectionProcessorChain.get<noiseSectionOscIndex>().setLevel(noiseLevel);
+				noiseSectionProcessorChain.get<noiseSectionOscIndex>().setLevel (noiseLevel);
 
-
-				// ---
 				m_modulationUpdateCounter = m_modulationUpdateRate;
 			}
 			
+			// process
 			oscSectionProcessorChain.process (oscSectionContext);
 			noiseSectionProcessorChain.process (noiseSectionContext);
 			masterSectionProcessorChain.process (masterSectionContext);
 
-			// scale OSC and NOISE according to the MIX param
-			
+			// mix osc/noise sections
 			oscBlock.multiply (1 - mix);
 			noiseBlock.multiply (mix);
+			masterBlock.add (oscBlock).add (noiseBlock);
 
-			// sum OSC and NOISE sections
-			masterBlock
-				.add(oscBlock)
-				.add(noiseBlock);
-
-			// apply MASTER level
-			// TODO: make it in DB?
+			// global gain
 			masterBlock.multiply (level);
-		
 		}
-
 
 		juce::dsp::AudioBlock<float> (outputBuffer)
 			.getSubBlock ((size_t)startSample, (size_t)numSamples)
@@ -336,7 +267,7 @@ public:
 
 private:
 	//==============================================================================
-	static constexpr size_t m_modulationUpdateRate = 10;
+	static constexpr size_t m_modulationUpdateRate = 100;
 	size_t m_modulationUpdateCounter = m_modulationUpdateRate;
 
 	//==============================================================================
@@ -346,22 +277,21 @@ private:
 
 	//==============================================================================
 	typedef Oscillator<float> Oscillator;
-	
+	typedef juce::dsp::Gain<float> Gain;
 	typedef 
 		dsp::ProcessorDuplicator<dsp::StateVariableFilter::Filter<float>, 
 		                         dsp::StateVariableFilter::Parameters<float>> Filter;
 
+	//==============================================================================
 	enum OscSection
 	{
-		oscSectionOscIndex,
-		//oscSectionEnvelopeIndex
+		oscSectionOscIndex
 	};
 
 	enum NoiseSection
 	{
 		noiseSectionOscIndex,
-		noiseSectionFilterIndex,
-		//noiseSectionEnvelopeIndex
+		noiseSectionFilterIndex
 	};
 
 	//==============================================================================
@@ -375,52 +305,29 @@ private:
 	juce::dsp::AudioBlock<float> masterSectionBlock;
 	
 	//==============================================================================
-	// TODO: are we sure the amp envelope should be here?
-	//       shouldn't it be a control rate envelope?
 	juce::dsp::ProcessorChain<Oscillator> oscSectionProcessorChain;
-	juce::dsp::ProcessorChain<Oscillator, Filter> noiseSectionProcessorChain; // TODO
-	juce::dsp::ProcessorChain<Filter> masterSectionProcessorChain; // TODO
+	juce::dsp::ProcessorChain<Oscillator, Filter> noiseSectionProcessorChain;
+	juce::dsp::ProcessorChain<Filter> masterSectionProcessorChain;
 
 	//==============================================================================
-	//maxiEnv pitchEnv;
 	juce::dsp::Oscillator<float> pitchLfo;
 	
 	//==============================================================================
-	
+	// GLOBAL
 	double m_currentNoteVelocity;
 
 	// OSC 
-
 	double oscFrequency, currentNoteFrequency;
 	int oscWaveform;
+	float envAttack, envDecay;
 	float pitchEnvAmount, pitchEnvRate;
 	float pitchLfoAmount, pitchLfoRate;
 
 	// NOISE 
-	
 	int filterType;
 	float filterCutoff, filterRes;
 	float noiseEnvAttack, noiseEnvDecay;
 
 	// MASTER 
-
 	float mix, eqFreq, eqGain, distortionAmount, level, pan;
-
-	//==============================================================================
-	float envAttack, envDecay;
-
-	//==============================================================================
-	void applyPitchLfo()
-	{
-		auto pitchLfoOut = pitchLfo.processSample(0.0f);
-		oscFrequency = oscFrequency + (pitchLfoOut * pitchLfoAmount);
-	}
-
-	void applyPitchEnv()
-	{
-		/*auto pitchEnvDepth = pitchEnvAmount;
-
-		float pitchEnvOut = pitchEnv.adsr(1.0f, pitchEnv.trigger);	
-		oscFrequency = oscFrequency + (pitchEnvOut * pitchEnvDepth);*/
-	}
 };

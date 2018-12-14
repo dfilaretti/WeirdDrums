@@ -79,7 +79,7 @@ public:
 		processorChain.prepare(spec);
 	}
 
-	enum
+	enum Waveform
 	{
 		sine, 
 		saw,
@@ -95,7 +95,5 @@ private:
 		gainIndex
 	};
 	
-	//Random random;
-
 	juce::dsp::ProcessorChain<juce::dsp::Oscillator<Type>, juce::dsp::Gain<Type>> processorChain;
 };
