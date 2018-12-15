@@ -196,9 +196,10 @@ public:
 				oscFrequency       = currentNoteFrequency;
 				
 				// pitch LFO
+			    // https://dsp.stackexchange.com/questions/2349/help-with-algorithm-for-modulating-oscillator-pitch-using-lfo
 				pitchLfo.setFrequency (pitchLfoRate, true);
 				auto pitchLfoOut = pitchLfo.processSample (0.0f);
-				oscFrequency = oscFrequency + (pitchLfoOut * pitchLfoAmount);
+				oscFrequency = currentNoteFrequency * pow(2, (1 / 1200.0 + pitchLfoOut * pitchLfoAmount));
 
 				// pitch env
 				m_oscPitchEnv.setParameters ({ 0.001, pitchEnvRate, 0, 0 });
