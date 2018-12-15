@@ -149,6 +149,7 @@ void PatSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffe
 
 			// osc type
 			myVoice -> getOscParams(
+				parameters.getRawParameterValue(Globals::paramIdFreq),
 				parameters.getRawParameterValue (Globals::paramIdWaveType));
 		
 
@@ -228,6 +229,16 @@ void PatSynthAudioProcessor::initSynth()
 
 void PatSynthAudioProcessor::initValueTree()
 {
+	// NOTE FREQUENCY
+	parameters.createAndAddParameter(
+		Globals::paramIdFreq,
+		kParamNameFreq,
+		String(),
+		kParamRangeFreq,
+		kParamDefaultFreq,
+		nullptr,
+		nullptr);
+
 	// ADSR
 	parameters.createAndAddParameter(
 		Globals::paramIdAttack,

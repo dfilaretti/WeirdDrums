@@ -76,6 +76,7 @@ private:
 
 	//==============================================================================
 	// OSC SECTION
+	const String kParamNameFreq                 = "Freq";
 	const String kParamNameAttack               = "Attack";
 	const String kParamNameDecay                = "Decay";
 	const String kParamNameWaveType             = "Wave Type";
@@ -99,6 +100,7 @@ private:
 
 	//==============================================================================
 	// OSC SECTION
+	const NormalisableRange<float> kParamRangeFreq            = NormalisableRange<float>(20.0f, 20000.0f); // hz
 	const NormalisableRange<float> kParamRangeAttack          = NormalisableRange<float>(0.0001f, 1.0f);
 	const NormalisableRange<float> kParamRangeDecay           = NormalisableRange<float>(0.001f, 2.0f);
 	const NormalisableRange<float> kParamRangeWaveType        = NormalisableRange<float>(0, 2);
@@ -122,6 +124,7 @@ private:
 
 	//==============================================================================
 	// OSC SECTION
+	const float kParamDefaultFreq                 = 55.0f;
 	const float kParamDefaultAttack               = 0.01f;
 	const float kParamDefaultDecay                = 0.5f;
 	const float kParamDefaultWaveType             = 0.f;

@@ -50,8 +50,9 @@ public:
 		envDecay   = *decay;
 	}
 
-	void getOscParams (float* selection)
+	void getOscParams (float* frequency, float* selection)
 	{
+		currentNoteFrequency = *frequency;
 		oscWaveform = *selection;
 	}
 
@@ -106,18 +107,6 @@ public:
 		this->pan   = *pan;
 	}
 	
-	//==============================================================================
-
-	void setOscPitchEnv()
-	{
-		auto pitchEnvDecay = pitchEnvRate;
-
-		//pitchEnv.setDecay(pitchEnvDecay);
-		//pitchEnv.setAttack(0.0f);
-		//pitchEnv.setSustain(0.0f);
-		//pitchEnv.setRelease(0.0f);
-	}
-
 	//==============================================================================
 	bool canPlaySound(SynthesiserSound* sound) override
 	{
@@ -318,17 +307,28 @@ private:
 	double m_currentNoteVelocity;
 
 	// OSC 
-	double oscFrequency, currentNoteFrequency;
 	int oscWaveform;
-	float envAttack, envDecay;
-	float pitchEnvAmount, pitchEnvRate;
-	float pitchLfoAmount, pitchLfoRate;
+	double currentNoteFrequency;
+	double oscFrequency;
+	float envAttack;
+	float envDecay;
+	float pitchEnvAmount;
+	float pitchEnvRate;
+	float pitchLfoAmount;
+	float pitchLfoRate;
 
 	// NOISE 
 	int filterType;
-	float filterCutoff, filterRes;
-	float noiseEnvAttack, noiseEnvDecay;
+	float filterCutoff;
+	float filterRes;
+	float noiseEnvAttack; 
+	float noiseEnvDecay;
 
 	// MASTER 
-	float mix, eqFreq, eqGain, distortionAmount, level, pan;
+	float mix; 
+	float eqFreq;            // todo
+	float eqGain;            // todo
+	float distortionAmount;
+	float level; 
+	float pan;               // todo
 };

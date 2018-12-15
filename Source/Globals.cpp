@@ -9,7 +9,8 @@
 */
 
 #include "Globals.h"
-
+// NOTE FREQUENCY
+String Globals::paramIdFreq           = "FREQ";
 // ADSR
 String Globals::paramIdAttack         = "ATTACK";
 String Globals::paramIdDecay          = "DECAY";

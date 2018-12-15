@@ -78,9 +78,9 @@ private:
 		oscComboBoxAttachment;
 
 	ScopedPointer<SliderAttachment>
+		frequencySliderAttachment,
 		attackSliderAttachment,
 		decaySliderAttachment,
-		frequencySliderAttachment,
 		pitchEnvAmountAttachment,
 		pitchEnvRateSliderAttachment,
 		pitchLfoAmountAttachment,

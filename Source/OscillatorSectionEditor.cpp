@@ -18,10 +18,10 @@ OscillatorSectionEditor::OscillatorSectionEditor(PatSynthAudioProcessor& p)
 	frequencySlider.setSliderStyle(Slider::SliderStyle::LinearHorizontal);
 	frequencySlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&frequencySlider);
-	//attackSliderAttachment = new SliderAttachment(
-	//	processor.parameters,
-	//	Globals::paramIdAttack,
-	//	frequencySlider);
+	frequencySliderAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdFreq,
+		frequencySlider);
 
 	// setup combo box
 	oscComboBox.addItem(kMenuItemSineText,   kMenuItemSineId);

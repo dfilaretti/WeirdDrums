@@ -19,6 +19,9 @@ public:
 	// OSC SECTION
 	//=======================================================
 	
+	// OSC base freq
+	static String paramIdFreq;
+
 	// ADSR param IDs
 	static String paramIdAttack;
 	static String paramIdDecay;
