@@ -205,7 +205,7 @@ public:
 				m_oscPitchEnv.setParameters ({ 0.001, pitchEnvRate, 0, 0 });
 				auto pitchEnvDepth = pitchEnvAmount;
 				float pitchEnvOut = m_oscPitchEnv.getNextSample();
-				oscFrequency = oscFrequency + (pitchEnvOut * pitchEnvDepth);
+				oscFrequency = oscFrequency * pow(2, (1 / 1200.0 + pitchEnvOut * pitchEnvDepth));
 
 				// update osc with computed params
 				oscSectionProcessorChain.get<oscSectionOscIndex>().setWaveform (oscWaveform);

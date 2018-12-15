@@ -102,7 +102,7 @@ private:
 	const NormalisableRange<float> kParamRangeAttack          = NormalisableRange<float>(0.0001f, 1.0f);
 	const NormalisableRange<float> kParamRangeDecay           = NormalisableRange<float>(0.001f, 2.0f);
 	const NormalisableRange<float> kParamRangeWaveType        = NormalisableRange<float>(0, 2);
-	const NormalisableRange<float> kParamRangePitchEnvAmount  = NormalisableRange<float>(-1000.0f, 1000.0f);
+	const NormalisableRange<float> kParamRangePitchEnvAmount  = NormalisableRange<float>(-1.0f, 1.0f);
 	const NormalisableRange<float> kParamRangePitchEnvRate    = NormalisableRange<float>(0.001f, 2.0f); 
 	const NormalisableRange<float> kParamRangePitchLfoAmount  = NormalisableRange<float>(0.0f, 1.0f);
 	const NormalisableRange<float> kParamRangePitchLfoRate    = NormalisableRange<float>(0.01f, 60.0f);
