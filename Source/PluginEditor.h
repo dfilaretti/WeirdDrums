@@ -15,6 +15,7 @@
 #include "OscillatorSectionEditor.h"
 #include "NoiseSectionEditor.h"
 #include "MasterSectionEditor.h"
+#include "MainComponent.h"
 
 //==============================================================================
 
@@ -29,8 +30,8 @@ public:
     void resized() override;
 
 private:
-	const int kWidth         = 750;
-	const int kHeight        = 275;
+	const int kWidth         = 700;
+	const int kHeight        = 500;
 	const int kSectionWidth  = 250;
 	const int kSectionHeight = kHeight;
 
@@ -39,6 +40,8 @@ private:
 	OscillatorSectionEditor oscGui;
 	MasterSectionEditor envGui;
 	NoiseSectionEditor filterGui;
+
+	MainComponent pluginUI;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PatSynthAudioProcessorEditor)
 };

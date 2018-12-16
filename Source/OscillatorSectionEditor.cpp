@@ -63,10 +63,10 @@ OscillatorSectionEditor::OscillatorSectionEditor(PatSynthAudioProcessor& p)
 	pitchEnvRateSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	pitchEnvRateSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&pitchEnvRateSlider);
-	pitchEnvRateSliderAttachment = new SliderAttachment(
+	pitchEnvAmountAttachment = new SliderAttachment(
 		processor.parameters,
-		Globals::paramIdPitchEnvRate,
-		pitchEnvRateSlider);
+		Globals::paramIdPitchEnvAmount,
+		pitchEnvAmountSlider);
 
 	// pitch lfo sliders
 	pitchLfoAmountSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
