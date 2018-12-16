@@ -121,7 +121,6 @@ public:
 		m_oscPitchEnv.noteOn();
 
 		m_currentNoteVelocity = velocity;
-		currentNoteFrequency = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
 	}
 	
 	void stopNote(float velocity, bool allowTailOf) override
