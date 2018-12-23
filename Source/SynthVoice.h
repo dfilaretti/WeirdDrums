@@ -19,8 +19,8 @@ public:
 	//==============================================================================
 	void prepare(const juce::dsp::ProcessSpec& spec)
 	{
-		m_oscAmpEnv.setParameters ({ 0.001f, 0.5f, 0.1f, 0.2f  });
-		m_noiseAmpEnv.setParameters ({ 0.001f, 0.5f, 0.1f, 0.2f });
+		//m_oscAmpEnv.setParameters ({ 0.001f, 0.5f, 0.1f, 0.2f  });
+		//m_noiseAmpEnv.setParameters ({ 0.001f, 0.5f, 0.1f, 0.2f });
 
 		// init buffers
 		oscSectionBlock    = juce::dsp::AudioBlock<float>(oscSectionHeapBlock, spec.numChannels, spec.maximumBlockSize);
@@ -177,7 +177,7 @@ public:
 				// =============================
 
 				// amp modulation
-				m_oscAmpEnv.setParameters({ envAttack, envDecay, 0, 0 });
+				m_oscAmpEnv.setParameters({ envAttack, envDecay, 0, 0.1 });
 				auto currentAmpEnv = m_oscAmpEnv.getNextSample();
 				auto oscLevel      = currentAmpEnv * m_currentNoteVelocity;
 

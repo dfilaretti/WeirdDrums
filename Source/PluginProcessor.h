@@ -100,20 +100,20 @@ private:
 
 	//==============================================================================
 	// OSC SECTION
-	const NormalisableRange<float> kParamRangeFreq            = NormalisableRange<float>(20.0f, 20000.0f); // hz
-	const NormalisableRange<float> kParamRangeAttack          = NormalisableRange<float>(0.0001f, 1.0f);
-	const NormalisableRange<float> kParamRangeDecay           = NormalisableRange<float>(0.001f, 2.0f);
+	const NormalisableRange<float> kParamRangeFreq            = NormalisableRange<float>(20.0f,    20000.0f,  0.0001,  0.35); // hz
+	const NormalisableRange<float> kParamRangeAttack          = NormalisableRange<float>(0.0001f,  1.0f,      0.0001,  0.35);
+	const NormalisableRange<float> kParamRangeDecay           = NormalisableRange<float>(0.0001f,  2.0f,      0.0001,  0.35);
 	const NormalisableRange<float> kParamRangeWaveType        = NormalisableRange<float>(0, 2);
-	const NormalisableRange<float> kParamRangePitchEnvAmount  = NormalisableRange<float>(-1.0f, 1.0f);
-	const NormalisableRange<float> kParamRangePitchEnvRate    = NormalisableRange<float>(0.001f, 2.0f); 
-	const NormalisableRange<float> kParamRangePitchLfoAmount  = NormalisableRange<float>(0.0f, 1.0f);
-	const NormalisableRange<float> kParamRangePitchLfoRate    = NormalisableRange<float>(0.01f, 60.0f);
+	const NormalisableRange<float> kParamRangePitchEnvAmount  = NormalisableRange<float>(-1.0f,    1.0f,      0.0001,  1);
+	const NormalisableRange<float> kParamRangePitchEnvRate    = NormalisableRange<float>(0.0001f,  1.0f,      0.0001,  0.35); 
+	const NormalisableRange<float> kParamRangePitchLfoAmount  = NormalisableRange<float>(0.0f,     1.0f);
+	const NormalisableRange<float> kParamRangePitchLfoRate    = NormalisableRange<float>(0.01f,    80.0f,     0.0001);
 	// NOISE SECTION
-	const NormalisableRange<float> kParamRangeNoiseAttack          = NormalisableRange<float>(0.0001f, 1.0f);
-	const NormalisableRange<float> kParamRangeNoiseDecay           = NormalisableRange<float>(0.001f, 2.0f);
+	const NormalisableRange<float> kParamRangeNoiseAttack          = NormalisableRange<float>(0.0001f, 1.0f, 0.0001f, 0.35);
+	const NormalisableRange<float> kParamRangeNoiseDecay           = NormalisableRange<float>(0.0001f, 2.0f, 0.0001f, 0.35);
 	const NormalisableRange<float> kParamRangeNoiseFilterType      = NormalisableRange<float>(0, 2);
 	const NormalisableRange<float> kParamRangeNoiseFilterCutoff    = NormalisableRange<float>(20.0f, 10000.0f);
-	const NormalisableRange<float> kParamRangeNoiseFilterResonance = NormalisableRange<float>(1.0f, 5.0f);
+	const NormalisableRange<float> kParamRangeNoiseFilterResonance = NormalisableRange<float>(1.0f, 5.0f, 0.0001, 0.4);
 	// MASTER SECTION
 	const NormalisableRange<float> kParamRangeMasterMix       = NormalisableRange<float>(0, 1);
 	const NormalisableRange<float> kParamRangeMasterEqFreq    = NormalisableRange<float>(20, 15000);
@@ -125,7 +125,7 @@ private:
 	//==============================================================================
 	// OSC SECTION
 	const float kParamDefaultFreq                 = 55.0f;
-	const float kParamDefaultAttack               = 0.01f;
+	const float kParamDefaultAttack               = 0.0001f;
 	const float kParamDefaultDecay                = 0.5f;
 	const float kParamDefaultWaveType             = 0.f;
 	const float kParamDefaultPitchEnvAmount       = 0.0f;

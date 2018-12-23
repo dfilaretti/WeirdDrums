@@ -38,14 +38,14 @@ MainComponent::MainComponent (PatSynthAudioProcessor& p)
     addAndMakeVisible (groupComponent.get());
     groupComponent->setColour (GroupComponent::outlineColourId, Colour (0xff57ff00));
 
-    groupComponent->setBounds (32, 40, 312, 280);
+    groupComponent->setBounds (16, 40, 352, 280);
 
     groupComponent2.reset (new GroupComponent ("new group",
                                                TRANS("NOISE")));
     addAndMakeVisible (groupComponent2.get());
     groupComponent2->setColour (GroupComponent::outlineColourId, Colour (0xffff00b5));
 
-    groupComponent2->setBounds (359, 39, 312, 185);
+    groupComponent2->setBounds (375, 39, 312, 185);
 
     oscComboBox.reset (new ComboBox ("new combo box"));
     addAndMakeVisible (oscComboBox.get());
@@ -58,7 +58,7 @@ MainComponent::MainComponent (PatSynthAudioProcessor& p)
     oscComboBox->addItem (TRANS("Square"), 3);
     oscComboBox->addListener (this);
 
-    oscComboBox->setBounds (184, 64, 136, 24);
+    oscComboBox->setBounds (168, 64, 136, 24);
 
     oscWaveformLabel.reset (new Label ("new label",
                                        TRANS("WAVEFORM")));
@@ -69,16 +69,15 @@ MainComponent::MainComponent (PatSynthAudioProcessor& p)
     oscWaveformLabel->setColour (TextEditor::textColourId, Colours::black);
     oscWaveformLabel->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    oscWaveformLabel->setBounds (48, 64, 96, 24);
+    oscWaveformLabel->setBounds (32, 64, 96, 24);
 
     pitchEnvAmountSlider.reset (new Slider ("pitchEnvAmountSlider"));
     addAndMakeVisible (pitchEnvAmountSlider.get());
     pitchEnvAmountSlider->setRange (0, 10, 0);
     pitchEnvAmountSlider->setSliderStyle (Slider::LinearHorizontal);
-    pitchEnvAmountSlider->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    pitchEnvAmountSlider->addListener (this);
+    pitchEnvAmountSlider->setTextBoxStyle (Slider::TextBoxRight, false, 80, 20);
 
-    pitchEnvAmountSlider->setBounds (176, 192, 150, 24);
+    pitchEnvAmountSlider->setBounds (160, 192, 192, 24);
 
     oscWaveformLabel2.reset (new Label ("new label",
                                         TRANS("FREQUENCY")));
@@ -89,16 +88,15 @@ MainComponent::MainComponent (PatSynthAudioProcessor& p)
     oscWaveformLabel2->setColour (TextEditor::textColourId, Colours::black);
     oscWaveformLabel2->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    oscWaveformLabel2->setBounds (48, 96, 104, 24);
+    oscWaveformLabel2->setBounds (32, 96, 104, 24);
 
     pitchEnvRateSlider.reset (new Slider ("pitchEnvRateSlider"));
     addAndMakeVisible (pitchEnvRateSlider.get());
     pitchEnvRateSlider->setRange (0, 10, 0);
     pitchEnvRateSlider->setSliderStyle (Slider::LinearHorizontal);
-    pitchEnvRateSlider->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    pitchEnvRateSlider->addListener (this);
+    pitchEnvRateSlider->setTextBoxStyle (Slider::TextBoxRight, false, 80, 20);
 
-    pitchEnvRateSlider->setBounds (176, 224, 150, 24);
+    pitchEnvRateSlider->setBounds (160, 224, 192, 24);
 
     oscWaveformLabel3.reset (new Label ("new label",
                                         TRANS("LFO DEPTH")));
@@ -109,16 +107,15 @@ MainComponent::MainComponent (PatSynthAudioProcessor& p)
     oscWaveformLabel3->setColour (TextEditor::textColourId, Colours::black);
     oscWaveformLabel3->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    oscWaveformLabel3->setBounds (48, 128, 104, 24);
+    oscWaveformLabel3->setBounds (32, 128, 104, 24);
 
     pitchLfoRateSlider.reset (new Slider ("pitchLfoRateSlider"));
     addAndMakeVisible (pitchLfoRateSlider.get());
     pitchLfoRateSlider->setRange (0, 10, 0);
     pitchLfoRateSlider->setSliderStyle (Slider::LinearHorizontal);
-    pitchLfoRateSlider->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    pitchLfoRateSlider->addListener (this);
+    pitchLfoRateSlider->setTextBoxStyle (Slider::TextBoxRight, false, 80, 20);
 
-    pitchLfoRateSlider->setBounds (176, 160, 150, 24);
+    pitchLfoRateSlider->setBounds (160, 160, 192, 24);
 
     oscWaveformLabel4.reset (new Label ("new label",
                                         TRANS("LFO RATE")));
@@ -129,16 +126,15 @@ MainComponent::MainComponent (PatSynthAudioProcessor& p)
     oscWaveformLabel4->setColour (TextEditor::textColourId, Colours::black);
     oscWaveformLabel4->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    oscWaveformLabel4->setBounds (48, 160, 104, 24);
+    oscWaveformLabel4->setBounds (32, 160, 104, 24);
 
     pitchLfoAmountSlider.reset (new Slider ("pitchLfoAmountSlider"));
     addAndMakeVisible (pitchLfoAmountSlider.get());
     pitchLfoAmountSlider->setRange (0, 10, 0);
     pitchLfoAmountSlider->setSliderStyle (Slider::LinearHorizontal);
-    pitchLfoAmountSlider->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    pitchLfoAmountSlider->addListener (this);
+    pitchLfoAmountSlider->setTextBoxStyle (Slider::TextBoxRight, false, 80, 20);
 
-    pitchLfoAmountSlider->setBounds (176, 128, 150, 24);
+    pitchLfoAmountSlider->setBounds (160, 128, 192, 24);
 
     oscWaveformLabel5.reset (new Label ("new label",
                                         TRANS("PCH ENV DEPTH")));
@@ -149,7 +145,7 @@ MainComponent::MainComponent (PatSynthAudioProcessor& p)
     oscWaveformLabel5->setColour (TextEditor::textColourId, Colours::black);
     oscWaveformLabel5->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    oscWaveformLabel5->setBounds (48, 192, 120, 24);
+    oscWaveformLabel5->setBounds (32, 192, 120, 24);
 
     oscWaveformLabel6.reset (new Label ("new label",
                                         TRANS("PCH ENV RATE")));
@@ -160,25 +156,24 @@ MainComponent::MainComponent (PatSynthAudioProcessor& p)
     oscWaveformLabel6->setColour (TextEditor::textColourId, Colours::black);
     oscWaveformLabel6->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    oscWaveformLabel6->setBounds (48, 224, 120, 24);
+    oscWaveformLabel6->setBounds (32, 224, 120, 24);
 
     frequencySlider.reset (new Slider ("frequencySlider"));
     addAndMakeVisible (frequencySlider.get());
     frequencySlider->setRange (0, 10, 0);
     frequencySlider->setSliderStyle (Slider::LinearHorizontal);
-    frequencySlider->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
+    frequencySlider->setTextBoxStyle (Slider::TextBoxRight, false, 80, 20);
     frequencySlider->addListener (this);
 
-    frequencySlider->setBounds (176, 96, 150, 24);
+    frequencySlider->setBounds (160, 96, 192, 24);
 
     oscAttackSlider.reset (new Slider ("oscAttackSlider"));
     addAndMakeVisible (oscAttackSlider.get());
     oscAttackSlider->setRange (0, 10, 0);
     oscAttackSlider->setSliderStyle (Slider::LinearHorizontal);
-    oscAttackSlider->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    oscAttackSlider->addListener (this);
+    oscAttackSlider->setTextBoxStyle (Slider::TextBoxRight, false, 80, 20);
 
-    oscAttackSlider->setBounds (176, 256, 150, 24);
+    oscAttackSlider->setBounds (160, 256, 192, 24);
 
     oscWaveformLabel9.reset (new Label ("new label",
                                         TRANS("ATTACK\n")));
@@ -189,16 +184,15 @@ MainComponent::MainComponent (PatSynthAudioProcessor& p)
     oscWaveformLabel9->setColour (TextEditor::textColourId, Colours::black);
     oscWaveformLabel9->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    oscWaveformLabel9->setBounds (48, 256, 120, 24);
+    oscWaveformLabel9->setBounds (32, 256, 120, 24);
 
     oscDecaySlider.reset (new Slider ("oscDecaySlider"));
     addAndMakeVisible (oscDecaySlider.get());
     oscDecaySlider->setRange (0, 10, 0);
     oscDecaySlider->setSliderStyle (Slider::LinearHorizontal);
-    oscDecaySlider->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    oscDecaySlider->addListener (this);
+    oscDecaySlider->setTextBoxStyle (Slider::TextBoxRight, false, 80, 20);
 
-    oscDecaySlider->setBounds (176, 288, 150, 24);
+    oscDecaySlider->setBounds (160, 288, 192, 24);
 
     oscWaveformLabel10.reset (new Label ("new label",
                                          TRANS("DECAY")));
@@ -209,7 +203,7 @@ MainComponent::MainComponent (PatSynthAudioProcessor& p)
     oscWaveformLabel10->setColour (TextEditor::textColourId, Colours::black);
     oscWaveformLabel10->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    oscWaveformLabel10->setBounds (48, 288, 120, 24);
+    oscWaveformLabel10->setBounds (32, 288, 120, 24);
 
     filterTypeComboBox.reset (new ComboBox ("filterTypeComboBox"));
     addAndMakeVisible (filterTypeComboBox.get());
@@ -222,7 +216,7 @@ MainComponent::MainComponent (PatSynthAudioProcessor& p)
     filterTypeComboBox->addItem (TRANS("BAND PASS"), 3);
     filterTypeComboBox->addListener (this);
 
-    filterTypeComboBox->setBounds (511, 63, 136, 24);
+    filterTypeComboBox->setBounds (527, 63, 136, 24);
 
     oscWaveformLabel7.reset (new Label ("new label",
                                         TRANS("FILTER TYPE")));
@@ -233,16 +227,15 @@ MainComponent::MainComponent (PatSynthAudioProcessor& p)
     oscWaveformLabel7->setColour (TextEditor::textColourId, Colours::black);
     oscWaveformLabel7->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    oscWaveformLabel7->setBounds (375, 63, 96, 24);
+    oscWaveformLabel7->setBounds (391, 63, 96, 24);
 
     noiseDecaySlider.reset (new Slider ("decaySlider"));
     addAndMakeVisible (noiseDecaySlider.get());
     noiseDecaySlider->setRange (0, 10, 0);
     noiseDecaySlider->setSliderStyle (Slider::LinearHorizontal);
     noiseDecaySlider->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    noiseDecaySlider->addListener (this);
 
-    noiseDecaySlider->setBounds (503, 191, 150, 24);
+    noiseDecaySlider->setBounds (519, 191, 150, 24);
 
     oscWaveformLabel8.reset (new Label ("new label",
                                         TRANS("CUTOFF")));
@@ -253,7 +246,7 @@ MainComponent::MainComponent (PatSynthAudioProcessor& p)
     oscWaveformLabel8->setColour (TextEditor::textColourId, Colours::black);
     oscWaveformLabel8->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    oscWaveformLabel8->setBounds (375, 95, 104, 24);
+    oscWaveformLabel8->setBounds (391, 95, 104, 24);
 
     oscWaveformLabel11.reset (new Label ("new label",
                                          TRANS("RESONANCE")));
@@ -264,16 +257,15 @@ MainComponent::MainComponent (PatSynthAudioProcessor& p)
     oscWaveformLabel11->setColour (TextEditor::textColourId, Colours::black);
     oscWaveformLabel11->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    oscWaveformLabel11->setBounds (375, 127, 104, 24);
+    oscWaveformLabel11->setBounds (391, 127, 104, 24);
 
     noiseAttackSlider.reset (new Slider ("noiseAttackSlider"));
     addAndMakeVisible (noiseAttackSlider.get());
     noiseAttackSlider->setRange (0, 10, 0);
     noiseAttackSlider->setSliderStyle (Slider::LinearHorizontal);
     noiseAttackSlider->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    noiseAttackSlider->addListener (this);
 
-    noiseAttackSlider->setBounds (503, 159, 150, 24);
+    noiseAttackSlider->setBounds (519, 159, 150, 24);
 
     oscWaveformLabel12.reset (new Label ("new label",
                                          TRANS("ATTACK\n")));
@@ -284,16 +276,15 @@ MainComponent::MainComponent (PatSynthAudioProcessor& p)
     oscWaveformLabel12->setColour (TextEditor::textColourId, Colours::black);
     oscWaveformLabel12->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    oscWaveformLabel12->setBounds (375, 159, 104, 24);
+    oscWaveformLabel12->setBounds (391, 159, 104, 24);
 
     filterResonanceSlider.reset (new Slider ("filterResonanceSlider"));
     addAndMakeVisible (filterResonanceSlider.get());
     filterResonanceSlider->setRange (0, 10, 0);
     filterResonanceSlider->setSliderStyle (Slider::LinearHorizontal);
     filterResonanceSlider->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    filterResonanceSlider->addListener (this);
 
-    filterResonanceSlider->setBounds (503, 127, 150, 24);
+    filterResonanceSlider->setBounds (519, 127, 150, 24);
 
     oscWaveformLabel13.reset (new Label ("new label",
                                          TRANS("DECAY")));
@@ -304,32 +295,30 @@ MainComponent::MainComponent (PatSynthAudioProcessor& p)
     oscWaveformLabel13->setColour (TextEditor::textColourId, Colours::black);
     oscWaveformLabel13->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    oscWaveformLabel13->setBounds (375, 191, 120, 24);
+    oscWaveformLabel13->setBounds (391, 191, 120, 24);
 
     filterCutoffSlider.reset (new Slider ("filterCutoffSlider"));
     addAndMakeVisible (filterCutoffSlider.get());
     filterCutoffSlider->setRange (0, 10, 0);
     filterCutoffSlider->setSliderStyle (Slider::LinearHorizontal);
     filterCutoffSlider->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    filterCutoffSlider->addListener (this);
 
-    filterCutoffSlider->setBounds (503, 95, 150, 24);
+    filterCutoffSlider->setBounds (519, 95, 150, 24);
 
     groupComponent3.reset (new GroupComponent ("new group",
                                                TRANS("MASTER")));
     addAndMakeVisible (groupComponent3.get());
     groupComponent3->setColour (GroupComponent::outlineColourId, Colour (0xff00d7ff));
 
-    groupComponent3->setBounds (360, 232, 312, 224);
+    groupComponent3->setBounds (376, 232, 312, 224);
 
     distortSlider.reset (new Slider ("distortSlider"));
     addAndMakeVisible (distortSlider.get());
     distortSlider->setRange (0, 10, 0);
     distortSlider->setSliderStyle (Slider::LinearHorizontal);
     distortSlider->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    distortSlider->addListener (this);
 
-    distortSlider->setBounds (504, 360, 150, 24);
+    distortSlider->setBounds (520, 360, 150, 24);
 
     oscWaveformLabel15.reset (new Label ("new label",
                                          TRANS("MIX")));
@@ -340,7 +329,7 @@ MainComponent::MainComponent (PatSynthAudioProcessor& p)
     oscWaveformLabel15->setColour (TextEditor::textColourId, Colours::black);
     oscWaveformLabel15->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    oscWaveformLabel15->setBounds (376, 264, 104, 24);
+    oscWaveformLabel15->setBounds (392, 264, 104, 24);
 
     oscWaveformLabel16.reset (new Label ("new label",
                                          TRANS("EQ FREQ")));
@@ -351,16 +340,15 @@ MainComponent::MainComponent (PatSynthAudioProcessor& p)
     oscWaveformLabel16->setColour (TextEditor::textColourId, Colours::black);
     oscWaveformLabel16->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    oscWaveformLabel16->setBounds (376, 296, 104, 24);
+    oscWaveformLabel16->setBounds (392, 296, 104, 24);
 
     eqGainSlider.reset (new Slider ("eqGainSlider"));
     addAndMakeVisible (eqGainSlider.get());
     eqGainSlider->setRange (0, 10, 0);
     eqGainSlider->setSliderStyle (Slider::LinearHorizontal);
     eqGainSlider->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    eqGainSlider->addListener (this);
 
-    eqGainSlider->setBounds (504, 328, 150, 24);
+    eqGainSlider->setBounds (520, 328, 150, 24);
 
     oscWaveformLabel17.reset (new Label ("new label",
                                          TRANS("EQ GAIN")));
@@ -371,16 +359,15 @@ MainComponent::MainComponent (PatSynthAudioProcessor& p)
     oscWaveformLabel17->setColour (TextEditor::textColourId, Colours::black);
     oscWaveformLabel17->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    oscWaveformLabel17->setBounds (376, 328, 104, 24);
+    oscWaveformLabel17->setBounds (392, 328, 104, 24);
 
     eqFreqSlider.reset (new Slider ("eqFreqSlider"));
     addAndMakeVisible (eqFreqSlider.get());
     eqFreqSlider->setRange (0, 10, 0);
     eqFreqSlider->setSliderStyle (Slider::LinearHorizontal);
     eqFreqSlider->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    eqFreqSlider->addListener (this);
 
-    eqFreqSlider->setBounds (504, 296, 150, 24);
+    eqFreqSlider->setBounds (520, 296, 150, 24);
 
     oscWaveformLabel18.reset (new Label ("new label",
                                          TRANS("DISTORT")));
@@ -391,25 +378,23 @@ MainComponent::MainComponent (PatSynthAudioProcessor& p)
     oscWaveformLabel18->setColour (TextEditor::textColourId, Colours::black);
     oscWaveformLabel18->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    oscWaveformLabel18->setBounds (376, 360, 120, 24);
+    oscWaveformLabel18->setBounds (392, 360, 120, 24);
 
     mixSlider.reset (new Slider ("mixSlider"));
     addAndMakeVisible (mixSlider.get());
     mixSlider->setRange (0, 10, 0);
     mixSlider->setSliderStyle (Slider::LinearHorizontal);
     mixSlider->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    mixSlider->addListener (this);
 
-    mixSlider->setBounds (504, 264, 150, 24);
+    mixSlider->setBounds (520, 264, 150, 24);
 
     panSlider.reset (new Slider ("panSlider"));
     addAndMakeVisible (panSlider.get());
     panSlider->setRange (0, 10, 0);
     panSlider->setSliderStyle (Slider::LinearHorizontal);
     panSlider->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    panSlider->addListener (this);
 
-    panSlider->setBounds (504, 392, 150, 24);
+    panSlider->setBounds (520, 392, 150, 24);
 
     oscWaveformLabel14.reset (new Label ("new label",
                                          TRANS("PAN")));
@@ -420,16 +405,15 @@ MainComponent::MainComponent (PatSynthAudioProcessor& p)
     oscWaveformLabel14->setColour (TextEditor::textColourId, Colours::black);
     oscWaveformLabel14->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    oscWaveformLabel14->setBounds (376, 392, 120, 24);
+    oscWaveformLabel14->setBounds (392, 392, 120, 24);
 
     levelSlider.reset (new Slider ("levelSlider"));
     addAndMakeVisible (levelSlider.get());
     levelSlider->setRange (0, 10, 0);
     levelSlider->setSliderStyle (Slider::LinearHorizontal);
     levelSlider->setTextBoxStyle (Slider::NoTextBox, false, 80, 20);
-    levelSlider->addListener (this);
 
-    levelSlider->setBounds (504, 424, 150, 24);
+    levelSlider->setBounds (520, 424, 150, 24);
 
     oscWaveformLabel19.reset (new Label ("new label",
                                          TRANS("LEVEL")));
@@ -440,7 +424,7 @@ MainComponent::MainComponent (PatSynthAudioProcessor& p)
     oscWaveformLabel19->setColour (TextEditor::textColourId, Colours::black);
     oscWaveformLabel19->setColour (TextEditor::backgroundColourId, Colour (0x00000000));
 
-    oscWaveformLabel19->setBounds (376, 424, 120, 24);
+    oscWaveformLabel19->setBounds (392, 424, 120, 24);
 
 
     //[UserPreSize]
@@ -451,104 +435,104 @@ MainComponent::MainComponent (PatSynthAudioProcessor& p)
 
     //[Constructor] You can add your own custom stuff here..
 	// MASTER
-	mixSliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdMasterMix,
-		*mixSlider);
+	//mixSliderAttachment = new SliderAttachment(
+	//	processor.parameters,
+	//	Globals::paramIdMasterMix,
+	//	*mixSlider);
 
-	eqFreqSliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdMasterEqFreq,
-		*eqFreqSlider);
+	//eqFreqSliderAttachment = new SliderAttachment(
+	//	processor.parameters,
+	//	Globals::paramIdMasterEqFreq,
+	//	*eqFreqSlider);
 
-	distortSliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdMasterDistort,
-		*distortSlider);
+	//distortSliderAttachment = new SliderAttachment(
+	//	processor.parameters,
+	//	Globals::paramIdMasterDistort,
+	//	*distortSlider);
 
-	eqGainSliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdMasterEqGain,
-		*eqGainSlider);
+	//eqGainSliderAttachment = new SliderAttachment(
+	//	processor.parameters,
+	//	Globals::paramIdMasterEqGain,
+	//	*eqGainSlider);
 
-	levelSliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdMasterLevel,
-		*levelSlider);
+	//levelSliderAttachment = new SliderAttachment(
+	//	processor.parameters,
+	//	Globals::paramIdMasterLevel,
+	//	*levelSlider);
 
-	panSliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdMasterPan,
-		*panSlider);
+	//panSliderAttachment = new SliderAttachment(
+	//	processor.parameters,
+	//	Globals::paramIdMasterPan,
+	//	*panSlider);
 
-	// OSC
+	//// OSC
 
 	frequencySliderAttachment = new SliderAttachment(
 		processor.parameters,
 		Globals::paramIdFreq,
 		*frequencySlider);
 
-	oscComboBoxAttachment = new ComboBoxAttachment(
-		processor.parameters,
-		Globals::paramIdWaveType,
-		*oscComboBox);
+	//oscComboBoxAttachment = new ComboBoxAttachment(
+	//	processor.parameters,
+	//	Globals::paramIdWaveType,
+	//	*oscComboBox);
 
-	oscAttackSliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdAttack,
-		*oscAttackSlider);
+	//oscAttackSliderAttachment = new SliderAttachment(
+	//	processor.parameters,
+	//	Globals::paramIdAttack,
+	//	*oscAttackSlider);
 
-	oscDecaySliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdDecay,
-		*oscDecaySlider);
+	//oscDecaySliderAttachment = new SliderAttachment(
+	//	processor.parameters,
+	//	Globals::paramIdDecay,
+	//	*oscDecaySlider);
 
-	pitchEnvAmountAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdPitchEnvAmount,
-		*pitchEnvAmountSlider);
+	//pitchEnvAmountAttachment = new SliderAttachment(
+	//	processor.parameters,
+	//	Globals::paramIdPitchEnvAmount,
+	//	*pitchEnvAmountSlider);
 
-	pitchEnvRateSliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdPitchEnvRate,
-		*pitchEnvRateSlider);
+	//pitchEnvRateSliderAttachment = new SliderAttachment(
+	//	processor.parameters,
+	//	Globals::paramIdPitchEnvRate,
+	//	*pitchEnvRateSlider);
 
-	pitchLfoAmountAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdPitchLfoAmount,
-		*pitchLfoAmountSlider);
+	//pitchLfoAmountAttachment = new SliderAttachment(
+	//	processor.parameters,
+	//	Globals::paramIdPitchLfoAmount,
+	//	*pitchLfoAmountSlider);
 
-	pitchLfoRateSliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdPitchLfoRate,
-		*pitchLfoRateSlider);
+	//pitchLfoRateSliderAttachment = new SliderAttachment(
+	//	processor.parameters,
+	//	Globals::paramIdPitchLfoRate,
+	//	*pitchLfoRateSlider);
 
-	// NOISE
+	//// NOISE
 
-	filterTypeComboBoxAttachment = new ComboBoxAttachment(
-		processor.parameters,
-		Globals::paramIdNoiseFilterType,
-		*filterTypeComboBox);
+	//filterTypeComboBoxAttachment = new ComboBoxAttachment(
+	//	processor.parameters,
+	//	Globals::paramIdNoiseFilterType,
+	//	*filterTypeComboBox);
 
-	filterCutoffSliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdNoiseFilterCutoff,
-		*filterCutoffSlider);
+	//filterCutoffSliderAttachment = new SliderAttachment(
+	//	processor.parameters,
+	//	Globals::paramIdNoiseFilterCutoff,
+	//	*filterCutoffSlider);
 
-	filterResonanceSliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdNoiseFilterReso,
-		*filterResonanceSlider);
+	//filterResonanceSliderAttachment = new SliderAttachment(
+	//	processor.parameters,
+	//	Globals::paramIdNoiseFilterReso,
+	//	*filterResonanceSlider);
 
-	noiseAttackSliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdNoiseAttack,
-		*noiseAttackSlider);
+	//noiseAttackSliderAttachment = new SliderAttachment(
+	//	processor.parameters,
+	//	Globals::paramIdNoiseAttack,
+	//	*noiseAttackSlider);
 
-	noiseDecaySliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdNoiseDecay,
-		*noiseDecaySlider);
+	//noiseDecaySliderAttachment = new SliderAttachment(
+	//	processor.parameters,
+	//	Globals::paramIdNoiseDecay,
+	//	*noiseDecaySlider);
 
 
     //[/Constructor]
@@ -652,90 +636,10 @@ void MainComponent::sliderValueChanged (Slider* sliderThatWasMoved)
     //[UsersliderValueChanged_Pre]
     //[/UsersliderValueChanged_Pre]
 
-    if (sliderThatWasMoved == pitchEnvAmountSlider.get())
-    {
-        //[UserSliderCode_pitchEnvAmountSlider] -- add your slider handling code here..
-        //[/UserSliderCode_pitchEnvAmountSlider]
-    }
-    else if (sliderThatWasMoved == pitchEnvRateSlider.get())
-    {
-        //[UserSliderCode_pitchEnvRateSlider] -- add your slider handling code here..
-        //[/UserSliderCode_pitchEnvRateSlider]
-    }
-    else if (sliderThatWasMoved == pitchLfoRateSlider.get())
-    {
-        //[UserSliderCode_pitchLfoRateSlider] -- add your slider handling code here..
-        //[/UserSliderCode_pitchLfoRateSlider]
-    }
-    else if (sliderThatWasMoved == pitchLfoAmountSlider.get())
-    {
-        //[UserSliderCode_pitchLfoAmountSlider] -- add your slider handling code here..
-        //[/UserSliderCode_pitchLfoAmountSlider]
-    }
-    else if (sliderThatWasMoved == frequencySlider.get())
+    if (sliderThatWasMoved == frequencySlider.get())
     {
         //[UserSliderCode_frequencySlider] -- add your slider handling code here..
         //[/UserSliderCode_frequencySlider]
-    }
-    else if (sliderThatWasMoved == oscAttackSlider.get())
-    {
-        //[UserSliderCode_oscAttackSlider] -- add your slider handling code here..
-        //[/UserSliderCode_oscAttackSlider]
-    }
-    else if (sliderThatWasMoved == oscDecaySlider.get())
-    {
-        //[UserSliderCode_oscDecaySlider] -- add your slider handling code here..
-        //[/UserSliderCode_oscDecaySlider]
-    }
-    else if (sliderThatWasMoved == noiseDecaySlider.get())
-    {
-        //[UserSliderCode_noiseDecaySlider] -- add your slider handling code here..
-        //[/UserSliderCode_noiseDecaySlider]
-    }
-    else if (sliderThatWasMoved == noiseAttackSlider.get())
-    {
-        //[UserSliderCode_noiseAttackSlider] -- add your slider handling code here..
-        //[/UserSliderCode_noiseAttackSlider]
-    }
-    else if (sliderThatWasMoved == filterResonanceSlider.get())
-    {
-        //[UserSliderCode_filterResonanceSlider] -- add your slider handling code here..
-        //[/UserSliderCode_filterResonanceSlider]
-    }
-    else if (sliderThatWasMoved == filterCutoffSlider.get())
-    {
-        //[UserSliderCode_filterCutoffSlider] -- add your slider handling code here..
-        //[/UserSliderCode_filterCutoffSlider]
-    }
-    else if (sliderThatWasMoved == distortSlider.get())
-    {
-        //[UserSliderCode_distortSlider] -- add your slider handling code here..
-        //[/UserSliderCode_distortSlider]
-    }
-    else if (sliderThatWasMoved == eqGainSlider.get())
-    {
-        //[UserSliderCode_eqGainSlider] -- add your slider handling code here..
-        //[/UserSliderCode_eqGainSlider]
-    }
-    else if (sliderThatWasMoved == eqFreqSlider.get())
-    {
-        //[UserSliderCode_eqFreqSlider] -- add your slider handling code here..
-        //[/UserSliderCode_eqFreqSlider]
-    }
-    else if (sliderThatWasMoved == mixSlider.get())
-    {
-        //[UserSliderCode_mixSlider] -- add your slider handling code here..
-        //[/UserSliderCode_mixSlider]
-    }
-    else if (sliderThatWasMoved == panSlider.get())
-    {
-        //[UserSliderCode_panSlider] -- add your slider handling code here..
-        //[/UserSliderCode_panSlider]
-    }
-    else if (sliderThatWasMoved == levelSlider.get())
-    {
-        //[UserSliderCode_levelSlider] -- add your slider handling code here..
-        //[/UserSliderCode_levelSlider]
     }
 
     //[UsersliderValueChanged_Post]
@@ -764,199 +668,199 @@ BEGIN_JUCER_METADATA
                  initialHeight="500">
   <BACKGROUND backgroundColour="ff272626"/>
   <GROUPCOMPONENT name="new group" id="f1ec165b1b1c7225" memberName="groupComponent"
-                  virtualName="" explicitFocusOrder="0" pos="32 40 312 280" outlinecol="ff57ff00"
+                  virtualName="" explicitFocusOrder="0" pos="16 40 352 280" outlinecol="ff57ff00"
                   title="OSCILLATOR"/>
   <GROUPCOMPONENT name="new group" id="c03a6ea20eb588c7" memberName="groupComponent2"
-                  virtualName="" explicitFocusOrder="0" pos="359 39 312 185" outlinecol="ffff00b5"
+                  virtualName="" explicitFocusOrder="0" pos="375 39 312 185" outlinecol="ffff00b5"
                   title="NOISE"/>
   <COMBOBOX name="new combo box" id="dfa8498bc4c4bef" memberName="oscComboBox"
-            virtualName="" explicitFocusOrder="0" pos="184 64 136 24" editable="0"
+            virtualName="" explicitFocusOrder="0" pos="168 64 136 24" editable="0"
             layout="33" items="Sine&#10;Saw&#10;Square" textWhenNonSelected=""
             textWhenNoItems="(no choices)"/>
   <LABEL name="new label" id="766465f79403a06c" memberName="oscWaveformLabel"
-         virtualName="" explicitFocusOrder="0" pos="48 64 96 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="32 64 96 24" edTextCol="ff000000"
          edBkgCol="0" labelText="WAVEFORM" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Bahnschrift" fontsize="15.0"
          kerning="0.0" bold="0" italic="0" justification="33"/>
   <SLIDER name="pitchEnvAmountSlider" id="b1fbacdeee652f82" memberName="pitchEnvAmountSlider"
-          virtualName="" explicitFocusOrder="0" pos="176 192 150 24" min="0.0"
-          max="10.0" int="0.0" style="LinearHorizontal" textBoxPos="NoTextBox"
+          virtualName="" explicitFocusOrder="0" pos="160 192 192 24" min="0.0"
+          max="10.0" int="0.0" style="LinearHorizontal" textBoxPos="TextBoxRight"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1.0"
-          needsCallback="1"/>
+          needsCallback="0"/>
   <LABEL name="new label" id="54d06a0380503b21" memberName="oscWaveformLabel2"
-         virtualName="" explicitFocusOrder="0" pos="48 96 104 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="32 96 104 24" edTextCol="ff000000"
          edBkgCol="0" labelText="FREQUENCY" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Bahnschrift" fontsize="15.0"
          kerning="0.0" bold="0" italic="0" justification="33"/>
   <SLIDER name="pitchEnvRateSlider" id="6e91a614842c11ed" memberName="pitchEnvRateSlider"
-          virtualName="" explicitFocusOrder="0" pos="176 224 150 24" min="0.0"
-          max="10.0" int="0.0" style="LinearHorizontal" textBoxPos="NoTextBox"
+          virtualName="" explicitFocusOrder="0" pos="160 224 192 24" min="0.0"
+          max="10.0" int="0.0" style="LinearHorizontal" textBoxPos="TextBoxRight"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1.0"
-          needsCallback="1"/>
+          needsCallback="0"/>
   <LABEL name="new label" id="74bd9a7cb2a9c38e" memberName="oscWaveformLabel3"
-         virtualName="" explicitFocusOrder="0" pos="48 128 104 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="32 128 104 24" edTextCol="ff000000"
          edBkgCol="0" labelText="LFO DEPTH" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Bahnschrift" fontsize="15.0"
          kerning="0.0" bold="0" italic="0" justification="33"/>
   <SLIDER name="pitchLfoRateSlider" id="3e75c3ada42c79ee" memberName="pitchLfoRateSlider"
-          virtualName="" explicitFocusOrder="0" pos="176 160 150 24" min="0.0"
-          max="10.0" int="0.0" style="LinearHorizontal" textBoxPos="NoTextBox"
+          virtualName="" explicitFocusOrder="0" pos="160 160 192 24" min="0.0"
+          max="10.0" int="0.0" style="LinearHorizontal" textBoxPos="TextBoxRight"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1.0"
-          needsCallback="1"/>
+          needsCallback="0"/>
   <LABEL name="new label" id="ce871c2dff2a7e88" memberName="oscWaveformLabel4"
-         virtualName="" explicitFocusOrder="0" pos="48 160 104 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="32 160 104 24" edTextCol="ff000000"
          edBkgCol="0" labelText="LFO RATE" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Bahnschrift" fontsize="15.0"
          kerning="0.0" bold="0" italic="0" justification="33"/>
   <SLIDER name="pitchLfoAmountSlider" id="d8bdb24720fa96f2" memberName="pitchLfoAmountSlider"
-          virtualName="" explicitFocusOrder="0" pos="176 128 150 24" min="0.0"
-          max="10.0" int="0.0" style="LinearHorizontal" textBoxPos="NoTextBox"
+          virtualName="" explicitFocusOrder="0" pos="160 128 192 24" min="0.0"
+          max="10.0" int="0.0" style="LinearHorizontal" textBoxPos="TextBoxRight"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1.0"
-          needsCallback="1"/>
+          needsCallback="0"/>
   <LABEL name="new label" id="333c2fc5856506f0" memberName="oscWaveformLabel5"
-         virtualName="" explicitFocusOrder="0" pos="48 192 120 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="32 192 120 24" edTextCol="ff000000"
          edBkgCol="0" labelText="PCH ENV DEPTH" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Bahnschrift"
          fontsize="15.0" kerning="0.0" bold="0" italic="0" justification="33"/>
   <LABEL name="new label" id="6d66b0ebadd0a3dc" memberName="oscWaveformLabel6"
-         virtualName="" explicitFocusOrder="0" pos="48 224 120 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="32 224 120 24" edTextCol="ff000000"
          edBkgCol="0" labelText="PCH ENV RATE" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Bahnschrift"
          fontsize="15.0" kerning="0.0" bold="0" italic="0" justification="33"/>
   <SLIDER name="frequencySlider" id="2c624ebe710e897b" memberName="frequencySlider"
-          virtualName="" explicitFocusOrder="0" pos="176 96 150 24" min="0.0"
-          max="10.0" int="0.0" style="LinearHorizontal" textBoxPos="NoTextBox"
+          virtualName="" explicitFocusOrder="0" pos="160 96 192 24" min="0.0"
+          max="10.0" int="0.0" style="LinearHorizontal" textBoxPos="TextBoxRight"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1.0"
           needsCallback="1"/>
   <SLIDER name="oscAttackSlider" id="7450b06b6e079686" memberName="oscAttackSlider"
-          virtualName="" explicitFocusOrder="0" pos="176 256 150 24" min="0.0"
-          max="10.0" int="0.0" style="LinearHorizontal" textBoxPos="NoTextBox"
+          virtualName="" explicitFocusOrder="0" pos="160 256 192 24" min="0.0"
+          max="10.0" int="0.0" style="LinearHorizontal" textBoxPos="TextBoxRight"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1.0"
-          needsCallback="1"/>
+          needsCallback="0"/>
   <LABEL name="new label" id="d79170e86d05d168" memberName="oscWaveformLabel9"
-         virtualName="" explicitFocusOrder="0" pos="48 256 120 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="32 256 120 24" edTextCol="ff000000"
          edBkgCol="0" labelText="ATTACK&#10;" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Bahnschrift"
          fontsize="15.0" kerning="0.0" bold="0" italic="0" justification="33"/>
   <SLIDER name="oscDecaySlider" id="247b7616819a9caa" memberName="oscDecaySlider"
-          virtualName="" explicitFocusOrder="0" pos="176 288 150 24" min="0.0"
-          max="10.0" int="0.0" style="LinearHorizontal" textBoxPos="NoTextBox"
+          virtualName="" explicitFocusOrder="0" pos="160 288 192 24" min="0.0"
+          max="10.0" int="0.0" style="LinearHorizontal" textBoxPos="TextBoxRight"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1.0"
-          needsCallback="1"/>
+          needsCallback="0"/>
   <LABEL name="new label" id="6bd6fbbec9efcaae" memberName="oscWaveformLabel10"
-         virtualName="" explicitFocusOrder="0" pos="48 288 120 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="32 288 120 24" edTextCol="ff000000"
          edBkgCol="0" labelText="DECAY" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Bahnschrift" fontsize="15.0"
          kerning="0.0" bold="0" italic="0" justification="33"/>
   <COMBOBOX name="filterTypeComboBox" id="ef03293bcf4c4035" memberName="filterTypeComboBox"
-            virtualName="" explicitFocusOrder="0" pos="511 63 136 24" editable="0"
+            virtualName="" explicitFocusOrder="0" pos="527 63 136 24" editable="0"
             layout="33" items="LO PASS&#10;HI PASS&#10;BAND PASS" textWhenNonSelected=""
             textWhenNoItems="(no choices)"/>
   <LABEL name="new label" id="89546058362ef0f" memberName="oscWaveformLabel7"
-         virtualName="" explicitFocusOrder="0" pos="375 63 96 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="391 63 96 24" edTextCol="ff000000"
          edBkgCol="0" labelText="FILTER TYPE" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Bahnschrift"
          fontsize="15.0" kerning="0.0" bold="0" italic="0" justification="33"/>
   <SLIDER name="decaySlider" id="7fe635dfe4073fc0" memberName="noiseDecaySlider"
-          virtualName="" explicitFocusOrder="0" pos="503 191 150 24" min="0.0"
+          virtualName="" explicitFocusOrder="0" pos="519 191 150 24" min="0.0"
           max="10.0" int="0.0" style="LinearHorizontal" textBoxPos="NoTextBox"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1.0"
-          needsCallback="1"/>
+          needsCallback="0"/>
   <LABEL name="new label" id="4a4b426864d21ae3" memberName="oscWaveformLabel8"
-         virtualName="" explicitFocusOrder="0" pos="375 95 104 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="391 95 104 24" edTextCol="ff000000"
          edBkgCol="0" labelText="CUTOFF" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Bahnschrift" fontsize="15.0"
          kerning="0.0" bold="0" italic="0" justification="33"/>
   <LABEL name="new label" id="ecfd26a0ec442508" memberName="oscWaveformLabel11"
-         virtualName="" explicitFocusOrder="0" pos="375 127 104 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="391 127 104 24" edTextCol="ff000000"
          edBkgCol="0" labelText="RESONANCE" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Bahnschrift" fontsize="15.0"
          kerning="0.0" bold="0" italic="0" justification="33"/>
   <SLIDER name="noiseAttackSlider" id="df18bc71fd9b48a7" memberName="noiseAttackSlider"
-          virtualName="" explicitFocusOrder="0" pos="503 159 150 24" min="0.0"
+          virtualName="" explicitFocusOrder="0" pos="519 159 150 24" min="0.0"
           max="10.0" int="0.0" style="LinearHorizontal" textBoxPos="NoTextBox"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1.0"
-          needsCallback="1"/>
+          needsCallback="0"/>
   <LABEL name="new label" id="fc05c7bc41b9c8e5" memberName="oscWaveformLabel12"
-         virtualName="" explicitFocusOrder="0" pos="375 159 104 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="391 159 104 24" edTextCol="ff000000"
          edBkgCol="0" labelText="ATTACK&#10;" editableSingleClick="0"
          editableDoubleClick="0" focusDiscardsChanges="0" fontname="Bahnschrift"
          fontsize="15.0" kerning="0.0" bold="0" italic="0" justification="33"/>
   <SLIDER name="filterResonanceSlider" id="9e7a5f18c8a125f4" memberName="filterResonanceSlider"
-          virtualName="" explicitFocusOrder="0" pos="503 127 150 24" min="0.0"
+          virtualName="" explicitFocusOrder="0" pos="519 127 150 24" min="0.0"
           max="10.0" int="0.0" style="LinearHorizontal" textBoxPos="NoTextBox"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1.0"
-          needsCallback="1"/>
+          needsCallback="0"/>
   <LABEL name="new label" id="7f9f31de9c0b9a24" memberName="oscWaveformLabel13"
-         virtualName="" explicitFocusOrder="0" pos="375 191 120 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="391 191 120 24" edTextCol="ff000000"
          edBkgCol="0" labelText="DECAY" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Bahnschrift" fontsize="15.0"
          kerning="0.0" bold="0" italic="0" justification="33"/>
   <SLIDER name="filterCutoffSlider" id="d328df1e64503bc9" memberName="filterCutoffSlider"
-          virtualName="" explicitFocusOrder="0" pos="503 95 150 24" min="0.0"
+          virtualName="" explicitFocusOrder="0" pos="519 95 150 24" min="0.0"
           max="10.0" int="0.0" style="LinearHorizontal" textBoxPos="NoTextBox"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1.0"
-          needsCallback="1"/>
+          needsCallback="0"/>
   <GROUPCOMPONENT name="new group" id="fedf657842f0201e" memberName="groupComponent3"
-                  virtualName="" explicitFocusOrder="0" pos="360 232 312 224" outlinecol="ff00d7ff"
+                  virtualName="" explicitFocusOrder="0" pos="376 232 312 224" outlinecol="ff00d7ff"
                   title="MASTER"/>
   <SLIDER name="distortSlider" id="68b2a19a79a15d18" memberName="distortSlider"
-          virtualName="" explicitFocusOrder="0" pos="504 360 150 24" min="0.0"
+          virtualName="" explicitFocusOrder="0" pos="520 360 150 24" min="0.0"
           max="10.0" int="0.0" style="LinearHorizontal" textBoxPos="NoTextBox"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1.0"
-          needsCallback="1"/>
+          needsCallback="0"/>
   <LABEL name="new label" id="70faa42f4d806f0c" memberName="oscWaveformLabel15"
-         virtualName="" explicitFocusOrder="0" pos="376 264 104 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="392 264 104 24" edTextCol="ff000000"
          edBkgCol="0" labelText="MIX" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Bahnschrift" fontsize="15.0"
          kerning="0.0" bold="0" italic="0" justification="33"/>
   <LABEL name="new label" id="f42a071249180edf" memberName="oscWaveformLabel16"
-         virtualName="" explicitFocusOrder="0" pos="376 296 104 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="392 296 104 24" edTextCol="ff000000"
          edBkgCol="0" labelText="EQ FREQ" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Bahnschrift" fontsize="15.0"
          kerning="0.0" bold="0" italic="0" justification="33"/>
   <SLIDER name="eqGainSlider" id="90292ea89fb59a9e" memberName="eqGainSlider"
-          virtualName="" explicitFocusOrder="0" pos="504 328 150 24" min="0.0"
+          virtualName="" explicitFocusOrder="0" pos="520 328 150 24" min="0.0"
           max="10.0" int="0.0" style="LinearHorizontal" textBoxPos="NoTextBox"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1.0"
-          needsCallback="1"/>
+          needsCallback="0"/>
   <LABEL name="new label" id="5ad726e45d5448fe" memberName="oscWaveformLabel17"
-         virtualName="" explicitFocusOrder="0" pos="376 328 104 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="392 328 104 24" edTextCol="ff000000"
          edBkgCol="0" labelText="EQ GAIN" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Bahnschrift" fontsize="15.0"
          kerning="0.0" bold="0" italic="0" justification="33"/>
   <SLIDER name="eqFreqSlider" id="9df2c3bb2b5f5c5d" memberName="eqFreqSlider"
-          virtualName="" explicitFocusOrder="0" pos="504 296 150 24" min="0.0"
+          virtualName="" explicitFocusOrder="0" pos="520 296 150 24" min="0.0"
           max="10.0" int="0.0" style="LinearHorizontal" textBoxPos="NoTextBox"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1.0"
-          needsCallback="1"/>
+          needsCallback="0"/>
   <LABEL name="new label" id="7cd974d04b02dafd" memberName="oscWaveformLabel18"
-         virtualName="" explicitFocusOrder="0" pos="376 360 120 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="392 360 120 24" edTextCol="ff000000"
          edBkgCol="0" labelText="DISTORT" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Bahnschrift" fontsize="15.0"
          kerning="0.0" bold="0" italic="0" justification="33"/>
   <SLIDER name="mixSlider" id="254cd5829605a295" memberName="mixSlider"
-          virtualName="" explicitFocusOrder="0" pos="504 264 150 24" min="0.0"
+          virtualName="" explicitFocusOrder="0" pos="520 264 150 24" min="0.0"
           max="10.0" int="0.0" style="LinearHorizontal" textBoxPos="NoTextBox"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1.0"
-          needsCallback="1"/>
+          needsCallback="0"/>
   <SLIDER name="panSlider" id="39449e4ea652942d" memberName="panSlider"
-          virtualName="" explicitFocusOrder="0" pos="504 392 150 24" min="0.0"
+          virtualName="" explicitFocusOrder="0" pos="520 392 150 24" min="0.0"
           max="10.0" int="0.0" style="LinearHorizontal" textBoxPos="NoTextBox"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1.0"
-          needsCallback="1"/>
+          needsCallback="0"/>
   <LABEL name="new label" id="bab3150f36a7006f" memberName="oscWaveformLabel14"
-         virtualName="" explicitFocusOrder="0" pos="376 392 120 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="392 392 120 24" edTextCol="ff000000"
          edBkgCol="0" labelText="PAN" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Bahnschrift" fontsize="15.0"
          kerning="0.0" bold="0" italic="0" justification="33"/>
   <SLIDER name="levelSlider" id="701cc9dd3505aded" memberName="levelSlider"
-          virtualName="" explicitFocusOrder="0" pos="504 424 150 24" min="0.0"
+          virtualName="" explicitFocusOrder="0" pos="520 424 150 24" min="0.0"
           max="10.0" int="0.0" style="LinearHorizontal" textBoxPos="NoTextBox"
           textBoxEditable="1" textBoxWidth="80" textBoxHeight="20" skewFactor="1.0"
-          needsCallback="1"/>
+          needsCallback="0"/>
   <LABEL name="new label" id="bbac941b94441226" memberName="oscWaveformLabel19"
-         virtualName="" explicitFocusOrder="0" pos="376 424 120 24" edTextCol="ff000000"
+         virtualName="" explicitFocusOrder="0" pos="392 424 120 24" edTextCol="ff000000"
          edBkgCol="0" labelText="LEVEL" editableSingleClick="0" editableDoubleClick="0"
          focusDiscardsChanges="0" fontname="Bahnschrift" fontsize="15.0"
          kerning="0.0" bold="0" italic="0" justification="33"/>
