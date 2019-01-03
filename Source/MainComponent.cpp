@@ -435,104 +435,104 @@ MainComponent::MainComponent (PatSynthAudioProcessor& p)
 
     //[Constructor] You can add your own custom stuff here..
 	// MASTER
-	//mixSliderAttachment = new SliderAttachment(
-	//	processor.parameters,
-	//	Globals::paramIdMasterMix,
-	//	*mixSlider);
+	mixSliderAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdMasterMix,
+		*mixSlider);
 
-	//eqFreqSliderAttachment = new SliderAttachment(
-	//	processor.parameters,
-	//	Globals::paramIdMasterEqFreq,
-	//	*eqFreqSlider);
+	eqFreqSliderAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdMasterEqFreq,
+		*eqFreqSlider);
 
-	//distortSliderAttachment = new SliderAttachment(
-	//	processor.parameters,
-	//	Globals::paramIdMasterDistort,
-	//	*distortSlider);
+	distortSliderAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdMasterDistort,
+		*distortSlider);
 
-	//eqGainSliderAttachment = new SliderAttachment(
-	//	processor.parameters,
-	//	Globals::paramIdMasterEqGain,
-	//	*eqGainSlider);
+	eqGainSliderAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdMasterEqGain,
+		*eqGainSlider);
 
-	//levelSliderAttachment = new SliderAttachment(
-	//	processor.parameters,
-	//	Globals::paramIdMasterLevel,
-	//	*levelSlider);
+	levelSliderAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdMasterLevel,
+		*levelSlider);
 
-	//panSliderAttachment = new SliderAttachment(
-	//	processor.parameters,
-	//	Globals::paramIdMasterPan,
-	//	*panSlider);
+	panSliderAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdMasterPan,
+		*panSlider);
 
-	//// OSC
+	// OSC
 
 	frequencySliderAttachment = new SliderAttachment(
 		processor.parameters,
 		Globals::paramIdFreq,
 		*frequencySlider);
 
-	//oscComboBoxAttachment = new ComboBoxAttachment(
-	//	processor.parameters,
-	//	Globals::paramIdWaveType,
-	//	*oscComboBox);
+	oscComboBoxAttachment = new ComboBoxAttachment(
+		processor.parameters,
+		Globals::paramIdWaveType,
+		*oscComboBox);
 
-	//oscAttackSliderAttachment = new SliderAttachment(
-	//	processor.parameters,
-	//	Globals::paramIdAttack,
-	//	*oscAttackSlider);
+	oscAttackSliderAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdAttack,
+		*oscAttackSlider);
 
-	//oscDecaySliderAttachment = new SliderAttachment(
-	//	processor.parameters,
-	//	Globals::paramIdDecay,
-	//	*oscDecaySlider);
+	oscDecaySliderAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdDecay,
+		*oscDecaySlider);
 
-	//pitchEnvAmountAttachment = new SliderAttachment(
-	//	processor.parameters,
-	//	Globals::paramIdPitchEnvAmount,
-	//	*pitchEnvAmountSlider);
+	pitchEnvAmountAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdPitchEnvAmount,
+		*pitchEnvAmountSlider);
 
-	//pitchEnvRateSliderAttachment = new SliderAttachment(
-	//	processor.parameters,
-	//	Globals::paramIdPitchEnvRate,
-	//	*pitchEnvRateSlider);
+	pitchEnvRateSliderAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdPitchEnvRate,
+		*pitchEnvRateSlider);
 
-	//pitchLfoAmountAttachment = new SliderAttachment(
-	//	processor.parameters,
-	//	Globals::paramIdPitchLfoAmount,
-	//	*pitchLfoAmountSlider);
+	pitchLfoAmountAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdPitchLfoAmount,
+		*pitchLfoAmountSlider);
 
-	//pitchLfoRateSliderAttachment = new SliderAttachment(
-	//	processor.parameters,
-	//	Globals::paramIdPitchLfoRate,
-	//	*pitchLfoRateSlider);
+	pitchLfoRateSliderAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdPitchLfoRate,
+		*pitchLfoRateSlider);
 
-	//// NOISE
+	// NOISE
 
-	//filterTypeComboBoxAttachment = new ComboBoxAttachment(
-	//	processor.parameters,
-	//	Globals::paramIdNoiseFilterType,
-	//	*filterTypeComboBox);
+	filterTypeComboBoxAttachment = new ComboBoxAttachment(
+		processor.parameters,
+		Globals::paramIdNoiseFilterType,
+		*filterTypeComboBox);
 
-	//filterCutoffSliderAttachment = new SliderAttachment(
-	//	processor.parameters,
-	//	Globals::paramIdNoiseFilterCutoff,
-	//	*filterCutoffSlider);
+	filterCutoffSliderAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdNoiseFilterCutoff,
+		*filterCutoffSlider);
 
-	//filterResonanceSliderAttachment = new SliderAttachment(
-	//	processor.parameters,
-	//	Globals::paramIdNoiseFilterReso,
-	//	*filterResonanceSlider);
+	filterResonanceSliderAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdNoiseFilterReso,
+		*filterResonanceSlider);
 
-	//noiseAttackSliderAttachment = new SliderAttachment(
-	//	processor.parameters,
-	//	Globals::paramIdNoiseAttack,
-	//	*noiseAttackSlider);
+	noiseAttackSliderAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdNoiseAttack,
+		*noiseAttackSlider);
 
-	//noiseDecaySliderAttachment = new SliderAttachment(
-	//	processor.parameters,
-	//	Globals::paramIdNoiseDecay,
-	//	*noiseDecaySlider);
+	noiseDecaySliderAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdNoiseDecay,
+		*noiseDecaySlider);
 
 
     //[/Constructor]

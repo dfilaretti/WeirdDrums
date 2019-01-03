@@ -45,12 +45,15 @@ public:
 		switch (selection) 
 		{
 			case sine: 
-				osc.initialise([](Type x) { return std::sin(x); }, 128);
+				osc.initialise([](Type x) { return std::sin(x); }, 512);
 				break;
 			case saw: 
 				osc.initialise([](Type x) {
 					return jmap(x, Type(-MathConstants<double>::pi), Type(MathConstants<double>::pi), Type(-1), Type(1));
 				}, 2);
+				break;
+			case square:
+				osc.initialise([](Type x) { return ( sgn (std::sin (x))) ; }, 512);
 				break;
 			case noise:
 				osc.initialise([&random](Type x) { return (random.nextFloat() * 0.25f - 0.125f);}, 128);
@@ -89,6 +92,12 @@ public:
 private:
 	//==============================================================================
 	
+	template <typename T> 
+	static int sgn(T val)
+	{
+		return ( T(0) < val ) - ( val < T(0) );
+	}
+
 	enum
 	{
 		oscIndex,
