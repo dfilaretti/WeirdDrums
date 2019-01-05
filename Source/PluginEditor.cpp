@@ -13,15 +13,15 @@
 
 //==============================================================================
 PatSynthAudioProcessorEditor::PatSynthAudioProcessorEditor (PatSynthAudioProcessor& p)
-    : AudioProcessorEditor (&p), processor (p), oscGui (p), envGui (p), filterGui (p), pluginUI (p)
+    : AudioProcessorEditor (&p), processor (p), oscGui (p), envGui (p), filterGui (p)
 {
     setSize (kWidth, kHeight);
 
-	addAndMakeVisible(pluginUI);
+	//addAndMakeVisible(pluginUI);
 
-	//addAndMakeVisible(oscGui);
-	//addAndMakeVisible(envGui);
-	//addAndMakeVisible(filterGui);
+	addAndMakeVisible(oscGui);
+	addAndMakeVisible(envGui);
+	addAndMakeVisible(filterGui);
 }
 
 
@@ -37,11 +37,11 @@ void PatSynthAudioProcessorEditor::paint (Graphics& g)
 
 void PatSynthAudioProcessorEditor::resized()
 {
-	//juce::Rectangle<int> area = getLocalBounds();
+	juce::Rectangle<int> area = getLocalBounds();
 
-	//oscGui.setBounds(area.removeFromLeft(kSectionWidth).removeFromTop(kSectionHeight));
-	//filterGui.setBounds(area.removeFromLeft(kSectionWidth).removeFromTop(kSectionHeight));
-	//envGui.setBounds(area.removeFromLeft(kSectionWidth).removeFromTop(kSectionHeight));
+	oscGui.setBounds(area.removeFromLeft(kSectionWidth).removeFromTop(kSectionHeight));
+	filterGui.setBounds(area.removeFromLeft(kSectionWidth).removeFromTop(kSectionHeight));
+	envGui.setBounds(area.removeFromLeft(kSectionWidth).removeFromTop(kSectionHeight));
 
- 	pluginUI.setBounds(0,0,700, 500);
+ 	//pluginUI.setBounds(0,0,700, 500);
 }

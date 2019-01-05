@@ -25,9 +25,9 @@ public:
 		masterSectionBlock = juce::dsp::AudioBlock<float>(masterSectionHeapBlock, spec.numChannels, spec.maximumBlockSize);
 
 		// Setup amp envelope smoothing
-		auto modPeriod = (spec.sampleRate / m_modulationUpdateRate);
-		auto rampDur = 1 / modPeriod;
-		oscSectionProcessorChain.get<oscSectionOscIndex>().setRampDuration (rampDur);
+		auto modSampleRate = (spec.sampleRate / m_modulationUpdateRate);
+		auto modSamplePeriod = 1 / modSampleRate;
+		oscSectionProcessorChain.get<oscSectionOscIndex>().setRampDuration (modSamplePeriod);
 		
 		// prepare processing chains
 		oscSectionProcessorChain.prepare(spec);
