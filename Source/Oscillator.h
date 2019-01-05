@@ -36,6 +36,13 @@ public:
 		gain.setGainLinear(newValue);
 	}
 
+	/** Sets ramp duration in second */
+	void setRampDuration (float durationSecs)
+	{
+		auto& gain = processorChain.template get<gainIndex>();
+		gain.setRampDurationSeconds (durationSecs);
+	}
+
 	void setWaveform(int selection)
 	{
 		auto& osc = processorChain.template get<oscIndex>();

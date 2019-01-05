@@ -19,13 +19,15 @@ public:
 	//==============================================================================
 	void prepare(const juce::dsp::ProcessSpec& spec)
 	{
-		//m_oscAmpEnv.setParameters ({ 0.001f, 0.5f, 0.1f, 0.2f  });
-		//m_noiseAmpEnv.setParameters ({ 0.001f, 0.5f, 0.1f, 0.2f });
-
 		// init buffers
 		oscSectionBlock    = juce::dsp::AudioBlock<float>(oscSectionHeapBlock, spec.numChannels, spec.maximumBlockSize);
 		noiseSectionBlock  = juce::dsp::AudioBlock<float>(noiseSectionHeapBlock, spec.numChannels, spec.maximumBlockSize);
 		masterSectionBlock = juce::dsp::AudioBlock<float>(masterSectionHeapBlock, spec.numChannels, spec.maximumBlockSize);
+
+		// Setup amp envelope smoothing
+		auto modPeriod = (spec.sampleRate / m_modulationUpdateRate);
+		auto rampDur = 1 / modPeriod;
+		oscSectionProcessorChain.get<oscSectionOscIndex>().setRampDuration (rampDur);
 		
 		// prepare processing chains
 		oscSectionProcessorChain.prepare(spec);
@@ -256,7 +258,7 @@ public:
 
 private:
 	//==============================================================================
-	static constexpr size_t m_modulationUpdateRate = 2;
+	static constexpr size_t m_modulationUpdateRate = 10;
 	size_t m_modulationUpdateCounter = m_modulationUpdateRate;
 
 	//==============================================================================
