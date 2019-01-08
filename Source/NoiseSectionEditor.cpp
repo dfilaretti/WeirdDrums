@@ -29,11 +29,11 @@ NoiseSectionEditor::NoiseSectionEditor(PatSynthAudioProcessor& p) :
 	m_filterQLabel.setJustificationType(Justification::centredTop);
 	addAndMakeVisible(m_filterQLabel);
 
-	m_attackLabel.setText("attack", dontSendNotification);
-	//m_attackLabel.setJustificationType(Justification::centredTop);
+	m_attackLabel.setText("att", dontSendNotification);
+	m_attackLabel.setJustificationType(Justification::centredTop);
 	addAndMakeVisible(m_attackLabel);
 
-	m_decayLabel.setText("decay", dontSendNotification);
+	m_decayLabel.setText("dec", dontSendNotification);
 	m_decayLabel.setJustificationType(Justification::centredTop);
 	addAndMakeVisible(m_decayLabel);
 
@@ -122,14 +122,19 @@ void NoiseSectionEditor::resized()
 
 
 	// Add attack/decay sliders
-	auto attackSliderArea = ampArea.removeFromLeft(50);
-	attackSlider.setBounds(attackSliderArea);
-/*	m_attackLabel.setTransform(AffineTransform::rotation(-MathConstants<float>::halfPi, 0.5 * getHeight(), 0.5 * getWidth()));
-	m_attackLabel.setBounds(attackSliderArea)*/;
 
+	{
+		auto r = ampArea.removeFromLeft(50);
+		m_attackLabel.setBounds(r.removeFromBottom(25));
+		attackSlider.setBounds(r);
+	}
 
-	auto decaySliderArea = ampArea.removeFromLeft(50);
-	decaySlider.setBounds(decaySliderArea);
+	{
+		auto r = ampArea.removeFromLeft(50);
+		m_decayLabel.setBounds(r.removeFromBottom(25));
+		decaySlider.setBounds(r);
+	}
+
 
 	// add pitch envelope (rotary) sliders
 	auto pitchEnvSlidersArea = miscArea.removeFromRight(75);

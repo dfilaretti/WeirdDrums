@@ -20,11 +20,11 @@ OscillatorSectionEditor::OscillatorSectionEditor(PatSynthAudioProcessor& p)
 	m_freqLabel.setJustificationType(Justification::centredTop);
 	addAndMakeVisible(m_freqLabel);
 
-	m_attackLabel.setText("attack", dontSendNotification);
+	m_attackLabel.setText("att", dontSendNotification);
 	m_attackLabel.setJustificationType(Justification::centredTop);
 	addAndMakeVisible(m_attackLabel);
 
-	m_decayLabel.setText("decay", dontSendNotification);
+	m_decayLabel.setText("dec", dontSendNotification);
 	m_decayLabel.setJustificationType(Justification::centredTop);
 	addAndMakeVisible(m_decayLabel);
 
@@ -154,14 +154,14 @@ void OscillatorSectionEditor::resized()
 	// Add attack/decay sliders
 	{
 		auto r = ampArea.removeFromLeft(50);
+		m_attackLabel.setBounds(r.removeFromBottom(25));
 		attackSlider.setBounds(r);
-		// TODO: label
 	}
 
 	{
 		auto r = ampArea.removeFromLeft(50);
+		m_decayLabel.setBounds(r.removeFromBottom(25));
 		decaySlider.setBounds(r);
-		// TODO: label
 	}
 
 	// add pitch envelope (rotary) sliders
