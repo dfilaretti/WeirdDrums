@@ -68,6 +68,12 @@ private:
 	ScopedPointer<SliderAttachment>
 		attackSliderAttachment, decaySliderAttachment;
 
+	Label m_filterTypeLabel;
+	Label m_cutoffLabel;
+	Label m_filterQLabel;
+	Label m_attackLabel;
+	Label m_decayLabel;
+
 	//==============================================================================
 	juce::Rectangle <int>
 		area,

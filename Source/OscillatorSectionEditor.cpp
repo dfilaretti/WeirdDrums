@@ -15,6 +15,36 @@
 OscillatorSectionEditor::OscillatorSectionEditor(PatSynthAudioProcessor& p) 
 	: processor(p)
 {
+	// Setup labels
+	m_freqLabel.setText("osc freq", dontSendNotification);
+	m_freqLabel.setJustificationType(Justification::centredTop);
+	addAndMakeVisible(m_freqLabel);
+
+	m_attackLabel.setText("attack", dontSendNotification);
+	m_attackLabel.setJustificationType(Justification::centredTop);
+	addAndMakeVisible(m_attackLabel);
+
+	m_decayLabel.setText("decay", dontSendNotification);
+	m_decayLabel.setJustificationType(Justification::centredTop);
+	addAndMakeVisible(m_decayLabel);
+
+	m_pitchEnvAmountLabel.setText("env depth", dontSendNotification);
+	m_pitchEnvAmountLabel.setJustificationType(Justification::centredTop);
+	addAndMakeVisible(m_pitchEnvAmountLabel);
+
+	m_pitchEnvRateLabel.setText("env rate", dontSendNotification);
+	m_pitchEnvRateLabel.setJustificationType(Justification::centredTop);
+	addAndMakeVisible(m_pitchEnvRateLabel);
+
+	m_pitchLfoAmountLabel.setText("lfo depth", dontSendNotification);
+	m_pitchLfoAmountLabel.setJustificationType(Justification::centredTop);
+	addAndMakeVisible(m_pitchLfoAmountLabel);
+
+	m_pitchLfoRateLabel.setText("lfo rate", dontSendNotification);
+	m_pitchLfoRateLabel.setJustificationType(Justification::centredTop);
+	addAndMakeVisible(m_pitchLfoRateLabel);
+
+	// --
 	frequencySlider.setSliderStyle(Slider::SliderStyle::LinearHorizontal);
 	frequencySlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&frequencySlider);
@@ -111,33 +141,56 @@ void OscillatorSectionEditor::resized()
 
 	// Add waevform selection combobox
 	auto waveformComboBoxArea = waveformArea.removeFromTop(50);
-	oscComboBox.setBounds(waveformComboBoxArea);
+	oscComboBox.setBounds(waveformComboBoxArea.reduced(12.5));
 
 	// Add frequency slider
-	auto frequencySliderArea = waveformArea.removeFromTop(50);
-	frequencySlider.setBounds(frequencySliderArea);
+	
+	{
+		auto r = waveformArea.removeFromTop(50);
+		frequencySlider.setBounds(r.removeFromTop(25));
+		m_freqLabel.setBounds(r);
+	}
 
 	// Add attack/decay sliders
-	auto attackSliderArea = ampArea.removeFromLeft(50);
-	attackSlider.setBounds(attackSliderArea);
-	auto decaySliderArea = ampArea.removeFromLeft(50);
-	decaySlider.setBounds(decaySliderArea);
+	{
+		auto r = ampArea.removeFromLeft(50);
+		attackSlider.setBounds(r);
+		// TODO: label
+	}
+
+	{
+		auto r = ampArea.removeFromLeft(50);
+		decaySlider.setBounds(r);
+		// TODO: label
+	}
 
 	// add pitch envelope (rotary) sliders
 	auto pitchEnvSlidersArea = modArea.removeFromRight(75);
+
+	{
+		auto r = pitchEnvSlidersArea.removeFromTop(75);
+		pitchEnvAmountSlider.setBounds(r.removeFromTop(60));
+		m_pitchEnvAmountLabel.setBounds(r);
+	}
 	
-	auto pitchEnvDepthArea = pitchEnvSlidersArea.removeFromTop(75);
-	pitchEnvAmountSlider.setBounds(pitchEnvDepthArea);
-	
-	auto pitchEnvRateArea = pitchEnvSlidersArea.removeFromTop(75);
-	pitchEnvRateSlider.setBounds(pitchEnvRateArea);
+	{
+		auto r = pitchEnvSlidersArea.removeFromTop(75);
+		pitchEnvRateSlider.setBounds(r.removeFromTop(60));
+		m_pitchEnvRateLabel.setBounds(r);
+	}
 
 	// add pitch lfo (rotary) sliders
 	auto pitchLfoSlidersArea = modArea.removeFromRight(75);
 
-	auto pitchLfoDepthArea = pitchLfoSlidersArea.removeFromTop(75);
-	pitchLfoAmountSlider.setBounds(pitchLfoDepthArea);
+	{
+		auto r = pitchLfoSlidersArea.removeFromTop(75);
+		pitchLfoAmountSlider.setBounds(r.removeFromTop(60));
+		m_pitchLfoAmountLabel.setBounds(r);
+	}
 
-	auto pitchLfoRateArea = pitchLfoSlidersArea.removeFromTop(75);
-	pitchLfoRateSlider.setBounds(pitchLfoRateArea);
+	{
+		auto r = pitchLfoSlidersArea.removeFromTop(75);
+		pitchLfoRateSlider.setBounds(r.removeFromTop(60));
+		m_pitchLfoRateLabel.setBounds(r);
+	}
 }

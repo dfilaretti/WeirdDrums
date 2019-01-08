@@ -56,6 +56,13 @@ private:
 	ScopedPointer<SliderAttachment> levelSliderAttachment;
 	ScopedPointer<SliderAttachment> panSliderAttachment;
 
+	Label m_mixLabel;
+	Label m_eqFreqLabel;
+	Label m_distortLabel;
+	Label m_eqGainLabel;
+	Label m_levelLabel;
+	Label m_panLabel;
+
 	//==============================================================================
 	juce::Rectangle <int>
 		area,

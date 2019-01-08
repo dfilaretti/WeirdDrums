@@ -15,6 +15,31 @@
 MasterSectionEditor::MasterSectionEditor(PatSynthAudioProcessor& p) : 
 	processor (p)
 {
+	// Setup labels
+	m_mixLabel.setText("mix", dontSendNotification);
+	m_mixLabel.setJustificationType(Justification::centredTop);
+	addAndMakeVisible(m_mixLabel);
+
+	m_eqFreqLabel.setText("eq freq", dontSendNotification);
+	m_eqFreqLabel.setJustificationType(Justification::centredTop);
+	addAndMakeVisible(m_eqFreqLabel);
+	
+	m_distortLabel.setText("distort", dontSendNotification);
+	m_distortLabel.setJustificationType(Justification::centredTop);
+	addAndMakeVisible(m_distortLabel);
+
+	m_eqGainLabel.setText("eq gain", dontSendNotification);
+	m_eqGainLabel.setJustificationType(Justification::centredTop);
+	addAndMakeVisible(m_eqGainLabel);
+
+	m_levelLabel.setText("level", dontSendNotification);
+	m_levelLabel.setJustificationType(Justification::centredTop);
+	addAndMakeVisible(m_levelLabel);
+	
+	m_panLabel.setText("pan", dontSendNotification);
+	m_panLabel.setJustificationType(Justification::centredTop);
+	addAndMakeVisible(m_panLabel);
+
 	// mix slider
 	mixSlider.setSliderStyle(Slider::LinearHorizontal);
 	mixSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
@@ -94,28 +119,46 @@ void MasterSectionEditor::resized()
 	miscArea = controlsArea.removeFromRight(kModWidth);
 
 	// --
-	auto mixSliderArea = waveformArea.removeFromTop(50);
-	mixSlider.setBounds(mixSliderArea);
+	{
+		auto r = waveformArea.removeFromTop(50);
+		mixSlider.setBounds(r.removeFromTop(25));
+		m_mixLabel.setBounds(r);
+	}
 
 	// --
-	auto eqFreqSliderArea = waveformArea.removeFromTop(50);
-	eqFreqSlider.setBounds(eqFreqSliderArea);
+	{
+		auto r = waveformArea.removeFromTop(50);
+		eqFreqSlider.setBounds(r.removeFromTop(25));
+		m_eqFreqLabel.setBounds(r);
+	}
 
 	// --
 	auto eqGainAndPanlidersArea = miscArea.removeFromRight(75);
 
-	auto eqGainSliderArea = eqGainAndPanlidersArea.removeFromTop(75);
-	eqGainSlider.setBounds(eqGainSliderArea);
+	{
+		auto r = eqGainAndPanlidersArea.removeFromTop(75);
+		eqGainSlider.setBounds(r.removeFromTop(60));
+		m_eqGainLabel.setBounds(r);
+	}
 
-	auto panSliderArea = eqGainAndPanlidersArea.removeFromTop(75);
-	panSlider.setBounds(panSliderArea);
+	{
+		auto r = eqGainAndPanlidersArea.removeFromTop(75);
+		panSlider.setBounds(r.removeFromTop(60));
+		m_panLabel.setBounds(r);
+	}
 
 	// ---
 	auto pitchLfoSlidersArea = miscArea.removeFromRight(75);
 
-	auto filterResonanceArea = pitchLfoSlidersArea.removeFromTop(75);
-	distortSlider.setBounds(filterResonanceArea);
+	{
+		auto r = pitchLfoSlidersArea.removeFromTop(75);
+		distortSlider.setBounds(r.removeFromTop(60));
+		m_distortLabel.setBounds(r);
+	}
 
-	auto levelArea = pitchLfoSlidersArea.removeFromTop(75);
-	levelSlider.setBounds(levelArea);
+	{
+		auto r = pitchLfoSlidersArea.removeFromTop(75);
+		levelSlider.setBounds(r.removeFromTop(60));
+		m_levelLabel.setBounds(r);
+	}
 }

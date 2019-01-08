@@ -15,6 +15,29 @@
 NoiseSectionEditor::NoiseSectionEditor(PatSynthAudioProcessor& p) :
 	processor(p)
 {
+	// Setup labels
+
+	m_filterTypeLabel.setText("Filter type", dontSendNotification);
+	m_filterTypeLabel.setJustificationType(Justification::centredTop);
+	addAndMakeVisible(m_filterTypeLabel);
+
+	m_cutoffLabel.setText("filter freq", dontSendNotification);
+	m_cutoffLabel.setJustificationType(Justification::centredTop);
+	addAndMakeVisible(m_cutoffLabel);
+
+	m_filterQLabel.setText("filter q", dontSendNotification);
+	m_filterQLabel.setJustificationType(Justification::centredTop);
+	addAndMakeVisible(m_filterQLabel);
+
+	m_attackLabel.setText("attack", dontSendNotification);
+	//m_attackLabel.setJustificationType(Justification::centredTop);
+	addAndMakeVisible(m_attackLabel);
+
+	m_decayLabel.setText("decay", dontSendNotification);
+	m_decayLabel.setJustificationType(Justification::centredTop);
+	addAndMakeVisible(m_decayLabel);
+
+
 	// setup filter type combo box
 	filterTypeComboBox.addItem(kMenuItemLowPassText,  kMenuItemLowPassId);
 	filterTypeComboBox.addItem(kMenuItemHighPassText, kMenuItemHighPassId);
@@ -79,11 +102,6 @@ void NoiseSectionEditor::paint (Graphics& g)
 
 void NoiseSectionEditor::resized()
 {
-	//juce::Rectangle<int> area = getLocalBounds().reduced(40);
-	//filterTypeComboBox.setBounds(area.removeFromTop(20));
-	//filterCutoffSlider.setBounds(30, 100, 70, 70);
-	//filterResonanceSlider.setBounds(100, 100, 70, 70);
-
 	// Update rectangles sizes
 	area = getLocalBounds();
 	titleArea = area.removeFromTop(kTitleHeight);
@@ -94,15 +112,22 @@ void NoiseSectionEditor::resized()
 
 	// Add filter type combobox
 	auto filterTypeComboBoxArea = waveformArea.removeFromTop(50);
-	filterTypeComboBox.setBounds(filterTypeComboBoxArea);
+	filterTypeComboBox.setBounds(filterTypeComboBoxArea.reduced(12.5));
 
 	// Add frequency slider
 	auto frequencySliderArea = waveformArea.removeFromTop(50);
-	filterCutoffSlider.setBounds(frequencySliderArea);
+	filterCutoffSlider.setBounds(frequencySliderArea.removeFromTop(25));
+	m_cutoffLabel.setBounds(frequencySliderArea);
+
+
 
 	// Add attack/decay sliders
 	auto attackSliderArea = ampArea.removeFromLeft(50);
 	attackSlider.setBounds(attackSliderArea);
+/*	m_attackLabel.setTransform(AffineTransform::rotation(-MathConstants<float>::halfPi, 0.5 * getHeight(), 0.5 * getWidth()));
+	m_attackLabel.setBounds(attackSliderArea)*/;
+
+
 	auto decaySliderArea = ampArea.removeFromLeft(50);
 	decaySlider.setBounds(decaySliderArea);
 
@@ -113,6 +138,7 @@ void NoiseSectionEditor::resized()
 	auto pitchLfoSlidersArea = miscArea.removeFromRight(75);
 
 	auto filterResonanceArea = pitchLfoSlidersArea.removeFromTop(75);
-	filterResonanceSlider.setBounds(filterResonanceArea);
+	filterResonanceSlider.setBounds(filterResonanceArea.removeFromTop(60));
+	m_filterQLabel.setBounds(filterResonanceArea);
 
 }

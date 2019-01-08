@@ -86,6 +86,14 @@ private:
 		pitchLfoAmountAttachment,
 		pitchLfoRateSliderAttachment;
 
+	Label m_freqLabel;
+	Label m_attackLabel;
+	Label m_decayLabel;
+	Label m_pitchEnvAmountLabel;
+	Label m_pitchEnvRateLabel;
+	Label m_pitchLfoAmountLabel;
+	Label m_pitchLfoRateLabel;
+
 	//==============================================================================
 	PatSynthAudioProcessor& processor;
 

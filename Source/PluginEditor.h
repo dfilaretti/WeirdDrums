@@ -31,7 +31,7 @@ public:
 
 private:
 	const int kWidth         = 750;
-	const int kHeight        = 275;
+	const int kHeight        = 285;
 	const int kSectionWidth  = 250;
 	const int kSectionHeight = kHeight;
 
