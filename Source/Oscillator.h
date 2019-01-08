@@ -1,9 +1,9 @@
 /*
   ==============================================================================
 
-    Osc.h
-    Created: 9 Nov 2018 5:31:56pm
-    Author:  dfila
+	Osc.h
+	Created: 9 Nov 2018 5:31:56pm
+	Author:  dfila
 
   ==============================================================================
 */
@@ -23,51 +23,49 @@ public:
 	}
 
 	//==============================================================================
-	void setFrequency (Type newValue, bool force = false)
+	void setFrequency(Type newValue, bool force = false)
 	{
 		auto& osc = processorChain.template get<oscIndex>();
 		osc.setFrequency(newValue, force);
 	}
 
 	//==============================================================================
-	void setLevel (Type newValue)
+	void setLevel(Type newValue)
 	{
 		auto& gain = processorChain.template get<gainIndex>();
 		gain.setGainLinear(newValue);
 	}
 
 	/** Sets ramp duration in second */
-	void setRampDuration (float durationSecs)
+	void setRampDuration(float durationSecs)
 	{
 		auto& gain = processorChain.template get<gainIndex>();
-		gain.setRampDurationSeconds (durationSecs);
+		gain.setRampDurationSeconds(durationSecs);
 	}
 
 	void setWaveform(int selection)
 	{
-		auto& osc = processorChain.template get<oscIndex>();
-		
 		Random random;
 
-		switch (selection) 
+		auto oscFunction = [selection, &random] () -> std::function<float(float)>
 		{
-			case sine: 
-				osc.initialise([](Type x) { return std::sin(x); }, 512);
-				break;
-			case saw: 
-				osc.initialise([](Type x) {
-					return jmap(x, Type(-MathConstants<double>::pi), Type(MathConstants<double>::pi), Type(-1), Type(1));
-				}, 2);
-				break;
-			case square:
-				osc.initialise([](Type x) { return ( sgn (std::sin (x))) ; }, 512);
-				break;
-			case noise:
-				osc.initialise([&random](Type x) { return (random.nextFloat() * 0.25f - 0.125f);}, 128);
-				break;
-			default:
-				osc.initialise([](Type x) { return std::sin(x); }, 128);
-		}
+			switch (selection)
+			{
+				case sine:
+					return [](float x) { return std::sin(x); };
+				case saw:
+					return [](Type x) { return jmap(x, Type(-MathConstants<double>::pi), Type(MathConstants<double>::pi), Type(-1), Type(1)); };
+				case square:
+					return [](float x) { return (sgn(std::sin(x))); };
+				case noise:
+				{
+					return [&random](float x) { return (random.nextFloat() * 0.25f - 0.125f); };
+				}
+			}
+		}();
+
+		auto& osc = processorChain.template get<oscIndex>();
+		osc.initialise (oscFunction, 512);
 	}
 
 	//==============================================================================
@@ -78,7 +76,7 @@ public:
 
 	//==============================================================================
 	template <typename ProcessContext>
-	void process (const ProcessContext& context) noexcept
+	void process(const ProcessContext& context) noexcept
 	{
 		processorChain.process(context);
 	}
@@ -91,18 +89,18 @@ public:
 
 	enum Waveform
 	{
-		sine, 
+		sine,
 		saw,
 		square, // todo 
 		noise
 	};
 private:
 	//==============================================================================
-	
-	template <typename T> 
+
+	template <typename T>
 	static int sgn(T val)
 	{
-		return ( T(0) < val ) - ( val < T(0) );
+		return (T(0) < val) - (val < T(0));
 	}
 
 	enum
@@ -110,6 +108,6 @@ private:
 		oscIndex,
 		gainIndex
 	};
-	
+
 	juce::dsp::ProcessorChain<juce::dsp::Oscillator<Type>, juce::dsp::Gain<Type>> processorChain;
 };
