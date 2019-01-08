@@ -52,15 +52,13 @@ public:
 			switch (selection)
 			{
 				case sine:
-					return [](float x) { return std::sin(x); };
+					return [](Type x) { return std::sin(x); };
 				case saw:
 					return [](Type x) { return jmap(x, Type(-MathConstants<double>::pi), Type(MathConstants<double>::pi), Type(-1), Type(1)); };
 				case square:
-					return [](float x) { return (sgn(std::sin(x))); };
+					return [](Type x) { return (sgn(std::sin(x))); };
 				case noise:
-				{
-					return [&random](float x) { return (random.nextFloat() * 0.25f - 0.125f); };
-				}
+					return [&random](Type x) { return (random.nextFloat() * 0.25f - 0.125f); };
 			}
 		}();
 
