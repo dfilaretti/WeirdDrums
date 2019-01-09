@@ -28,8 +28,8 @@ public:
 		// Setup amp envelope smoothing
 		auto modSampleRate = (spec.sampleRate / m_modulationUpdateRate);
 		auto modSamplePeriod = 1 / modSampleRate;
-		oscSectionProcessorChain.get<oscSectionOscIndex>().setRampDuration (modSamplePeriod);
-		
+		oscSectionProcessorChain.get<oscSectionOscIndex>().setRampDuration(modSamplePeriod);
+
 		// prepare processing chains
 		oscSectionProcessorChain.prepare(spec);
 		noiseSectionProcessorChain.prepare(spec);
@@ -128,9 +128,9 @@ public:
 	
 	void stopNote(float velocity, bool allowTailOf) override
 	{
-		m_oscAmpEnv.noteOff();
-		m_noiseAmpEnv.noteOff();
-		m_oscPitchEnv.noteOff();
+		//m_oscAmpEnv.noteOff();
+		//m_noiseAmpEnv.noteOff();
+		//m_oscPitchEnv.noteOff();
 
 		if (velocity = 0)
 			clearCurrentNote(); // so that voice can be reused
@@ -247,18 +247,17 @@ public:
 			noiseBlock.multiply (mix);
 			masterBlock.add (oscBlock).add (noiseBlock);
 
-			// global gain
-			masterBlock.multiply (level);
-			
 			// Global FX chain
-			masterSectionProcessorChain.get<masterSectionDistortionIndex>()
+			masterSectionProcessorChain
+				.get<masterSectionDistortionIndex>()
 				.setPreGain(distortionAmount);
+
+			masterSectionProcessorChain
+				.get<masterSectionGainIndex>()
+				.setGainDecibels (level);
 
 			masterSectionProcessorChain.process (masterSectionContext);
 		}
-
-
-
 
 		// All processing done! :-) 
 		juce::dsp::AudioBlock<float> (outputBuffer)
@@ -280,9 +279,8 @@ private:
 	typedef Oscillator<float> Oscillator;
 	typedef Distortion<float> Distortion;
 	typedef juce::dsp::Gain<float> Gain;
-	typedef 
-		dsp::ProcessorDuplicator<dsp::StateVariableFilter::Filter<float>, 
-		                         dsp::StateVariableFilter::Parameters<float>> Filter;
+	typedef dsp::ProcessorDuplicator<dsp::StateVariableFilter::Filter<float>, 
+		                             dsp::StateVariableFilter::Parameters<float>> Filter;
 
 	//==============================================================================
 	enum OscSection
@@ -298,7 +296,8 @@ private:
 
 	enum MasterSection
 	{
-		masterSectionDistortionIndex
+		masterSectionDistortionIndex,
+		masterSectionGainIndex
 	};
 
 	//==============================================================================
@@ -314,7 +313,7 @@ private:
 	//==============================================================================
 	juce::dsp::ProcessorChain<Oscillator> oscSectionProcessorChain;
 	juce::dsp::ProcessorChain<Oscillator, Filter> noiseSectionProcessorChain;
-	juce::dsp::ProcessorChain<Distortion> masterSectionProcessorChain;
+	juce::dsp::ProcessorChain<Distortion, Gain> masterSectionProcessorChain;
 
 	//==============================================================================
 	juce::dsp::Oscillator<float> pitchLfo;

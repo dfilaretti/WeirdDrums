@@ -119,7 +119,7 @@ private:
 	const NormalisableRange<float> kParamRangeMasterEqFreq    = NormalisableRange<float>(20, 15000);
 	const NormalisableRange<float> kParamRangeMasterEqGain    = NormalisableRange<float>(-12, 12); // db
 	const NormalisableRange<float> kParamRangeMasterDistort   = NormalisableRange<float>(0.f, 50.f);
-	const NormalisableRange<float> kParamRangeMasterLevel     = NormalisableRange<float>(0, 2); // TODO: make it in db 
+	const NormalisableRange<float> kParamRangeMasterLevel     = NormalisableRange<float>(-24, 24);
 	const NormalisableRange<float> kParamRangeMasterPan       = NormalisableRange<float>(-1, 1);
 
 	//==============================================================================
@@ -143,7 +143,7 @@ private:
 	const float kParamDefaultMasterEqFreq         = 1000.f;
 	const float kParamDefaultMasterEqGain         = 0.f;
 	const float kParamDefaultMasterDistort        = 0.f;
-	const float kParamDefaultMasterLevel          = 1.f;
+	const float kParamDefaultMasterLevel          = 0.f;
 	const float kParamDefaultMasterPan            = 0.f;
 
 	//==============================================================================
