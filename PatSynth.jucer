@@ -10,6 +10,7 @@
         <FILE id="xtuUfg" name="Globals.h" compile="0" resource="0" file="Source/Globals.h"/>
       </GROUP>
       <GROUP id="{5633249D-B53E-0946-92DD-FAC6184FFC44}" name="Processor">
+        <FILE id="cFxEDa" name="Distortion.h" compile="0" resource="0" file="Source/Distortion.h"/>
         <FILE id="sl9aeW" name="AdsrEnvelope.h" compile="0" resource="0" file="Source/AdsrEnvelope.h"/>
         <FILE id="zgDNui" name="Oscillator.h" compile="0" resource="0" file="Source/Oscillator.h"/>
         <FILE id="vDI0BM" name="Synth.h" compile="0" resource="0" file="Source/Synth.h"/>

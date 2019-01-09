@@ -12,6 +12,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SynthSound.h"
 #include "Oscillator.h"
+#include "Distortion.h"
 
 class SynthVoice : public SynthesiserVoice
 {
@@ -240,7 +241,6 @@ public:
 			// process
 			oscSectionProcessorChain.process (oscSectionContext);
 			noiseSectionProcessorChain.process (noiseSectionContext);
-			masterSectionProcessorChain.process (masterSectionContext);
 
 			// mix osc/noise sections
 			oscBlock.multiply (1 - mix);
@@ -249,8 +249,18 @@ public:
 
 			// global gain
 			masterBlock.multiply (level);
+			
+			// Global FX chain
+			masterSectionProcessorChain.get<masterSectionDistortionIndex>()
+				.setPreGain(distortionAmount);
+
+			masterSectionProcessorChain.process (masterSectionContext);
 		}
 
+
+
+
+		// All processing done! :-) 
 		juce::dsp::AudioBlock<float> (outputBuffer)
 			.getSubBlock ((size_t)startSample, (size_t)numSamples)
 			.add (masterSectionBlock);
@@ -268,6 +278,7 @@ private:
 
 	//==============================================================================
 	typedef Oscillator<float> Oscillator;
+	typedef Distortion<float> Distortion;
 	typedef juce::dsp::Gain<float> Gain;
 	typedef 
 		dsp::ProcessorDuplicator<dsp::StateVariableFilter::Filter<float>, 
@@ -285,6 +296,11 @@ private:
 		noiseSectionFilterIndex
 	};
 
+	enum MasterSection
+	{
+		masterSectionDistortionIndex
+	};
+
 	//==============================================================================
 	juce::HeapBlock<char> oscSectionHeapBlock;
 	juce::dsp::AudioBlock<float> oscSectionBlock;
@@ -298,7 +314,7 @@ private:
 	//==============================================================================
 	juce::dsp::ProcessorChain<Oscillator> oscSectionProcessorChain;
 	juce::dsp::ProcessorChain<Oscillator, Filter> noiseSectionProcessorChain;
-	juce::dsp::ProcessorChain<Filter> masterSectionProcessorChain;
+	juce::dsp::ProcessorChain<Distortion> masterSectionProcessorChain;
 
 	//==============================================================================
 	juce::dsp::Oscillator<float> pitchLfo;
