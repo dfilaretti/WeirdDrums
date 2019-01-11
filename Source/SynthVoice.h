@@ -40,6 +40,9 @@ public:
 		m_noiseAmpEnv.setSampleRate(spec.sampleRate / m_modulationUpdateRate);
 		m_oscPitchEnv.setSampleRate(spec.sampleRate / m_modulationUpdateRate);
 		
+		// Set up noise osc once and forall
+		noiseSectionProcessorChain.get<noiseSectionOscIndex>().setWaveform(Oscillator::noise);
+
 		pitchLfo.initialise([](float x) { return std::sin(x); }, 128);
 		pitchLfo.prepare({ spec.sampleRate / m_modulationUpdateRate, spec.maximumBlockSize, spec.numChannels });
 	}
@@ -119,6 +122,8 @@ public:
 	void startNote(int midiNoteNumber, float velocity, SynthesiserSound* sound,
 		int currentPitchWheelPosition) override
 	{
+		oscSectionProcessorChain.get<oscSectionOscIndex>().setWaveform (oscWaveform);
+
 		m_oscAmpEnv.noteOn();
 		m_noiseAmpEnv.noteOn();
 		m_oscPitchEnv.noteOn();
@@ -199,14 +204,14 @@ public:
 				oscFrequency = oscFrequency * pow(2, (1 / 1200.0 + pitchEnvOut * pitchEnvDepth));
 
 				// update osc with computed params
-				oscSectionProcessorChain.get<oscSectionOscIndex>().setWaveform (oscWaveform);
+				//oscSectionProcessorChain.get<oscSectionOscIndex>().setWaveform (oscWaveform);
 				oscSectionProcessorChain.get<oscSectionOscIndex>().setFrequency (oscFrequency, true);
 				oscSectionProcessorChain.get<oscSectionOscIndex>().setLevel (oscLevel);
 
 				// NOISE section 
 				// =============================
 
-				noiseSectionProcessorChain.get<noiseSectionOscIndex>().setWaveform (Oscillator::noise);
+				//noiseSectionProcessorChain.get<noiseSectionOscIndex>().setWaveform (Oscillator::noise);
 				
 				{
 					auto sr = getSampleRate();
