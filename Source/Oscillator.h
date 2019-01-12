@@ -45,10 +45,11 @@ public:
 
 	void setWaveform(int selection)
 	{
-		Random random;
-
-		auto oscFunction = [selection, &random] () -> std::function<float(float)>
+		//Random random;	
+		
+		auto oscFunction = [selection, this] () -> std::function<float(float)>
 		{
+
 			switch (selection)
 			{
 				case sine:
@@ -57,8 +58,6 @@ public:
 					return [](Type x) { return jmap(x, Type(-MathConstants<double>::pi), Type(MathConstants<double>::pi), Type(-1), Type(1)); };
 				case square:
 					return [](Type x) { return (sgn(std::sin(x))); };
-				case noise:
-					return [&random](Type x) { return (random.nextFloat() * 0.25f - 0.125f); };
 			}
 		}();
 
@@ -89,23 +88,23 @@ public:
 	{
 		sine,
 		saw,
-		square, // todo 
-		noise
+		square,
 	};
 private:
 	//==============================================================================
-
 	template <typename T>
 	static int sgn(T val)
 	{
-		return (T(0) < val) - (val < T(0));
+		return (T (0) < val) - (val < T (0));
 	}
 
+	//==============================================================================
 	enum
 	{
 		oscIndex,
 		gainIndex
 	};
 
+	//==============================================================================
 	juce::dsp::ProcessorChain<juce::dsp::Oscillator<Type>, juce::dsp::Gain<Type>> processorChain;
 };

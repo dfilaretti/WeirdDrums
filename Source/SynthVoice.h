@@ -12,6 +12,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SynthSound.h"
 #include "Oscillator.h"
+#include "WhiteNoiseGenerator.h"
 #include "Distortion.h"
 
 class SynthVoice : public SynthesiserVoice
@@ -40,9 +41,6 @@ public:
 		m_noiseAmpEnv.setSampleRate(spec.sampleRate / m_modulationUpdateRate);
 		m_oscPitchEnv.setSampleRate(spec.sampleRate / m_modulationUpdateRate);
 		
-		// Set up noise osc once and forall
-		noiseSectionProcessorChain.get<noiseSectionOscIndex>().setWaveform(Oscillator::noise);
-
 		pitchLfo.initialise([](float x) { return std::sin(x); }, 128);
 		pitchLfo.prepare({ spec.sampleRate / m_modulationUpdateRate, spec.maximumBlockSize, spec.numChannels });
 	}
@@ -210,8 +208,6 @@ public:
 
 				// NOISE section 
 				// =============================
-
-				//noiseSectionProcessorChain.get<noiseSectionOscIndex>().setWaveform (Oscillator::noise);
 				
 				{
 					auto sr = getSampleRate();
@@ -276,6 +272,7 @@ private:
 	size_t m_modulationUpdateCounter = m_modulationUpdateRate;
 
 	//==============================================================================
+	juce::dsp::Oscillator<float> pitchLfo;
 	ADSR m_oscAmpEnv;
 	ADSR m_oscPitchEnv;
 	ADSR m_noiseAmpEnv;
@@ -316,13 +313,14 @@ private:
 	juce::dsp::AudioBlock<float> masterSectionBlock;
 	
 	//==============================================================================
+	
+	// TODO: Add a Gain after the oscillators, and use that to control volumes.
+	//       Not only this is nicer, but with proper Gain object I can also use 
+	//       built-in smoothing. 
 	juce::dsp::ProcessorChain<Oscillator> oscSectionProcessorChain;
-	juce::dsp::ProcessorChain<Oscillator, Filter> noiseSectionProcessorChain;
+	juce::dsp::ProcessorChain<WhiteNoiseGenerator, Filter> noiseSectionProcessorChain;
 	juce::dsp::ProcessorChain<Distortion, Gain> masterSectionProcessorChain;
 
-	//==============================================================================
-	juce::dsp::Oscillator<float> pitchLfo;
-	
 	//==============================================================================
 	// GLOBAL
 	double m_currentNoteVelocity;

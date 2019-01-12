@@ -15,7 +15,6 @@
 #include "OscillatorSectionEditor.h"
 #include "NoiseSectionEditor.h"
 #include "MasterSectionEditor.h"
-#include "MainComponent.h"
 
 //==============================================================================
 
