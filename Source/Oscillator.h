@@ -45,11 +45,8 @@ public:
 
 	void setWaveform(int selection)
 	{
-		//Random random;	
-		
 		auto oscFunction = [selection, this] () -> std::function<float(float)>
 		{
-
 			switch (selection)
 			{
 				case sine:

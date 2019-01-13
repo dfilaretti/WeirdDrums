@@ -117,26 +117,19 @@ public:
 		return dynamic_cast<SynthSound*> (sound) != nullptr;
 	}
 
+
 	void startNote(int midiNoteNumber, float velocity, SynthesiserSound* sound,
 		int currentPitchWheelPosition) override
 	{
-		oscSectionProcessorChain.get<oscSectionOscIndex>().setWaveform (oscWaveform);
-
-		m_oscAmpEnv.noteOn();
-		m_noiseAmpEnv.noteOn();
-		m_oscPitchEnv.noteOn();
+		setPerNoteParams();
+		triggerAllEnvelopes();
 
 		m_currentNoteVelocity = velocity;
 	}
 	
 	void stopNote(float velocity, bool allowTailOf) override
 	{
-		//m_oscAmpEnv.noteOff();
-		//m_noiseAmpEnv.noteOff();
-		//m_oscPitchEnv.noteOff();
-
-		if (velocity = 0)
-			clearCurrentNote(); // so that voice can be reused
+		// TODO: looks like there's kind of a click here
 	}
 
 	void pitchWheelMoved (int newPitchWheelValue) override
@@ -157,11 +150,6 @@ public:
 		noiseSectionOutput.clear();
 		masterSectionOutput.clear();
 
-		// MASTER section 
-		// =============================
-		// =============================
-		// =============================
-
 		for (size_t pos = 0; pos < numSamples;)
 		{
 			auto max = jmin(static_cast<size_t> (numSamples - pos), m_modulationUpdateCounter);
@@ -179,88 +167,21 @@ public:
 		
 			if (m_modulationUpdateCounter == 0)
 			{
-				// OSC section 
-				// =============================
-
-				// amp modulation
-				m_oscAmpEnv.setParameters({ envAttack, envDecay, 0, 0.1 });
-				auto currentAmpEnv = m_oscAmpEnv.getNextSample();
-				auto oscLevel      = currentAmpEnv * m_currentNoteVelocity;
-
-				oscFrequency       = currentNoteFrequency;
-				
-				// pitch LFO
-			    // https://dsp.stackexchange.com/questions/2349/help-with-algorithm-for-modulating-oscillator-pitch-using-lfo
-				pitchLfo.setFrequency (pitchLfoRate, true);
-				auto pitchLfoOut = pitchLfo.processSample (0.0f);
-				oscFrequency = currentNoteFrequency * pow(2, (1 / 1200.0 + pitchLfoOut * pitchLfoAmount));
-
-				// pitch env
-				m_oscPitchEnv.setParameters ({ 0.001, pitchEnvRate, 0, 0 });
-				auto pitchEnvDepth = pitchEnvAmount;
-				float pitchEnvOut = m_oscPitchEnv.getNextSample();
-				oscFrequency = oscFrequency * pow(2, (1 / 1200.0 + pitchEnvOut * pitchEnvDepth));
-
-				// update osc with computed params
-				//oscSectionProcessorChain.get<oscSectionOscIndex>().setWaveform (oscWaveform);
-				oscSectionProcessorChain.get<oscSectionOscIndex>().setFrequency (oscFrequency, true);
-				oscSectionProcessorChain.get<oscSectionOscIndex>().setLevel (oscLevel);
-
-				// NOISE section 
-				// =============================
-				
-				{
-					auto sr = getSampleRate();
-					auto& filter = noiseSectionProcessorChain.get<noiseSectionFilterIndex>();
-
-					switch (filterType)
-					{
-					case 0:
-						filter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
-						break;
-					case 1:
-						filter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::highPass;
-						break;
-					case 2:
-						filter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::bandPass;
-						break;
-					default:
-						filter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
-					}
-
-					filter.state->setCutOffFrequency(sr, filterCutoff, filterRes);
-				}
-				
-				m_noiseAmpEnv.setParameters({ noiseEnvAttack, noiseEnvDecay, 0, 0 });
-				auto currentNoiseEnv = m_noiseAmpEnv.getNextSample();
-				auto noiseLevel = currentNoiseEnv * m_currentNoteVelocity;
-				noiseSectionProcessorChain.get<noiseSectionOscIndex>().setLevel (noiseLevel);
-
+				setControlRateParams();
 				m_modulationUpdateCounter = m_modulationUpdateRate;
 			}
 			
-			// process
+			// process osc section
 			oscSectionProcessorChain.process (oscSectionContext);
+			// process noise section
 			noiseSectionProcessorChain.process (noiseSectionContext);
-
-			// mix osc/noise sections
-			oscBlock.multiply (1 - mix);
-			noiseBlock.multiply (mix);
+			// master = osc + noise
 			masterBlock.add (oscBlock).add (noiseBlock);
-
-			// Global FX chain
-			masterSectionProcessorChain
-				.get<masterSectionDistortionIndex>()
-				.setPreGain(distortionAmount);
-
-			masterSectionProcessorChain
-				.get<masterSectionGainIndex>()
-				.setGainDecibels (level);
-
+			// process master section
 			masterSectionProcessorChain.process (masterSectionContext);
 		}
 
-		// All processing done! :-) 
+		// All processing done!
 		juce::dsp::AudioBlock<float> (outputBuffer)
 			.getSubBlock ((size_t)startSample, (size_t)numSamples)
 			.add (masterSectionBlock);
@@ -287,13 +208,15 @@ private:
 	//==============================================================================
 	enum OscSection
 	{
-		oscSectionOscIndex
+		oscSectionOscIndex,
+		oscSectionGainIndex
 	};
 
 	enum NoiseSection
 	{
 		noiseSectionOscIndex,
-		noiseSectionFilterIndex
+		noiseSectionFilterIndex,
+		noiseSectionGainIndex,
 	};
 
 	enum MasterSection
@@ -313,12 +236,8 @@ private:
 	juce::dsp::AudioBlock<float> masterSectionBlock;
 	
 	//==============================================================================
-	
-	// TODO: Add a Gain after the oscillators, and use that to control volumes.
-	//       Not only this is nicer, but with proper Gain object I can also use 
-	//       built-in smoothing. 
-	juce::dsp::ProcessorChain<Oscillator> oscSectionProcessorChain;
-	juce::dsp::ProcessorChain<WhiteNoiseGenerator, Filter> noiseSectionProcessorChain;
+	juce::dsp::ProcessorChain<Oscillator, Gain> oscSectionProcessorChain;
+	juce::dsp::ProcessorChain<WhiteNoiseGenerator, Filter, Gain> noiseSectionProcessorChain;
 	juce::dsp::ProcessorChain<Distortion, Gain> masterSectionProcessorChain;
 
 	//==============================================================================
@@ -350,4 +269,92 @@ private:
 	float distortionAmount;
 	float level; 
 	float pan;               // todo
+
+	//==============================================================================
+	void setControlRateParams()
+	{
+		// OSC section 
+		// =============================
+
+		// amp envelope
+		auto currentAmpEnv = m_oscAmpEnv.getNextSample();
+		auto oscLevel = currentAmpEnv * m_currentNoteVelocity;
+		oscSectionProcessorChain.get<oscSectionOscIndex>().setLevel (oscLevel);
+
+		// pitch LFO
+		// https://dsp.stackexchange.com/questions/2349/help-with-algorithm-for-modulating-oscillator-pitch-using-lfo
+		auto pitchLfoOut = pitchLfo.processSample (0.0f);
+		oscFrequency = currentNoteFrequency * pow (2, (1 / 1200.0 + pitchLfoOut * pitchLfoAmount));
+
+		// pitch env
+		float pitchEnvOut = m_oscPitchEnv.getNextSample();
+		oscFrequency = oscFrequency * pow (2, (1 / 1200.0 + pitchEnvOut * pitchEnvAmount));
+
+		// set pitch with combined frequency
+		oscSectionProcessorChain.get<oscSectionOscIndex>().setFrequency (oscFrequency, true);
+
+		// NOISE section 
+		// =============================
+
+		auto currentNoiseEnv = m_noiseAmpEnv.getNextSample();
+		auto noiseLevel = currentNoiseEnv * m_currentNoteVelocity;
+		noiseSectionProcessorChain.get<noiseSectionOscIndex>().setLevel(noiseLevel);
+	}
+	
+	void setPerNoteParams()
+	{
+		oscSectionProcessorChain.get<oscSectionOscIndex>().reset (); // reset phase to avoid clicks
+		oscSectionProcessorChain.get<oscSectionOscIndex>().setWaveform (oscWaveform);
+
+		// Global FX chain
+		masterSectionProcessorChain
+			.get<masterSectionDistortionIndex>()
+			.setPreGain(distortionAmount);
+
+		masterSectionProcessorChain
+			.get<masterSectionGainIndex>()
+			.setGainDecibels(level);
+
+		// envelopes
+		m_oscAmpEnv.setParameters({ envAttack, envDecay, 0, 0.1 });
+		m_noiseAmpEnv.setParameters({ noiseEnvAttack, noiseEnvDecay, 0, 0 });
+
+		// modulation
+		m_oscPitchEnv.setParameters({ 0.001, pitchEnvRate, 0, 0 });
+		pitchLfo.setFrequency(pitchLfoRate, true);
+
+		// set filter params
+		{
+			auto sr = getSampleRate();
+			auto& filter = noiseSectionProcessorChain.get<noiseSectionFilterIndex>();
+
+			switch (filterType)
+			{
+			case 0:
+				filter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
+				break;
+			case 1:
+				filter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::highPass;
+				break;
+			case 2:
+				filter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::bandPass;
+				break;
+			default:
+				filter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
+			}
+
+			filter.state->setCutOffFrequency(sr, filterCutoff, filterRes);
+		}
+
+		// mix
+		oscSectionProcessorChain.get<oscSectionGainIndex>().setGainLinear (1 - mix);
+		noiseSectionProcessorChain.get<noiseSectionGainIndex>().setGainLinear (mix);
+	}
+
+	void triggerAllEnvelopes()
+	{
+		m_oscAmpEnv.noteOn();
+		m_noiseAmpEnv.noteOn();
+		m_oscPitchEnv.noteOn();
+	}
 };
