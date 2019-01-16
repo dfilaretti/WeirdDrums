@@ -143,6 +143,7 @@ public:
 	{
 		m_oscAmpEnv.noteOff();
 		m_noiseAmpEnv.noteOff();
+		m_oscPitchEnv.noteOff();
 	}
 
 	void pitchWheelMoved (int newPitchWheelValue) override
