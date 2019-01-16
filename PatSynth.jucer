@@ -10,6 +10,7 @@
         <FILE id="xtuUfg" name="Globals.h" compile="0" resource="0" file="Source/Globals.h"/>
       </GROUP>
       <GROUP id="{5633249D-B53E-0946-92DD-FAC6184FFC44}" name="Processor">
+        <FILE id="pmsZRf" name="Envelope.h" compile="0" resource="0" file="Source/Envelope.h"/>
         <FILE id="GLKnM6" name="WhiteNoiseGenerator.h" compile="0" resource="0"
               file="Source/WhiteNoiseGenerator.h"/>
         <FILE id="cFxEDa" name="Distortion.h" compile="0" resource="0" file="Source/Distortion.h"/>

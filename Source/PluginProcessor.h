@@ -71,7 +71,7 @@ private:
 	double lastSampleRate;
 
 	//==============================================================================
-	const int kNumVoices = 1;
+	const int kNumVoices = 3;
 	const Identifier kValueTreeId = Identifier("PatSynth");
 
 	//==============================================================================

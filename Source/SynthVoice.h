@@ -12,6 +12,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SynthSound.h"
 #include "Oscillator.h"
+#include "Envelope.h"
 #include "WhiteNoiseGenerator.h"
 #include "Distortion.h"
 
@@ -129,7 +130,19 @@ public:
 	
 	void stopNote(float velocity, bool allowTailOf) override
 	{
-		// TODO: looks like there's kind of a click here
+		if (allowTailOf) 
+		{
+		}         
+		else
+		{
+			clearCurrentNote();
+		}       
+	}
+
+	void killNote()
+	{
+		m_oscAmpEnv.noteOff();
+		m_noiseAmpEnv.noteOff();
 	}
 
 	void pitchWheelMoved (int newPitchWheelValue) override
@@ -152,11 +165,17 @@ public:
 
 		for (size_t pos = 0; pos < numSamples;)
 		{
+			if (isVoiceActive() && !m_oscAmpEnv.isActive() && !m_noiseAmpEnv.isActive())
+			{
+				clearCurrentNote();
+				break;
+			}
+
 			auto max = jmin(static_cast<size_t> (numSamples - pos), m_modulationUpdateCounter);
 
-			auto oscBlock    = oscSectionOutput.getSubBlock(pos, max);
+			auto oscBlock    = oscSectionOutput.getSubBlock (pos, max);
 			auto noiseBlock  = noiseSectionOutput.getSubBlock (pos, max);
-			auto masterBlock = masterSectionOutput.getSubBlock(pos, max);
+			auto masterBlock = masterSectionOutput.getSubBlock (pos, max);
 
 			juce::dsp::ProcessContextReplacing<float> oscSectionContext (oscBlock);
 			juce::dsp::ProcessContextReplacing<float> noiseSectionContext (noiseBlock);
@@ -194,9 +213,9 @@ private:
 
 	//==============================================================================
 	juce::dsp::Oscillator<float> pitchLfo;
-	ADSR m_oscAmpEnv;
-	ADSR m_oscPitchEnv;
-	ADSR m_noiseAmpEnv;
+	Envelope m_oscAmpEnv;
+	Envelope m_oscPitchEnv;
+	Envelope m_noiseAmpEnv;
 
 	//==============================================================================
 	typedef Oscillator<float> Oscillator;
@@ -316,11 +335,11 @@ private:
 			.setGainDecibels(level);
 
 		// envelopes
-		m_oscAmpEnv.setParameters({ envAttack, envDecay, 0, 0.1 });
-		m_noiseAmpEnv.setParameters({ noiseEnvAttack, noiseEnvDecay, 0, 0 });
+		m_oscAmpEnv.setParameters({ envAttack, envDecay });
+		m_noiseAmpEnv.setParameters({ noiseEnvAttack, noiseEnvDecay });
 
 		// modulation
-		m_oscPitchEnv.setParameters({ 0.001, pitchEnvRate, 0, 0 });
+		m_oscPitchEnv.setParameters({ 0.001, pitchEnvRate });
 		pitchLfo.setFrequency(pitchLfoRate, true);
 
 		// set filter params
