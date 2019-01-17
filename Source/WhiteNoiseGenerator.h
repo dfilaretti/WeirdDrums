@@ -55,7 +55,7 @@ public:
 
 			for (int i = 0; i < len; i++)
 			{
-				dst[i] = randomNumberGenerator.nextFloat() * level;
+				dst[i] = (randomNumberGenerator.nextFloat() - 0.5f) * level;
 			}
 		}
 	}
