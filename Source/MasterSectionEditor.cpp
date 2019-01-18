@@ -107,11 +107,20 @@ MasterSectionEditor::~MasterSectionEditor()
 
 void MasterSectionEditor::paint (Graphics& g)
 {
-	g.setColour(Colours::black);
-	g.fillRect(titleArea);
+	g.setColour (Colour (0xFF171717));
+	
+	auto r = getLocalBounds();
+
+	auto titleArea = r.removeFromTop (kTitleHeight);
+	g.fillRect ( titleArea.reduced (3) );
+
+	auto controlsArea = r.reduced (3);
+	g.fillRect (controlsArea);
+
+
 
 	g.setColour(Colours::white);
-	g.drawText("MASTER", titleArea, Justification::centred);
+	g.drawText("M A S T E R", titleArea, Justification::centred);
 }
 
 void MasterSectionEditor::resized()

@@ -178,12 +178,9 @@ class OscSectionLookAndFeel : public PatSynthLookAndFeel
 public:
     OscSectionLookAndFeel()
     {
-		//// thumb
-  //      setColour (Slider::thumbColourId, Colours::grey);
-  //      
-		//// fill
-		//setColour (Slider::trackColourId, Colours::white);
-  //      setColour (Slider::ColourIds::rotarySliderFillColourId, Colours::white);
+        auto col = Colours::lightcyan;
+		setColour (Slider::trackColourId, col);
+		setColour (Slider::ColourIds::rotarySliderFillColourId, col);
     }
 };
 
@@ -192,9 +189,9 @@ class NoiseSectionLookAndFeel : public PatSynthLookAndFeel
 public:
     NoiseSectionLookAndFeel()
     {
-		//setColour (Slider::thumbColourId, Colour (0xFFDF678C));
-  //      setColour (Slider::trackColourId, Colour (0xFF3D155F));
-  //      setColour (Slider::ColourIds::rotarySliderFillColourId, Colour (0xFF3D155F));
+		auto col = Colours::lightgreen;
+		setColour (Slider::trackColourId, col);
+		setColour (Slider::ColourIds::rotarySliderFillColourId, col);
     }
 };
 
@@ -203,6 +200,8 @@ class MasterSectionLookAndFeel : public PatSynthLookAndFeel
 public:
     MasterSectionLookAndFeel()
     {
-        //setColour (Slider::thumbColourId, Colours::blue);
+        auto col = Colours::lightpink;
+		setColour (Slider::trackColourId, col);
+		setColour (Slider::ColourIds::rotarySliderFillColourId, col);
     }
 };
