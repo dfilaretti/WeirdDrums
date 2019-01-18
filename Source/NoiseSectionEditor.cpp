@@ -50,6 +50,7 @@ NoiseSectionEditor::NoiseSectionEditor(PatSynthAudioProcessor& p) :
 		filterTypeComboBox);
 
 	// setup cutoff slider
+	filterCutoffSlider.setLookAndFeel (&lookAndFeel);
 	filterCutoffSlider.setSliderStyle(Slider::LinearHorizontal);
 	filterCutoffSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&filterCutoffSlider);
@@ -60,6 +61,7 @@ NoiseSectionEditor::NoiseSectionEditor(PatSynthAudioProcessor& p) :
 	filterCutoffSlider.setSkewFactorFromMidPoint(1000.0); // NB: must be after init the attachment ^^^
 
 	// setup resonance slider
+	filterResonanceSlider.setLookAndFeel (&lookAndFeel);
 	filterResonanceSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	filterResonanceSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&filterResonanceSlider);
@@ -69,6 +71,7 @@ NoiseSectionEditor::NoiseSectionEditor(PatSynthAudioProcessor& p) :
 		filterResonanceSlider);
 
 	// setup attack slider
+	attackSlider.setLookAndFeel (&lookAndFeel);
 	attackSlider.setSliderStyle(Slider::LinearVertical);
 	attackSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&attackSlider);
@@ -78,6 +81,7 @@ NoiseSectionEditor::NoiseSectionEditor(PatSynthAudioProcessor& p) :
 		attackSlider);
 
 	// setup decay slider
+	decaySlider.setLookAndFeel (&lookAndFeel);
 	decaySlider.setSliderStyle(Slider::LinearVertical);
 	decaySlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&decaySlider);
@@ -93,7 +97,9 @@ NoiseSectionEditor::~NoiseSectionEditor()
 
 void NoiseSectionEditor::paint (Graphics& g)
 {
-	g.setColour(Colours::purple);
+	g.fillAll ( Colours::black );
+
+	g.setColour(Colours::black);
 	g.fillRect(titleArea);
 
 	g.setColour(Colours::white);

@@ -24,6 +24,7 @@
               file="Source/PluginProcessor.h"/>
       </GROUP>
       <GROUP id="{3BC92047-FF1D-CA3B-9101-A8D7BCF64BB0}" name="Editor">
+        <FILE id="SyRGGk" name="LookAndFeels.h" compile="0" resource="0" file="Source/LookAndFeels.h"/>
         <FILE id="WTOnVD" name="PluginEditor.cpp" compile="1" resource="0"
               file="Source/PluginEditor.cpp"/>
         <FILE id="PdLP1F" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>

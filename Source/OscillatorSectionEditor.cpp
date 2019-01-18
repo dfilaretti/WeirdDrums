@@ -12,9 +12,11 @@
 #include "OscillatorSectionEditor.h"
 
 //==============================================================================
-OscillatorSectionEditor::OscillatorSectionEditor(PatSynthAudioProcessor& p) 
+OscillatorSectionEditor::OscillatorSectionEditor (PatSynthAudioProcessor& p) 
 	: processor(p)
 {
+	// Setup sliders colours
+
 	// Setup labels
 	m_freqLabel.setText("osc freq", dontSendNotification);
 	m_freqLabel.setJustificationType(Justification::centredTop);
@@ -45,14 +47,6 @@ OscillatorSectionEditor::OscillatorSectionEditor(PatSynthAudioProcessor& p)
 	addAndMakeVisible(m_pitchLfoRateLabel);
 
 	// --
-	frequencySlider.setSliderStyle(Slider::SliderStyle::LinearHorizontal);
-	frequencySlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-	addAndMakeVisible(&frequencySlider);
-	frequencySliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdFreq,
-		frequencySlider);
-
 	// setup combo box
 	oscComboBox.addItem(kMenuItemSineText,   kMenuItemSineId);
 	oscComboBox.addItem(kMenuItemSawText,    kMenuItemSawId);
@@ -64,7 +58,18 @@ OscillatorSectionEditor::OscillatorSectionEditor(PatSynthAudioProcessor& p)
 		Globals::paramIdWaveType, 
 		oscComboBox);
 
+	frequencySlider.setLookAndFeel(&lookAndFeel);
+	frequencySlider.setSliderStyle(Slider::SliderStyle::LinearHorizontal);
+	frequencySlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+	addAndMakeVisible(&frequencySlider);
+	frequencySliderAttachment = new SliderAttachment(
+		processor.parameters,
+		Globals::paramIdFreq,
+		frequencySlider);
+
+
 	// amp attack/decay sliders
+	attackSlider.setLookAndFeel(&lookAndFeel);
 	attackSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
 	attackSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&attackSlider);
@@ -73,6 +78,7 @@ OscillatorSectionEditor::OscillatorSectionEditor(PatSynthAudioProcessor& p)
 		Globals::paramIdAttack,
 		attackSlider);
 
+	decaySlider.setLookAndFeel(&lookAndFeel);
 	decaySlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
 	decaySlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&decaySlider);
@@ -82,6 +88,7 @@ OscillatorSectionEditor::OscillatorSectionEditor(PatSynthAudioProcessor& p)
 		decaySlider);
 
 	// pitch env sliders
+	pitchEnvAmountSlider.setLookAndFeel(&lookAndFeel);
 	pitchEnvAmountSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	pitchEnvAmountSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&pitchEnvAmountSlider);
@@ -90,6 +97,7 @@ OscillatorSectionEditor::OscillatorSectionEditor(PatSynthAudioProcessor& p)
 		Globals::paramIdPitchEnvAmount,
 		pitchEnvAmountSlider);
 
+	pitchEnvRateSlider.setLookAndFeel(&lookAndFeel);
 	pitchEnvRateSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	pitchEnvRateSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&pitchEnvRateSlider);
@@ -99,6 +107,7 @@ OscillatorSectionEditor::OscillatorSectionEditor(PatSynthAudioProcessor& p)
 		pitchEnvRateSlider);
 
 	// pitch lfo sliders
+	pitchLfoAmountSlider.setLookAndFeel(&lookAndFeel);
 	pitchLfoAmountSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	pitchLfoAmountSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&pitchLfoAmountSlider);
@@ -107,6 +116,7 @@ OscillatorSectionEditor::OscillatorSectionEditor(PatSynthAudioProcessor& p)
 		Globals::paramIdPitchLfoAmount,
 		pitchLfoAmountSlider);
 
+	pitchLfoRateSlider.setLookAndFeel(&lookAndFeel);
 	pitchLfoRateSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	pitchLfoRateSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&pitchLfoRateSlider);
@@ -122,7 +132,9 @@ OscillatorSectionEditor::~OscillatorSectionEditor()
 
 void OscillatorSectionEditor::paint (Graphics& g)
 {
-	g.setColour(Colours::blueviolet);
+	g.fillAll ( Colours::black );
+
+	g.setColour(Colours::black);
 	g.fillRect(titleArea);
 
 	g.setColour(Colours::white);

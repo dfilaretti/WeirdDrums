@@ -13,6 +13,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 #include "Globals.h"
+#include "LookAndFeels.h"
 
 //==============================================================================
 
@@ -26,6 +27,9 @@ public:
     void resized() override;
 
 private:
+	//==============================================================================
+	NoiseSectionLookAndFeel lookAndFeel;
+
 	//==============================================================================
 	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
 	typedef AudioProcessorValueTreeState::ComboBoxAttachment ComboBoxAttachment;
@@ -82,6 +86,7 @@ private:
 		waveformArea,
 		ampArea,
 		miscArea;
+
 
 	//==============================================================================
 	PatSynthAudioProcessor& processor;

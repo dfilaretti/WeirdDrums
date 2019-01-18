@@ -41,6 +41,7 @@ MasterSectionEditor::MasterSectionEditor(PatSynthAudioProcessor& p) :
 	addAndMakeVisible(m_panLabel);
 
 	// mix slider
+	mixSlider.setLookAndFeel (&lookAndFeel);
 	mixSlider.setSliderStyle(Slider::LinearHorizontal);
 	mixSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&mixSlider);
@@ -50,6 +51,7 @@ MasterSectionEditor::MasterSectionEditor(PatSynthAudioProcessor& p) :
 		mixSlider);
 
 	// eq freq slider
+	eqFreqSlider.setLookAndFeel (&lookAndFeel);
 	eqFreqSlider.setSliderStyle(Slider::LinearHorizontal);
 	eqFreqSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&eqFreqSlider);
@@ -59,6 +61,7 @@ MasterSectionEditor::MasterSectionEditor(PatSynthAudioProcessor& p) :
 		eqFreqSlider);
 	
 	// distort (rotary) slider
+	distortSlider.setLookAndFeel (&lookAndFeel);
 	distortSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	distortSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&distortSlider);
@@ -68,6 +71,7 @@ MasterSectionEditor::MasterSectionEditor(PatSynthAudioProcessor& p) :
 		distortSlider);
 
 	// eq gain (rotary) slider
+	eqGainSlider.setLookAndFeel (&lookAndFeel);
 	eqGainSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	eqGainSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&eqGainSlider);
@@ -77,6 +81,7 @@ MasterSectionEditor::MasterSectionEditor(PatSynthAudioProcessor& p) :
 		eqGainSlider);
 
 	// level (rotary) slider
+	levelSlider.setLookAndFeel (&lookAndFeel);
 	levelSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	levelSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&levelSlider);
@@ -86,6 +91,7 @@ MasterSectionEditor::MasterSectionEditor(PatSynthAudioProcessor& p) :
 		levelSlider);
 
 	// pan (rotary) slider
+	panSlider.setLookAndFeel (&lookAndFeel);
 	panSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	panSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&panSlider);
@@ -101,7 +107,7 @@ MasterSectionEditor::~MasterSectionEditor()
 
 void MasterSectionEditor::paint (Graphics& g)
 {
-	g.setColour(Colours::darkseagreen);
+	g.setColour(Colours::black);
 	g.fillRect(titleArea);
 
 	g.setColour(Colours::white);

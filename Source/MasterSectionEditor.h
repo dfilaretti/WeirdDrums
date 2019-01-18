@@ -13,6 +13,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 #include "Globals.h"
+#include "LookAndFeels.h"
 
 //==============================================================================
 
@@ -26,6 +27,9 @@ public:
     void resized() override;
 
 private:
+	//==============================================================================
+	MasterSectionLookAndFeel lookAndFeel;
+	
 	//==============================================================================
 	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
 
