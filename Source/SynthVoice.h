@@ -307,8 +307,10 @@ private:
 		oscFrequency = currentNoteFrequency * pow (2, (1 / 1200.0 + pitchLfoOut * pitchLfoAmount));
 
 		// pitch env
+		float fMin = oscFrequency;
+		float fMax = jlimit(0.0f, 20000.0f, fMin + (1000 * pitchEnvAmount));
 		float pitchEnvOut = m_oscPitchEnv.getNextSample();
-		oscFrequency = oscFrequency * pow (2, (1 / 1200.0 + pitchEnvOut * pitchEnvAmount));
+		oscFrequency = jmap (pitchEnvOut, 0.0f, 1.0f, fMin, fMax); 
 
 		// set pitch with combined frequency
 		oscSectionProcessorChain.get<oscSectionOscIndex>().setFrequency (oscFrequency, true);
