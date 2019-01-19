@@ -158,7 +158,7 @@ void OscillatorSectionEditor::resized()
 
 	// Add waevform selection combobox
 	auto waveformComboBoxArea = waveformArea.removeFromTop(50);
-	oscComboBox.setBounds(waveformComboBoxArea.reduced(12.5));
+	oscComboBox.setBounds(waveformComboBoxArea.removeFromLeft (125).reduced (14.5));
 
 	// Add frequency slider
 	

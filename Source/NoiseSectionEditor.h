@@ -46,9 +46,9 @@ private:
 	//const int kSliderHeight        = 175;
 
 	//==============================================================================
-	const String kMenuItemLowPassText  = "Low Pass";
-	const String kMenuItemHighPassText = "High Pass";
-	const String kMenuItemBandPassText = "Band Pass";
+	const String kMenuItemLowPassText  = "LP";
+	const String kMenuItemHighPassText = "HP";
+	const String kMenuItemBandPassText = "BP";
 
 	//==============================================================================
 	const int kMenuItemLowPassId   = 1;

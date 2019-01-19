@@ -51,6 +51,7 @@ MasterSectionEditor::MasterSectionEditor(PatSynthAudioProcessor& p) :
 		mixSlider);
 
 	// eq freq slider
+	eqFreqSlider.setEnabled (false);
 	eqFreqSlider.setLookAndFeel (&lookAndFeel);
 	eqFreqSlider.setSliderStyle(Slider::LinearHorizontal);
 	eqFreqSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
@@ -71,6 +72,7 @@ MasterSectionEditor::MasterSectionEditor(PatSynthAudioProcessor& p) :
 		distortSlider);
 
 	// eq gain (rotary) slider
+	eqGainSlider.setEnabled (false);
 	eqGainSlider.setLookAndFeel (&lookAndFeel);
 	eqGainSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	eqGainSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
@@ -91,6 +93,7 @@ MasterSectionEditor::MasterSectionEditor(PatSynthAudioProcessor& p) :
 		levelSlider);
 
 	// pan (rotary) slider
+	panSlider.setEnabled (false);
 	panSlider.setLookAndFeel (&lookAndFeel);
 	panSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	panSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);

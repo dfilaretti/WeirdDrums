@@ -22,6 +22,7 @@ public:
 		// fill
 		setColour (Slider::trackColourId, Colours::white);
         setColour (Slider::ColourIds::rotarySliderFillColourId, Colours::white);
+
 	}
 
 

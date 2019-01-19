@@ -29,11 +29,11 @@ NoiseSectionEditor::NoiseSectionEditor(PatSynthAudioProcessor& p) :
 	m_filterQLabel.setJustificationType(Justification::centredTop);
 	addAndMakeVisible(m_filterQLabel);
 
-	m_attackLabel.setText("att", dontSendNotification);
+	m_attackLabel.setText("ATT", dontSendNotification);
 	m_attackLabel.setJustificationType(Justification::centredTop);
 	addAndMakeVisible(m_attackLabel);
 
-	m_decayLabel.setText("dec", dontSendNotification);
+	m_decayLabel.setText("DEC", dontSendNotification);
 	m_decayLabel.setJustificationType(Justification::centredTop);
 	addAndMakeVisible(m_decayLabel);
 
@@ -123,7 +123,7 @@ void NoiseSectionEditor::resized()
 
 	// Add filter type combobox
 	auto filterTypeComboBoxArea = waveformArea.removeFromTop(50);
-	filterTypeComboBox.setBounds(filterTypeComboBoxArea.reduced(12.5));
+	filterTypeComboBox.setBounds(filterTypeComboBoxArea.removeFromLeft (125). reduced (14.5));
 
 	// Add frequency slider
 	auto frequencySliderArea = waveformArea.removeFromTop(50);
