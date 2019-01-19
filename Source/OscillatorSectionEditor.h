@@ -12,7 +12,6 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
-#include "Globals.h"
 #include "LookAndFeels.h"
 
 //==============================================================================
@@ -77,10 +76,10 @@ private:
 		pitchLfoRateSlider;
 
 	//==============================================================================
-	ScopedPointer<ComboBoxAttachment> 
+	std::unique_ptr<ComboBoxAttachment> 
 		oscComboBoxAttachment;
 
-	ScopedPointer<SliderAttachment>
+	std::unique_ptr<SliderAttachment>
 		frequencySliderAttachment,
 		attackSliderAttachment,
 		decaySliderAttachment,

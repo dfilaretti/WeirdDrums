@@ -53,77 +53,52 @@ OscillatorSectionEditor::OscillatorSectionEditor (PatSynthAudioProcessor& p)
 	oscComboBox.addItem(kMenuItemSquareText, kMenuItemSquareId);
 	oscComboBox.setJustificationType(Justification::centred);
 	addAndMakeVisible(&oscComboBox);
-	oscComboBoxAttachment = new ComboBoxAttachment(
-		processor.parameters, 
-		Globals::paramIdWaveType, 
-		oscComboBox);
+	oscComboBoxAttachment = std::make_unique<ComboBoxAttachment> (processor.parameters, "WAVE-TYPE", oscComboBox);
 
 	frequencySlider.setLookAndFeel(&lookAndFeel);
 	frequencySlider.setSliderStyle(Slider::SliderStyle::LinearHorizontal);
 	frequencySlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&frequencySlider);
-	frequencySliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdFreq,
-		frequencySlider);
-
+	frequencySliderAttachment = std::make_unique<SliderAttachment> (processor.parameters, "FREQ", frequencySlider);
 
 	// amp attack/decay sliders
 	attackSlider.setLookAndFeel(&lookAndFeel);
 	attackSlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
 	attackSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&attackSlider);
-	attackSliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdAttack,
-		attackSlider);
+	attackSliderAttachment = std::make_unique<SliderAttachment>(processor.parameters, "ATTACK", attackSlider);
 
 	decaySlider.setLookAndFeel(&lookAndFeel);
 	decaySlider.setSliderStyle(Slider::SliderStyle::LinearVertical);
 	decaySlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&decaySlider);
-	decaySliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdDecay,
-		decaySlider);
+	decaySliderAttachment = std::make_unique<SliderAttachment>(processor.parameters, "DECAY", decaySlider);
 
 	// pitch env sliders
 	pitchEnvAmountSlider.setLookAndFeel(&lookAndFeel);
 	pitchEnvAmountSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	pitchEnvAmountSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&pitchEnvAmountSlider);
-	pitchEnvAmountAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdPitchEnvAmount,
-		pitchEnvAmountSlider);
+	pitchEnvAmountAttachment = std::make_unique<SliderAttachment>(processor.parameters, "PITCH-ENV-AMOUNT", pitchEnvAmountSlider);
 
 	pitchEnvRateSlider.setLookAndFeel(&lookAndFeel);
 	pitchEnvRateSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	pitchEnvRateSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&pitchEnvRateSlider);
-	pitchEnvRateSliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdPitchEnvRate,
-		pitchEnvRateSlider);
+	pitchEnvRateSliderAttachment = std::make_unique<SliderAttachment>(processor.parameters, "PITCH-ENV-RATE", pitchEnvRateSlider);
 
 	// pitch lfo sliders
 	pitchLfoAmountSlider.setLookAndFeel(&lookAndFeel);
 	pitchLfoAmountSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	pitchLfoAmountSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&pitchLfoAmountSlider);
-	pitchLfoAmountAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdPitchLfoAmount,
-		pitchLfoAmountSlider);
+	pitchLfoAmountAttachment = std::make_unique<SliderAttachment>(processor.parameters, "PITCH-LFO-AMOUNT", pitchLfoAmountSlider);
 
 	pitchLfoRateSlider.setLookAndFeel(&lookAndFeel);
 	pitchLfoRateSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	pitchLfoRateSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&pitchLfoRateSlider);
-	pitchLfoRateSliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdPitchLfoRate,
-		pitchLfoRateSlider);
+	pitchLfoRateSliderAttachment = std::make_unique<SliderAttachment>(processor.parameters, "PITCH-LFO-RATE", pitchLfoRateSlider);
 }
 
 OscillatorSectionEditor::~OscillatorSectionEditor()

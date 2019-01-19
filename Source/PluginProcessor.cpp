@@ -22,15 +22,45 @@ PatSynthAudioProcessor::PatSynthAudioProcessor()
 		.withOutput("Output", AudioChannelSet::stereo(), true)
 #endif
 	), 
-	parameters(*this, nullptr)
+	parameters(*this, nullptr, "PatSynth", createParameterLayout())
 #endif
 {	
-	initValueTree ();
 	initSynth ();
 }
 
 PatSynthAudioProcessor::~PatSynthAudioProcessor()
 {
+}
+
+//==============================================================================
+AudioProcessorValueTreeState::ParameterLayout PatSynthAudioProcessor::createParameterLayout()
+{
+    std::vector<std::unique_ptr<AudioParameterFloat>> params;
+
+	// TONE section
+	params.push_back (std::make_unique<AudioParameterFloat> ("FREQ", "Freq", NormalisableRange<float>(20.f, 20000.f, 0.0001f, 0.35f), 55.f));
+	params.push_back (std::make_unique<AudioParameterFloat> ("ATTACK", "Attack", NormalisableRange<float>(0.0001f, 1.f, 0.0001f, 0.35f), 0.0001f));
+	params.push_back (std::make_unique<AudioParameterFloat> ("DECAY", "Decay", NormalisableRange<float>(0.0001f, 2.f, 0.0001, 0.35f), 0.5f));
+	params.push_back (std::make_unique<AudioParameterFloat> ("WAVE-TYPE", "Wave Type", NormalisableRange<float>(0, 2), 0));
+	params.push_back (std::make_unique<AudioParameterFloat> ("PITCH-ENV-AMOUNT", "Pitch Env Amount", NormalisableRange<float>(0.f, 1.f, 0.0001f, 1.f), 0.f));
+	params.push_back (std::make_unique<AudioParameterFloat> ("PITCH-ENV-RATE", "Pitch Env Rate", NormalisableRange<float>(0.0001f, 1.f, 0.0001f, 0.35f), 0.1f));
+	params.push_back (std::make_unique<AudioParameterFloat> ("PITCH-LFO-AMOUNT", "Pitch Lfo Amount", NormalisableRange<float>(0.f, 1.f), 0.f));
+	params.push_back (std::make_unique<AudioParameterFloat> ("PITCH-LFO-RATE", "Pitch Lfo Rate", NormalisableRange<float>(0.01f, 80.f, 0.0001f), 0.5f));
+	// NOISE section
+	params.push_back (std::make_unique<AudioParameterFloat> ("FILTER-TYPE", "Filter Type", NormalisableRange<float>(0, 2), .1f)); // TODO: default should be 0 (right?)
+	params.push_back (std::make_unique<AudioParameterFloat> ("FILTER-CUTOFF", "Cutoff", NormalisableRange<float>(20.f, 10000.f), 400.f)); // TODO: max should be 20k, not 10k
+	params.push_back (std::make_unique<AudioParameterFloat> ("FILTER-RESONANCE", "Resonance", NormalisableRange<float>(1.f, 5.f, 0.0001f, 0.4f), 1.f));
+	params.push_back (std::make_unique<AudioParameterFloat> ("NOISE-ATTACK", "Attack", NormalisableRange<float>(0.0001f, 1.f, 0.0001f, 0.35f), 0.01f));
+	params.push_back (std::make_unique<AudioParameterFloat> ("NOISE-DECAY", "Decay", NormalisableRange<float>(0.0001f, 2.f, 0.0001f, 0.35f), 0.5f));
+    // MASTER section
+	params.push_back (std::make_unique<AudioParameterFloat> ("MASTER-MIX", "Mix", NormalisableRange<float>(0.f, 1.f), 0.5f));
+	params.push_back (std::make_unique<AudioParameterFloat> ("MASTER-EQ-FREQ", "EqFreq", NormalisableRange<float>(20.f, 15000.f), 1000.f));
+	params.push_back (std::make_unique<AudioParameterFloat> ("MASTER-EQ-GAIN", "EqGain", NormalisableRange<float>(-12.f, 12.f), 0.f));
+	params.push_back (std::make_unique<AudioParameterFloat> ("MASTER-DISTORT", "Distort", NormalisableRange<float>(0.f, 50.f), 0.f));
+	params.push_back (std::make_unique<AudioParameterFloat> ("MASTER-LEVEL", "Level", NormalisableRange<float>(-96.f, 24.f), 0.f));
+	params.push_back (std::make_unique<AudioParameterFloat> ("MASTER-PAN", "Pan", NormalisableRange<float>(-1.f, 1.f), 0.f));
+	
+	return { params.begin(), params.end() };
 }
 
 //==============================================================================
@@ -144,58 +174,57 @@ void PatSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffe
 		{
 			// amp envelope
 			myVoice -> getEnvelopeParams(
-				parameters.getRawParameterValue (Globals::paramIdAttack), 
-				parameters.getRawParameterValue (Globals::paramIdDecay));
+				parameters.getRawParameterValue ("ATTACK"), 
+				parameters.getRawParameterValue ("DECAY"));
 
 			// osc type
 			myVoice -> getOscParams(
-				parameters.getRawParameterValue(Globals::paramIdFreq),
-				parameters.getRawParameterValue (Globals::paramIdWaveType));
+				parameters.getRawParameterValue("FREQ"),
+				parameters.getRawParameterValue ("WAVE-TYPE"));
 		
 
 			// pitch env
 			myVoice -> getPitchEnvParams(
-				parameters.getRawParameterValue(Globals::paramIdPitchEnvAmount),
-				parameters.getRawParameterValue(Globals::paramIdPitchEnvRate));
+				parameters.getRawParameterValue("PITCH-ENV-AMOUNT"),
+				parameters.getRawParameterValue("PITCH-ENV-RATE"));
 
 			// pitch lfo
 			myVoice -> getPitchLfoParams(
-				parameters.getRawParameterValue(Globals::paramIdPitchLfoAmount),
-				parameters.getRawParameterValue(Globals::paramIdPitchLfoRate));
+				parameters.getRawParameterValue("PITCH-LFO-AMOUNT"),
+				parameters.getRawParameterValue("PITCH-LFO-RATE"));
 
 			// NOISE SECTION
 			
 			// filter
 			myVoice -> getNoiseFilterParams(
-				parameters.getRawParameterValue (Globals::paramIdNoiseFilterType),
-				parameters.getRawParameterValue (Globals::paramIdNoiseFilterCutoff),
-				parameters.getRawParameterValue (Globals::paramIdNoiseFilterReso));
+				parameters.getRawParameterValue ("FILTER-TYPE"),
+				parameters.getRawParameterValue ("FILTER-CUTOFF"),
+				parameters.getRawParameterValue ("FILTER-RESONANCE"));
 
 			// noise amp envelope
 			myVoice -> getNoiseEnvelopeParams(
-				parameters.getRawParameterValue(Globals::paramIdNoiseAttack),
-				parameters.getRawParameterValue(Globals::paramIdNoiseDecay));
+				parameters.getRawParameterValue("NOISE-ATTACK"),
+				parameters.getRawParameterValue("NOISE-DECAY"));
 			
 			// MASTER SECTION
 
 			// osc/noise mix
 			myVoice->getMasterMixParams(
-				parameters.getRawParameterValue(Globals::paramIdMasterMix));
+				parameters.getRawParameterValue("MASTER-MIX"));
 
 			// master EQ
 			myVoice->getMasterEqParams(
-				parameters.getRawParameterValue(Globals::paramIdMasterEqFreq),
-				parameters.getRawParameterValue(Globals::paramIdMasterEqGain));
+				parameters.getRawParameterValue("MASTER-EQ-FREQ"),
+				parameters.getRawParameterValue("MASTER-EQ-GAIN"));
 
 			// master distortion
 			myVoice->getMasterDistortionParams(
-				parameters.getRawParameterValue(Globals::paramIdMasterDistort));
+				parameters.getRawParameterValue("MASTER-DISTORT"));
 
 			// master volume + pan
 			myVoice->getMasterLevelAndPanParams(
-				parameters.getRawParameterValue(Globals::paramIdMasterLevel),
-				parameters.getRawParameterValue(Globals::paramIdMasterPan));
-
+				parameters.getRawParameterValue("MASTER-LEVEL"),
+				parameters.getRawParameterValue("MASTER-PAN"));
 		}
 	}
 
@@ -225,193 +254,6 @@ void PatSynthAudioProcessor::initSynth()
 	// Add sounds to the synth
 	mySynth.clearSounds();
 	mySynth.addSound(new SynthSound());
-}
-
-void PatSynthAudioProcessor::initValueTree()
-{
-	// NOTE FREQUENCY
-	parameters.createAndAddParameter(
-		Globals::paramIdFreq,
-		kParamNameFreq,
-		String(),
-		kParamRangeFreq,
-		kParamDefaultFreq,
-		nullptr,
-		nullptr);
-
-	// ADSR
-	parameters.createAndAddParameter(
-		Globals::paramIdAttack,
-		kParamNameAttack,
-		String(),
-		kParamRangeAttack,
-		kParamDefaultAttack,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdDecay,
-		kParamNameDecay,
-		String(),
-		kParamRangeDecay,
-		kParamDefaultDecay,
-		nullptr,
-		nullptr);
-
-	// Waveform
-	parameters.createAndAddParameter(
-		Globals::paramIdWaveType,
-		kParamNameWaveType,
-		String(),
-		kParamRangeWaveType,
-		kParamDefaultWaveType,
-		nullptr,
-		nullptr);
-
-	// Pitch envelope
-	parameters.createAndAddParameter(
-		Globals::paramIdPitchEnvAmount,
-		kParamNamePitchEnvAmount,
-		String(),
-		kParamRangePitchEnvAmount,
-		kParamDefaultPitchEnvAmount,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdPitchEnvRate,
-		kParamNamePitchEnvRate,
-		String(),
-		kParamRangePitchEnvRate,
-		kParamDefaultPitchEnvRate,
-		nullptr,
-		nullptr);
-
-	// Pitch lfo
-	parameters.createAndAddParameter(
-		Globals::paramIdPitchLfoAmount,
-		kParamNamePitchLfoAmount,
-		String(),
-		kParamRangePitchLfoAmount,
-		kParamDefaultPitchLfoAmount,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdPitchLfoRate,
-		kParamNamePitchLfoRate,
-		String(),
-		kParamRangePitchLfoRate,
-		kParamDefaultPitchLfoRate,
-		nullptr,
-		nullptr);
-
-	// NOISE SECTION
-
-	// Filter
-	parameters.createAndAddParameter(
-		Globals::paramIdNoiseFilterType,
-		kParamNameNoiseFilterType,
-		String(),
-		kParamRangeNoiseFilterType,
-		kParamDefaultNoiseFilterType,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdNoiseFilterCutoff,
-		kParamNameNoiseFilterCutoff,
-		String(),
-		kParamRangeNoiseFilterCutoff,
-		kParamDefaultNoiseFilterCutoff,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdNoiseFilterReso,
-		kParamNameNoiseFilterResonance,
-		String(),
-		kParamRangeNoiseFilterResonance,
-		kParamDefaultNoiseFilterResonance,
-		nullptr,
-		nullptr);
-
-	// Noise amp
-	parameters.createAndAddParameter(
-		Globals::paramIdNoiseAttack,
-		kParamNameNoiseAttack,
-		String(),
-		kParamRangeNoiseAttack,
-		kParamDefaultNoiseAttack,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdNoiseDecay,
-		kParamNameNoiseDecay,
-		String(),
-		kParamRangeNoiseDecay,
-		kParamDefaultNoiseDecay,
-		nullptr,
-		nullptr);
-
-	// MASTER SECTION
-
-	parameters.createAndAddParameter(
-		Globals::paramIdMasterMix,
-		kParamNameMasterMix,
-		String(),
-		kParamRangeMasterMix,
-		kParamDefaultMasterMix,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdMasterEqFreq,
-		kParamNameMasterEqFreq,
-		String(),
-		kParamRangeMasterEqFreq,
-		kParamDefaultMasterEqFreq,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdMasterEqGain,
-		kParamNameMasterEqGain,
-		String(),
-		kParamRangeMasterEqGain,
-		kParamDefaultMasterEqGain,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdMasterDistort,
-		kParamNameMasterDistort,
-		String(),
-		kParamRangeMasterDistort,
-		kParamDefaultMasterDistort,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdMasterLevel,
-		kParamNameMasterLevel,
-		String(),
-		kParamRangeMasterLevel,
-		kParamDefaultMasterLevel,
-		nullptr,
-		nullptr);
-
-	parameters.createAndAddParameter(
-		Globals::paramIdMasterPan,
-		kParamNameMasterPan,
-		String(),
-		kParamRangeMasterPan,
-		kParamDefaultMasterPan,
-		nullptr,
-		nullptr);
-
-	parameters.state = ValueTree(kValueTreeId);
 }
 
 //==============================================================================

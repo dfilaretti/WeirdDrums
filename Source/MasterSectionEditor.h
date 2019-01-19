@@ -12,7 +12,6 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
-#include "Globals.h"
 #include "LookAndFeels.h"
 
 //==============================================================================
@@ -53,12 +52,12 @@ private:
 	Slider levelSlider;
 	Slider panSlider;
 
-	ScopedPointer<SliderAttachment> mixSliderAttachment;
-	ScopedPointer<SliderAttachment> eqFreqSliderAttachment;
-	ScopedPointer<SliderAttachment> distortSliderAttachment;
-	ScopedPointer<SliderAttachment> eqGainSliderAttachment;
-	ScopedPointer<SliderAttachment> levelSliderAttachment;
-	ScopedPointer<SliderAttachment> panSliderAttachment;
+	std::unique_ptr<SliderAttachment> mixSliderAttachment;
+	std::unique_ptr<SliderAttachment> eqFreqSliderAttachment;
+	std::unique_ptr<SliderAttachment> distortSliderAttachment;
+	std::unique_ptr<SliderAttachment> eqGainSliderAttachment;
+	std::unique_ptr<SliderAttachment> levelSliderAttachment;
+	std::unique_ptr<SliderAttachment> panSliderAttachment;
 
 	Label m_mixLabel;
 	Label m_eqFreqLabel;

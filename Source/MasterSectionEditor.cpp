@@ -45,10 +45,7 @@ MasterSectionEditor::MasterSectionEditor(PatSynthAudioProcessor& p) :
 	mixSlider.setSliderStyle(Slider::LinearHorizontal);
 	mixSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&mixSlider);
-	mixSliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdMasterMix,
-		mixSlider);
+	mixSliderAttachment = std::make_unique<SliderAttachment> (processor.parameters, "MASTER-MIX", mixSlider);
 
 	// eq freq slider
 	eqFreqSlider.setEnabled (false);
@@ -56,20 +53,14 @@ MasterSectionEditor::MasterSectionEditor(PatSynthAudioProcessor& p) :
 	eqFreqSlider.setSliderStyle(Slider::LinearHorizontal);
 	eqFreqSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&eqFreqSlider);
-	eqFreqSliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdMasterEqFreq,
-		eqFreqSlider);
+	eqFreqSliderAttachment = std::make_unique<SliderAttachment>(processor.parameters, "MASTER-EQ-FREQ", eqFreqSlider);
 	
 	// distort (rotary) slider
 	distortSlider.setLookAndFeel (&lookAndFeel);
 	distortSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	distortSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&distortSlider);
-	distortSliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdMasterDistort,
-		distortSlider);
+	distortSliderAttachment = std::make_unique<SliderAttachment>(processor.parameters, "MASTER-DISTORT", distortSlider);
 
 	// eq gain (rotary) slider
 	eqGainSlider.setEnabled (false);
@@ -77,20 +68,14 @@ MasterSectionEditor::MasterSectionEditor(PatSynthAudioProcessor& p) :
 	eqGainSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	eqGainSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&eqGainSlider);
-	eqGainSliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdMasterEqGain,
-		eqGainSlider);
+	eqGainSliderAttachment = std::make_unique<SliderAttachment>(processor.parameters, "MASTER-EQ-GAIN", eqGainSlider);
 
 	// level (rotary) slider
 	levelSlider.setLookAndFeel (&lookAndFeel);
 	levelSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	levelSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&levelSlider);
-	levelSliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdMasterLevel,
-		levelSlider);
+	levelSliderAttachment = std::make_unique<SliderAttachment>(processor.parameters, "MASTER-LEVEL", levelSlider);
 
 	// pan (rotary) slider
 	panSlider.setEnabled (false);
@@ -98,10 +83,7 @@ MasterSectionEditor::MasterSectionEditor(PatSynthAudioProcessor& p) :
 	panSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	panSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&panSlider);
-	panSliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdMasterPan,
-		panSlider);
+	panSliderAttachment = std::make_unique<SliderAttachment>(processor.parameters, "MASTER-PAN", panSlider);
 }
 
 MasterSectionEditor::~MasterSectionEditor()

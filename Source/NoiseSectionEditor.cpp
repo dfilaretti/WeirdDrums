@@ -44,51 +44,35 @@ NoiseSectionEditor::NoiseSectionEditor(PatSynthAudioProcessor& p) :
 	filterTypeComboBox.addItem(kMenuItemBandPassText, kMenuItemSBandPassId);
 	filterTypeComboBox.setJustificationType(Justification::centred);
 	addAndMakeVisible(&filterTypeComboBox);
-	filterTypeComboBoxAttachment = new ComboBoxAttachment(
-		processor.parameters, 
-		Globals::paramIdNoiseFilterType, 
-		filterTypeComboBox);
+	filterTypeComboBoxAttachment = std::make_unique<ComboBoxAttachment> (processor.parameters, "FILTER-TYPE", filterTypeComboBox);
 
 	// setup cutoff slider
 	filterCutoffSlider.setLookAndFeel (&lookAndFeel);
 	filterCutoffSlider.setSliderStyle(Slider::LinearHorizontal);
 	filterCutoffSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&filterCutoffSlider);
-	filterCutoffSliderAttachment = new SliderAttachment(
-		processor.parameters, 
-		Globals::paramIdNoiseFilterCutoff,
-		filterCutoffSlider);
-	filterCutoffSlider.setSkewFactorFromMidPoint(1000.0); // NB: must be after init the attachment ^^^
+	filterCutoffSliderAttachment = std::make_unique<SliderAttachment> (processor.parameters, "FILTER-CUTOFF", filterCutoffSlider);
 
 	// setup resonance slider
 	filterResonanceSlider.setLookAndFeel (&lookAndFeel);
 	filterResonanceSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	filterResonanceSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&filterResonanceSlider);
-	filterResonanceSliderAttachment = new SliderAttachment(
-		processor.parameters, 
-		Globals::paramIdNoiseFilterReso,
-		filterResonanceSlider);
+	filterResonanceSliderAttachment = std::make_unique<SliderAttachment> (processor.parameters, "FILTER-RESONANCE", filterResonanceSlider);
 
 	// setup attack slider
 	attackSlider.setLookAndFeel (&lookAndFeel);
 	attackSlider.setSliderStyle(Slider::LinearVertical);
 	attackSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&attackSlider);
-	attackSliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdNoiseAttack,
-		attackSlider);
+	attackSliderAttachment = std::make_unique<SliderAttachment> (processor.parameters, "NOISE-ATTACK", attackSlider);
 
 	// setup decay slider
 	decaySlider.setLookAndFeel (&lookAndFeel);
 	decaySlider.setSliderStyle(Slider::LinearVertical);
 	decaySlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 	addAndMakeVisible(&decaySlider);
-	decaySliderAttachment = new SliderAttachment(
-		processor.parameters,
-		Globals::paramIdNoiseDecay,
-		decaySlider);
+	decaySliderAttachment = std::make_unique<SliderAttachment> (processor.parameters, "NOISE-DECAY", decaySlider);
 }
 
 NoiseSectionEditor::~NoiseSectionEditor()

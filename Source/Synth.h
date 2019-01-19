@@ -29,7 +29,7 @@ public:
 
         This is done by calling SynthVoice::killNote()
     */
-	void softKillActiveVoices(const int midiChannel)
+	void softKillActiveVoices (const int midiChannel)
 	{
 		for (auto* voice : voices)
 			if (midiChannel <= 0 || voice->isPlayingChannel (midiChannel))

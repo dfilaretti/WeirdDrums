@@ -191,5 +191,4 @@ private:
 
     float sustainLevel = 0.0f;
     float attackRate = 0.0f, decayRate = 0.0f;
-
 };

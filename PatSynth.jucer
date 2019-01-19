@@ -5,10 +5,6 @@
               pluginFormats="buildStandalone,buildVST3" defines="JUCE_VST3_CAN_REPLACE_VST2=0">
   <MAINGROUP id="iGEfRU" name="PatSynth">
     <GROUP id="{AA863529-B8B7-5D1E-5015-BA54E06BED19}" name="Source">
-      <GROUP id="{292DF973-8554-D4E8-C193-A2DED625F448}" name="Shared">
-        <FILE id="fpak03" name="Globals.cpp" compile="1" resource="0" file="Source/Globals.cpp"/>
-        <FILE id="xtuUfg" name="Globals.h" compile="0" resource="0" file="Source/Globals.h"/>
-      </GROUP>
       <GROUP id="{5633249D-B53E-0946-92DD-FAC6184FFC44}" name="Processor">
         <FILE id="pmsZRf" name="Envelope.h" compile="0" resource="0" file="Source/Envelope.h"/>
         <FILE id="GLKnM6" name="WhiteNoiseGenerator.h" compile="0" resource="0"

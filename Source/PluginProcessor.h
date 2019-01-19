@@ -14,7 +14,6 @@
 #include "Synth.h"
 #include "SynthVoice.h"
 #include "SynthSound.h"
-#include "Globals.h"
 
 //==============================================================================
 /**
@@ -63,6 +62,9 @@ public:
 	AudioProcessorValueTreeState parameters;
 
 private:
+	//==============================================================================
+	AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
+
 	//==============================================================================
 	Synth mySynth;
 	SynthVoice *myVoice;

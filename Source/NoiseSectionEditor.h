@@ -12,7 +12,6 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
-#include "Globals.h"
 #include "LookAndFeels.h"
 
 //==============================================================================
@@ -59,17 +58,17 @@ private:
 	ComboBox 
 		filterTypeComboBox;
 	
-	ScopedPointer<ComboBoxAttachment> 
+	std::unique_ptr<ComboBoxAttachment> 
 		filterTypeComboBoxAttachment;
 
 	Slider filterCutoffSlider, filterResonanceSlider;
 	Slider attackSlider, decaySlider;
 
-	ScopedPointer<SliderAttachment>
+	std::unique_ptr<SliderAttachment>
 		filterCutoffSliderAttachment,
 		filterResonanceSliderAttachment;
 
-	ScopedPointer<SliderAttachment>
+	std::unique_ptr<SliderAttachment>
 		attackSliderAttachment, decaySliderAttachment;
 
 	Label m_filterTypeLabel;
