@@ -34,7 +34,7 @@ Here are some of the reasons for this:
 
 * OK let's be honest here, this started as a learning/practice project, so I wanted to keep it simple :-) 
 
-* Although I'm a big fan of drum synth plugins, I pretty much never use their built-in step sequencer, but instead I rely on my DAW's built in piano-roll/sequencing features. Related to that, I recently bought an Ableton Push2 and in order to use it effectively with the instrument, the latter needs to work well within drum-racks.  
+* Although I'm a big fan of drum synth plugins, I pretty much never use their built-in step sequencer, but instead I rely on my DAW's editor. Related to that, I recently bought an Ableton Push2 meaning the drum sequencing workflow is heavily based on Drum Racks. With this setup an additional step sequencer just be redundant for me. 
 
 * When working on my tracks I often find myself loading a Microtonic just to make a single sound (rather than the full 8-drums drumkit). Or, perhaps, sometimes I only use 4 of the 8 slots, while sometimes I need 50 slots (no, not really). With this approach you get more freedom and flexibility on how you want to use the instrument. Load as many instances as you want, and use/route them in the way you see fit. For example, I like to load a few instances of the synth inside Ableton's Drum Rack, perhaps together with other things such as samples etc. 
 
@@ -43,18 +43,15 @@ Having said that, a step sequencer sounds like a nice future addition and a grea
 
 ## Todo / Contributions
 
-Although already usable, this is still a work in progress. 
-It has many missing features and it possibly (certainly?) contains bugs. 
+Contributions, feature requests, bug reports as well as general feedback and advice are very welcome!
 
-Contributions, feature requests, bug reports as well as general feedback and advice are very welcome. 
-
-Please feel free to open an issue or submit a pull reques. 
-
-Here are a few things that comes to mind...
+Here are a few needed improvements that comes to mind...
 
 * envelopes are linear, but should be exponential (or, at least, offer the choice!) 
 * dedicated envelope type for claps 
 * global EQ
 * Optimize performance
-* Make UI sexier 
+* Make UI prettier 
 * ..... 
+
+Please take a look at the [issues](https://github.com/dfilaretti/LittleTeknoDrummer/issues) and feel free to open new ones is needed. 
