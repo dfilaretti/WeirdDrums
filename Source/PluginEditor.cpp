@@ -12,7 +12,7 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-LittleDrumSynthAudioProcessorEditor::LittleDrumSynthAudioProcessorEditor (LittleDrumSynthAudioProcessor& p)
+LittleTeknoDrummerAudioProcessorEditor::LittleTeknoDrummerAudioProcessorEditor (LittleTeknoDrummerAudioProcessor& p)
     : AudioProcessorEditor (&p), processor (p), oscGui (p), envGui (p), filterGui (p)
 {
     setSize (kWidth, kHeight);
@@ -25,17 +25,17 @@ LittleDrumSynthAudioProcessorEditor::LittleDrumSynthAudioProcessorEditor (Little
 }
 
 
-LittleDrumSynthAudioProcessorEditor::~LittleDrumSynthAudioProcessorEditor()
+LittleTeknoDrummerAudioProcessorEditor::~LittleTeknoDrummerAudioProcessorEditor()
 {
 }
 
 //==============================================================================
-void LittleDrumSynthAudioProcessorEditor::paint (Graphics& g)
+void LittleTeknoDrummerAudioProcessorEditor::paint (Graphics& g)
 {
     g.fillAll (Colours::black);
 }
 
-void LittleDrumSynthAudioProcessorEditor::resized()
+void LittleTeknoDrummerAudioProcessorEditor::resized()
 {
 	juce::Rectangle<int> area = getLocalBounds();
 

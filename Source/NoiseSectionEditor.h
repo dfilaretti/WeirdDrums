@@ -19,7 +19,7 @@
 class NoiseSectionEditor	: public Component
 {
 public:
-    NoiseSectionEditor(LittleDrumSynthAudioProcessor&);
+    NoiseSectionEditor(LittleTeknoDrummerAudioProcessor&);
     ~NoiseSectionEditor();
 
     void paint (Graphics&) override;
@@ -88,7 +88,7 @@ private:
 
 
 	//==============================================================================
-	LittleDrumSynthAudioProcessor& processor;
+	LittleTeknoDrummerAudioProcessor& processor;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NoiseSectionEditor)
 };

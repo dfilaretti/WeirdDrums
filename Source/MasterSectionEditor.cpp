@@ -12,7 +12,7 @@
 #include "MasterSectionEditor.h"
 
 //==============================================================================
-MasterSectionEditor::MasterSectionEditor(LittleDrumSynthAudioProcessor& p) : 
+MasterSectionEditor::MasterSectionEditor(LittleTeknoDrummerAudioProcessor& p) : 
 	processor (p)
 {
 	// Setup labels

@@ -19,7 +19,7 @@
 class MasterSectionEditor    : public Component
 {
 public:
-    MasterSectionEditor(LittleDrumSynthAudioProcessor&);
+    MasterSectionEditor(LittleTeknoDrummerAudioProcessor&);
     ~MasterSectionEditor();
 
     void paint (Graphics&) override;
@@ -75,7 +75,7 @@ private:
 		ampArea,
 		miscArea;
 
-	LittleDrumSynthAudioProcessor& processor;
+	LittleTeknoDrummerAudioProcessor& processor;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MasterSectionEditor)
 };

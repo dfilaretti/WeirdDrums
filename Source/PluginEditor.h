@@ -18,11 +18,11 @@
 
 //==============================================================================
 
-class LittleDrumSynthAudioProcessorEditor  : public AudioProcessorEditor
+class LittleTeknoDrummerAudioProcessorEditor  : public AudioProcessorEditor
 {
 public:
-    LittleDrumSynthAudioProcessorEditor (LittleDrumSynthAudioProcessor&);
-    ~LittleDrumSynthAudioProcessorEditor();
+    LittleTeknoDrummerAudioProcessorEditor (LittleTeknoDrummerAudioProcessor&);
+    ~LittleTeknoDrummerAudioProcessorEditor();
 
 	//==============================================================================
     void paint (Graphics&) override;
@@ -34,7 +34,7 @@ private:
 	const int kSectionWidth  = 250;
 	const int kSectionHeight = kHeight;
 
-    LittleDrumSynthAudioProcessor& processor;
+    LittleTeknoDrummerAudioProcessor& processor;
 
 	OscillatorSectionEditor oscGui;
 	MasterSectionEditor envGui;
@@ -42,5 +42,5 @@ private:
 
 	//MainComponent pluginUI;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LittleDrumSynthAudioProcessorEditor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LittleTeknoDrummerAudioProcessorEditor)
 };

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="Tv2EuB" name="LittleDrumSynth" projectType="audioplug" jucerVersion="5.4.1"
-              pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
+<JUCERPROJECT id="Tv2EuB" name="LittleTeknoDrummer" projectType="audioplug"
+              jucerVersion="5.4.1" pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
               pluginFormats="buildStandalone,buildVST3" defines="JUCE_VST3_CAN_REPLACE_VST2=0"
-              version="0.1" companyName="Daniele Filaretti LTD" companyEmail="dfilaretti@gmail.com"
+              version="0.1" companyName="Daniele Filaretti" companyEmail="dfilaretti@gmail.com"
               companyWebsite="dfilaretti.github.io">
-  <MAINGROUP id="iGEfRU" name="LittleDrumSynth">
+  <MAINGROUP id="iGEfRU" name="LittleTeknoDrummer">
     <GROUP id="{AA863529-B8B7-5D1E-5015-BA54E06BED19}" name="Source">
       <GROUP id="{5633249D-B53E-0946-92DD-FAC6184FFC44}" name="Processor">
         <FILE id="pmsZRf" name="Envelope.h" compile="0" resource="0" file="Source/Envelope.h"/>

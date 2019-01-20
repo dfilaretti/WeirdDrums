@@ -18,12 +18,12 @@
 //==============================================================================
 /**
 */
-class LittleDrumSynthAudioProcessor  : public AudioProcessor
+class LittleTeknoDrummerAudioProcessor  : public AudioProcessor
 {
 public:
     //==============================================================================
-    LittleDrumSynthAudioProcessor();
-    ~LittleDrumSynthAudioProcessor();
+    LittleTeknoDrummerAudioProcessor();
+    ~LittleTeknoDrummerAudioProcessor();
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
@@ -74,7 +74,7 @@ private:
 
 	//==============================================================================
 	const int kNumVoices = 3;
-	const Identifier kValueTreeId = Identifier("LittleDrumSynth");
+	const Identifier kValueTreeId = Identifier("LittleTeknoDrummer");
 
 	//==============================================================================
 	// OSC SECTION
@@ -153,5 +153,5 @@ private:
 	void initSynth();
 
 	//==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LittleDrumSynthAudioProcessor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LittleTeknoDrummerAudioProcessor)
 };

@@ -11,10 +11,10 @@
 #pragma once
 #include "../JuceLibraryCode/JuceHeader.h"
 
-class LittleDrumSynthLookAndFeel : public LookAndFeel_V4 
+class LittleTeknoDrummerLookAndFeel : public LookAndFeel_V4 
 {
 public:
-	LittleDrumSynthLookAndFeel ()
+	LittleTeknoDrummerLookAndFeel ()
 	{
 		// thumb
         setColour (Slider::thumbColourId, Colours::grey);
@@ -174,7 +174,7 @@ public:
 
 };
 
-class OscSectionLookAndFeel : public LittleDrumSynthLookAndFeel 
+class OscSectionLookAndFeel : public LittleTeknoDrummerLookAndFeel 
 {
 public:
     OscSectionLookAndFeel()
@@ -185,7 +185,7 @@ public:
     }
 };
 
-class NoiseSectionLookAndFeel : public LittleDrumSynthLookAndFeel 
+class NoiseSectionLookAndFeel : public LittleTeknoDrummerLookAndFeel 
 {
 public:
     NoiseSectionLookAndFeel()
@@ -196,7 +196,7 @@ public:
     }
 };
 
-class MasterSectionLookAndFeel : public LittleDrumSynthLookAndFeel 
+class MasterSectionLookAndFeel : public LittleTeknoDrummerLookAndFeel 
 {
 public:
     MasterSectionLookAndFeel()
