@@ -1,4 +1,4 @@
-# LTD - Little Tekno Drummer
+# Little Tekno Drummer (LTD)
 
 A simple drum synthesiser plugin inspired by the awesome [Sonic Charge Microtonic](https://soniccharge.com/microtonic), one of my favourite plugins.
 All sounds are synthesised in realtime, no samples are used. 
