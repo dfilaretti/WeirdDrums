@@ -25,4 +25,25 @@ As the Mictoronic, the architecture is quite simple. We have essentially three c
 
 ## Faq
 
+### Why there is no step-sequencer?
+
+There are essentially two reasons for that: 
+
+* This started as a learning/practice project. I wanted to keep it simple :-) 
+
+* Although the Microtonic (as well as many other drum synths) have one, and although I'm a big fan of those plugins, I pretty much never use the built-in step sequencer, instead using my DAW's built in piano-roll/sequencing features. Also I recently got myself an Ableton Push2 so that's my primary drum sequencer now. 
+
+Having said that, a step sequencer sounds like a nice future addition and a great learning exercise. 
+
+
+### This kind of plugins normally gives you at least 8 sounds. What about this? Is it only 1 sound? 
+
+Yes. One instance of this plugin = 1 single drum sound. 
+
+Reasons:
+
+* Again, try to keep things simple!
+
+* When working on my tracks I often found myself opening up a Microtonic just to make a single sound (rather than the full 8-drums drumkit). Or sometimes I use only 4 of the 8 slots. Or sometimes I need 50 slots (no, not really). So, with this approach you get more freedom flexibility on how you want to use the instrument. Load as many instances as you want, and use them as you want. For example, I like to load them inside Ableton's Drum Rack, perhaps together with other things such as samples etc. 
+
 ## Todo / Contributions
