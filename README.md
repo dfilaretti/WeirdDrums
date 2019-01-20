@@ -49,3 +49,12 @@ It has many missing features and it possibly (certainly?) contains bugs.
 Contributions, feature requests, bug reports as well as general feedback and advice are very welcome. 
 
 Please feel free to open an issue or submit a pull reques. 
+
+Here are a few things that comes to mind...
+
+* envelopes are linear, but should be exponential (or, at least, offer the choice!) 
+* dedicated envelope type for claps 
+* global EQ
+* Optimize performance
+* Make UI sexier 
+* ..... 
