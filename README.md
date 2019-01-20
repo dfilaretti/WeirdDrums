@@ -1,6 +1,9 @@
 # LDS - Little Drum Synth
 
-A simple drum synthesiser plugin. 
+A simple drum synthesiser plugin inspired by the awesome [Sonic Charge Microtonic](https://soniccharge.com/microtonic), one of my favourite plugins.
+All sounds are synthesised in realtime, no samples are used. 
+
+It is written in C++ and the [JUCE](https://juce.com/) framework. 
 
 ![Waveshaper-Screenshot](media/img/screenshot-medium.png)
 
