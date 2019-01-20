@@ -47,3 +47,10 @@ Reasons:
 * When working on my tracks I often found myself opening up a Microtonic just to make a single sound (rather than the full 8-drums drumkit). Or sometimes I use only 4 of the 8 slots. Or sometimes I need 50 slots (no, not really). So, with this approach you get more freedom flexibility on how you want to use the instrument. Load as many instances as you want, and use them as you want. For example, I like to load them inside Ableton's Drum Rack, perhaps together with other things such as samples etc. 
 
 ## Todo / Contributions
+
+Although already usable, this is still a work in progress. 
+It has many missing features and it possibly (certainly?) contains bugs. 
+
+Contributions, feature requests, bug reports as well as general feedback and advice are very welcome. 
+
+Please feel free to open an issue or submit a pull reques. 
