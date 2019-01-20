@@ -1,13 +1,12 @@
 # Little Tekno Drummer (LTD)
 
-A simple drum synthesiser plugin inspired by the awesome [Sonic Charge Microtonic](https://soniccharge.com/microtonic), one of my favourite plugins.
-All sounds are synthesised in realtime, no samples are used. 
+A simple drum synthesiser plugin inspired by the awesome [Sonic Charge Microtonic](https://soniccharge.com/microtonic), one of my favourite plugins. All sounds are synthesised in realtime - no samples used. 
 
 It is written in C++ and the [JUCE](https://juce.com/) framework. 
 
-![Waveshaper-Screenshot](media/img/screenshot-medium.png)
+![Screenshot](media/img/screenshot-medium.png)
 
-Audio examples (more to come!):
+Here some audio examples (more to come!):
 
 * [Example 1](https://dfilaretti.github.io/assets/loop1.wav)
 * [Example 2](https://dfilaretti.github.io/assets/loop2.wav)
@@ -15,36 +14,32 @@ Audio examples (more to come!):
 
 ## Architecture / how to use
 
-As the Mictoronic, the architecture is quite simple. We have essentially three components
+As in the original Mictoronic, the architecture is quite simple. 
+We have essentially an _oscillator_ section and a _noise_ section, which gets mixed together and processed in the _master_ section. 
+In a bit more detail...
 
-* **oscillator section**: this offers a single oscillator with a selectable waveform (currently sine, saw and square), whose amplitude is modulated by a simple "percussive style" Attack-Decay (AD) envelope. In addition, the pitch of the oscillator can also be modulated via a second AD envelope and/or a simple sine-wave LFO. More modulation options may become available in future. 
+* **oscillator section**: a single oscillator with a selectable waveform (currently sine, saw and square), whose amplitude is modulated by a simple "percussive style" Attack-Decay (AD) envelope. If desired, the pitch of the oscillator can be modulated via a second AD envelope and/or a simple LFO. More modulation options may become available in future. 
 
-* **noise section**: this consists of a white noise generator going through a filter and finally through an AD envelope. The filter can be Low-Pass (LP), High-Pass (HP) or Band-Pass (BP) and its cutoff frequency and envelope are adjustable. 
+* **noise section**: white noise generator -> filter -> AD envelope. The filter can be Low-Pass (LP), High-Pass (HP) or Band-Pass (BP) and its cutoff frequency and envelope are adjustable via the corresponding sliders. Later: more envelope shapes. 
 
-* **master section**: this is where the _oscillator_ and _noise_ signal are mixed together (via the _mix_ slider) and some effects and global volume adjustments are applied. 
+* **master section**: here the _oscillator_ and _noise_ signal are mixed together (via the _mix_ slider) and some effects and global volume adjustments are applied. Currently only distortion is available, but we may add more in future. 
 
 ## Faq
 
-### Why there is no step-sequencer?
+### Why there is no step-sequencer? And why there aren't multiple "drum pads" like in most other drum instruments?
 
-There are essentially two reasons for that: 
+Yes - one instance of this plugin = 1 single drum sound, and there is no built-in step sequencer, meaning you need to use your DAW's piano roll or editor to input notes. 
 
-* This started as a learning/practice project. I wanted to keep it simple :-) 
+Here are some of the reasons for this:
 
-* Although the Microtonic (as well as many other drum synths) have one, and although I'm a big fan of those plugins, I pretty much never use the built-in step sequencer, instead using my DAW's built in piano-roll/sequencing features. Also I recently got myself an Ableton Push2 so that's my primary drum sequencer now. 
+* OK let's be honest here, this started as a learning/practice project, so I wanted to keep it simple :-) 
+
+* Although I'm a big fan of drum synth plugins, I pretty much never use their built-in step sequencer, but instead I rely on my DAW's built in piano-roll/sequencing features. Related to that, I recently bought an Ableton Push2 and in order to use it effectively with the instrument, the latter needs to work well within drum-racks.  
+
+* When working on my tracks I often find myself loading a Microtonic just to make a single sound (rather than the full 8-drums drumkit). Or, perhaps, sometimes I only use 4 of the 8 slots, while sometimes I need 50 slots (no, not really). With this approach you get more freedom and flexibility on how you want to use the instrument. Load as many instances as you want, and use/route them in the way you see fit. For example, I like to load a few instances of the synth inside Ableton's Drum Rack, perhaps together with other things such as samples etc. 
 
 Having said that, a step sequencer sounds like a nice future addition and a great learning exercise. 
 
-
-### This kind of plugins normally gives you at least 8 sounds. What about this? Is it only 1 sound? 
-
-Yes. One instance of this plugin = 1 single drum sound. 
-
-Reasons:
-
-* Again, try to keep things simple!
-
-* When working on my tracks I often found myself opening up a Microtonic just to make a single sound (rather than the full 8-drums drumkit). Or sometimes I use only 4 of the 8 slots. Or sometimes I need 50 slots (no, not really). So, with this approach you get more freedom flexibility on how you want to use the instrument. Load as many instances as you want, and use them as you want. For example, I like to load them inside Ableton's Drum Rack, perhaps together with other things such as samples etc. 
 
 ## Todo / Contributions
 
