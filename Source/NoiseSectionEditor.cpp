@@ -12,7 +12,7 @@
 #include "NoiseSectionEditor.h"
 
 //==============================================================================
-NoiseSectionEditor::NoiseSectionEditor(PatSynthAudioProcessor& p) :
+NoiseSectionEditor::NoiseSectionEditor(LittleDrumSynthAudioProcessor& p) :
 	processor(p)
 {
 	// Setup labels

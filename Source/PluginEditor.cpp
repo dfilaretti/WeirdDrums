@@ -12,7 +12,7 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-PatSynthAudioProcessorEditor::PatSynthAudioProcessorEditor (PatSynthAudioProcessor& p)
+LittleDrumSynthAudioProcessorEditor::LittleDrumSynthAudioProcessorEditor (LittleDrumSynthAudioProcessor& p)
     : AudioProcessorEditor (&p), processor (p), oscGui (p), envGui (p), filterGui (p)
 {
     setSize (kWidth, kHeight);
@@ -25,17 +25,17 @@ PatSynthAudioProcessorEditor::PatSynthAudioProcessorEditor (PatSynthAudioProcess
 }
 
 
-PatSynthAudioProcessorEditor::~PatSynthAudioProcessorEditor()
+LittleDrumSynthAudioProcessorEditor::~LittleDrumSynthAudioProcessorEditor()
 {
 }
 
 //==============================================================================
-void PatSynthAudioProcessorEditor::paint (Graphics& g)
+void LittleDrumSynthAudioProcessorEditor::paint (Graphics& g)
 {
     g.fillAll (Colours::black);
 }
 
-void PatSynthAudioProcessorEditor::resized()
+void LittleDrumSynthAudioProcessorEditor::resized()
 {
 	juce::Rectangle<int> area = getLocalBounds();
 

@@ -12,7 +12,7 @@
 #include "OscillatorSectionEditor.h"
 
 //==============================================================================
-OscillatorSectionEditor::OscillatorSectionEditor (PatSynthAudioProcessor& p) 
+OscillatorSectionEditor::OscillatorSectionEditor (LittleDrumSynthAudioProcessor& p) 
 	: processor(p)
 {
 	// Setup sliders colours

@@ -18,12 +18,12 @@
 //==============================================================================
 /**
 */
-class PatSynthAudioProcessor  : public AudioProcessor
+class LittleDrumSynthAudioProcessor  : public AudioProcessor
 {
 public:
     //==============================================================================
-    PatSynthAudioProcessor();
-    ~PatSynthAudioProcessor();
+    LittleDrumSynthAudioProcessor();
+    ~LittleDrumSynthAudioProcessor();
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
@@ -74,7 +74,7 @@ private:
 
 	//==============================================================================
 	const int kNumVoices = 3;
-	const Identifier kValueTreeId = Identifier("PatSynth");
+	const Identifier kValueTreeId = Identifier("LittleDrumSynth");
 
 	//==============================================================================
 	// OSC SECTION
@@ -153,5 +153,5 @@ private:
 	void initSynth();
 
 	//==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (PatSynthAudioProcessor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LittleDrumSynthAudioProcessor)
 };

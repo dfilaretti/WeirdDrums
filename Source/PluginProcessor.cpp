@@ -12,7 +12,7 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-PatSynthAudioProcessor::PatSynthAudioProcessor()
+LittleDrumSynthAudioProcessor::LittleDrumSynthAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
 	: AudioProcessor(BusesProperties()
 #if ! JucePlugin_IsMidiEffect
@@ -22,18 +22,18 @@ PatSynthAudioProcessor::PatSynthAudioProcessor()
 		.withOutput("Output", AudioChannelSet::stereo(), true)
 #endif
 	), 
-	parameters(*this, nullptr, "PatSynth", createParameterLayout())
+	parameters(*this, nullptr, "LittleDrumSynth", createParameterLayout())
 #endif
 {	
 	initSynth ();
 }
 
-PatSynthAudioProcessor::~PatSynthAudioProcessor()
+LittleDrumSynthAudioProcessor::~LittleDrumSynthAudioProcessor()
 {
 }
 
 //==============================================================================
-AudioProcessorValueTreeState::ParameterLayout PatSynthAudioProcessor::createParameterLayout()
+AudioProcessorValueTreeState::ParameterLayout LittleDrumSynthAudioProcessor::createParameterLayout()
 {
     std::vector<std::unique_ptr<AudioParameterFloat>> params;
 
@@ -64,12 +64,12 @@ AudioProcessorValueTreeState::ParameterLayout PatSynthAudioProcessor::createPara
 }
 
 //==============================================================================
-const String PatSynthAudioProcessor::getName() const
+const String LittleDrumSynthAudioProcessor::getName() const
 {
     return JucePlugin_Name;
 }
 
-bool PatSynthAudioProcessor::acceptsMidi() const
+bool LittleDrumSynthAudioProcessor::acceptsMidi() const
 {
    #if JucePlugin_WantsMidiInput
     return true;
@@ -78,7 +78,7 @@ bool PatSynthAudioProcessor::acceptsMidi() const
    #endif
 }
 
-bool PatSynthAudioProcessor::producesMidi() const
+bool LittleDrumSynthAudioProcessor::producesMidi() const
 {
    #if JucePlugin_ProducesMidiOutput
     return true;
@@ -87,7 +87,7 @@ bool PatSynthAudioProcessor::producesMidi() const
    #endif
 }
 
-bool PatSynthAudioProcessor::isMidiEffect() const
+bool LittleDrumSynthAudioProcessor::isMidiEffect() const
 {
    #if JucePlugin_IsMidiEffect
     return true;
@@ -96,50 +96,50 @@ bool PatSynthAudioProcessor::isMidiEffect() const
    #endif
 }
 
-double PatSynthAudioProcessor::getTailLengthSeconds() const
+double LittleDrumSynthAudioProcessor::getTailLengthSeconds() const
 {
     return 0.0;
 }
 
-int PatSynthAudioProcessor::getNumPrograms()
+int LittleDrumSynthAudioProcessor::getNumPrograms()
 {
     return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
                 // so this should be at least 1, even if you're not really implementing programs.
 }
 
-int PatSynthAudioProcessor::getCurrentProgram()
+int LittleDrumSynthAudioProcessor::getCurrentProgram()
 {
     return 0;
 }
 
-void PatSynthAudioProcessor::setCurrentProgram (int index)
+void LittleDrumSynthAudioProcessor::setCurrentProgram (int index)
 {
 }
 
-const String PatSynthAudioProcessor::getProgramName (int index)
+const String LittleDrumSynthAudioProcessor::getProgramName (int index)
 {
     return {};
 }
 
-void PatSynthAudioProcessor::changeProgramName (int index, const String& newName)
+void LittleDrumSynthAudioProcessor::changeProgramName (int index, const String& newName)
 {
 }
 
 //==============================================================================
-void PatSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
+void LittleDrumSynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
 	mySynth.prepare ({ sampleRate, (uint32) samplesPerBlock, 2 });
 	//midiMessageCollector.reset(sampleRate); // ?
 }
 
-void PatSynthAudioProcessor::releaseResources()
+void LittleDrumSynthAudioProcessor::releaseResources()
 {
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
-bool PatSynthAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
+bool LittleDrumSynthAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
 {
   #if JucePlugin_IsMidiEffect
     ignoreUnused (layouts);
@@ -162,7 +162,7 @@ bool PatSynthAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts)
 }
 #endif
 
-void PatSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
+void LittleDrumSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
     ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
@@ -242,7 +242,7 @@ void PatSynthAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffe
 
 //==============================================================================
 // TODO: maybe the synth itself should do this?
-void PatSynthAudioProcessor::initSynth()
+void LittleDrumSynthAudioProcessor::initSynth()
 {
 	// Add voices to the synth
 	mySynth.clearVoices();
@@ -257,25 +257,25 @@ void PatSynthAudioProcessor::initSynth()
 }
 
 //==============================================================================
-bool PatSynthAudioProcessor::hasEditor() const
+bool LittleDrumSynthAudioProcessor::hasEditor() const
 {
     return true; // (change this to false if you choose to not supply an editor)
 }
 
-AudioProcessorEditor* PatSynthAudioProcessor::createEditor()
+AudioProcessorEditor* LittleDrumSynthAudioProcessor::createEditor()
 {
-    return new PatSynthAudioProcessorEditor (*this);
+    return new LittleDrumSynthAudioProcessorEditor (*this);
 }
 
 //==============================================================================
-void PatSynthAudioProcessor::getStateInformation (MemoryBlock& destData)
+void LittleDrumSynthAudioProcessor::getStateInformation (MemoryBlock& destData)
 {
 	auto state = parameters.copyState();
 	std::unique_ptr<XmlElement> xml(state.createXml());
 	copyXmlToBinary(*xml, destData);
 }
 
-void PatSynthAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
+void LittleDrumSynthAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
 	std::unique_ptr<XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
 
@@ -288,5 +288,5 @@ void PatSynthAudioProcessor::setStateInformation (const void* data, int sizeInBy
 // This creates new instances of the plugin..
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
-    return new PatSynthAudioProcessor();
+    return new LittleDrumSynthAudioProcessor();
 }
