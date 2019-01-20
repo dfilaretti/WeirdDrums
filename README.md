@@ -36,9 +36,9 @@ Here are some of the reasons for this:
 
 * Although I'm a big fan of drum synth plugins, I pretty much never use their built-in step sequencer, but instead I rely on my DAW's editor. Related to that, I recently bought an Ableton Push2 meaning the drum sequencing workflow is heavily based on Drum Racks. With this setup an additional step sequencer just be redundant for me. 
 
-* When working on my tracks I often find myself loading a Microtonic just to make a single sound (rather than the full 8-drums drumkit). Or, perhaps, sometimes I only use 4 of the 8 slots, while sometimes I need 50 slots (no, not really). With this approach you get more freedom and flexibility on how you want to use the instrument. Load as many instances as you want, and use/route them in the way you see fit. For example, I like to load a few instances of the synth inside Ableton's Drum Rack, perhaps together with other things such as samples etc. 
+* When working on my tracks I often find myself loading a Microtonic instance just to make a single sound (leaving 7 of the 8 pads unused). Or, perhaps, sometimes I only use 4 of the 8 pads, while some other times I may need 10/15/50 etc. With this approach you get more flexibility: just load as many instances as you want, and use and route them in any way you see fit. For example, I usually open up a Drum Rack in Ableton and add a bunch of LittleTeknoDrummer instances, then mix and match with samples and other instruments. 
 
-Having said that, a step sequencer sounds like a nice future addition and a great learning exercise. 
+Having said that, a step sequencer sounds like a nice future addition and a great learning exercise ;) 
 
 
 ## Todo / Contributions
@@ -54,4 +54,5 @@ Here are a few needed improvements that comes to mind...
 * Make UI prettier 
 * ..... 
 
-Please take a look at the [issues](https://github.com/dfilaretti/LittleTeknoDrummer/issues) and feel free to open new ones is needed. 
+For more details, please take a look at the [issues](https://github.com/dfilaretti/LittleTeknoDrummer/issues) and feel free to open new ones is needed. 
+Also, do not hesitate to send pull requests or drop me a line! 
