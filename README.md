@@ -15,14 +15,14 @@ Here some audio examples (more to come!):
 ## Architecture / how to use
 
 As in the original Mictoronic, the architecture is quite simple. 
-We have essentially an _oscillator_ section and a _noise_ section, which gets mixed together and processed in the _master_ section. 
+We have essentially an _oscillator_ section and a _noise_ section, which gets mixed together and finally processed in the _master_ section. 
 In a bit more detail...
 
-* **oscillator section**: a single oscillator with a selectable waveform (currently sine, saw and square), whose amplitude is modulated by a simple "percussive style" Attack-Decay (AD) envelope. If desired, the pitch of the oscillator can be modulated via a second AD envelope and/or a simple LFO. More modulation options may become available in future. 
+* **oscillator section**: oscillator -> Attack-Decay (AD) envelope. Oscillator waveform can be sine, saw or square. If desired, the oscillator pitch can be modulated via a second AD envelope and/or an LFO. More modulation options may become available in future. 
 
 * **noise section**: white noise generator -> filter -> AD envelope. The filter can be Low-Pass (LP), High-Pass (HP) or Band-Pass (BP) and its cutoff frequency and envelope are adjustable via the corresponding sliders. Later: more envelope shapes. 
 
-* **master section**: here the _oscillator_ and _noise_ signal are mixed together (via the _mix_ slider) and some effects and global volume adjustments are applied. Currently only distortion is available, but we may add more in future. 
+* **master section**: here the _oscillator_ and _noise_ signal are mixed together (via the _mix_ slider) and some effects and global level/pan are applied. Currently only distortion is available, but we may add more in future. 
 
 ## Faq
 
