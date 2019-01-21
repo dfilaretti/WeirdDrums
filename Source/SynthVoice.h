@@ -132,15 +132,9 @@ public:
 	
 	void stopNote(float velocity, bool allowTailOf) override
 	{
-		if (allowTailOf) 
-		{
-		}         
-		else
-		{
-			clearCurrentNote();
-		}       
+		if (allowTailOf) {} // Nothing to do - one-shot drum envelope here
+		else             clearCurrentNote();
 	}
-
 
 	void pitchWheelMoved (int newPitchWheelValue) override
 	{
