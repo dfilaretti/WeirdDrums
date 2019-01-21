@@ -33,18 +33,12 @@ private:
 	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
 
 	//==============================================================================
-	//const int kMargin                = 5;
-
 	const int kTitleHeight = 25;
-	const int kWaveformHeight = 100;
-	const int kAmpWidth = 100;
-	const int kModWidth = 150;
-
-	//const int kSliderWidth         = 25;
-	//const int kSliderHeight        = 175;
+	const int kTopAreaHeight = 100;
+	const int kBottomRightAreaWidth = 100;
+	const int kBottomLeftAreaWidth = 150;
 
 	//==============================================================================
-
 	Slider mixSlider;
 	Slider eqFreqSlider;
 	Slider distortSlider;
@@ -67,15 +61,16 @@ private:
 	Label m_panLabel;
 
 	//==============================================================================
-	juce::Rectangle <int>
-		area,
-		titleArea,
-		controlsArea,
-		waveformArea,
-		ampArea,
-		miscArea;
+	juce::Rectangle<int> area;
+	juce::Rectangle<int> titleArea;
+	juce::Rectangle<int> controlsArea;
+	juce::Rectangle<int> topArea;
+	juce::Rectangle<int> bottomRightArea;
+	juce::Rectangle<int> bottomLeftArea;
 
+	//==============================================================================
 	LittleTeknoDrummerAudioProcessor& processor;
 
+	//==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MasterSectionEditor)
 };

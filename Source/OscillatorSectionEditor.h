@@ -27,6 +27,7 @@ public:
     void resized() override;
 
 private:
+	//==============================================================================
 	OscSectionLookAndFeel lookAndFeel;
 
 	//==============================================================================
@@ -34,15 +35,10 @@ private:
 	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
 
 	//==============================================================================
-	//const int kMargin                = 5;
-							         
 	const int kTitleHeight           = 25;
-	const int kWaveformHeight        = 100;
-	const int kAmpWidth              = 100;
-	const int kModWidth              = 150;
-
-	//const int kSliderWidth         = 25;
-	//const int kSliderHeight        = 175;
+	const int kTopAreaHeight        = 100;
+	const int bottomRightAreaWidth              = 100;
+	const int bottomLeftAreaWidth              = 150;
 
 	//==============================================================================
 	const String kMenuItemSineText   = "Sine";
@@ -58,9 +54,9 @@ private:
 		area,
 		titleArea,
 		controlsArea,
-		waveformArea,
-		ampArea,
-		modArea;
+		topArea,
+		bottomRightArea,
+		bottomLeftArea;
 
 	//==============================================================================
 	ComboBox 
@@ -88,6 +84,7 @@ private:
 		pitchLfoAmountAttachment,
 		pitchLfoRateSliderAttachment;
 
+	//==============================================================================
 	Label m_freqLabel;
 	Label m_attackLabel;
 	Label m_decayLabel;
@@ -95,8 +92,6 @@ private:
 	Label m_pitchEnvRateLabel;
 	Label m_pitchLfoAmountLabel;
 	Label m_pitchLfoRateLabel;
-
-
 
 	//==============================================================================
 	LittleTeknoDrummerAudioProcessor& processor;

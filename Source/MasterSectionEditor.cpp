@@ -102,8 +102,6 @@ void MasterSectionEditor::paint (Graphics& g)
 	auto controlsArea = r.reduced (3);
 	g.fillRect (controlsArea);
 
-
-
 	g.setColour(Colours::white);
 	g.drawText("M A S T E R", titleArea, Justification::centred);
 }
@@ -111,53 +109,58 @@ void MasterSectionEditor::paint (Graphics& g)
 void MasterSectionEditor::resized()
 {
 	// Update rectangles sizes
-	area = getLocalBounds();
-	titleArea = area.removeFromTop(kTitleHeight);
-	controlsArea = area;
-	waveformArea = controlsArea.removeFromTop(kWaveformHeight);
-	ampArea = controlsArea.removeFromRight(kAmpWidth);
-	miscArea = controlsArea.removeFromRight(kModWidth);
+	area            = getLocalBounds();
+	titleArea       = area.removeFromTop(kTitleHeight);
+	topArea         = area.removeFromTop(kTopAreaHeight);
+	bottomRightArea = area.removeFromRight(kBottomRightAreaWidth);
+	bottomLeftArea  = area.removeFromRight(kBottomLeftAreaWidth);
 
-	// --
+	// TOP AREA
+
+	// Mix
 	{
-		auto r = waveformArea.removeFromTop(50);
+		auto r = topArea.removeFromTop(50);
 		mixSlider.setBounds(r.removeFromTop(25));
 		m_mixLabel.setBounds(r);
 	}
 
-	// --
+	// Eq Freq
 	{
-		auto r = waveformArea.removeFromTop(50);
+		auto r = topArea.removeFromTop(50);
 		eqFreqSlider.setBounds(r.removeFromTop(25));
 		m_eqFreqLabel.setBounds(r);
 	}
 
-	// --
-	auto eqGainAndPanlidersArea = miscArea.removeFromRight(75);
+	// BOTTOM-LEFT AREA
 
+	auto eqGainAndPanlidersArea = bottomLeftArea.removeFromRight(75);
+
+	// Eq Gain
 	{
 		auto r = eqGainAndPanlidersArea.removeFromTop(75);
 		eqGainSlider.setBounds(r.removeFromTop(60));
 		m_eqGainLabel.setBounds(r);
 	}
 
+	// Pan
 	{
 		auto r = eqGainAndPanlidersArea.removeFromTop(75);
 		panSlider.setBounds(r.removeFromTop(60));
 		m_panLabel.setBounds(r);
 	}
 
-	// ---
-	auto pitchLfoSlidersArea = miscArea.removeFromRight(75);
+	auto distortAndLevelSlidersArea = bottomLeftArea.removeFromRight(75);
 
+	// Distort
 	{
-		auto r = pitchLfoSlidersArea.removeFromTop(75);
+		auto r = distortAndLevelSlidersArea.removeFromTop(75);
 		distortSlider.setBounds(r.removeFromTop(60));
 		m_distortLabel.setBounds(r);
 	}
 
+	// Level
 	{
-		auto r = pitchLfoSlidersArea.removeFromTop(75);
+		auto r = distortAndLevelSlidersArea.removeFromTop(75);
 		levelSlider.setBounds(r.removeFromTop(60));
 		m_levelLabel.setBounds(r);
 	}

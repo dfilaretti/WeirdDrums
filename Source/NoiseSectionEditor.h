@@ -34,15 +34,10 @@ private:
 	typedef AudioProcessorValueTreeState::ComboBoxAttachment ComboBoxAttachment;
 
 	//==============================================================================
-	//const int kMargin                = 5;
-
 	const int kTitleHeight = 25;
-	const int kWaveformHeight = 100;
-	const int kAmpWidth = 100;
-	const int kModWidth = 150;
-
-	//const int kSliderWidth         = 25;
-	//const int kSliderHeight        = 175;
+	const int topAreaHeight = 100;
+	const int bottomRightAreaWidth = 100;
+	const int bottomLeftAreaWidth = 150;
 
 	//==============================================================================
 	const String kMenuItemLowPassText  = "LP";
@@ -55,22 +50,17 @@ private:
 	const int kMenuItemSBandPassId = 3;
 
 	//==============================================================================
-	ComboBox 
-		filterTypeComboBox;
-	
-	std::unique_ptr<ComboBoxAttachment> 
-		filterTypeComboBoxAttachment;
+	ComboBox filterTypeComboBox;
+	std::unique_ptr<ComboBoxAttachment> filterTypeComboBoxAttachment;
 
+	//==============================================================================
 	Slider filterCutoffSlider, filterResonanceSlider;
 	Slider attackSlider, decaySlider;
 
-	std::unique_ptr<SliderAttachment>
-		filterCutoffSliderAttachment,
-		filterResonanceSliderAttachment;
+	std::unique_ptr<SliderAttachment> filterCutoffSliderAttachment, filterResonanceSliderAttachment;
+	std::unique_ptr<SliderAttachment> attackSliderAttachment, decaySliderAttachment;
 
-	std::unique_ptr<SliderAttachment>
-		attackSliderAttachment, decaySliderAttachment;
-
+	//==============================================================================
 	Label m_filterTypeLabel;
 	Label m_cutoffLabel;
 	Label m_filterQLabel;
@@ -82,10 +72,9 @@ private:
 		area,
 		titleArea,
 		controlsArea,
-		waveformArea,
-		ampArea,
-		miscArea;
-
+		topArea,
+		bottomRightArea,
+		bottomLeftArea;
 
 	//==============================================================================
 	LittleTeknoDrummerAudioProcessor& processor;

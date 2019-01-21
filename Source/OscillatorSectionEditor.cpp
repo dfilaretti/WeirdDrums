@@ -127,37 +127,37 @@ void OscillatorSectionEditor::resized()
 	area = getLocalBounds();
 	titleArea = area.removeFromTop(kTitleHeight);
 	controlsArea = area;
-	waveformArea = controlsArea.removeFromTop(kWaveformHeight);
-	ampArea = controlsArea.removeFromRight(kAmpWidth);
-	modArea = controlsArea.removeFromRight(kModWidth);
+	topArea = controlsArea.removeFromTop(kTopAreaHeight);
+	bottomRightArea = controlsArea.removeFromRight(bottomRightAreaWidth);
+	bottomLeftArea = controlsArea.removeFromRight(bottomLeftAreaWidth);
 
 	// Add waevform selection combobox
-	auto waveformComboBoxArea = waveformArea.removeFromTop(50);
+	auto waveformComboBoxArea = topArea.removeFromTop(50);
 	oscComboBox.setBounds(waveformComboBoxArea.removeFromLeft (125).reduced (14.5));
 
 	// Add frequency slider
 	
 	{
-		auto r = waveformArea.removeFromTop(50);
+		auto r = topArea.removeFromTop(50);
 		frequencySlider.setBounds(r.removeFromTop(25));
 		m_freqLabel.setBounds(r);
 	}
 
 	// Add attack/decay sliders
 	{
-		auto r = ampArea.removeFromLeft(50);
+		auto r = bottomRightArea.removeFromLeft(50);
 		m_attackLabel.setBounds(r.removeFromBottom(25));
 		attackSlider.setBounds(r);
 	}
 
 	{
-		auto r = ampArea.removeFromLeft(50);
+		auto r = bottomRightArea.removeFromLeft(50);
 		m_decayLabel.setBounds(r.removeFromBottom(25));
 		decaySlider.setBounds(r);
 	}
 
 	// add pitch envelope (rotary) sliders
-	auto pitchEnvSlidersArea = modArea.removeFromRight(75);
+	auto pitchEnvSlidersArea = bottomLeftArea.removeFromRight(75);
 
 	{
 		auto r = pitchEnvSlidersArea.removeFromTop(75);
@@ -172,7 +172,7 @@ void OscillatorSectionEditor::resized()
 	}
 
 	// add pitch lfo (rotary) sliders
-	auto pitchLfoSlidersArea = modArea.removeFromRight(75);
+	auto pitchLfoSlidersArea = bottomLeftArea.removeFromRight(75);
 
 	{
 		auto r = pitchLfoSlidersArea.removeFromTop(75);

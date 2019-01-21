@@ -37,7 +37,6 @@ NoiseSectionEditor::NoiseSectionEditor(LittleTeknoDrummerAudioProcessor& p) :
 	m_decayLabel.setJustificationType(Justification::centredTop);
 	addAndMakeVisible(m_decayLabel);
 
-
 	// setup filter type combo box
 	filterTypeComboBox.addItem(kMenuItemLowPassText,  kMenuItemLowPassId);
 	filterTypeComboBox.addItem(kMenuItemHighPassText, kMenuItemHighPassId);
@@ -98,47 +97,43 @@ void NoiseSectionEditor::paint (Graphics& g)
 void NoiseSectionEditor::resized()
 {
 	// Update rectangles sizes
-	area = getLocalBounds();
-	titleArea = area.removeFromTop(kTitleHeight);
-	controlsArea = area;
-	waveformArea = controlsArea.removeFromTop(kWaveformHeight);
-	ampArea = controlsArea.removeFromRight(kAmpWidth);
-	miscArea = controlsArea.removeFromRight(kModWidth);
+	area            = getLocalBounds();
+	titleArea       = area.removeFromTop(kTitleHeight);
+	topArea         = area.removeFromTop(topAreaHeight);
+	bottomRightArea = area.removeFromRight(bottomRightAreaWidth);
+	bottomLeftArea  = area.removeFromRight(bottomLeftAreaWidth);
 
 	// Add filter type combobox
-	auto filterTypeComboBoxArea = waveformArea.removeFromTop(50);
+	auto filterTypeComboBoxArea = topArea.removeFromTop(50);
 	filterTypeComboBox.setBounds(filterTypeComboBoxArea.removeFromLeft (125). reduced (14.5));
 
 	// Add frequency slider
-	auto frequencySliderArea = waveformArea.removeFromTop(50);
+	auto frequencySliderArea = topArea.removeFromTop(50);
 	filterCutoffSlider.setBounds(frequencySliderArea.removeFromTop(25));
 	m_cutoffLabel.setBounds(frequencySliderArea);
-
-
 
 	// Add attack/decay sliders
 
 	{
-		auto r = ampArea.removeFromLeft(50);
+		auto r = bottomRightArea.removeFromLeft(50);
 		m_attackLabel.setBounds(r.removeFromBottom(25));
 		attackSlider.setBounds(r);
 	}
 
 	{
-		auto r = ampArea.removeFromLeft(50);
+		auto r = bottomRightArea.removeFromLeft(50);
 		m_decayLabel.setBounds(r.removeFromBottom(25));
 		decaySlider.setBounds(r);
 	}
 
-
 	// add pitch envelope (rotary) sliders
-	auto pitchEnvSlidersArea = miscArea.removeFromRight(75);
+	auto miscControlsArea = bottomLeftArea.removeFromRight(75);
 
-	// --
-	auto pitchLfoSlidersArea = miscArea.removeFromRight(75);
+	auto resonanceArea = bottomLeftArea.removeFromRight(75);
 
-	auto filterResonanceArea = pitchLfoSlidersArea.removeFromTop(75);
-	filterResonanceSlider.setBounds(filterResonanceArea.removeFromTop(60));
-	m_filterQLabel.setBounds(filterResonanceArea);
-
+	{
+		auto r = resonanceArea.removeFromTop(75);
+		filterResonanceSlider.setBounds(r.removeFromTop(60));
+		m_filterQLabel.setBounds(r);
+	}
 }

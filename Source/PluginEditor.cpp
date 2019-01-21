@@ -17,11 +17,9 @@ LittleTeknoDrummerAudioProcessorEditor::LittleTeknoDrummerAudioProcessorEditor (
 {
     setSize (kWidth, kHeight);
 
-	//addAndMakeVisible(pluginUI);
-
-	addAndMakeVisible(oscGui);
-	addAndMakeVisible(envGui);
-	addAndMakeVisible(filterGui);
+	addAndMakeVisible (oscGui);
+	addAndMakeVisible (envGui);
+	addAndMakeVisible (filterGui);
 }
 
 
@@ -39,9 +37,7 @@ void LittleTeknoDrummerAudioProcessorEditor::resized()
 {
 	juce::Rectangle<int> area = getLocalBounds();
 
-	oscGui.setBounds(area.removeFromLeft(kSectionWidth).removeFromTop(kSectionHeight));
-	filterGui.setBounds(area.removeFromLeft(kSectionWidth).removeFromTop(kSectionHeight));
-	envGui.setBounds(area.removeFromLeft(kSectionWidth).removeFromTop(kSectionHeight));
-
- 	//pluginUI.setBounds(0,0,700, 500);
+	oscGui.setBounds (area.removeFromLeft(kSectionWidth).removeFromTop (kSectionHeight));
+	filterGui.setBounds (area.removeFromLeft(kSectionWidth).removeFromTop (kSectionHeight));
+	envGui.setBounds (area.removeFromLeft(kSectionWidth).removeFromTop (kSectionHeight));
 }
