@@ -156,6 +156,7 @@ public:
 
 		for (size_t pos = 0; pos < numSamples;)
 		{
+			// If both osc and noise envelopes completed their cycle, clear the note
 			if (isVoiceActive() && !m_oscAmpEnv.isActive() && !m_noiseAmpEnv.isActive())
 			{
 				clearCurrentNote();
@@ -238,7 +239,8 @@ private:
 		auto noiseLevel = currentNoiseEnv * m_currentNoteVelocity;
 		noiseSectionProcessorChain.get<noiseSectionOscIndex>().setLevel(noiseLevel);
 	}
-	
+
+	//==============================================================================
 	void setPerNoteParams()
 	{
 		oscSectionProcessorChain.get<oscSectionOscIndex>().reset (); // reset phase to avoid clicks
