@@ -11,6 +11,15 @@
 #pragma once
 #include "../JuceLibraryCode/JuceHeader.h"
 
+//==============================================================================
+
+/* This is the parent LookAndFeel for the various sections of the instrument. 
+   The idea is that this class sets up the various appearance, while derived
+   classes will have to set up things like colours etc.
+
+   NB: the drawLinearSlider and drawRotarySlider methods are mostly copy
+       of JUCE's builtin versions, with some modifications. 
+*/
 class LittleTeknoDrummerLookAndFeel : public LookAndFeel_V4 
 {
 public:
@@ -18,19 +27,18 @@ public:
 	{
 		// thumb
         setColour (Slider::thumbColourId, Colours::grey);
-        
-		// fill
-		setColour (Slider::trackColourId, Colours::white);
-        setColour (Slider::ColourIds::rotarySliderFillColourId, Colours::white);
-
 	}
 
-
-	void drawLinearSlider (Graphics& g, int x, int y, int width, int height,
-                                       float sliderPos,
-                                       float minSliderPos,
-                                       float maxSliderPos,
-                                       const Slider::SliderStyle style, Slider& slider) override
+	void drawLinearSlider (Graphics&                 g, 
+		                   int                       x, 
+		                   int                       y, 
+		                   int                       width, 
+		                   int                       height,
+                           float                     sliderPos,
+                           float                     minSliderPos,
+                           float                     maxSliderPos,
+                           const Slider::SliderStyle style, 
+		                   Slider&                   slider) override
 	{
 		if (slider.isBar())
 		{
@@ -174,6 +182,7 @@ public:
 
 };
 
+//==============================================================================
 class OscSectionLookAndFeel : public LittleTeknoDrummerLookAndFeel 
 {
 public:
