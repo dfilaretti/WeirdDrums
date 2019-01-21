@@ -4,7 +4,7 @@ A simple drum synthesiser plugin inspired by the awesome [Sonic Charge Microtoni
 
 It is written in C++ and the [JUCE](https://juce.com/) framework. 
 
-![Screenshot](media/img/screenshot-medium.png)
+![Screenshot](media/img/screenshot.png)
 
 Here some audio examples (more to come!):
 
