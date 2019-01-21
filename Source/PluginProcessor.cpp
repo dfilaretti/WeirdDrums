@@ -129,7 +129,6 @@ void LittleTeknoDrummerAudioProcessor::changeProgramName (int index, const Strin
 void LittleTeknoDrummerAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
 	mySynth.prepare ({ sampleRate, (uint32) samplesPerBlock, 2 });
-	//midiMessageCollector.reset(sampleRate); // ?
 }
 
 void LittleTeknoDrummerAudioProcessor::releaseResources()
