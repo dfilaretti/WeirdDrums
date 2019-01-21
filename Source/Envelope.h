@@ -13,13 +13,6 @@
 
 /**
     A very simple percussive-style envelope class.
-
-    To use it, call setSampleRate() with the current sample rate and give it some parameters
-    with setParameters() then call getNextSample() to get the envelope value to be applied
-    to each audio sample or applyEnvelopeToBuffer() to apply the envelope to a whole buffer.
-
-	Notice the envelope is "one-shot". 
-
 */
 class Envelope
 {
@@ -46,8 +39,6 @@ public:
 
         You must have called setSampleRate() with the correct sample rate before
         this otherwise the values may be incorrect!
-
-        @see getParameters
     */
     void setParameters (const Parameters& newParameters)
     {
@@ -57,8 +48,6 @@ public:
     }
 
     /** Returns the parameters currently being used by an ADSR object.
-
-        @see setParameters
     */
     const Parameters& getParameters() const    { return currentParameters; }
 
@@ -129,7 +118,7 @@ public:
         {
             envelopeVal -= decayRate;
 
-            if (envelopeVal <= 0 /*sustainLevel*/)
+            if (envelopeVal <= 0 )
             {
 				reset();
             }
@@ -144,27 +133,6 @@ public:
 		}
 
         return envelopeVal;
-    }
-
-    /** This method will conveniently apply the next numSamples number of envelope values
-        to an AudioBuffer.
-    */
-    template<typename FloatType>
-    void applyEnvelopeToBuffer (AudioBuffer<FloatType>& buffer, int startSample, int numSamples)
-    {
-        jassert (startSample + numSamples <= buffer.getNumSamples());
-
-        auto numChannels = buffer.getNumChannels();
-
-        while (--numSamples >= 0)
-        {
-            auto env = getNextSample();
-
-            for (int i = 0; i < numChannels; ++i)
-                buffer.getWritePointer (i)[startSample] *= env;
-
-            ++startSample;
-        }
     }
 
 private:
