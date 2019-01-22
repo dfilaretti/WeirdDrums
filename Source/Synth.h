@@ -47,7 +47,7 @@ public:
 	{
 		const ScopedLock sl (lock);
 
-		softKillActiveVoices(midiChannel);
+		softKillActiveVoices (midiChannel);
 
 		Synthesiser::noteOn (midiChannel, midiNoteNumber, velocity);
 	}

@@ -164,6 +164,7 @@ bool LittleTeknoDrummerAudioProcessor::isBusesLayoutSupported (const BusesLayout
 void LittleTeknoDrummerAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
     ScopedNoDenormals noDenormals;
+
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
@@ -171,59 +172,27 @@ void LittleTeknoDrummerAudioProcessor::processBlock (AudioBuffer<float>& buffer,
 	{
 		if ((myVoice = dynamic_cast<SynthVoice*> (mySynth.getVoice(i))))
 		{
-			// amp envelope
-			myVoice -> getEnvelopeParams(
+			myVoice -> getParams (
 				parameters.getRawParameterValue ("ATTACK"), 
-				parameters.getRawParameterValue ("DECAY"));
-
-			// osc type
-			myVoice -> getOscParams(
-				parameters.getRawParameterValue("FREQ"),
-				parameters.getRawParameterValue ("WAVE-TYPE"));
-		
-
-			// pitch env
-			myVoice -> getPitchEnvParams(
-				parameters.getRawParameterValue("PITCH-ENV-AMOUNT"),
-				parameters.getRawParameterValue("PITCH-ENV-RATE"));
-
-			// pitch lfo
-			myVoice -> getPitchLfoParams(
-				parameters.getRawParameterValue("PITCH-LFO-AMOUNT"),
-				parameters.getRawParameterValue("PITCH-LFO-RATE"));
-
-			// NOISE SECTION
-			
-			// filter
-			myVoice -> getNoiseFilterParams(
+				parameters.getRawParameterValue ("DECAY"),
+				parameters.getRawParameterValue ("FREQ"),
+				parameters.getRawParameterValue ("WAVE-TYPE"),
+				parameters.getRawParameterValue ("PITCH-ENV-AMOUNT"),
+				parameters.getRawParameterValue ("PITCH-ENV-RATE"),
+				parameters.getRawParameterValue ("PITCH-LFO-AMOUNT"),
+				parameters.getRawParameterValue ("PITCH-LFO-RATE"),
 				parameters.getRawParameterValue ("FILTER-TYPE"),
 				parameters.getRawParameterValue ("FILTER-CUTOFF"),
-				parameters.getRawParameterValue ("FILTER-RESONANCE"));
-
-			// noise amp envelope
-			myVoice -> getNoiseEnvelopeParams(
-				parameters.getRawParameterValue("NOISE-ATTACK"),
-				parameters.getRawParameterValue("NOISE-DECAY"));
-			
-			// MASTER SECTION
-
-			// osc/noise mix
-			myVoice->getMasterMixParams(
-				parameters.getRawParameterValue("MASTER-MIX"));
-
-			// master EQ
-			myVoice->getMasterEqParams(
-				parameters.getRawParameterValue("MASTER-EQ-FREQ"),
-				parameters.getRawParameterValue("MASTER-EQ-GAIN"));
-
-			// master distortion
-			myVoice->getMasterDistortionParams(
-				parameters.getRawParameterValue("MASTER-DISTORT"));
-
-			// master volume + pan
-			myVoice->getMasterLevelAndPanParams(
-				parameters.getRawParameterValue("MASTER-LEVEL"),
-				parameters.getRawParameterValue("MASTER-PAN"));
+				parameters.getRawParameterValue ("FILTER-RESONANCE"),
+				parameters.getRawParameterValue ("NOISE-ATTACK"),
+				parameters.getRawParameterValue ("NOISE-DECAY"),
+				parameters.getRawParameterValue ("MASTER-MIX"),
+				parameters.getRawParameterValue ("MASTER-EQ-FREQ"),
+				parameters.getRawParameterValue ("MASTER-EQ-GAIN"),
+				parameters.getRawParameterValue ("MASTER-DISTORT"),
+				parameters.getRawParameterValue ("MASTER-LEVEL"),
+				parameters.getRawParameterValue ("MASTER-PAN")
+			);
 		}
 	}
 

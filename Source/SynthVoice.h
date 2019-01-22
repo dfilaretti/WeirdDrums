@@ -48,69 +48,111 @@ public:
 
 	//==============================================================================
 	
+	void getParams ( float* oscAttack 
+		           , float* oscDecay 
+		           , float* oscFrequency 
+		           , float* oscSelection 
+		           , float* oscPitchEnvAmount 
+		           , float* oscPitchEnvRate 
+		           , float* oscPitchLfoAmount 
+		           , float* oscPitchLfoRate
+		           , float* noiseFilterType 
+		           , float* noiseFilterCutoff 
+		           , float* noiseFilterRes 
+		           , float* noiseAttack 
+		           , float* noiseDecay
+		           , float* masterMix 
+		           , float* masterEqFreq 
+		           , float* masterEqGain 
+		           , float* masterDistortionAmount 
+		           , float* masterLevel 
+		           , float* masterPan ) 
+	{
+		envAttack            = *oscAttack;
+		envDecay             = *oscDecay;
+		currentNoteFrequency = *oscFrequency;
+		oscWaveform          = *oscSelection;
+		pitchEnvAmount       = *oscPitchEnvAmount;
+		pitchEnvRate         = *oscPitchEnvRate;
+		pitchLfoAmount       = *oscPitchLfoAmount;
+		pitchLfoRate         = *oscPitchLfoRate;
+		filterType           = *noiseFilterType;
+		filterCutoff         = *noiseFilterCutoff;
+		filterRes            = *noiseFilterRes;
+		noiseEnvAttack       = *noiseAttack;
+		noiseEnvDecay        = *noiseDecay;
+		mix                  = *masterMix;
+		eqFreq               = *masterEqFreq;
+		eqGain               = *masterEqGain;
+		distortionAmount     = *masterDistortionAmount;
+	    level                = *masterLevel;
+	    pan                  = *masterPan;
+	}
+
+	//==============================================================================
 	// OSC SECTION
-	void getEnvelopeParams (float* attack, float* decay)
-	{
-		envAttack  = *attack;
-		envDecay   = *decay;
-	}
+	//void getEnvelopeParams (float* attack, float* decay)
+	//{
+	//	envAttack  = *attack;
+	//	envDecay   = *decay;
+ //   };
 
-	void getOscParams (float* frequency, float* selection)
-	{
-		currentNoteFrequency = *frequency;
-		oscWaveform = *selection;
-	}
+	//void getOscParams (float* frequency, float* selection)
+	//{
+	//	currentNoteFrequency = *frequency;
+	//	oscWaveform = *selection;
+	//}
 
-	void getPitchEnvParams (float* amount, float* rate)
-	{
-		pitchEnvAmount = *amount;
-		pitchEnvRate   = *rate;
-	}
+	//void getPitchEnvParams (float* amount, float* rate)
+	//{
+	//	pitchEnvAmount = *amount;
+	//	pitchEnvRate   = *rate;
+	//}
 
-	void getPitchLfoParams(float* amount, float* rate)
-	{
-		pitchLfoAmount = *amount;
-		pitchLfoRate   = *rate;
-	}
+	//void getPitchLfoParams(float* amount, float* rate)
+	//{
+	//	pitchLfoAmount = *amount;
+	//	pitchLfoRate   = *rate;
+	//}
 
 	// NOISE SECTION
 
-	void getNoiseFilterParams (float* type, float* cutoff, float* res)
-	{
-		filterType   = *type;
-		filterCutoff = *cutoff;
-		filterRes    = *res;
-	}
+	//void getNoiseFilterParams (float* type, float* cutoff, float* res)
+	//{
+	//	filterType   = *type;
+	//	filterCutoff = *cutoff;
+	//	filterRes    = *res;
+	//}
 
-	void getNoiseEnvelopeParams (float* attack, float* decay)
-	{
-		noiseEnvAttack = *attack;
-		noiseEnvDecay  = *decay;
-	}
+	//void getNoiseEnvelopeParams (float* attack, float* decay)
+	//{
+	//	noiseEnvAttack = *attack;
+	//	noiseEnvDecay  = *decay;
+	//}
 
 	// MASTER SECTION
 
-	void getMasterMixParams(float* mix)
-	{
-		this->mix = *mix;
-	}
+	//void getMasterMixParams(float* mix)
+	//{
+	//	this->mix = *mix;
+	//}
 
-	void getMasterEqParams(float* freq, float* gain)
-	{
-		eqFreq = *freq;
-		eqGain = *gain;
-	}
+	//void getMasterEqParams(float* freq, float* gain)
+	//{
+	//	eqFreq = *freq;
+	//	eqGain = *gain;
+	//}
 
-	void getMasterDistortionParams(float* amount)
-	{
-		distortionAmount = *amount;
-	}
+	//void getMasterDistortionParams(float* amount)
+	//{
+	//	distortionAmount = *amount;
+	//}
 
-	void getMasterLevelAndPanParams(float* level, float* pan)
-	{
-		this->level = *level;
-		this->pan   = *pan;
-	}
+	//void getMasterLevelAndPanParams(float* level, float* pan)
+	//{
+	//	this->level = *level;
+	//	this->pan   = *pan;
+	//}
 	
 	//==============================================================================
 	bool canPlaySound(SynthesiserSound* sound) override
