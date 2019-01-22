@@ -9,6 +9,7 @@ Here some audio examples (more to come!):
 * [Example 1](https://dfilaretti.github.io/assets/loop1.wav)
 * [Example 2](https://dfilaretti.github.io/assets/loop2.wav)
 * [Example 3](https://dfilaretti.github.io/assets/loop3.wav)
+* [Example 3](https://dfilaretti.github.io/assets/gabber-example.wav)
 
 ## Architecture / how to use
 
