@@ -37,11 +37,12 @@ public:
 		noiseSectionProcessorChain.prepare (spec);
 		masterSectionProcessorChain.prepare (spec);
 
-		//init modulation
+		//init envelopes
 		m_oscAmpEnv.setSampleRate (spec.sampleRate / m_modulationUpdateRate);
 		m_noiseAmpEnv.setSampleRate (spec.sampleRate / m_modulationUpdateRate);
 		m_oscPitchEnv.setSampleRate (spec.sampleRate / m_modulationUpdateRate);
 		
+		// init LFO
 		pitchLfo.initialise([](float x) { return std::sin(x); }, 128);
 		pitchLfo.prepare({ spec.sampleRate / m_modulationUpdateRate, spec.maximumBlockSize, spec.numChannels });
 	}
@@ -320,10 +321,11 @@ private:
 	juce::dsp::ProcessorChain<Distortion, Gain> masterSectionProcessorChain;
 
 	//==============================================================================
-	// GLOBAL
 	double m_currentNoteVelocity;
+	float  oscFrequency; // actual frequency taking LFO and pitch env into account
+ 	
+	//==============================================================================
 
-	float  oscFrequency;
 	// OSC 
 	float* oscWaveform;
 	float* currentNoteFrequency;
