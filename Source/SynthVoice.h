@@ -47,46 +47,45 @@ public:
 	}
 
 	//==============================================================================
-	
-	void getParams ( float* oscAttack 
-		           , float* oscDecay 
-		           , float* oscFrequency 
-		           , float* oscSelection 
-		           , float* oscPitchEnvAmount 
-		           , float* oscPitchEnvRate 
-		           , float* oscPitchLfoAmount 
-		           , float* oscPitchLfoRate
-		           , float* noiseFilterType 
-		           , float* noiseFilterCutoff 
-		           , float* noiseFilterRes 
-		           , float* noiseAttack 
-		           , float* noiseDecay
-		           , float* masterMix 
-		           , float* masterEqFreq 
-		           , float* masterEqGain 
-		           , float* masterDistortionAmount 
-		           , float* masterLevel 
-		           , float* masterPan ) 
+	void setParamPointers ( float* oscAttack 
+		                  , float* oscDecay 
+		                  , float* oscFrequency 
+		                  , float* oscSelection 
+		                  , float* oscPitchEnvAmount 
+		                  , float* oscPitchEnvRate 
+		                  , float* oscPitchLfoAmount 
+		                  , float* oscPitchLfoRate
+		                  , float* noiseFilterType 
+		                  , float* noiseFilterCutoff 
+		                  , float* noiseFilterRes 
+		                  , float* noiseAttack 
+		                  , float* noiseDecay
+		                  , float* masterMix 
+		                  , float* masterEqFreq 
+		                  , float* masterEqGain 
+		                  , float* masterDistortionAmount 
+		                  , float* masterLevel 
+		                  , float* masterPan ) 
 	{
-		envAttack            = *oscAttack;
-		envDecay             = *oscDecay;
-		currentNoteFrequency = *oscFrequency;
-		oscWaveform          = *oscSelection;
-		pitchEnvAmount       = *oscPitchEnvAmount;
-		pitchEnvRate         = *oscPitchEnvRate;
-		pitchLfoAmount       = *oscPitchLfoAmount;
-		pitchLfoRate         = *oscPitchLfoRate;
-		filterType           = *noiseFilterType;
-		filterCutoff         = *noiseFilterCutoff;
-		filterRes            = *noiseFilterRes;
-		noiseEnvAttack       = *noiseAttack;
-		noiseEnvDecay        = *noiseDecay;
-		mix                  = *masterMix;
-		eqFreq               = *masterEqFreq;
-		eqGain               = *masterEqGain;
-		distortionAmount     = *masterDistortionAmount;
-	    level                = *masterLevel;
-	    pan                  = *masterPan;
+		envAttack            = oscAttack;
+		envDecay             = oscDecay;
+		currentNoteFrequency = oscFrequency;
+		oscWaveform          = oscSelection;
+		pitchEnvAmount       = oscPitchEnvAmount;
+		pitchEnvRate         = oscPitchEnvRate;
+		pitchLfoAmount       = oscPitchLfoAmount;
+		pitchLfoRate         = oscPitchLfoRate;
+		filterType           = noiseFilterType;
+		filterCutoff         = noiseFilterCutoff;
+		filterRes            = noiseFilterRes;
+		noiseEnvAttack       = noiseAttack;
+		noiseEnvDecay        = noiseDecay;
+		mix                  = masterMix;
+		eqFreq               = masterEqFreq;
+		eqGain               = masterEqGain;
+		distortionAmount     = masterDistortionAmount;
+	    level                = masterLevel;
+	    pan                  = masterPan;
 	}
 
 	//==============================================================================
@@ -263,11 +262,11 @@ private:
 		// pitch LFO
 		// https://dsp.stackexchange.com/questions/2349/help-with-algorithm-for-modulating-oscillator-pitch-using-lfo
 		auto pitchLfoOut = pitchLfo.processSample (0.0f);
-		oscFrequency = currentNoteFrequency * pow (2, (1 / 1200.0 + pitchLfoOut * pitchLfoAmount));
+		oscFrequency = *currentNoteFrequency * pow (2, (1 / 1200.0 + pitchLfoOut * *pitchLfoAmount));
 
 		// pitch env
 		float fMin = oscFrequency;
-		float fMax = jlimit(0.0f, 20000.0f, fMin + (1000 * pitchEnvAmount));
+		float fMax = jlimit(0.0f, 20000.0f, fMin + (1000 * *pitchEnvAmount));
 		float pitchEnvOut = m_oscPitchEnv.getNextSample();
 		oscFrequency = jmap (pitchEnvOut, 0.0f, 1.0f, fMin, fMax); 
 
@@ -286,31 +285,31 @@ private:
 	void setPerNoteParams()
 	{
 		oscSectionProcessorChain.get<oscSectionOscIndex>().reset (); // reset phase to avoid clicks
-		oscSectionProcessorChain.get<oscSectionOscIndex>().setWaveform (oscWaveform);
+		oscSectionProcessorChain.get<oscSectionOscIndex>().setWaveform (*oscWaveform);
 
 		// Global FX chain
 		masterSectionProcessorChain
 			.get<masterSectionDistortionIndex>()
-			.setPreGain(distortionAmount);
+			.setPreGain(*distortionAmount);
 
 		masterSectionProcessorChain
 			.get<masterSectionGainIndex>()
-			.setGainDecibels(level);
+			.setGainDecibels(*level);
 
 		// envelopes
-		m_oscAmpEnv.setParameters({ envAttack, envDecay });
-		m_noiseAmpEnv.setParameters({ noiseEnvAttack, noiseEnvDecay });
+		m_oscAmpEnv.setParameters({ *envAttack, *envDecay });
+		m_noiseAmpEnv.setParameters({ *noiseEnvAttack, *noiseEnvDecay });
 
 		// modulation
-		m_oscPitchEnv.setParameters({ 0.001, pitchEnvRate });
-		pitchLfo.setFrequency(pitchLfoRate, true);
+		m_oscPitchEnv.setParameters({ 0.001, *pitchEnvRate });
+		pitchLfo.setFrequency(*pitchLfoRate, true);
 
 		// set filter params
 		{
 			auto sr = getSampleRate();
 			auto& filter = noiseSectionProcessorChain.get<noiseSectionFilterIndex>();
 
-			switch (filterType)
+			switch (static_cast<int> (*filterType))
 			{
 			case 0:
 				filter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
@@ -325,12 +324,12 @@ private:
 				filter.state->type = dsp::StateVariableFilter::Parameters<float>::Type::lowPass;
 			}
 
-			filter.state->setCutOffFrequency(sr, filterCutoff, filterRes);
+			filter.state->setCutOffFrequency(sr, *filterCutoff, *filterRes);
 		}
 
 		// mix
-		oscSectionProcessorChain.get<oscSectionGainIndex>().setGainLinear (1 - mix);
-		noiseSectionProcessorChain.get<noiseSectionGainIndex>().setGainLinear (mix);
+		oscSectionProcessorChain.get<oscSectionGainIndex>().setGainLinear (1 - *mix);
+		noiseSectionProcessorChain.get<noiseSectionGainIndex>().setGainLinear (*mix);
 	}
 
 	//==============================================================================
@@ -389,29 +388,29 @@ private:
 	// GLOBAL
 	double m_currentNoteVelocity;
 
+	float  oscFrequency;
 	// OSC 
-	int oscWaveform;
-	double currentNoteFrequency;
-	double oscFrequency;
-	float envAttack;
-	float envDecay;
-	float pitchEnvAmount;
-	float pitchEnvRate;
-	float pitchLfoAmount;
-	float pitchLfoRate;
+	float* oscWaveform;
+	float* currentNoteFrequency;
+	float* envAttack;
+	float* envDecay;
+	float* pitchEnvAmount;
+	float* pitchEnvRate;
+	float* pitchLfoAmount;
+	float* pitchLfoRate;
 
 	// NOISE 
-	int filterType;
-	float filterCutoff;
-	float filterRes;
-	float noiseEnvAttack; 
-	float noiseEnvDecay;
+	float* filterType;
+	float* filterCutoff;
+	float* filterRes;
+	float* noiseEnvAttack; 
+	float* noiseEnvDecay;
 
 	// MASTER 
-	float mix; 
-	float eqFreq;            // todo
-	float eqGain;            // todo
-	float distortionAmount;
-	float level; 
-	float pan;               // todo
+	float* mix; 
+	float* eqFreq;            // todo
+	float* eqGain;            // todo
+	float* distortionAmount;
+	float* level; 
+	float* pan;               // todo
 };

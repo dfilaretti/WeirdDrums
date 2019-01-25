@@ -25,7 +25,8 @@ LittleTeknoDrummerAudioProcessor::LittleTeknoDrummerAudioProcessor()
 	parameters(*this, nullptr, "LittleTeknoDrummer", createParameterLayout())
 #endif
 {	
-	initSynth ();
+	initSynth();
+	passParamPointersToVoices();
 }
 
 LittleTeknoDrummerAudioProcessor::~LittleTeknoDrummerAudioProcessor()
@@ -168,34 +169,6 @@ void LittleTeknoDrummerAudioProcessor::processBlock (AudioBuffer<float>& buffer,
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-	for (int i = 0; i < mySynth.getNumVoices(); i++)
-	{
-		if ((myVoice = dynamic_cast<SynthVoice*> (mySynth.getVoice(i))))
-		{
-			myVoice -> getParams (
-				parameters.getRawParameterValue ("ATTACK"), 
-				parameters.getRawParameterValue ("DECAY"),
-				parameters.getRawParameterValue ("FREQ"),
-				parameters.getRawParameterValue ("WAVE-TYPE"),
-				parameters.getRawParameterValue ("PITCH-ENV-AMOUNT"),
-				parameters.getRawParameterValue ("PITCH-ENV-RATE"),
-				parameters.getRawParameterValue ("PITCH-LFO-AMOUNT"),
-				parameters.getRawParameterValue ("PITCH-LFO-RATE"),
-				parameters.getRawParameterValue ("FILTER-TYPE"),
-				parameters.getRawParameterValue ("FILTER-CUTOFF"),
-				parameters.getRawParameterValue ("FILTER-RESONANCE"),
-				parameters.getRawParameterValue ("NOISE-ATTACK"),
-				parameters.getRawParameterValue ("NOISE-DECAY"),
-				parameters.getRawParameterValue ("MASTER-MIX"),
-				parameters.getRawParameterValue ("MASTER-EQ-FREQ"),
-				parameters.getRawParameterValue ("MASTER-EQ-GAIN"),
-				parameters.getRawParameterValue ("MASTER-DISTORT"),
-				parameters.getRawParameterValue ("MASTER-LEVEL"),
-				parameters.getRawParameterValue ("MASTER-PAN")
-			);
-		}
-	}
-
     // In case we have more outputs than inputs, this code clears any output
     // channels that didn't contain input data, (because these aren't
     // guaranteed to be empty - they may contain garbage).
@@ -222,6 +195,38 @@ void LittleTeknoDrummerAudioProcessor::initSynth()
 	// Add sounds to the synth
 	mySynth.clearSounds();
 	mySynth.addSound(new SynthSound());
+}
+
+void LittleTeknoDrummerAudioProcessor::passParamPointersToVoices()
+{
+	// Pass pointers to params to the synth voice
+	for (int i = 0; i < mySynth.getNumVoices(); i++)
+	{
+		if ((myVoice = dynamic_cast<SynthVoice*> (mySynth.getVoice(i))))
+		{
+			myVoice -> setParamPointers (
+				parameters.getRawParameterValue ("ATTACK"), 
+				parameters.getRawParameterValue ("DECAY"),
+				parameters.getRawParameterValue ("FREQ"),
+				parameters.getRawParameterValue ("WAVE-TYPE"),
+				parameters.getRawParameterValue ("PITCH-ENV-AMOUNT"),
+				parameters.getRawParameterValue ("PITCH-ENV-RATE"),
+				parameters.getRawParameterValue ("PITCH-LFO-AMOUNT"),
+				parameters.getRawParameterValue ("PITCH-LFO-RATE"),
+				parameters.getRawParameterValue ("FILTER-TYPE"),
+				parameters.getRawParameterValue ("FILTER-CUTOFF"),
+				parameters.getRawParameterValue ("FILTER-RESONANCE"),
+				parameters.getRawParameterValue ("NOISE-ATTACK"),
+				parameters.getRawParameterValue ("NOISE-DECAY"),
+				parameters.getRawParameterValue ("MASTER-MIX"),
+				parameters.getRawParameterValue ("MASTER-EQ-FREQ"),
+				parameters.getRawParameterValue ("MASTER-EQ-GAIN"),
+				parameters.getRawParameterValue ("MASTER-DISTORT"),
+				parameters.getRawParameterValue ("MASTER-LEVEL"),
+				parameters.getRawParameterValue ("MASTER-PAN")
+			);
+		}
+	}
 }
 
 //==============================================================================
