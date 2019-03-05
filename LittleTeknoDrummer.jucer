@@ -26,18 +26,6 @@
               file="Source/LtdComplexComponent.cpp"/>
         <FILE id="uaq7mJ" name="LtdComplexComponent.h" compile="0" resource="0"
               file="Source/LtdComplexComponent.h"/>
-        <FILE id="d9kzXq" name="AttachableComponent.cpp" compile="1" resource="0"
-              file="Source/AttachableComponent.cpp"/>
-        <FILE id="thXLMB" name="AttachableComponent.h" compile="0" resource="0"
-              file="Source/AttachableComponent.h"/>
-        <FILE id="kp4jIi" name="LtdVerticalSlider.cpp" compile="1" resource="0"
-              file="Source/LtdVerticalSlider.cpp"/>
-        <FILE id="yK1bwN" name="LtdVerticalSlider.h" compile="0" resource="0"
-              file="Source/LtdVerticalSlider.h"/>
-        <FILE id="gLvJC8" name="LtdHorizontalSlider.cpp" compile="1" resource="0"
-              file="Source/LtdHorizontalSlider.cpp"/>
-        <FILE id="LYVR2w" name="LtdHorizontalSlider.h" compile="0" resource="0"
-              file="Source/LtdHorizontalSlider.h"/>
         <FILE id="QslMLf" name="LtdRotarySlider.cpp" compile="1" resource="0"
               file="Source/LtdRotarySlider.cpp"/>
         <FILE id="LtFSwI" name="LtdRotarySlider.h" compile="0" resource="0"
