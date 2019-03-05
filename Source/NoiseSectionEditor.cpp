@@ -13,127 +13,24 @@
 
 //==============================================================================
 NoiseSectionEditor::NoiseSectionEditor(LittleTeknoDrummerAudioProcessor& p) :
-	processor(p)
+	LtdComplexComponent (p)
 {
-	// Setup labels
-
-	m_filterTypeLabel.setText("Filter type", dontSendNotification);
-	m_filterTypeLabel.setJustificationType(Justification::centredTop);
-	addAndMakeVisible(m_filterTypeLabel);
-
-	m_cutoffLabel.setText("filter freq", dontSendNotification);
-	m_cutoffLabel.setJustificationType(Justification::centredTop);
-	addAndMakeVisible(m_cutoffLabel);
-
-	m_filterQLabel.setText("filter q", dontSendNotification);
-	m_filterQLabel.setJustificationType(Justification::centredTop);
-	addAndMakeVisible(m_filterQLabel);
-
-	m_attackLabel.setText("ATT", dontSendNotification);
-	m_attackLabel.setJustificationType(Justification::centredTop);
-	addAndMakeVisible(m_attackLabel);
-
-	m_decayLabel.setText("DEC", dontSendNotification);
-	m_decayLabel.setJustificationType(Justification::centredTop);
-	addAndMakeVisible(m_decayLabel);
-
-	// setup filter type combo box
+	// setup combo box
 	filterTypeComboBox.addItem(kMenuItemLowPassText,  kMenuItemLowPassId);
 	filterTypeComboBox.addItem(kMenuItemHighPassText, kMenuItemHighPassId);
 	filterTypeComboBox.addItem(kMenuItemBandPassText, kMenuItemSBandPassId);
-	filterTypeComboBox.setJustificationType(Justification::centred);
-	addAndMakeVisible(&filterTypeComboBox);
-	filterTypeComboBoxAttachment = std::make_unique<ComboBoxAttachment> (processor.parameters, "FILTER-TYPE", filterTypeComboBox);
+	filterTypeComboBox.setJustificationType (Justification::centred);
 
-	// setup cutoff slider
-	filterCutoffSlider.setLookAndFeel (&lookAndFeel);
-	filterCutoffSlider.setSliderStyle(Slider::LinearHorizontal);
-	filterCutoffSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-	addAndMakeVisible(&filterCutoffSlider);
-	filterCutoffSliderAttachment = std::make_unique<SliderAttachment> (processor.parameters, "FILTER-CUTOFF", filterCutoffSlider);
+	controls = { { &filterTypeComboBox,    "FILTER-TYPE"}, 
+		         { &filterCutoffSlider ,   "FILTER-CUTOFF"},
+		         { &filterResonanceSlider, "FILTER-RESONANCE" },
+		         { &attackSlider,          "NOISE-ATTACK" },
+		         { &decaySlider,           "NOISE-DECAY" } };
 
-	// setup resonance slider
-	filterResonanceSlider.setLookAndFeel (&lookAndFeel);
-	filterResonanceSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
-	filterResonanceSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-	addAndMakeVisible(&filterResonanceSlider);
-	filterResonanceSliderAttachment = std::make_unique<SliderAttachment> (processor.parameters, "FILTER-RESONANCE", filterResonanceSlider);
-
-	// setup attack slider
-	attackSlider.setLookAndFeel (&lookAndFeel);
-	attackSlider.setSliderStyle(Slider::LinearVertical);
-	attackSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-	addAndMakeVisible(&attackSlider);
-	attackSliderAttachment = std::make_unique<SliderAttachment> (processor.parameters, "NOISE-ATTACK", attackSlider);
-
-	// setup decay slider
-	decaySlider.setLookAndFeel (&lookAndFeel);
-	decaySlider.setSliderStyle(Slider::LinearVertical);
-	decaySlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-	addAndMakeVisible(&decaySlider);
-	decaySliderAttachment = std::make_unique<SliderAttachment> (processor.parameters, "NOISE-DECAY", decaySlider);
+	// add all conmponents
+	setupChildernComponents();
 }
 
 NoiseSectionEditor::~NoiseSectionEditor()
 {
-}
-
-void NoiseSectionEditor::paint (Graphics& g)
-{
-	g.setColour (Colour (0xFF171717));
-	
-	auto r = getLocalBounds();
-
-	auto titleArea = r.removeFromTop (kTitleHeight);
-	g.fillRect ( titleArea.reduced (3) );
-
-	auto controlsArea = r.reduced (3);
-	g.fillRect (controlsArea);
-
-	g.setColour(Colours::white);
-	g.drawText("N O I S E", titleArea, Justification::centred);
-}
-
-void NoiseSectionEditor::resized()
-{
-	// Update rectangles sizes
-	area            = getLocalBounds();
-	titleArea       = area.removeFromTop(kTitleHeight);
-	topArea         = area.removeFromTop(topAreaHeight);
-	bottomRightArea = area.removeFromRight(bottomRightAreaWidth);
-	bottomLeftArea  = area.removeFromRight(bottomLeftAreaWidth);
-
-	// Add filter type combobox
-	auto filterTypeComboBoxArea = topArea.removeFromTop(50);
-	filterTypeComboBox.setBounds(filterTypeComboBoxArea.removeFromLeft (125). reduced (14.5));
-
-	// Add frequency slider
-	auto frequencySliderArea = topArea.removeFromTop(50);
-	filterCutoffSlider.setBounds(frequencySliderArea.removeFromTop(25));
-	m_cutoffLabel.setBounds(frequencySliderArea);
-
-	// Add attack/decay sliders
-
-	{
-		auto r = bottomRightArea.removeFromLeft(50);
-		m_attackLabel.setBounds(r.removeFromBottom(25));
-		attackSlider.setBounds(r);
-	}
-
-	{
-		auto r = bottomRightArea.removeFromLeft(50);
-		m_decayLabel.setBounds(r.removeFromBottom(25));
-		decaySlider.setBounds(r);
-	}
-
-	// add pitch envelope (rotary) sliders
-	auto miscControlsArea = bottomLeftArea.removeFromRight(75);
-
-	auto resonanceArea = bottomLeftArea.removeFromRight(75);
-
-	{
-		auto r = resonanceArea.removeFromTop(75);
-		filterResonanceSlider.setBounds(r.removeFromTop(60));
-		m_filterQLabel.setBounds(r);
-	}
 }

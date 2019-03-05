@@ -13,32 +13,21 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 #include "LookAndFeels.h"
+#include "LtdComplexComponent.h"
+#include "LtdRotarySlider.h"
 
 //==============================================================================
 /*
 */
-class OscillatorSectionEditor    : public Component
+class OscillatorSectionEditor    : public LtdComplexComponent
 {
 public:
     OscillatorSectionEditor(LittleTeknoDrummerAudioProcessor&);
     ~OscillatorSectionEditor();
 
-    void paint (Graphics&) override;
-    void resized() override;
-
 private:
 	//==============================================================================
 	OscSectionLookAndFeel lookAndFeel;
-
-	//==============================================================================
-	typedef AudioProcessorValueTreeState::ComboBoxAttachment ComboBoxAttachment;
-	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
-
-	//==============================================================================
-	const int kTitleHeight           = 25;
-	const int kTopAreaHeight        = 100;
-	const int bottomRightAreaWidth              = 100;
-	const int bottomLeftAreaWidth              = 150;
 
 	//==============================================================================
 	const String kMenuItemSineText   = "Sine";
@@ -50,51 +39,17 @@ private:
 	const int kMenuItemSquareId      = 3;
 
 	//==============================================================================
-	juce::Rectangle <int>
-		area,
-		titleArea,
-		controlsArea,
-		topArea,
-		bottomRightArea,
-		bottomLeftArea;
+	ComboBox oscComboBox;
 
 	//==============================================================================
-	ComboBox 
-		oscComboBox;
-
-	Slider
-		frequencySlider,
-		attackSlider,
-		decaySlider,
-		pitchEnvAmountSlider,
-		pitchEnvRateSlider,
-		pitchLfoAmountSlider,
-		pitchLfoRateSlider;
+	LtdRotarySlider m_freqSlider{ juce::String("Freq"), &lookAndFeel };
+	LtdRotarySlider m_attackSlider{ juce::String("Attack"), &lookAndFeel };
+	LtdRotarySlider m_decaySlider{ juce::String("Decay"), &lookAndFeel };
+	LtdRotarySlider m_pitchEnvAmountSlider  { juce::String("Env Amt"), &lookAndFeel };
+	LtdRotarySlider m_pitchEnvRateSlider{ juce::String("Env Rate"), &lookAndFeel };
+	LtdRotarySlider m_pitchLfoAmountSlider{ juce::String("LFO Amt"), &lookAndFeel };
+	LtdRotarySlider m_pitchLfoRateSlider { juce::String("LFO Rate"), &lookAndFeel };
 
 	//==============================================================================
-	std::unique_ptr<ComboBoxAttachment> 
-		oscComboBoxAttachment;
-
-	std::unique_ptr<SliderAttachment>
-		frequencySliderAttachment,
-		attackSliderAttachment,
-		decaySliderAttachment,
-		pitchEnvAmountAttachment,
-		pitchEnvRateSliderAttachment,
-		pitchLfoAmountAttachment,
-		pitchLfoRateSliderAttachment;
-
-	//==============================================================================
-	Label m_freqLabel;
-	Label m_attackLabel;
-	Label m_decayLabel;
-	Label m_pitchEnvAmountLabel;
-	Label m_pitchEnvRateLabel;
-	Label m_pitchLfoAmountLabel;
-	Label m_pitchLfoRateLabel;
-
-	//==============================================================================
-	LittleTeknoDrummerAudioProcessor& processor;
-
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OscillatorSectionEditor)
 };

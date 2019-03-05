@@ -26,7 +26,8 @@ public:
 	LittleTeknoDrummerLookAndFeel ()
 	{
 		// thumb
-        setColour (Slider::thumbColourId, Colours::grey);
+		setColour (Slider::thumbColourId, Colours::grey);
+		setColour (Slider::textBoxOutlineColourId, Colours::transparentWhite);
 	}
 
 	void drawLinearSlider (Graphics&                 g, 

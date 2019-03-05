@@ -13,31 +13,21 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 #include "LookAndFeels.h"
+#include "LtdRotarySlider.h"
+#include "LtdComplexComponent.h"
+#include <variant>
 
 //==============================================================================
 
-class NoiseSectionEditor	: public Component
+class NoiseSectionEditor	: public LtdComplexComponent
 {
 public:
     NoiseSectionEditor(LittleTeknoDrummerAudioProcessor&);
     ~NoiseSectionEditor();
 
-    void paint (Graphics&) override;
-    void resized() override;
-
 private:
 	//==============================================================================
 	NoiseSectionLookAndFeel lookAndFeel;
-
-	//==============================================================================
-	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
-	typedef AudioProcessorValueTreeState::ComboBoxAttachment ComboBoxAttachment;
-
-	//==============================================================================
-	const int kTitleHeight = 25;
-	const int topAreaHeight = 100;
-	const int bottomRightAreaWidth = 100;
-	const int bottomLeftAreaWidth = 150;
 
 	//==============================================================================
 	const String kMenuItemLowPassText  = "LP";
@@ -51,33 +41,12 @@ private:
 
 	//==============================================================================
 	ComboBox filterTypeComboBox;
-	std::unique_ptr<ComboBoxAttachment> filterTypeComboBoxAttachment;
 
 	//==============================================================================
-	Slider filterCutoffSlider, filterResonanceSlider;
-	Slider attackSlider, decaySlider;
-
-	std::unique_ptr<SliderAttachment> filterCutoffSliderAttachment, filterResonanceSliderAttachment;
-	std::unique_ptr<SliderAttachment> attackSliderAttachment, decaySliderAttachment;
-
-	//==============================================================================
-	Label m_filterTypeLabel;
-	Label m_cutoffLabel;
-	Label m_filterQLabel;
-	Label m_attackLabel;
-	Label m_decayLabel;
-
-	//==============================================================================
-	juce::Rectangle <int>
-		area,
-		titleArea,
-		controlsArea,
-		topArea,
-		bottomRightArea,
-		bottomLeftArea;
-
-	//==============================================================================
-	LittleTeknoDrummerAudioProcessor& processor;
+	LtdRotarySlider filterCutoffSlider{ juce::String("Freq"), &lookAndFeel };
+	LtdRotarySlider filterResonanceSlider{ juce::String("Reso"), &lookAndFeel };
+	LtdRotarySlider attackSlider{ juce::String("Att"), &lookAndFeel };
+	LtdRotarySlider decaySlider{ juce::String("Dec"), &lookAndFeel };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NoiseSectionEditor)
 };

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="Tv2EuB" name="LittleTeknoDrummer" projectType="audioplug"
-              jucerVersion="5.4.1" pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
+              jucerVersion="5.4.3" pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
               pluginFormats="buildStandalone,buildVST3" defines="JUCE_VST3_CAN_REPLACE_VST2=0"
               version="0.1" companyName="Daniele Filaretti" companyEmail="dfilaretti@gmail.com"
-              companyWebsite="dfilaretti.github.io">
+              companyWebsite="dfilaretti.github.io" cppLanguageStandard="latest">
   <MAINGROUP id="iGEfRU" name="LittleTeknoDrummer">
     <GROUP id="{AA863529-B8B7-5D1E-5015-BA54E06BED19}" name="Source">
       <GROUP id="{5633249D-B53E-0946-92DD-FAC6184FFC44}" name="Processor">
@@ -22,6 +22,28 @@
               file="Source/PluginProcessor.h"/>
       </GROUP>
       <GROUP id="{3BC92047-FF1D-CA3B-9101-A8D7BCF64BB0}" name="Editor">
+        <FILE id="nYx6dp" name="LtdComplexComponent.cpp" compile="1" resource="0"
+              file="Source/LtdComplexComponent.cpp"/>
+        <FILE id="uaq7mJ" name="LtdComplexComponent.h" compile="0" resource="0"
+              file="Source/LtdComplexComponent.h"/>
+        <FILE id="d9kzXq" name="AttachableComponent.cpp" compile="1" resource="0"
+              file="Source/AttachableComponent.cpp"/>
+        <FILE id="thXLMB" name="AttachableComponent.h" compile="0" resource="0"
+              file="Source/AttachableComponent.h"/>
+        <FILE id="kp4jIi" name="LtdVerticalSlider.cpp" compile="1" resource="0"
+              file="Source/LtdVerticalSlider.cpp"/>
+        <FILE id="yK1bwN" name="LtdVerticalSlider.h" compile="0" resource="0"
+              file="Source/LtdVerticalSlider.h"/>
+        <FILE id="gLvJC8" name="LtdHorizontalSlider.cpp" compile="1" resource="0"
+              file="Source/LtdHorizontalSlider.cpp"/>
+        <FILE id="LYVR2w" name="LtdHorizontalSlider.h" compile="0" resource="0"
+              file="Source/LtdHorizontalSlider.h"/>
+        <FILE id="QslMLf" name="LtdRotarySlider.cpp" compile="1" resource="0"
+              file="Source/LtdRotarySlider.cpp"/>
+        <FILE id="LtFSwI" name="LtdRotarySlider.h" compile="0" resource="0"
+              file="Source/LtdRotarySlider.h"/>
+        <FILE id="U5jKZJ" name="LtdSlider.cpp" compile="1" resource="0" file="Source/LtdSlider.cpp"/>
+        <FILE id="I4fjvD" name="LtdSlider.h" compile="0" resource="0" file="Source/LtdSlider.h"/>
         <FILE id="SyRGGk" name="LookAndFeels.h" compile="0" resource="0" file="Source/LookAndFeels.h"/>
         <FILE id="WTOnVD" name="PluginEditor.cpp" compile="1" resource="0"
               file="Source/PluginEditor.cpp"/>

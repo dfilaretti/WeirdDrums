@@ -35,9 +35,9 @@ void LittleTeknoDrummerAudioProcessorEditor::paint (Graphics& g)
 
 void LittleTeknoDrummerAudioProcessorEditor::resized()
 {
-	juce::Rectangle<int> area = getLocalBounds();
+	auto area = getLocalBounds();
 
-	oscGui.setBounds (area.removeFromLeft(kSectionWidth).removeFromTop (kSectionHeight));
-	filterGui.setBounds (area.removeFromLeft(kSectionWidth).removeFromTop (kSectionHeight));
-	envGui.setBounds (area.removeFromLeft(kSectionWidth).removeFromTop (kSectionHeight));
+	oscGui.setBounds (area.removeFromTop (kHeight/3));
+	filterGui.setBounds (area.removeFromTop (kHeight/3));
+	envGui.setBounds (area.removeFromTop (kHeight/3));
 }

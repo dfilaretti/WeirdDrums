@@ -39,27 +39,233 @@ AudioProcessorValueTreeState::ParameterLayout LittleTeknoDrummerAudioProcessor::
     std::vector<std::unique_ptr<AudioParameterFloat>> params;
 
 	// TONE section
-	params.push_back (std::make_unique<AudioParameterFloat> ("FREQ", "Freq", NormalisableRange<float>(20.f, 20000.f, 0.0001f, 0.35f), 55.f));
-	params.push_back (std::make_unique<AudioParameterFloat> ("ATTACK", "Attack", NormalisableRange<float>(0.0001f, 1.f, 0.0001f, 0.35f), 0.0001f));
-	params.push_back (std::make_unique<AudioParameterFloat> ("DECAY", "Decay", NormalisableRange<float>(0.0001f, 2.f, 0.0001, 0.35f), 0.5f));
+	
+	{
+		auto range = NormalisableRange<float>(20.f, 20000.f);
+		range.setSkewForCentre(220.0f);
+		params.push_back(std::make_unique<AudioParameterFloat>("FREQ", 
+			                                                   "Freq", 
+			                                                   range, 
+			                                                   55.f, 
+			                                                   "Freq", 
+												               AudioProcessorParameter::genericParameter, 
+			                                                   [](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 3) + " Hz ";  },
+			                                                   nullptr));
+	}
+	
+	{
+		auto range = NormalisableRange<float>(0.0001f, 1.0f);
+		range.setSkewForCentre(0.2f);
+		params.push_back (std::make_unique<AudioParameterFloat> ("ATTACK", 
+			"Attack", 
+			range,
+			0.0001f, 
+			"Attack", 
+			AudioProcessorParameter::genericParameter,
+			[](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 2) + " s ";  },
+			nullptr
+			));
+
+	}
+	
+	{
+		auto range = NormalisableRange<float>(0.0001f, 2.0f);
+		range.setSkewForCentre(0.25f);
+		params.push_back (std::make_unique<AudioParameterFloat> ("DECAY", 
+			"Decay", 
+			range,
+			0.5f, 
+			"Decay", 
+			AudioProcessorParameter::genericParameter, 
+			[](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 2) + " s ";  }, 
+			nullptr));
+	
+	}
+
 	params.push_back (std::make_unique<AudioParameterFloat> ("WAVE-TYPE", "Wave Type", NormalisableRange<float>(0, 2), 0));
-	params.push_back (std::make_unique<AudioParameterFloat> ("PITCH-ENV-AMOUNT", "Pitch Env Amount", NormalisableRange<float>(0.f, 1.f, 0.0001f, 1.f), 0.f));
-	params.push_back (std::make_unique<AudioParameterFloat> ("PITCH-ENV-RATE", "Pitch Env Rate", NormalisableRange<float>(0.0001f, 1.f, 0.0001f, 0.35f), 0.1f));
-	params.push_back (std::make_unique<AudioParameterFloat> ("PITCH-LFO-AMOUNT", "Pitch Lfo Amount", NormalisableRange<float>(0.f, 1.f), 0.f));
-	params.push_back (std::make_unique<AudioParameterFloat> ("PITCH-LFO-RATE", "Pitch Lfo Rate", NormalisableRange<float>(0.01f, 80.f, 0.0001f), 0.5f));
+	
+	{
+		auto range = NormalisableRange<float> (0, 1);
+		//range.setSkewForCentre(0.25f);
+		params.push_back (std::make_unique<AudioParameterFloat> ("PITCH-ENV-AMOUNT", 
+			"Pitch Env Amount", 
+			range, 
+			0, 
+			"Pitch Env Amount",
+			AudioProcessorParameter::genericParameter,
+			[] (double value, int) { return juce::String::toDecimalStringWithSignificantFigures(value, 2) ;  },
+			nullptr));
+	
+	}
+
+	{
+		auto range = NormalisableRange<float>(0.0001f, 1.0f);
+		//range.setSkewForCentre(0.25f);
+		params.push_back (std::make_unique<AudioParameterFloat> ("PITCH-ENV-RATE", 
+			"Pitch Env Rate", 
+			range,
+			0.1f, 
+			"Pitch Env Rate", 
+			AudioProcessorParameter::genericParameter,
+			[](double value, int) { return juce::String::toDecimalStringWithSignificantFigures(value, 2);  },
+			nullptr));
+	}
+
+	{
+		auto range = NormalisableRange<float>(0, 1);
+		//range.setSkewForCentre(0.25f);
+		params.push_back (std::make_unique<AudioParameterFloat> ("PITCH-LFO-AMOUNT", 
+			"Pitch Lfo Amount", 
+			range, 
+			0, 
+			"Pitch Lfo Amount", 
+			AudioProcessorParameter::genericParameter,
+			[](double value, int) { return juce::String::toDecimalStringWithSignificantFigures(value, 2);  },
+			nullptr));
+	}
+
+	{
+		auto range = NormalisableRange<float>(0.01f, 80.f);
+		//range.setSkewForCentre(0.25f);
+		params.push_back (std::make_unique<AudioParameterFloat> ("PITCH-LFO-RATE", 
+			"Pitch Lfo Rate", 
+			range, 
+			0.5f,
+			"Pitch Lfo Rate",
+			AudioProcessorParameter::genericParameter,
+			[](double value, int) { return juce::String::toDecimalStringWithSignificantFigures(value, 2);  },
+			nullptr));
+	}
+	
 	// NOISE section
 	params.push_back (std::make_unique<AudioParameterFloat> ("FILTER-TYPE", "Filter Type", NormalisableRange<float>(0, 2), .1f)); // TODO: default should be 0 (right?)
-	params.push_back (std::make_unique<AudioParameterFloat> ("FILTER-CUTOFF", "Cutoff", NormalisableRange<float>(20.f, 10000.f), 400.f)); // TODO: max should be 20k, not 10k
-	params.push_back (std::make_unique<AudioParameterFloat> ("FILTER-RESONANCE", "Resonance", NormalisableRange<float>(1.f, 5.f, 0.0001f, 0.4f), 1.f));
-	params.push_back (std::make_unique<AudioParameterFloat> ("NOISE-ATTACK", "Attack", NormalisableRange<float>(0.0001f, 1.f, 0.0001f, 0.35f), 0.01f));
-	params.push_back (std::make_unique<AudioParameterFloat> ("NOISE-DECAY", "Decay", NormalisableRange<float>(0.0001f, 2.f, 0.0001f, 0.35f), 0.5f));
-    // MASTER section
-	params.push_back (std::make_unique<AudioParameterFloat> ("MASTER-MIX", "Mix", NormalisableRange<float>(0.f, 1.f), 0.5f));
-	params.push_back (std::make_unique<AudioParameterFloat> ("MASTER-EQ-FREQ", "EqFreq", NormalisableRange<float>(20.f, 15000.f), 1000.f));
-	params.push_back (std::make_unique<AudioParameterFloat> ("MASTER-EQ-GAIN", "EqGain", NormalisableRange<float>(-12.f, 12.f), 0.f));
-	params.push_back (std::make_unique<AudioParameterFloat> ("MASTER-DISTORT", "Distort", NormalisableRange<float>(0.f, 50.f), 0.f));
-	params.push_back (std::make_unique<AudioParameterFloat> ("MASTER-LEVEL", "Level", NormalisableRange<float>(-96.f, 24.f), 0.f));
-	params.push_back (std::make_unique<AudioParameterFloat> ("MASTER-PAN", "Pan", NormalisableRange<float>(-1.f, 1.f), 0.f));
+	
+	{
+		auto range = NormalisableRange<float>(20.f, 10000.f);
+		params.push_back (std::make_unique<AudioParameterFloat> ("FILTER-CUTOFF", 
+			"Cutoff", 
+			range, 
+			400.f,
+			"Cutoff",
+			AudioProcessorParameter::genericParameter,
+			[](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 3) + " Hz ";  },
+			nullptr)); // TODO: max should be 20k, not 10k
+	}
+	
+	{
+		auto range = NormalisableRange<float>(1, 5);
+		//range.setSkewForCentre(4.0f);
+		params.push_back (std::make_unique<AudioParameterFloat> ("FILTER-RESONANCE", 
+			                                                     "Resonance", 
+			                                                     range, 
+																 1, 
+			                                                     "Resonance", 
+			                                                     AudioProcessorParameter::genericParameter, 
+			                                                     [](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 3) + " Hz ";  }, 
+			                                                     nullptr
+			                                                     ));
+	}
+	
+	{
+		auto range = NormalisableRange<float>(0.0001f, 1.f);
+		range.setSkewForCentre(0.3f);
+		params.push_back (std::make_unique<AudioParameterFloat> ("NOISE-ATTACK",
+			"Attack", 
+			range, 
+			0.01f, 
+			"Attack",
+			AudioProcessorParameter::genericParameter,
+			[](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 3) + " s ";  },
+			nullptr));
+	}
+
+	{
+		auto range = NormalisableRange<float>(0.0001f, 1.f);
+		range.setSkewForCentre(0.3f);
+		params.push_back (std::make_unique<AudioParameterFloat> ("NOISE-DECAY", 
+			"Decay", 
+			range,
+			0.5f, 
+			"Decay",
+			AudioProcessorParameter::genericParameter,
+			[](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 3) + " s ";  },
+			nullptr));
+	}
+	
+	// MASTER section
+	{
+		auto range = NormalisableRange<float>(0, 1);
+		//range.setSkewForCentre(0.3f);
+		params.push_back (std::make_unique<AudioParameterFloat> ("MASTER-MIX", 
+			"Mix", 
+			range, 
+			0.5f, 
+			"Mix",
+			AudioProcessorParameter::genericParameter,
+			[](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 3) + " % ";  }, // TODO!!!!
+			nullptr));
+	}
+
+	{
+		auto range = NormalisableRange<float>(20.f, 15000.f);
+		params.push_back (std::make_unique<AudioParameterFloat> ("MASTER-EQ-FREQ", 
+			"EqFreq", 
+			range, 
+			1000.f, 
+			"EqFreq",
+			AudioProcessorParameter::genericParameter,
+			[](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 3) + " Hz ";  }, // TODO!!!!
+			nullptr));
+	}
+	
+	{
+		auto range = NormalisableRange<float>(-12.f, 12.f);
+		params.push_back (std::make_unique<AudioParameterFloat> ("MASTER-EQ-GAIN", 
+			"EqGain", 
+			range, 
+			0.f,
+			"EqGain", 
+			AudioProcessorParameter::genericParameter,
+			[](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 3) + " db ";  }, // TODO!!!!
+			nullptr));
+	
+	}
+
+	{
+		auto range = NormalisableRange<float>(0, 50);
+		params.push_back (std::make_unique<AudioParameterFloat> ("MASTER-DISTORT", 
+			"Distort", 
+			range, 
+			0, 
+			"Distort",
+			AudioProcessorParameter::genericParameter,
+			[](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 3) + "";  }, // TODO!!!!
+			nullptr));
+	}
+	
+	{
+		auto range = NormalisableRange<float>(-96.f, 24.f);
+		params.push_back (std::make_unique<AudioParameterFloat> ("MASTER-LEVEL", 
+			"Level", 
+			range, 
+			0.f,
+			"Level",
+			AudioProcessorParameter::genericParameter,
+			[](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 3) + " db ";  }, // TODO!!!!
+			nullptr));
+	}
+
+	{
+		auto range = NormalisableRange<float>(-1.f, 1.f);
+		params.push_back (std::make_unique<AudioParameterFloat> ("MASTER-PAN", 
+			"Pan", 
+			range, 
+			0.f, 
+			"Pan", 
+			AudioProcessorParameter::genericParameter,
+			[](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 3) + "";  }, // TODO!!!!
+			nullptr));
+	}
 	
 	return { params.begin(), params.end() };
 }

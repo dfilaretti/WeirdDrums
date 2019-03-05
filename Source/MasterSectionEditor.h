@@ -13,17 +13,16 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 #include "LookAndFeels.h"
+#include "LtdComplexComponent.h"
+#include "LtdRotarySlider.h"
 
 //==============================================================================
 
-class MasterSectionEditor    : public Component
+class MasterSectionEditor    : public LtdComplexComponent
 {
 public:
     MasterSectionEditor(LittleTeknoDrummerAudioProcessor&);
     ~MasterSectionEditor();
-
-    void paint (Graphics&) override;
-    void resized() override;
 
 private:
 	//==============================================================================
@@ -33,43 +32,12 @@ private:
 	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
 
 	//==============================================================================
-	const int kTitleHeight = 25;
-	const int kTopAreaHeight = 100;
-	const int kBottomRightAreaWidth = 100;
-	const int kBottomLeftAreaWidth = 150;
-
-	//==============================================================================
-	Slider mixSlider;
-	Slider eqFreqSlider;
-	Slider distortSlider;
-	Slider eqGainSlider;
-	Slider levelSlider;
-	Slider panSlider;
-
-	std::unique_ptr<SliderAttachment> mixSliderAttachment;
-	std::unique_ptr<SliderAttachment> eqFreqSliderAttachment;
-	std::unique_ptr<SliderAttachment> distortSliderAttachment;
-	std::unique_ptr<SliderAttachment> eqGainSliderAttachment;
-	std::unique_ptr<SliderAttachment> levelSliderAttachment;
-	std::unique_ptr<SliderAttachment> panSliderAttachment;
-
-	Label m_mixLabel;
-	Label m_eqFreqLabel;
-	Label m_distortLabel;
-	Label m_eqGainLabel;
-	Label m_levelLabel;
-	Label m_panLabel;
-
-	//==============================================================================
-	juce::Rectangle<int> area;
-	juce::Rectangle<int> titleArea;
-	juce::Rectangle<int> controlsArea;
-	juce::Rectangle<int> topArea;
-	juce::Rectangle<int> bottomRightArea;
-	juce::Rectangle<int> bottomLeftArea;
-
-	//==============================================================================
-	LittleTeknoDrummerAudioProcessor& processor;
+	LtdRotarySlider mixSlider{ juce::String("Mix"), &lookAndFeel };
+	LtdRotarySlider eqFreqSlider{ juce::String("EQ Freq"), &lookAndFeel };
+	LtdRotarySlider distortSlider{ juce::String("Dist"), &lookAndFeel };
+	LtdRotarySlider eqGainSlider{ juce::String("EqGain"), &lookAndFeel };
+	LtdRotarySlider levelSlider{ juce::String("Level"), &lookAndFeel };
+	LtdRotarySlider panSlider{ juce::String("Pan"), &lookAndFeel };
 
 	//==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MasterSectionEditor)
