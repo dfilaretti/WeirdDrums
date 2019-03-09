@@ -13,12 +13,13 @@
 LtdSlider::LtdSlider (juce::String label)
 {
 	// Set up name label
+	m_nameLabel.setFont(Font(15.0f, Font::bold));
 	m_nameLabel.setText (label, dontSendNotification);
 	m_nameLabel.setJustificationType (Justification::centred);
 	addAndMakeVisible (m_nameLabel);
 
 	// Set up value label
-	m_valueLabel.setText("54 %", dontSendNotification);
+	m_valueLabel.setFont(Font(15.0f, Font::bold));
 	m_valueLabel.setJustificationType(Justification::centred);
 	m_valueLabel.setText(m_slider.getTextFromValue(m_slider.getValue()), dontSendNotification); // set initial value - TODO: refactor!
 	addAndMakeVisible(m_valueLabel);
