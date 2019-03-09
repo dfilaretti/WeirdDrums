@@ -32,7 +32,7 @@ OscillatorSectionEditor::OscillatorSectionEditor (LittleTeknoDrummerAudioProcess
 			     { &m_pitchLfoRateSlider,   "PITCH-LFO-RATE" } };
 
 	// add all conmponents
-	setupChildernComponents();
+	setupChildren();
 }
 
 OscillatorSectionEditor::~OscillatorSectionEditor()

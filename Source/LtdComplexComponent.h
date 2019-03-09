@@ -34,20 +34,20 @@ public:
 
 	//==============================================================================
 	void LinkComponentToAttachment(Component*, std::string);
-	void setupChildernComponents();
+	void setupChildren();
+	void setupChild(std::pair<Component*, std::string>);
 
 	//==============================================================================
 	std::vector<std::pair<Component*, std::string>> controls;
+
 private:
 	//==============================================================================
 	LittleTeknoDrummerAudioProcessor& processor;
+
 
 	//================ ==============================================================
 	Colour backgroundColour;
 
 	//==============================================================================
 	std::vector<Attachment> attachments;
-
-
-
 };

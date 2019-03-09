@@ -24,7 +24,7 @@ MasterSectionEditor::MasterSectionEditor(LittleTeknoDrummerAudioProcessor& p) :
 		         { &panSlider,     "MASTER-PAN" }
 	}; 
 
-	setupChildernComponents();
+	setupChildren();
 }
 
 MasterSectionEditor::~MasterSectionEditor()

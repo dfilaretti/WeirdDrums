@@ -25,9 +25,9 @@ class LittleTeknoDrummerLookAndFeel : public LookAndFeel_V4
 public:
 	LittleTeknoDrummerLookAndFeel ()
 	{
-		setColour(Slider::thumbColourId, Colour(0xFFFCD2A8));
-		setColour(Slider::backgroundColourId, Colour(0xFF529A86));
-		setColour(Label::textColourId, Colour(0xFFEC6778));
+		setColour(Slider::thumbColourId, Colours::white);
+		setColour(Slider::backgroundColourId, Colours::black);
+		setColour(Label::textColourId, Colours::black);
 	}
 
 	void drawLinearSlider (Graphics&                 g, 

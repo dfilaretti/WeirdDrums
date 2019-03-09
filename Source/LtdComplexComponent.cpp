@@ -10,21 +10,23 @@
 
 #include "LtdComplexComponent.h"
 
+//==============================================================================
 LtdComplexComponent::LtdComplexComponent(LittleTeknoDrummerAudioProcessor& p) :
 	processor(p)
 {
-	backgroundColour = Colour(0xFFFCD2A8);
+	backgroundColour = Colours::white;
 }
 
 LtdComplexComponent::~LtdComplexComponent()
 {
 }
 
+//==============================================================================
 void LtdComplexComponent::paint(Graphics& g)
 {
-	// TODO: replace this with a proper "container" component
-	// so that it can also be styled from LookAndFeel.h 
-	g.fillAll(backgroundColour);
+	auto area = getLocalBounds().reduced(10, 5);
+	g.setColour (backgroundColour);
+	g.fillRoundedRectangle (area.toFloat(), 10.0f);
 }
 
 void LtdComplexComponent::resized()
@@ -37,12 +39,18 @@ void LtdComplexComponent::resized()
 		c.first->setBounds(area.removeFromLeft(componentWidth).reduced(10));
 }
 
-void LtdComplexComponent::setupChildernComponents()
+//==============================================================================
+void LtdComplexComponent::setupChild(std::pair<Component*, std::string> p)
+{
+	addAndMakeVisible(p.first);
+	LinkComponentToAttachment(p.first, p.second);
+}
+
+void LtdComplexComponent::setupChildren()
 {
 	for (auto const& c : controls)
 	{
-		addAndMakeVisible(c.first);
-		LinkComponentToAttachment(c.first, c.second);
+		setupChild (c);
 	}
 }
 

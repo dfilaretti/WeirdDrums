@@ -25,7 +25,6 @@ LittleTeknoDrummerAudioProcessorEditor::LittleTeknoDrummerAudioProcessorEditor (
 	addAndMakeVisible (filterGui);
 }
 
-
 LittleTeknoDrummerAudioProcessorEditor::~LittleTeknoDrummerAudioProcessorEditor()
 {
 	setLookAndFeel (nullptr);
@@ -34,12 +33,13 @@ LittleTeknoDrummerAudioProcessorEditor::~LittleTeknoDrummerAudioProcessorEditor(
 //==============================================================================
 void LittleTeknoDrummerAudioProcessorEditor::paint (Graphics& g)
 {
+	g.fillAll (Colours::black);
 }
 
 void LittleTeknoDrummerAudioProcessorEditor::resized()
 {
-	auto area = getLocalBounds();
-
+	auto area = getLocalBounds().reduced(0, 5);
+	
 	oscGui.setBounds (area.removeFromTop (kHeight/3));
 	filterGui.setBounds (area.removeFromTop (kHeight/3));
 	envGui.setBounds (area.removeFromTop (kHeight/3));

@@ -26,20 +26,6 @@ public:
     ~NoiseSectionEditor();
 
 private:
-	//==============================================================================
-	const String kMenuItemLowPassText  = "LP";
-	const String kMenuItemHighPassText = "HP";
-	const String kMenuItemBandPassText = "BP";
-
-	//==============================================================================
-	const int kMenuItemLowPassId   = 1;
-	const int kMenuItemHighPassId  = 2;
-	const int kMenuItemSBandPassId = 3;
-
-	//==============================================================================
-	ComboBox filterTypeComboBox;
-
-	//==============================================================================
 	LtdRotarySlider filterTypeSlider{ juce::String("Flt Type") };
 	LtdRotarySlider filterCutoffSlider{ juce::String("Freq")  };
 	LtdRotarySlider filterResonanceSlider{ juce::String("Reso") };
