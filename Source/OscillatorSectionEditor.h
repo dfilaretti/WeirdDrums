@@ -39,6 +39,7 @@ private:
 	ComboBox oscComboBox;
 
 	//==============================================================================
+	LtdRotarySlider m_oscSlider{ juce::String("Osc Type") };
 	LtdRotarySlider m_freqSlider{ juce::String("Freq") };
 	LtdRotarySlider m_attackSlider{ juce::String("Attack") };
 	LtdRotarySlider m_decaySlider{ juce::String("Decay") };

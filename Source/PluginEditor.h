@@ -39,7 +39,7 @@ private:
 
 	//==============================================================================
 	const int kWidth         = 1000;
-	const int kHeight        = 300;
+	const int kHeight        = 400;
 
 	//==============================================================================
     LittleTeknoDrummerAudioProcessor& processor;

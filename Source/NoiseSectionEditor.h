@@ -40,6 +40,7 @@ private:
 	ComboBox filterTypeComboBox;
 
 	//==============================================================================
+	LtdRotarySlider filterTypeSlider{ juce::String("Flt Type") };
 	LtdRotarySlider filterCutoffSlider{ juce::String("Freq")  };
 	LtdRotarySlider filterResonanceSlider{ juce::String("Reso") };
 	LtdRotarySlider attackSlider{ juce::String("Att") };

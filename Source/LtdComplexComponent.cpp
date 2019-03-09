@@ -13,8 +13,7 @@
 LtdComplexComponent::LtdComplexComponent(LittleTeknoDrummerAudioProcessor& p) :
 	processor(p)
 {
-	// add all conmponents
-	//setupChildernComponents();
+	backgroundColour = Colour(0xFFFCD2A8);
 }
 
 LtdComplexComponent::~LtdComplexComponent()
@@ -23,7 +22,9 @@ LtdComplexComponent::~LtdComplexComponent()
 
 void LtdComplexComponent::paint(Graphics& g)
 {
-	// TODO
+	// TODO: replace this with a proper "container" component
+	// so that it can also be styled from LookAndFeel.h 
+	g.fillAll(backgroundColour);
 }
 
 void LtdComplexComponent::resized()
@@ -33,7 +34,7 @@ void LtdComplexComponent::resized()
 
 	// position all our controls
 	for (auto const& c : controls)
-		c.first->setBounds(area.removeFromLeft(componentWidth).reduced(0));
+		c.first->setBounds(area.removeFromLeft(componentWidth).reduced(10));
 }
 
 void LtdComplexComponent::setupChildernComponents()

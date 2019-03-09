@@ -25,10 +25,9 @@ class LittleTeknoDrummerLookAndFeel : public LookAndFeel_V4
 public:
 	LittleTeknoDrummerLookAndFeel ()
 	{
-		// thumb
-		setColour (Slider::thumbColourId, Colours::grey);
-		setColour(Slider::textBoxOutlineColourId, Colours::transparentWhite);
-		setColour (Label::textColourId, Colours::red);
+		setColour(Slider::thumbColourId, Colour(0xFFFCD2A8));
+		setColour(Slider::backgroundColourId, Colour(0xFF529A86));
+		setColour(Label::textColourId, Colour(0xFFEC6778));
 	}
 
 	void drawLinearSlider (Graphics&                 g, 
@@ -132,7 +131,7 @@ public:
 		}
 	}
 
-	void drawRotarySlider (Graphics& g, int x, int y, int width, int height, float sliderPos,
+	/*void drawRotarySlider (Graphics& g, int x, int y, int width, int height, float sliderPos,
                 const float rotaryStartAngle, const float rotaryEndAngle, Slider& slider) override
 	{
 		auto outline = slider.findColour (Slider::rotarySliderOutlineColourId);
@@ -180,6 +179,44 @@ public:
 
 		g.setColour (slider.findColour (Slider::thumbColourId));
 		g.fillEllipse (Rectangle<float> (thumbWidth, thumbWidth).withCentre (thumbPoint));
+	}*/
+
+	void drawRotarySlider(Graphics& g,
+		int x,
+		int y,
+		int width,
+		int height,
+		float sliderPos,
+		const float rotaryStartAngle,
+		const float rotaryEndAngle,
+		Slider& slider) override
+	{
+		auto radius = jmin(width / 2, height / 2) - 4.0f;
+		auto centreX = x + width * 0.5f;
+		auto centreY = y + height * 0.5f;
+
+		// draw ellipse (circle)
+		auto rx = centreX - radius;
+		auto ry = centreY - radius;
+		auto rw = radius * 2.0f;
+		g.setColour(slider.findColour(Slider::backgroundColourId));
+		g.fillEllipse(rx, ry, rw, rw);
+
+		// outline
+		//g.setColour(Colours::red);
+		//g.drawEllipse(rx, ry, rw, rw, 1.0f);
+
+		// draw pointer
+		Path p;
+		auto pointerLength = radius * 0.40f;
+		auto pointerThickness = 8.0f;
+		auto angle = rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle);
+		p.addRectangle(-pointerThickness * 0.5f, -radius, pointerThickness, pointerLength);
+		p.applyTransform(AffineTransform::rotation(angle).translated(centreX, centreY));
+
+		// pointer
+		g.setColour(slider.findColour(Slider::thumbColourId));
+		g.fillPath(p);
 	}
 
 };

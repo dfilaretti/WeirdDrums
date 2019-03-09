@@ -15,8 +15,9 @@
 LittleTeknoDrummerAudioProcessorEditor::LittleTeknoDrummerAudioProcessorEditor (LittleTeknoDrummerAudioProcessor& p)
     : AudioProcessorEditor (&p), processor (p), oscGui (p), envGui (p), filterGui (p)
 {
+	// Set up lookandfeel
 	setLookAndFeel (&lookAndFeel);
-
+	
 	setSize (kWidth, kHeight);
 
 	addAndMakeVisible (oscGui);
@@ -33,7 +34,6 @@ LittleTeknoDrummerAudioProcessorEditor::~LittleTeknoDrummerAudioProcessorEditor(
 //==============================================================================
 void LittleTeknoDrummerAudioProcessorEditor::paint (Graphics& g)
 {
-    g.fillAll (Colours::black);
 }
 
 void LittleTeknoDrummerAudioProcessorEditor::resized()

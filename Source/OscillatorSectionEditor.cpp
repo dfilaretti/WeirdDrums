@@ -21,7 +21,8 @@ OscillatorSectionEditor::OscillatorSectionEditor (LittleTeknoDrummerAudioProcess
 	oscComboBox.addItem (kMenuItemSquareText, kMenuItemSquareId);
 	oscComboBox.setJustificationType (Justification::centred);
 
-	controls = { { &oscComboBox,            "WAVE-TYPE"},
+	controls = { { &m_oscSlider,            "WAVE-TYPE"},
+		         //{ &oscComboBox,            "WAVE-TYPE"},
 			     { &m_freqSlider,           "FREQ"},
 			     { &m_attackSlider ,        "ATTACK"},
 			     { &m_decaySlider,          "DECAY" },

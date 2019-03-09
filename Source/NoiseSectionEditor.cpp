@@ -21,7 +21,8 @@ NoiseSectionEditor::NoiseSectionEditor(LittleTeknoDrummerAudioProcessor& p) :
 	filterTypeComboBox.addItem(kMenuItemBandPassText, kMenuItemSBandPassId);
 	filterTypeComboBox.setJustificationType (Justification::centred);
 
-	controls = { { &filterTypeComboBox,    "FILTER-TYPE"}, 
+	controls = { { &filterTypeSlider,      "FILTER-TYPE"},
+		         //{ &filterTypeComboBox,    "FILTER-TYPE"}, 
 		         { &filterCutoffSlider ,   "FILTER-CUTOFF"},
 		         { &filterResonanceSlider, "FILTER-RESONANCE" },
 		         { &attackSlider,          "NOISE-ATTACK" },
