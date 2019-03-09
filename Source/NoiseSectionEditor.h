@@ -26,11 +26,11 @@ public:
     ~NoiseSectionEditor();
 
 private:
-	LtdRotarySlider filterTypeSlider{ juce::String("Flt Type") };
-	LtdRotarySlider filterCutoffSlider{ juce::String("Freq")  };
-	LtdRotarySlider filterResonanceSlider{ juce::String("Reso") };
-	LtdRotarySlider attackSlider{ juce::String("Att") };
-	LtdRotarySlider decaySlider{ juce::String("Dec") };
+	LtdRotarySlider filterTypeSlider{ juce::String("FLT TYPE") };
+	LtdRotarySlider filterCutoffSlider{ juce::String("FREQ")  };
+	LtdRotarySlider filterResonanceSlider{ juce::String("RESO") };
+	LtdRotarySlider attackSlider{ juce::String("ATT") };
+	LtdRotarySlider decaySlider{ juce::String("DEC") };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NoiseSectionEditor)
 };

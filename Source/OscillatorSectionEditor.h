@@ -27,14 +27,14 @@ public:
 
 private:
 	//==============================================================================
-	LtdRotarySlider m_oscSlider{ juce::String("Osc Type") };
-	LtdRotarySlider m_freqSlider{ juce::String("Freq") };
-	LtdRotarySlider m_attackSlider{ juce::String("Attack") };
-	LtdRotarySlider m_decaySlider{ juce::String("Decay") };
-	LtdRotarySlider m_pitchEnvAmountSlider  { juce::String("Env Amt") };
-	LtdRotarySlider m_pitchEnvRateSlider{ juce::String("Env Rate") };
-	LtdRotarySlider m_pitchLfoAmountSlider{ juce::String("LFO Amt") };
-	LtdRotarySlider m_pitchLfoRateSlider { juce::String("LFO Rate") };
+	LtdRotarySlider m_oscSlider{ juce::String("WAVEFORM") };
+	LtdRotarySlider m_freqSlider{ juce::String("FREQ") };
+	LtdRotarySlider m_attackSlider{ juce::String("ATTACK") };
+	LtdRotarySlider m_decaySlider{ juce::String("DECAY") };
+	LtdRotarySlider m_pitchEnvAmountSlider  { juce::String("ENV AMT") };
+	LtdRotarySlider m_pitchEnvRateSlider{ juce::String("ENV RATE") };
+	LtdRotarySlider m_pitchLfoAmountSlider{ juce::String("LFO AMT") };
+	LtdRotarySlider m_pitchLfoRateSlider { juce::String("LFO RATE") };
 
 	//==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OscillatorSectionEditor)

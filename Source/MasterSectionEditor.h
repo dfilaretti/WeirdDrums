@@ -29,12 +29,12 @@ private:
 	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
 
 	//==============================================================================
-	LtdRotarySlider mixSlider{ juce::String("Mix") };
-	LtdRotarySlider eqFreqSlider{ juce::String("EQ Freq") };
-	LtdRotarySlider distortSlider{ juce::String("Dist") };
-	LtdRotarySlider eqGainSlider{ juce::String("EqGain") };
-	LtdRotarySlider levelSlider{ juce::String("Level") };
-	LtdRotarySlider panSlider{ juce::String("Pan") };
+	LtdRotarySlider mixSlider{ juce::String("MIX") };
+	LtdRotarySlider eqFreqSlider{ juce::String("EQ FREQ") };
+	LtdRotarySlider distortSlider{ juce::String("DIST") };
+	LtdRotarySlider eqGainSlider{ juce::String("EQGAIN") };
+	LtdRotarySlider levelSlider{ juce::String("LEVEL") };
+	LtdRotarySlider panSlider{ juce::String("PAN") };
 
 	//==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MasterSectionEditor)
