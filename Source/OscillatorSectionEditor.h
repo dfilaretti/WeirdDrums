@@ -27,18 +27,6 @@ public:
 
 private:
 	//==============================================================================
-	const String kMenuItemSineText   = "Sine";
-	const String kMenuItemSawText    = "Saw";
-	const String kMenuItemSquareText = "Square";
-
-	const int kMenuItemSineId        = 1;
-	const int kMenuItemSawId         = 2;
-	const int kMenuItemSquareId      = 3;
-
-	//==============================================================================
-	ComboBox oscComboBox;
-
-	//==============================================================================
 	LtdRotarySlider m_oscSlider{ juce::String("Osc Type") };
 	LtdRotarySlider m_freqSlider{ juce::String("Freq") };
 	LtdRotarySlider m_attackSlider{ juce::String("Attack") };

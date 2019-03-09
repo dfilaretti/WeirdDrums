@@ -15,14 +15,7 @@
 OscillatorSectionEditor::OscillatorSectionEditor (LittleTeknoDrummerAudioProcessor& p) 
 	: LtdComplexComponent(p)
 {
-	// setup combo box
-	oscComboBox.addItem (kMenuItemSineText,   kMenuItemSineId);
-	oscComboBox.addItem (kMenuItemSawText,    kMenuItemSawId);
-	oscComboBox.addItem (kMenuItemSquareText, kMenuItemSquareId);
-	oscComboBox.setJustificationType (Justification::centred);
-
 	controls = { { &m_oscSlider,            "WAVE-TYPE"},
-		         //{ &oscComboBox,            "WAVE-TYPE"},
 			     { &m_freqSlider,           "FREQ"},
 			     { &m_attackSlider ,        "ATTACK"},
 			     { &m_decaySlider,          "DECAY" },
