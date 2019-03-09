@@ -32,7 +32,7 @@ void LtdComplexComponent::paint(Graphics& g)
 void LtdComplexComponent::resized()
 {
 	auto area = getLocalBounds();
-	auto componentWidth = area.getWidth() / 10;
+	auto componentWidth = area.getWidth() / 8;
 
 	// position all our controls
 	for (auto const& c : controls)
