@@ -10,15 +10,12 @@
 
 #include "LtdSlider.h"
 
-LtdSlider::LtdSlider (juce::String label, juce::LookAndFeel* lookAndFeel)
+LtdSlider::LtdSlider (juce::String label)
 {
 	// Set up label
 	m_label.setText (label, dontSendNotification);
 	m_label.setJustificationType (Justification::centredTop);
 	addAndMakeVisible (m_label);
-
-	// Set up slider
-	m_slider.setLookAndFeel (lookAndFeel);
 }
 
 LtdSlider::~LtdSlider()

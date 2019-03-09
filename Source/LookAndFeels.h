@@ -27,7 +27,8 @@ public:
 	{
 		// thumb
 		setColour (Slider::thumbColourId, Colours::grey);
-		setColour (Slider::textBoxOutlineColourId, Colours::transparentWhite);
+		setColour(Slider::textBoxOutlineColourId, Colours::transparentWhite);
+		setColour (Label::textColourId, Colours::red);
 	}
 
 	void drawLinearSlider (Graphics&                 g, 

@@ -10,10 +10,9 @@
 
 #include "LtdRotarySlider.h"
 
-LtdRotarySlider::LtdRotarySlider (juce::String label, juce::LookAndFeel* lookAndFeel)
-	: LtdSlider (label, lookAndFeel) // call base ctor
+LtdRotarySlider::LtdRotarySlider (juce::String label)
+	: LtdSlider (label) // call base ctor
 {
-	m_slider.setLookAndFeel  (lookAndFeel);
 	m_slider.setSliderStyle  (Slider::RotaryHorizontalVerticalDrag);
 	m_slider.setTextBoxStyle (Slider::TextBoxBelow, false, 50, 15);
 	addAndMakeVisible (&m_slider);

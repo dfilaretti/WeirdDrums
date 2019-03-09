@@ -27,9 +27,6 @@ public:
 
 private:
 	//==============================================================================
-	OscSectionLookAndFeel lookAndFeel;
-
-	//==============================================================================
 	const String kMenuItemSineText   = "Sine";
 	const String kMenuItemSawText    = "Saw";
 	const String kMenuItemSquareText = "Square";
@@ -42,13 +39,13 @@ private:
 	ComboBox oscComboBox;
 
 	//==============================================================================
-	LtdRotarySlider m_freqSlider{ juce::String("Freq"), &lookAndFeel };
-	LtdRotarySlider m_attackSlider{ juce::String("Attack"), &lookAndFeel };
-	LtdRotarySlider m_decaySlider{ juce::String("Decay"), &lookAndFeel };
-	LtdRotarySlider m_pitchEnvAmountSlider  { juce::String("Env Amt"), &lookAndFeel };
-	LtdRotarySlider m_pitchEnvRateSlider{ juce::String("Env Rate"), &lookAndFeel };
-	LtdRotarySlider m_pitchLfoAmountSlider{ juce::String("LFO Amt"), &lookAndFeel };
-	LtdRotarySlider m_pitchLfoRateSlider { juce::String("LFO Rate"), &lookAndFeel };
+	LtdRotarySlider m_freqSlider{ juce::String("Freq") };
+	LtdRotarySlider m_attackSlider{ juce::String("Attack") };
+	LtdRotarySlider m_decaySlider{ juce::String("Decay") };
+	LtdRotarySlider m_pitchEnvAmountSlider  { juce::String("Env Amt") };
+	LtdRotarySlider m_pitchEnvRateSlider{ juce::String("Env Rate") };
+	LtdRotarySlider m_pitchLfoAmountSlider{ juce::String("LFO Amt") };
+	LtdRotarySlider m_pitchLfoRateSlider { juce::String("LFO Rate") };
 
 	//==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OscillatorSectionEditor)

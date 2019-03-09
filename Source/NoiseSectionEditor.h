@@ -27,9 +27,6 @@ public:
 
 private:
 	//==============================================================================
-	NoiseSectionLookAndFeel lookAndFeel;
-
-	//==============================================================================
 	const String kMenuItemLowPassText  = "LP";
 	const String kMenuItemHighPassText = "HP";
 	const String kMenuItemBandPassText = "BP";
@@ -43,10 +40,10 @@ private:
 	ComboBox filterTypeComboBox;
 
 	//==============================================================================
-	LtdRotarySlider filterCutoffSlider{ juce::String("Freq"), &lookAndFeel };
-	LtdRotarySlider filterResonanceSlider{ juce::String("Reso"), &lookAndFeel };
-	LtdRotarySlider attackSlider{ juce::String("Att"), &lookAndFeel };
-	LtdRotarySlider decaySlider{ juce::String("Dec"), &lookAndFeel };
+	LtdRotarySlider filterCutoffSlider{ juce::String("Freq")  };
+	LtdRotarySlider filterResonanceSlider{ juce::String("Reso") };
+	LtdRotarySlider attackSlider{ juce::String("Att") };
+	LtdRotarySlider decaySlider{ juce::String("Dec") };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NoiseSectionEditor)
 };

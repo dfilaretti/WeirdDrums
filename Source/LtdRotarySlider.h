@@ -16,7 +16,7 @@
 class LtdRotarySlider	: public LtdSlider
 {
 public:
-	LtdRotarySlider (juce::String label, juce::LookAndFeel* lookAndFeel);
+	LtdRotarySlider (juce::String label);
 	~LtdRotarySlider();
 
 private:

@@ -33,7 +33,7 @@ void LtdComplexComponent::resized()
 
 	// position all our controls
 	for (auto const& c : controls)
-		c.first->setBounds(area.removeFromLeft(componentWidth));
+		c.first->setBounds(area.removeFromLeft(componentWidth).reduced(0));
 }
 
 void LtdComplexComponent::setupChildernComponents()

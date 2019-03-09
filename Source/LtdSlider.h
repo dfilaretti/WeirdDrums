@@ -16,7 +16,7 @@ class LtdSlider :	public Component
 {
 public:
 	//==============================================================================
-	LtdSlider (juce::String label, juce::LookAndFeel* lookAndFeel);
+	LtdSlider (juce::String label);
 	~LtdSlider();
 
 	//==============================================================================
