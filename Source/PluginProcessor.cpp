@@ -153,12 +153,12 @@ AudioProcessorValueTreeState::ParameterLayout LittleTeknoDrummerAudioProcessor::
 	}
 	
 	{
-		auto range = NormalisableRange<float>(1, 5);
+		auto range = NormalisableRange<float>(1.6, 5);
 		//range.setSkewForCentre(4.0f);
 		params.push_back (std::make_unique<AudioParameterFloat> ("FILTER-RESONANCE", 
 			                                                     "Resonance", 
 			                                                     range, 
-																 1, 
+																 1.6, 
 			                                                     "Resonance", 
 			                                                     AudioProcessorParameter::genericParameter, 
 			                                                     [](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 3) + " Hz ";  }, 

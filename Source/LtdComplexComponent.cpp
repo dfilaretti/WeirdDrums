@@ -55,7 +55,7 @@ void LtdComplexComponent::resized()
 	for (auto i = 0; i < controls.size(); i++)
 	{
 		auto columnId = i / nRows;
-		auto componentArea = columns[columnId].removeFromTop(componentWidth);
+		auto componentArea = columns[columnId].removeFromTop(componentWidth).reduced(15);
 
 		controls[i].first->setBounds (componentArea);
 	}

@@ -29,5 +29,5 @@ public:
 protected:
 	Slider m_slider;
 	Label m_nameLabel;
-	Label m_valueLabel;
+	//Label m_valueLabel;
 };

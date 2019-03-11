@@ -11,7 +11,6 @@
 #pragma once
 
 #include "LtdSlider.h"
-//#include "../JuceLibraryCode/JuceHeader.h"
 
 class LtdRotarySlider	: public LtdSlider
 {
@@ -20,7 +19,7 @@ public:
 	~LtdRotarySlider();
 
 private:
-	const float squeezeFactor = 4.1;
+	const float squeezeFactor = 5.8;
 	void paint(Graphics&) override;
 	void resized() override;
 };

@@ -208,7 +208,7 @@ public:
 
 		// draw pointer
 		Path p;
-		auto pointerLength = radius * 0.40f;
+		auto pointerLength = radius * 0.60f;
 		auto pointerThickness = 8.0f;
 		auto angle = rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle);
 		p.addRectangle(-pointerThickness * 0.5f, -radius, pointerThickness, pointerLength);

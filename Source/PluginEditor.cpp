@@ -24,7 +24,7 @@ LittleTeknoDrummerAudioProcessorEditor::LittleTeknoDrummerAudioProcessorEditor (
 	addAndMakeVisible (envGui);
 	addAndMakeVisible (filterGui);
 
-	auto sectionBackgroundColour = Colours::darkgrey;
+	auto sectionBackgroundColour = Colours::black;
 
 	oscGui.setBackgroundColour(sectionBackgroundColour);
 	envGui.setBackgroundColour(sectionBackgroundColour);
@@ -39,16 +39,16 @@ LittleTeknoDrummerAudioProcessorEditor::~LittleTeknoDrummerAudioProcessorEditor(
 //==============================================================================
 void LittleTeknoDrummerAudioProcessorEditor::paint (Graphics& g)
 {
-	g.fillAll (Colours::grey);
+	g.fillAll (Colours::white);
 
 	// draw title area
 	auto area = getLocalBounds();
 	auto titleArea = area.removeFromTop(kTitleHeight);
 
-	g.setColour(Colours::white);
-	g.setFont(Font(29.0f, Font::bold));
+	g.setColour(Colours::black);
+	g.setFont(Font(38.0f, Font::bold));
 
-	g.drawText("LittleTeknoDrummer v.0.1", titleArea, Justification::centred, true);
+	g.drawText("TeknoDrumz v.0.1", titleArea, Justification::centred, true);
 
 }
 
