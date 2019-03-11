@@ -30,7 +30,7 @@ public:
 
 private:
 	//==============================================================================
-	NoiseSectionLookAndFeel lookAndFeel;
+	LittleTeknoDrummerLookAndFeel lookAndFeel;
 
 	//==============================================================================
 	OscillatorSectionEditor oscGui;
@@ -38,8 +38,10 @@ private:
 	NoiseSectionEditor filterGui;
 
 	//==============================================================================
-	const int kWidth         = 1000;
-	const int kHeight        = 400;
+	const float kWidth         = 500;
+	const float kHeight        = 500;
+
+	const int   kTitleHeight   = 40;
 
 	//==============================================================================
     LittleTeknoDrummerAudioProcessor& processor;

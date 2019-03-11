@@ -25,9 +25,9 @@ class LittleTeknoDrummerLookAndFeel : public LookAndFeel_V4
 public:
 	LittleTeknoDrummerLookAndFeel ()
 	{
-		setColour(Slider::thumbColourId, Colours::white);
-		setColour(Slider::backgroundColourId, Colours::black);
-		setColour(Label::textColourId, Colours::black);
+		setColour(Slider::thumbColourId, Colours::black);
+		setColour(Slider::backgroundColourId, Colours::white);
+		setColour(Label::textColourId, Colours::white);
 	}
 
 	void drawLinearSlider (Graphics&                 g, 
@@ -227,9 +227,7 @@ class OscSectionLookAndFeel : public LittleTeknoDrummerLookAndFeel
 public:
     OscSectionLookAndFeel()
     {
-        auto col = Colours::lightcyan;
-		setColour (Slider::trackColourId, col);
-		setColour (Slider::ColourIds::rotarySliderFillColourId, col);
+		setColour(Slider::backgroundColourId, Colour(0xFFe83eba));
     }
 };
 
@@ -238,9 +236,7 @@ class NoiseSectionLookAndFeel : public LittleTeknoDrummerLookAndFeel
 public:
     NoiseSectionLookAndFeel()
     {
-		auto col = Colours::lightgreen;
-		setColour (Slider::trackColourId, col);
-		setColour (Slider::ColourIds::rotarySliderFillColourId, col);
+		setColour(Slider::backgroundColourId, Colour(0xFFFF6600));
     }
 };
 
@@ -249,8 +245,6 @@ class MasterSectionLookAndFeel : public LittleTeknoDrummerLookAndFeel
 public:
     MasterSectionLookAndFeel()
     {
-        auto col = Colours::lightpink;
-		setColour (Slider::trackColourId, col);
-		setColour (Slider::ColourIds::rotarySliderFillColourId, col);
+		setColour(Slider::backgroundColourId, Colour(0xFFCC0000));
     }
 };

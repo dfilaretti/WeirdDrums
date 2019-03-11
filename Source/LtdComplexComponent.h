@@ -19,12 +19,16 @@ class LtdComplexComponent :		public Component
 {
 public:
 	//==============================================================================
-	LtdComplexComponent (LittleTeknoDrummerAudioProcessor& /*p*/);
+	//LtdComplexComponent(LittleTeknoDrummerAudioProcessor& /*p*/);
+	LtdComplexComponent (LittleTeknoDrummerAudioProcessor& /*p*/, int, int);
 	~LtdComplexComponent();
 
 	//==============================================================================
 	void paint(Graphics&) override;
 	void resized() override;
+
+	//==============================================================================
+	void setBackgroundColour(Colour c);
 
 //protected:
 	//==============================================================================
@@ -44,6 +48,9 @@ private:
 	//==============================================================================
 	LittleTeknoDrummerAudioProcessor& processor;
 
+	//==============================================================================
+	int nRows;
+	int nCols;
 
 	//================ ==============================================================
 	Colour backgroundColour;

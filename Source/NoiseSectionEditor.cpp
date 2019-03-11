@@ -12,10 +12,14 @@
 #include "NoiseSectionEditor.h"
 
 //==============================================================================
-NoiseSectionEditor::NoiseSectionEditor(LittleTeknoDrummerAudioProcessor& p) :
-	LtdComplexComponent (p)
+NoiseSectionEditor::NoiseSectionEditor(LittleTeknoDrummerAudioProcessor& p, 
+	                                   int nRows, 
+	                                   int nCols) :
+	LtdComplexComponent (p, nRows, nCols)
 {
-	controls = { { &filterTypeSlider,      "FILTER-TYPE"},
+	setLookAndFeel(&lookAndFeel);
+
+	controls = { //{ &filterTypeSlider,      "FILTER-TYPE"},
 		         { &filterCutoffSlider ,   "FILTER-CUTOFF"},
 		         { &filterResonanceSlider, "FILTER-RESONANCE" },
 		         { &attackSlider,          "NOISE-ATTACK" },
@@ -27,4 +31,5 @@ NoiseSectionEditor::NoiseSectionEditor(LittleTeknoDrummerAudioProcessor& p) :
 
 NoiseSectionEditor::~NoiseSectionEditor()
 {
+	setLookAndFeel(nullptr);
 }

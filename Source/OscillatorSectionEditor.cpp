@@ -12,9 +12,13 @@
 #include "OscillatorSectionEditor.h"
 
 //==============================================================================
-OscillatorSectionEditor::OscillatorSectionEditor (LittleTeknoDrummerAudioProcessor& p) 
-	: LtdComplexComponent(p)
+OscillatorSectionEditor::OscillatorSectionEditor (LittleTeknoDrummerAudioProcessor& p, 
+	                                              int nRows, 
+	                                              int nCols) 
+	: LtdComplexComponent(p, nRows, nCols)
 {
+	setLookAndFeel(&lookAndFeel);
+
 	controls = { { &m_oscSlider,            "WAVE-TYPE"},
 			     { &m_freqSlider,           "FREQ"},
 			     { &m_attackSlider ,        "ATTACK"},
@@ -30,4 +34,5 @@ OscillatorSectionEditor::OscillatorSectionEditor (LittleTeknoDrummerAudioProcess
 
 OscillatorSectionEditor::~OscillatorSectionEditor()
 {
+	setLookAndFeel(nullptr);
 }

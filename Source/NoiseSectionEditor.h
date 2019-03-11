@@ -22,15 +22,17 @@
 class NoiseSectionEditor	: public LtdComplexComponent
 {
 public:
-    NoiseSectionEditor(LittleTeknoDrummerAudioProcessor&);
+	NoiseSectionLookAndFeel lookAndFeel;
+
+    NoiseSectionEditor(LittleTeknoDrummerAudioProcessor&, int, int);
     ~NoiseSectionEditor();
 
 private:
 	LtdRotarySlider filterTypeSlider{ juce::String("FLT TYPE") };
-	LtdRotarySlider filterCutoffSlider{ juce::String("FREQ")  };
-	LtdRotarySlider filterResonanceSlider{ juce::String("RESO") };
-	LtdRotarySlider attackSlider{ juce::String("ATT") };
-	LtdRotarySlider decaySlider{ juce::String("DEC") };
+	LtdRotarySlider filterCutoffSlider{ juce::String("Cutoff")  };
+	LtdRotarySlider filterResonanceSlider{ juce::String("Res") };
+	LtdRotarySlider attackSlider{ juce::String("Attack") };
+	LtdRotarySlider decaySlider{ juce::String("Decay") };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NoiseSectionEditor)
 };

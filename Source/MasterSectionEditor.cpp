@@ -12,16 +12,19 @@
 #include "MasterSectionEditor.h"
 
 //==============================================================================
-MasterSectionEditor::MasterSectionEditor(LittleTeknoDrummerAudioProcessor& p) : 
-	LtdComplexComponent(p)
+MasterSectionEditor::MasterSectionEditor(LittleTeknoDrummerAudioProcessor& p, 
+	                                     int nRows, 
+	                                     int nCols) : 
+	LtdComplexComponent(p, nRows, nCols)
 {
+	setLookAndFeel(&lookAndFeel);
 
 	controls = { { &mixSlider,     "MASTER-MIX"},
-			     { &eqFreqSlider , "MASTER-EQ-FREQ"},
+			     //{ &eqFreqSlider , "MASTER-EQ-FREQ"},
 			     { &distortSlider, "MASTER-DISTORT" },
-			     { &eqGainSlider,  "MASTER-EQ-GAIN" },
+			     //{ &eqGainSlider,  "MASTER-EQ-GAIN" },
 			     { &levelSlider,   "MASTER-LEVEL" },
-		         { &panSlider,     "MASTER-PAN" }
+		         //{ &panSlider,     "MASTER-PAN" }
 	}; 
 
 	setupChildren();
@@ -29,4 +32,5 @@ MasterSectionEditor::MasterSectionEditor(LittleTeknoDrummerAudioProcessor& p) :
 
 MasterSectionEditor::~MasterSectionEditor()
 {
+	setLookAndFeel(nullptr);
 }

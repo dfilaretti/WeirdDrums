@@ -11,8 +11,16 @@
 #include "LtdComplexComponent.h"
 
 //==============================================================================
-LtdComplexComponent::LtdComplexComponent(LittleTeknoDrummerAudioProcessor& p) :
-	processor(p)
+//LtdComplexComponent::LtdComplexComponent(LittleTeknoDrummerAudioProcessor& p) :
+//	processor(p)
+//{
+//	backgroundColour = Colours::white;
+//}
+
+LtdComplexComponent::LtdComplexComponent(LittleTeknoDrummerAudioProcessor& p, 
+	                                     int rows, 
+	                                     int columns) :
+	processor(p), nRows {rows}, nCols {columns}
 {
 	backgroundColour = Colours::white;
 }
@@ -24,20 +32,40 @@ LtdComplexComponent::~LtdComplexComponent()
 //==============================================================================
 void LtdComplexComponent::paint(Graphics& g)
 {
-	auto area = getLocalBounds().reduced(10, 5);
+	auto area = getLocalBounds().reduced(4);
 	g.setColour (backgroundColour);
-	g.fillRoundedRectangle (area.toFloat(), 10.0f);
+	g.fillRoundedRectangle (area.toFloat(), 3);
 }
 
 void LtdComplexComponent::resized()
 {
-	auto area = getLocalBounds();
-	auto componentWidth = area.getWidth() / 8;
+	int nComponents       = nRows;
+	auto nItems           = controls.size();
+	auto area             = getLocalBounds().reduced(4);
+	auto width            = area.getWidth();
+	auto height           = area.getHeight();
+	auto componentWidth   = height / nComponents;
 
-	// position all our controls
-	for (auto const& c : controls)
-		c.first->setBounds(area.removeFromLeft(componentWidth).reduced(10));
+	std::vector<Rectangle<int>> columns;
+	for (auto i = 0; i < nCols; i++)
+	{
+		columns.push_back (area.removeFromLeft (width / nCols));
+	}
+
+	for (auto i = 0; i < controls.size(); i++)
+	{
+		auto columnId = i / nRows;
+		auto componentArea = columns[columnId].removeFromTop(componentWidth);
+
+		controls[i].first->setBounds (componentArea);
+	}
 }
+
+void LtdComplexComponent::setBackgroundColour(Colour c)
+{
+	backgroundColour = c;
+}
+
 
 //==============================================================================
 void LtdComplexComponent::setupChild(std::pair<Component*, std::string> p)
