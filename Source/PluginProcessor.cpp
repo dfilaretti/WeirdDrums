@@ -62,7 +62,7 @@ AudioProcessorValueTreeState::ParameterLayout LittleTeknoDrummerAudioProcessor::
 			0.0001f, 
 			"Attack", 
 			AudioProcessorParameter::genericParameter,
-			[](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 2) + " s ";  },
+			[](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 2) + " sec ";  },
 			nullptr
 			));
 
@@ -77,12 +77,31 @@ AudioProcessorValueTreeState::ParameterLayout LittleTeknoDrummerAudioProcessor::
 			0.5f, 
 			"Decay", 
 			AudioProcessorParameter::genericParameter, 
-			[](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 2) + " s ";  }, 
+			[](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 2) + " sec ";  }, 
 			nullptr));
 	
 	}
 
-	params.push_back (std::make_unique<AudioParameterFloat> ("WAVE-TYPE", "Wave Type", NormalisableRange<float>(0, 2), 0));
+	{
+		auto range = NormalisableRange<float> (0, 2, 1);
+		params.push_back (std::make_unique<AudioParameterFloat> ("WAVE-TYPE", 
+			                                                     "Wave Type", 
+			                                                     range, 
+			                                                     0, 
+																 "Wave Type", 
+																 AudioProcessorParameter::genericParameter,
+																 [](float value, int) 
+			                                                     {
+																	if (0 == value)
+																		return "SINE";
+																	else if (1 == value)
+																		return "SAW";
+																	else if (2 == value)
+																		return "SQUARE";									
+				
+			                                                     },
+																 nullptr));
+	}
 	
 	{
 		auto range = NormalisableRange<float> (0, 1);
@@ -93,21 +112,21 @@ AudioProcessorValueTreeState::ParameterLayout LittleTeknoDrummerAudioProcessor::
 			0, 
 			"Pitch Env Amount",
 			AudioProcessorParameter::genericParameter,
-			[] (double value, int) { return juce::String::toDecimalStringWithSignificantFigures(value, 2) ;  },
+			[] (float value, int) { return juce::String::toDecimalStringWithSignificantFigures (jmap (value, 0.f, 100.f), 2) + " %" ;  },
 			nullptr));
 	
 	}
 
 	{
-		auto range = NormalisableRange<float>(0.0001f, 1.0f);
-		//range.setSkewForCentre(0.25f);
+		auto range = NormalisableRange<float>(0.001f, 1.0f);
+		range.setSkewForCentre(0.2f);
 		params.push_back (std::make_unique<AudioParameterFloat> ("PITCH-ENV-RATE", 
 			"Pitch Env Rate", 
 			range,
 			0.1f, 
 			"Pitch Env Rate", 
 			AudioProcessorParameter::genericParameter,
-			[](double value, int) { return juce::String::toDecimalStringWithSignificantFigures(value, 2);  },
+			[](double value, int) { return juce::String::toDecimalStringWithSignificantFigures(value, 2) + " sec ";  },
 			nullptr));
 	}
 
@@ -120,20 +139,19 @@ AudioProcessorValueTreeState::ParameterLayout LittleTeknoDrummerAudioProcessor::
 			0, 
 			"Pitch Lfo Amount", 
 			AudioProcessorParameter::genericParameter,
-			[](double value, int) { return juce::String::toDecimalStringWithSignificantFigures(value, 2);  },
+			[](float value, int) { return juce::String::toDecimalStringWithSignificantFigures(jmap(value, 0.f, 100.f), 2) + " %";  },
 			nullptr));
 	}
 
 	{
-		auto range = NormalisableRange<float>(0.01f, 80.f);
-		//range.setSkewForCentre(0.25f);
+		auto range = NormalisableRange<float>(0.1f, 80.f);
 		params.push_back (std::make_unique<AudioParameterFloat> ("PITCH-LFO-RATE", 
 			"Pitch Lfo Rate", 
 			range, 
-			0.5f,
+			0.450f,
 			"Pitch Lfo Rate",
 			AudioProcessorParameter::genericParameter,
-			[](double value, int) { return juce::String::toDecimalStringWithSignificantFigures(value, 2);  },
+			[](double value, int) { return juce::String::toDecimalStringWithSignificantFigures(value, 3) + " Hz ";  },
 			nullptr));
 	}
 	
@@ -153,29 +171,28 @@ AudioProcessorValueTreeState::ParameterLayout LittleTeknoDrummerAudioProcessor::
 	}
 	
 	{
-		auto range = NormalisableRange<float>(1.6, 5);
-		//range.setSkewForCentre(4.0f);
+		auto range = NormalisableRange<float>(1, 5);
 		params.push_back (std::make_unique<AudioParameterFloat> ("FILTER-RESONANCE", 
 			                                                     "Resonance", 
 			                                                     range, 
-																 1.6, 
+																 1, 
 			                                                     "Resonance", 
 			                                                     AudioProcessorParameter::genericParameter, 
-			                                                     [](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 3) + " Hz ";  }, 
+			                                                     [](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 2);  }, 
 			                                                     nullptr
 			                                                     ));
 	}
 	
 	{
 		auto range = NormalisableRange<float>(0.0001f, 1.f);
-		range.setSkewForCentre(0.3f);
+		range.setSkewForCentre(0.2f);
 		params.push_back (std::make_unique<AudioParameterFloat> ("NOISE-ATTACK",
 			"Attack", 
 			range, 
 			0.01f, 
 			"Attack",
 			AudioProcessorParameter::genericParameter,
-			[](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 3) + " s ";  },
+			[](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 2) + " sec ";  },
 			nullptr));
 	}
 
@@ -185,10 +202,10 @@ AudioProcessorValueTreeState::ParameterLayout LittleTeknoDrummerAudioProcessor::
 		params.push_back (std::make_unique<AudioParameterFloat> ("NOISE-DECAY", 
 			"Decay", 
 			range,
-			0.5f, 
+			0.4f, 
 			"Decay",
 			AudioProcessorParameter::genericParameter,
-			[](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 3) + " s ";  },
+			[](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 2) + " sec ";  },
 			nullptr));
 	}
 	
@@ -202,7 +219,14 @@ AudioProcessorValueTreeState::ParameterLayout LittleTeknoDrummerAudioProcessor::
 			0.5f, 
 			"Mix",
 			AudioProcessorParameter::genericParameter,
-			[](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 3) + " % ";  }, // TODO!!!!
+			[](float value, int /*l*/) 
+			{
+				auto oscValue = 1 - value;
+				auto noiseValue = value;
+				auto oscPercentValue = juce::String::toDecimalStringWithSignificantFigures (jmap(oscValue, 0.f, 100.f), 2);
+				auto noisePercentValue = juce::String::toDecimalStringWithSignificantFigures (jmap (noiseValue, 0.f, 100.f), 2);
+				return (oscPercentValue + " / " + noisePercentValue);  
+			},
 			nullptr));
 	}
 
