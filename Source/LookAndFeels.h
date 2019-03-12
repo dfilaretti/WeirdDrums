@@ -28,6 +28,8 @@ public:
 		setColour(Slider::thumbColourId, Colours::black);
 		setColour(Slider::backgroundColourId, Colours::white);
 		setColour(Label::textColourId, Colours::white);
+
+		setColour(Slider::textBoxOutlineColourId, Colours::transparentBlack);
 	}
 
 	void drawLinearSlider (Graphics&                 g, 
@@ -228,6 +230,7 @@ public:
     OscSectionLookAndFeel()
     {
 		setColour(Slider::backgroundColourId, Colour(0xFFe83eba));
+		;
     }
 };
 
