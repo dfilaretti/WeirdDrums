@@ -19,7 +19,8 @@ public:
 	~LtdRotarySlider();
 
 private:
-	const float squeezeFactor = 5.8;
+	const float squeezeFactor = 5; // TODO: rename?
+
 	void paint(Graphics&) override;
 	void resized() override;
 };
