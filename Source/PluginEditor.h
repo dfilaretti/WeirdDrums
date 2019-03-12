@@ -39,7 +39,7 @@ private:
 
 	//==============================================================================
 	const float kWidth         = 500;
-	const float kHeight        = 500;
+	const float kHeight        = 530;
 
 	const int   kTitleHeight   = 40;
 

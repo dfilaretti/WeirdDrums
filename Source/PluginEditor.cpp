@@ -13,7 +13,7 @@
 
 //==============================================================================
 LittleTeknoDrummerAudioProcessorEditor::LittleTeknoDrummerAudioProcessorEditor (LittleTeknoDrummerAudioProcessor& p)
-    : AudioProcessorEditor (&p), processor (p), oscGui (p, 4, 2), envGui (p, 4, 1), filterGui (p, 4, 1)
+    : AudioProcessorEditor (&p), processor (p), oscGui (p, 4, 2, "Oscillator"), envGui (p, 4, 1, "Master"), filterGui (p, 4, 1, "Noise")
 {
 	// Set up lookandfeel
 	//setLookAndFeel (&lookAndFeel);
@@ -27,7 +27,9 @@ LittleTeknoDrummerAudioProcessorEditor::LittleTeknoDrummerAudioProcessorEditor (
 	auto sectionBackgroundColour = Colours::black;
 
 	oscGui.setBackgroundColour(sectionBackgroundColour);
+
 	envGui.setBackgroundColour(sectionBackgroundColour);
+
 	filterGui.setBackgroundColour (sectionBackgroundColour);
 }
 
@@ -43,13 +45,23 @@ void LittleTeknoDrummerAudioProcessorEditor::paint (Graphics& g)
 
 	// draw title area
 	auto area = getLocalBounds();
-	auto titleArea = area.removeFromTop(kTitleHeight);
 
+	auto headerArea = area.removeFromTop(kTitleHeight).reduced(8);
+	auto titleArea = headerArea.removeFromLeft (area.getWidth() / 2);
+	auto creditsArea = headerArea;
+
+
+
+	// draw title
 	g.setColour(Colours::black);
 	g.setFont(Font(38.0f, Font::bold));
+	g.drawText("TeknoDrumz", titleArea, Justification::left, true);
 
-	g.drawText("TeknoDrumz v.0.1", titleArea, Justification::centred, true);
-
+	// draw credits
+	g.setColour(Colours::black);
+	g.setFont(Font(14.0f, Font::bold));
+	g.drawText("Version 0.1", creditsArea.removeFromTop(10), Justification::right, true);
+	g.drawText("Daniele Filaretti LTD", creditsArea, Justification::right, true);
 }
 
 void LittleTeknoDrummerAudioProcessorEditor::resized()

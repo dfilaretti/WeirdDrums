@@ -15,12 +15,26 @@
 #include "LtdSlider.h"
 #include <variant>
 
+class LtdComplexComponentTitle : public Component
+{
+public:
+	//==============================================================================
+	LtdComplexComponentTitle (std::string);
+	~LtdComplexComponentTitle();
+
+	//==============================================================================
+	void paint(Graphics&) override;
+	//void resized() override;
+private:
+	std::string title;
+	Colour background = Colours::grey;
+};
+
 class LtdComplexComponent :		public Component
 {
 public:
 	//==============================================================================
-	//LtdComplexComponent(LittleTeknoDrummerAudioProcessor& /*p*/);
-	LtdComplexComponent (LittleTeknoDrummerAudioProcessor& /*p*/, int, int);
+	LtdComplexComponent (LittleTeknoDrummerAudioProcessor& /*p*/, int, int, std::string);
 	~LtdComplexComponent();
 
 	//==============================================================================
@@ -29,6 +43,7 @@ public:
 
 	//==============================================================================
 	void setBackgroundColour(Colour c);
+	void setTitle (std::string t);
 
 //protected:
 	//==============================================================================
@@ -44,6 +59,8 @@ public:
 	//==============================================================================
 	std::vector<std::pair<Component*, std::string>> controls;
 
+	//==============================================================================
+	//Label titleLabel;
 private:
 	//==============================================================================
 	LittleTeknoDrummerAudioProcessor& processor;
@@ -52,7 +69,13 @@ private:
 	int nRows;
 	int nCols;
 
-	//================ ==============================================================
+	//==============================================================================
+	LtdComplexComponentTitle titleComponent { "sample title" };
+
+	//==============================================================================
+	int titleSectionHeight = 30;
+
+	//==============================================================================
 	Colour backgroundColour;
 
 	//==============================================================================

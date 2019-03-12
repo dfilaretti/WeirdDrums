@@ -14,8 +14,9 @@
 //==============================================================================
 OscillatorSectionEditor::OscillatorSectionEditor (LittleTeknoDrummerAudioProcessor& p, 
 	                                              int nRows, 
-	                                              int nCols) 
-	: LtdComplexComponent(p, nRows, nCols)
+	                                              int nCols, 
+	                                              std::string title) 
+	: LtdComplexComponent(p, nRows, nCols, title)
 {
 	setLookAndFeel(&lookAndFeel);
 

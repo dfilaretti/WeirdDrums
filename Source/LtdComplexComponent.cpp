@@ -11,18 +11,15 @@
 #include "LtdComplexComponent.h"
 
 //==============================================================================
-//LtdComplexComponent::LtdComplexComponent(LittleTeknoDrummerAudioProcessor& p) :
-//	processor(p)
-//{
-//	backgroundColour = Colours::white;
-//}
-
 LtdComplexComponent::LtdComplexComponent(LittleTeknoDrummerAudioProcessor& p, 
 	                                     int rows, 
-	                                     int columns) :
-	processor(p), nRows {rows}, nCols {columns}
+	                                     int columns, 
+	                                     std::string title) :
+	processor(p), nRows {rows}, nCols {columns}, titleComponent {title}
 {
 	backgroundColour = Colours::white;
+
+	addAndMakeVisible (titleComponent);
 }
 
 LtdComplexComponent::~LtdComplexComponent()
@@ -39,9 +36,13 @@ void LtdComplexComponent::paint(Graphics& g)
 
 void LtdComplexComponent::resized()
 {
+	auto area             = getLocalBounds().reduced(4);
+	
+	auto titleArea = area.removeFromTop (titleSectionHeight);
+	titleComponent.setBounds (titleArea);
+
 	int nComponents       = nRows;
 	auto nItems           = controls.size();
-	auto area             = getLocalBounds().reduced(4);
 	auto width            = area.getWidth();
 	auto height           = area.getHeight();
 	auto componentWidth   = height / nComponents;
@@ -61,11 +62,15 @@ void LtdComplexComponent::resized()
 	}
 }
 
+//==============================================================================
 void LtdComplexComponent::setBackgroundColour(Colour c)
 {
 	backgroundColour = c;
 }
 
+void LtdComplexComponent::setTitle (std::string t)
+{
+}
 
 //==============================================================================
 void LtdComplexComponent::setupChild(std::pair<Component*, std::string> p)
@@ -91,3 +96,32 @@ void LtdComplexComponent::LinkComponentToAttachment(Component* component, std::s
 		attachments.push_back(std::make_unique<SliderAttachment>(processor.parameters, attachmentId, *(c->getSlider())));
 }
 
+
+
+
+// LtdComplexComponentTitle stuff
+// MOVE???????
+
+
+
+
+LtdComplexComponentTitle::LtdComplexComponentTitle (std::string t)
+	: title {t}
+{
+}
+
+LtdComplexComponentTitle::~LtdComplexComponentTitle()
+{
+}
+
+void LtdComplexComponentTitle::paint (Graphics& g)
+{
+
+	auto area = getLocalBounds().reduced (4);
+	g.setColour(background);
+	g.fillRoundedRectangle(area.toFloat(), 3);
+	
+	g.setColour(Colours::black);
+	g.setFont(Font(15.0f, Font::bold));
+	g.drawText(title, area, Justification::centred, true);
+}
