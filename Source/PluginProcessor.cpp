@@ -156,7 +156,26 @@ AudioProcessorValueTreeState::ParameterLayout LittleTeknoDrummerAudioProcessor::
 	}
 	
 	// NOISE section
-	params.push_back (std::make_unique<AudioParameterFloat> ("FILTER-TYPE", "Filter Type", NormalisableRange<float>(0, 2), .1f)); // TODO: default should be 0 (right?)
+
+	{
+		params.push_back (std::make_unique<AudioParameterFloat> ("FILTER-TYPE", 
+			"Filter Type", 
+			NormalisableRange<float>(0, 2, 1), 
+			0,
+			"Filter Type",
+			AudioProcessorParameter::genericParameter,
+			[](float value, int)
+			{
+				if (0 == value)
+					return "LP";
+				else if (1 == value)
+					return "HP";
+				else if (2 == value)
+					return "BP";
+
+			},
+			nullptr));
+	}
 	
 	{
 		auto range = NormalisableRange<float>(20.f, 10000.f);

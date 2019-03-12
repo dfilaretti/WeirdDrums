@@ -37,6 +37,7 @@ private:
 	LtdRotarySlider eqGainSlider{ juce::String("Eq Gain") };
 	LtdRotarySlider levelSlider{ juce::String("Level") };
 	LtdRotarySlider panSlider{ juce::String("Pan") };
+	LtdRotarySlider filterTypeSlider{ juce::String("Filter Type") };
 
 	//==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MasterSectionEditor)

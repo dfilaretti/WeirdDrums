@@ -24,7 +24,8 @@ MasterSectionEditor::MasterSectionEditor(LittleTeknoDrummerAudioProcessor& p,
 			     { &distortSlider, "MASTER-DISTORT" },
 			     //{ &eqGainSlider,  "MASTER-EQ-GAIN" },
 			     { &levelSlider,   "MASTER-LEVEL" },
-		         //{ &panSlider,     "MASTER-PAN" }
+		         //{ &panSlider,     "MASTER-PAN" }, 
+		         { &filterTypeSlider,      "FILTER-TYPE"},
 	}; 
 
 	setupChildren();

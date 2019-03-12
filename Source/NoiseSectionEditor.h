@@ -28,7 +28,7 @@ public:
     ~NoiseSectionEditor();
 
 private:
-	LtdRotarySlider filterTypeSlider{ juce::String("FLT TYPE") };
+	//LtdRotarySlider filterTypeSlider{ juce::String("FLT TYPE") };
 	LtdRotarySlider filterCutoffSlider{ juce::String("Cutoff")  };
 	LtdRotarySlider filterResonanceSlider{ juce::String("Res") };
 	LtdRotarySlider attackSlider{ juce::String("Attack") };
