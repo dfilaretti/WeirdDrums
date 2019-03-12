@@ -14,9 +14,8 @@ LtdRotarySlider::LtdRotarySlider (juce::String label)
 	: LtdSlider (label) // call base ctor
 {
 	m_slider.setSliderStyle  (Slider::RotaryHorizontalVerticalDrag);
-	//m_slider.setTextBoxStyle (Slider::TextBoxBelow, true, 100, 20);
-	//m_slider.setTextBoxStyle(Slider::TextBoxBelow, true, 100, 20);
 	addAndMakeVisible (&m_slider);
+
 }
 
 LtdRotarySlider::~LtdRotarySlider()
@@ -36,7 +35,10 @@ void LtdRotarySlider::resized()
 	auto height = r.getHeight();
 	auto labelsHeight = height / squeezeFactor;
 
-	m_slider.setTextBoxStyle(Slider::TextBoxBelow, true, width, labelsHeight);
+	m_slider.setTextBoxStyle (Slider::TextBoxBelow, 
+		                      true, 
+		                      width, 
+		                      labelsHeight);
 
 	m_nameLabel.setBounds  (r.removeFromTop (labelsHeight));
 	m_slider.setBounds (r);
