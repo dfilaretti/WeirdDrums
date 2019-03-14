@@ -30,7 +30,7 @@ LittleTeknoDrummerAudioProcessorEditor::~LittleTeknoDrummerAudioProcessorEditor(
 //==============================================================================
 void LittleTeknoDrummerAudioProcessorEditor::paint (Graphics& g)
 {
-	g.fillAll (Colours::white);
+	g.fillAll (Colours::lightgrey);
 
 	// draw title area
 	auto area = getLocalBounds();
@@ -41,13 +41,13 @@ void LittleTeknoDrummerAudioProcessorEditor::paint (Graphics& g)
 	// draw title
 	g.setColour(Colours::black);
 	g.setFont(Font(40.0f, Font::bold));
-	g.drawText("TeknoDRUMZ", titleArea, Justification::left, true);
+	g.drawText("TeknoDrums", titleArea, Justification::left, true);
 
 	// draw credits
 	g.setColour(Colours::black);
 	g.setFont(Font(15.0f, Font::bold));
 	
-	g.drawText("Version 0.1", 
+	g.drawText("Version 0.1.1", 
 		       creditsArea.removeFromTop (creditsArea.getHeight() / 2), 
 		       Justification::centredRight, true);
 
