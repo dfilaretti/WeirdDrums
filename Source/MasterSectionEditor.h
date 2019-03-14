@@ -21,7 +21,7 @@
 class MasterSectionEditor    : public LtdComplexComponent
 {
 public:
-	MasterSectionLookAndFeel lookAndFeel;
+	LittleTeknoDrummerLookAndFeel lookAndFeel;
 
     MasterSectionEditor(LittleTeknoDrummerAudioProcessor&, int, int, std::string);
     ~MasterSectionEditor();

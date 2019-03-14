@@ -22,7 +22,7 @@
 class OscillatorSectionEditor    : public LtdComplexComponent
 {
 public:
-	OscSectionLookAndFeel lookAndFeel;
+	LittleTeknoDrummerLookAndFeel lookAndFeel;
 
     OscillatorSectionEditor(LittleTeknoDrummerAudioProcessor&, int, int, std::string);
     ~OscillatorSectionEditor();

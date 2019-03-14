@@ -22,7 +22,7 @@
 class NoiseSectionEditor	: public LtdComplexComponent
 {
 public:
-	NoiseSectionLookAndFeel lookAndFeel;
+	LittleTeknoDrummerLookAndFeel lookAndFeel;
 
     NoiseSectionEditor(LittleTeknoDrummerAudioProcessor&, int, int, std::string);
     ~NoiseSectionEditor();

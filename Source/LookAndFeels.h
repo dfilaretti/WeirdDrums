@@ -28,7 +28,6 @@ public:
 		setColour(Slider::thumbColourId, Colours::black);
 		setColour(Slider::backgroundColourId, Colours::white);
 		setColour(Label::textColourId, Colours::white);
-
 		setColour(Slider::textBoxOutlineColourId, Colours::transparentBlack);
 	}
 
@@ -224,30 +223,26 @@ public:
 };
 
 //==============================================================================
-class OscSectionLookAndFeel : public LittleTeknoDrummerLookAndFeel 
-{
-public:
-    OscSectionLookAndFeel()
-    {
-		setColour(Slider::backgroundColourId, Colour(0xFFe83eba));
-		;
-    }
-};
-
-class NoiseSectionLookAndFeel : public LittleTeknoDrummerLookAndFeel 
-{
-public:
-    NoiseSectionLookAndFeel()
-    {
-		setColour(Slider::backgroundColourId, Colour(0xFFFF6600));
-    }
-};
-
-class MasterSectionLookAndFeel : public LittleTeknoDrummerLookAndFeel 
-{
-public:
-    MasterSectionLookAndFeel()
-    {
-		setColour(Slider::backgroundColourId, Colour(0xFFCC0000));
-    }
-};
+//class OscSectionLookAndFeel : public LittleTeknoDrummerLookAndFeel 
+//{
+//public:
+//    OscSectionLookAndFeel()
+//    {
+//    }
+//};
+//
+//class NoiseSectionLookAndFeel : public LittleTeknoDrummerLookAndFeel 
+//{
+//public:
+//    NoiseSectionLookAndFeel()
+//    {
+//    }
+//};
+//
+//class MasterSectionLookAndFeel : public LittleTeknoDrummerLookAndFeel 
+//{
+//public:
+//    MasterSectionLookAndFeel()
+//    {
+//    }
+//};
