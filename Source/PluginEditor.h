@@ -36,9 +36,12 @@ private:
 	MasterSectionEditor masterSectionGui;
 	NoiseSectionEditor noiseSectionGui;
 
+	TextButton resetButton;
+	TextButton randomButton; // TODO
+
 	//==============================================================================
 	const float kWidth         = 500;
-	const float kHeight        = 480;
+	const float kHeight        = 440 + 40 + 40;
 	const int   kTitleHeight   = 40;
 
 	//==============================================================================

@@ -23,6 +23,10 @@ LittleTeknoDrummerAudioProcessorEditor::LittleTeknoDrummerAudioProcessorEditor (
 	addAndMakeVisible (oscSectionGui);
 	addAndMakeVisible (masterSectionGui);
 	addAndMakeVisible (noiseSectionGui);
+
+	// setup buttons
+	resetButton.setButtonText("Panic! Reset my patch please!");
+	addAndMakeVisible(resetButton);
 }
 
 LittleTeknoDrummerAudioProcessorEditor::~LittleTeknoDrummerAudioProcessorEditor() {}
@@ -60,9 +64,16 @@ void LittleTeknoDrummerAudioProcessorEditor::resized()
 {
 	auto area = getLocalBounds();
 	auto titleArea = area.removeFromTop(kTitleHeight);
-
+	auto bottomArea = area.removeFromBottom(kTitleHeight).reduced (8, 0);
+	bottomArea.removeFromBottom(8);
 	auto mainArea = area.reduced(4);
+	
+	// setup main area
 	oscSectionGui.setBounds(mainArea.removeFromLeft(kWidth / 2));
 	noiseSectionGui.setBounds(mainArea.removeFromLeft(kWidth / 4));
 	masterSectionGui.setBounds(mainArea.removeFromLeft(kWidth / 4));
+
+	// setup bottom area
+	resetButton.setBounds (bottomArea);
+
 }
