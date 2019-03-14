@@ -15,6 +15,11 @@
 #include "LtdSlider.h"
 #include <variant>
 
+// TODO: this shouldn't probably be here... Options:
+//       1) make it an inner/nested class
+//       2) move to its own file
+//       3) just get rid of the class and integrate in LtdComplexComponent
+//       4) ...
 class LtdComplexComponentTitle : public Component
 {
 public:
@@ -24,8 +29,8 @@ public:
 
 	//==============================================================================
 	void paint(Graphics&) override;
-	//void resized() override;
 private:
+	//==============================================================================
 	std::string title;
 	Colour background = Colours::grey;
 };
@@ -45,26 +50,21 @@ public:
 	void paint(Graphics&) override;
 	void resized() override;
 
-	//==============================================================================
-	void setBackgroundColour(Colour c);
-
 protected:
 	//==============================================================================
 	void setupChildren();
+
+	//==============================================================================
 	std::vector<std::pair<Component*, std::string>> controls;
 
 private:
-	//==============================================================================
-	void LinkComponentToAttachment(Component*, std::string);
-	void setupChild(std::pair<Component*, std::string>);
-
 	//==============================================================================
 	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
 	typedef AudioProcessorValueTreeState::ComboBoxAttachment ComboBoxAttachment;
 	typedef std::variant<std::unique_ptr<SliderAttachment>, std::unique_ptr<ComboBoxAttachment>> Attachment;
 
 	//==============================================================================
-	int kTitleSectionHeight = 30;
+	const int kTitleSectionHeight = 30;
 
 	//==============================================================================
 	Colour backgroundColour;
@@ -72,7 +72,11 @@ private:
 	int nCols;
 
 	//==============================================================================
-	LtdComplexComponentTitle titleComponent { "sample title" };
+	void LinkComponentToAttachment(Component*, std::string);
+	void setupChild(std::pair<Component*, std::string>);
+
+	//==============================================================================
+	LtdComplexComponentTitle titleComponent;
 
 	//==============================================================================
 	LittleTeknoDrummerAudioProcessor& processor;

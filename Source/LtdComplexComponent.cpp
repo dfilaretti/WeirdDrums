@@ -64,12 +64,6 @@ void LtdComplexComponent::resized()
 }
 
 //==============================================================================
-void LtdComplexComponent::setBackgroundColour(Colour c)
-{
-	backgroundColour = c;
-}
-
-//==============================================================================
 void LtdComplexComponent::setupChild(std::pair<Component*, std::string> p)
 {
 	addAndMakeVisible(p.first);
@@ -92,15 +86,6 @@ void LtdComplexComponent::LinkComponentToAttachment(Component* component, std::s
 	if (LtdSlider* c = dynamic_cast<LtdSlider*> (component))
 		attachments.push_back(std::make_unique<SliderAttachment>(processor.parameters, attachmentId, *(c->getSlider())));
 }
-
-
-
-
-// LtdComplexComponentTitle stuff
-// MOVE???????
-
-
-
 
 LtdComplexComponentTitle::LtdComplexComponentTitle (std::string t)
 	: title {t}
