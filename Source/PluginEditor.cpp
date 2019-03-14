@@ -13,24 +13,19 @@
 
 //==============================================================================
 LittleTeknoDrummerAudioProcessorEditor::LittleTeknoDrummerAudioProcessorEditor (LittleTeknoDrummerAudioProcessor& p)
-    : AudioProcessorEditor (&p), processor (p), oscGui (p, 4, 2, "Oscillator"), envGui (p, 4, 1, "Master"), filterGui (p, 4, 1, "Noise")
+    : AudioProcessorEditor (&p), 
+	  processor (p), 
+	  oscSectionGui    (p, 4, 2, "Oscillator", Colours::black), 
+	  noiseSectionGui  (p, 4, 1, "Noise",      Colours::black),
+	  masterSectionGui (p, 4, 1, "Master",     Colours::black)
 {
 	setSize (kWidth, kHeight);
-
-	addAndMakeVisible (oscGui);
-	addAndMakeVisible (envGui);
-	addAndMakeVisible (filterGui);
-
-	auto sectionBackgroundColour = Colours::black;
-
-	oscGui.setBackgroundColour(sectionBackgroundColour);
-	envGui.setBackgroundColour(sectionBackgroundColour);
-	filterGui.setBackgroundColour (sectionBackgroundColour);
+	addAndMakeVisible (oscSectionGui);
+	addAndMakeVisible (masterSectionGui);
+	addAndMakeVisible (noiseSectionGui);
 }
 
-LittleTeknoDrummerAudioProcessorEditor::~LittleTeknoDrummerAudioProcessorEditor()
-{
-}
+LittleTeknoDrummerAudioProcessorEditor::~LittleTeknoDrummerAudioProcessorEditor() {}
 
 //==============================================================================
 void LittleTeknoDrummerAudioProcessorEditor::paint (Graphics& g)
@@ -39,7 +34,6 @@ void LittleTeknoDrummerAudioProcessorEditor::paint (Graphics& g)
 
 	// draw title area
 	auto area = getLocalBounds();
-
 	auto headerArea = area.removeFromTop(kTitleHeight).reduced(8);
 	auto titleArea = headerArea.removeFromLeft (area.getWidth() / 2);
 	auto creditsArea = headerArea;
@@ -62,7 +56,7 @@ void LittleTeknoDrummerAudioProcessorEditor::resized()
 	auto titleArea = area.removeFromTop(kTitleHeight);
 
 	auto mainArea = area.reduced(4);
-	oscGui.setBounds(mainArea.removeFromLeft(kWidth / 2));
-	filterGui.setBounds(mainArea.removeFromLeft(kWidth / 4));
-	envGui.setBounds(mainArea.removeFromLeft(kWidth / 4));
+	oscSectionGui.setBounds(mainArea.removeFromLeft(kWidth / 2));
+	noiseSectionGui.setBounds(mainArea.removeFromLeft(kWidth / 4));
+	masterSectionGui.setBounds(mainArea.removeFromLeft(kWidth / 4));
 }

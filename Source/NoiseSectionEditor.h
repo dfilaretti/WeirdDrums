@@ -23,7 +23,12 @@ class NoiseSectionEditor	: public LtdComplexComponent
 {
 public:
 	//==============================================================================
-    NoiseSectionEditor(LittleTeknoDrummerAudioProcessor&, int, int, std::string);
+    NoiseSectionEditor(LittleTeknoDrummerAudioProcessor&, 
+		               int,  
+		               int, 
+		               std::string, 
+		               Colour);
+
     ~NoiseSectionEditor();
 
 private:

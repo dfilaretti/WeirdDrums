@@ -14,8 +14,9 @@
 LtdComplexComponent::LtdComplexComponent(LittleTeknoDrummerAudioProcessor& p, 
 	                                     int rows, 
 	                                     int columns, 
-	                                     std::string title) :
-	processor(p), nRows {rows}, nCols {columns}, titleComponent {title}
+	                                     std::string title, 
+	                                     Colour backgroundColour) :
+	processor(p), nRows {rows}, nCols {columns}, titleComponent {title}, backgroundColour {backgroundColour}
 {
 	backgroundColour = Colours::white;
 
@@ -38,7 +39,7 @@ void LtdComplexComponent::resized()
 {
 	auto area             = getLocalBounds().reduced(4);
 	
-	auto titleArea = area.removeFromTop (titleSectionHeight);
+	auto titleArea = area.removeFromTop (kTitleSectionHeight);
 	titleComponent.setBounds (titleArea);
 
 	int nComponents       = nRows;
@@ -66,10 +67,6 @@ void LtdComplexComponent::resized()
 void LtdComplexComponent::setBackgroundColour(Colour c)
 {
 	backgroundColour = c;
-}
-
-void LtdComplexComponent::setTitle (std::string t)
-{
 }
 
 //==============================================================================

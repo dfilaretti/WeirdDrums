@@ -14,8 +14,9 @@
 //==============================================================================
 NoiseSectionEditor::NoiseSectionEditor(LittleTeknoDrummerAudioProcessor& p, 
 	                                   int nRows, int nCols, 
-	                                   std::string title) :
-	LtdComplexComponent (p, nRows, nCols, title)
+	                                   std::string title, 
+	                                   Colour backgroundColour) :
+	LtdComplexComponent (p, nRows, nCols, title, backgroundColour)
 {
 	setLookAndFeel(&lookAndFeel);
 

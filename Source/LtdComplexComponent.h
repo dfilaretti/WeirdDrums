@@ -34,7 +34,11 @@ class LtdComplexComponent :		public Component
 {
 public:
 	//==============================================================================
-	LtdComplexComponent (LittleTeknoDrummerAudioProcessor& /*p*/, int, int, std::string);
+	LtdComplexComponent (LittleTeknoDrummerAudioProcessor& /*processor*/,  
+		                 int                               /*nRows*/, 
+		                 int                               /*nColumns*/, 
+		                 std::string                       /*title*/, 
+		                 Colour                            /*backgroundColour*/);
 	~LtdComplexComponent();
 
 	//==============================================================================
@@ -43,29 +47,27 @@ public:
 
 	//==============================================================================
 	void setBackgroundColour(Colour c);
-	void setTitle (std::string t);
 
-//protected:
+protected:
+	//==============================================================================
+	void setupChildren();
+	std::vector<std::pair<Component*, std::string>> controls;
+
+private:
+	//==============================================================================
+	void LinkComponentToAttachment(Component*, std::string);
+	void setupChild(std::pair<Component*, std::string>);
+
 	//==============================================================================
 	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
 	typedef AudioProcessorValueTreeState::ComboBoxAttachment ComboBoxAttachment;
 	typedef std::variant<std::unique_ptr<SliderAttachment>, std::unique_ptr<ComboBoxAttachment>> Attachment;
 
 	//==============================================================================
-	void LinkComponentToAttachment(Component*, std::string);
-	void setupChildren();
-	void setupChild(std::pair<Component*, std::string>);
+	int kTitleSectionHeight = 30;
 
 	//==============================================================================
-	std::vector<std::pair<Component*, std::string>> controls;
-
-	//==============================================================================
-	//Label titleLabel;
-private:
-	//==============================================================================
-	LittleTeknoDrummerAudioProcessor& processor;
-
-	//==============================================================================
+	Colour backgroundColour;
 	int nRows;
 	int nCols;
 
@@ -73,10 +75,7 @@ private:
 	LtdComplexComponentTitle titleComponent { "sample title" };
 
 	//==============================================================================
-	int titleSectionHeight = 30;
-
-	//==============================================================================
-	Colour backgroundColour;
+	LittleTeknoDrummerAudioProcessor& processor;
 
 	//==============================================================================
 	std::vector<Attachment> attachments;

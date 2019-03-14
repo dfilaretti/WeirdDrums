@@ -22,7 +22,12 @@ class MasterSectionEditor    : public LtdComplexComponent
 {
 public:
 	//==============================================================================
-    MasterSectionEditor(LittleTeknoDrummerAudioProcessor&, int, int, std::string);
+    MasterSectionEditor(LittleTeknoDrummerAudioProcessor&, 
+		                int, 
+		                int, 
+		                std::string, 
+		                Colour);
+
     ~MasterSectionEditor();
 
 private:

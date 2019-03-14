@@ -21,6 +21,7 @@
 class LittleTeknoDrummerAudioProcessorEditor  : public AudioProcessorEditor
 {
 public:
+	//==============================================================================
     LittleTeknoDrummerAudioProcessorEditor (LittleTeknoDrummerAudioProcessor&);
     ~LittleTeknoDrummerAudioProcessorEditor();
 
@@ -31,9 +32,9 @@ public:
 private:
 	//==============================================================================
 	// TODO: factorize Oscillator/Noise/Master/SectionEditor into a single class
-	OscillatorSectionEditor oscGui;
-	MasterSectionEditor envGui;
-	NoiseSectionEditor filterGui;
+	OscillatorSectionEditor oscSectionGui;
+	MasterSectionEditor masterSectionGui;
+	NoiseSectionEditor noiseSectionGui;
 
 	//==============================================================================
 	const float kWidth         = 500;
