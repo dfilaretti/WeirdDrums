@@ -73,9 +73,7 @@ void LtdComplexComponent::setupChild(std::pair<Component*, std::string> p)
 void LtdComplexComponent::setupChildren()
 {
 	for (auto const& c : controls)
-	{
 		setupChild (c);
-	}
 }
 
 void LtdComplexComponent::LinkComponentToAttachment(Component* component, std::string attachmentId)
@@ -87,6 +85,7 @@ void LtdComplexComponent::LinkComponentToAttachment(Component* component, std::s
 		attachments.push_back(std::make_unique<SliderAttachment>(processor.parameters, attachmentId, *(c->getSlider())));
 }
 
+//==============================================================================
 LtdComplexComponentTitle::LtdComplexComponentTitle (std::string t)
 	: title {t}
 {
