@@ -22,13 +22,14 @@
 class OscillatorSectionEditor    : public LtdComplexComponent
 {
 public:
-	LittleTeknoDrummerLookAndFeel lookAndFeel;
-
+	//==============================================================================
     OscillatorSectionEditor(LittleTeknoDrummerAudioProcessor&, int, int, std::string);
     ~OscillatorSectionEditor();
 
-
 private:
+	//==============================================================================
+	LittleTeknoDrummerLookAndFeel lookAndFeel;
+
 	//==============================================================================
 	LtdRotarySlider m_oscSlider{ juce::String("Waveform") };
 	LtdRotarySlider m_freqSlider{ juce::String("Freq") };

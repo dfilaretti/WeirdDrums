@@ -30,9 +30,7 @@ public:
 
 private:
 	//==============================================================================
-	LittleTeknoDrummerLookAndFeel lookAndFeel;
-
-	//==============================================================================
+	// TODO: factorize Oscillator/Noise/Master/SectionEditor into a single class
 	OscillatorSectionEditor oscGui;
 	MasterSectionEditor envGui;
 	NoiseSectionEditor filterGui;
@@ -40,7 +38,6 @@ private:
 	//==============================================================================
 	const float kWidth         = 500;
 	const float kHeight        = 530;
-
 	const int   kTitleHeight   = 40;
 
 	//==============================================================================

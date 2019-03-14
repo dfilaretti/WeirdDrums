@@ -13,20 +13,19 @@
 
 //==============================================================================
 MasterSectionEditor::MasterSectionEditor(LittleTeknoDrummerAudioProcessor& p, 
-	                                     int nRows, 
-	                                     int nCols, 
+	                                     int nRows, int nCols, 
 	                                     std::string title) : 
 	LtdComplexComponent(p, nRows, nCols, title)
 {
 	setLookAndFeel(&lookAndFeel);
 
-	controls = { { &mixSlider,     "MASTER-MIX"},
-			     //{ &eqFreqSlider , "MASTER-EQ-FREQ"},
-			     { &distortSlider, "MASTER-DISTORT" },
+	controls = { { &mixSlider,        "MASTER-MIX"},
+			     { &distortSlider,    "MASTER-DISTORT" },
+			     { &levelSlider,      "MASTER-LEVEL" },
+		         { &filterTypeSlider, "FILTER-TYPE"},
 			     //{ &eqGainSlider,  "MASTER-EQ-GAIN" },
-			     { &levelSlider,   "MASTER-LEVEL" },
 		         //{ &panSlider,     "MASTER-PAN" }, 
-		         { &filterTypeSlider,      "FILTER-TYPE"},
+			     //{ &eqFreqSlider , "MASTER-EQ-FREQ"},
 	}; 
 
 	setupChildren();

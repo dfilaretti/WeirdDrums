@@ -13,20 +13,20 @@
 
 //==============================================================================
 NoiseSectionEditor::NoiseSectionEditor(LittleTeknoDrummerAudioProcessor& p, 
-	                                   int nRows, 
-	                                   int nCols, 
+	                                   int nRows, int nCols, 
 	                                   std::string title) :
 	LtdComplexComponent (p, nRows, nCols, title)
 {
 	setLookAndFeel(&lookAndFeel);
 
-	controls = { //{ &filterTypeSlider,      "FILTER-TYPE"},
-		         { &filterCutoffSlider ,   "FILTER-CUTOFF"},
-		         { &filterResonanceSlider, "FILTER-RESONANCE" },
-		         { &attackSlider,          "NOISE-ATTACK" },
-		         { &decaySlider,           "NOISE-DECAY" } };
+	controls = 
+	{
+		{ &filterCutoffSlider ,   "FILTER-CUTOFF"},
+		{ &filterResonanceSlider, "FILTER-RESONANCE" },
+		{ &attackSlider,          "NOISE-ATTACK" },
+		{ &decaySlider,           "NOISE-DECAY" } 
+	};
 
-	// add all conmponents
 	setupChildren();
 }
 

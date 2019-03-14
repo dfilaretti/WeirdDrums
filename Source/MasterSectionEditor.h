@@ -21,14 +21,13 @@
 class MasterSectionEditor    : public LtdComplexComponent
 {
 public:
-	LittleTeknoDrummerLookAndFeel lookAndFeel;
-
+	//==============================================================================
     MasterSectionEditor(LittleTeknoDrummerAudioProcessor&, int, int, std::string);
     ~MasterSectionEditor();
 
 private:
 	//==============================================================================
-	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
+	LittleTeknoDrummerLookAndFeel lookAndFeel;
 
 	//==============================================================================
 	LtdRotarySlider mixSlider{ juce::String("Mix") };

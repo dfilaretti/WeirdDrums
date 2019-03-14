@@ -15,9 +15,6 @@
 LittleTeknoDrummerAudioProcessorEditor::LittleTeknoDrummerAudioProcessorEditor (LittleTeknoDrummerAudioProcessor& p)
     : AudioProcessorEditor (&p), processor (p), oscGui (p, 4, 2, "Oscillator"), envGui (p, 4, 1, "Master"), filterGui (p, 4, 1, "Noise")
 {
-	// Set up lookandfeel
-	//setLookAndFeel (&lookAndFeel);
-	
 	setSize (kWidth, kHeight);
 
 	addAndMakeVisible (oscGui);
@@ -27,15 +24,12 @@ LittleTeknoDrummerAudioProcessorEditor::LittleTeknoDrummerAudioProcessorEditor (
 	auto sectionBackgroundColour = Colours::black;
 
 	oscGui.setBackgroundColour(sectionBackgroundColour);
-
 	envGui.setBackgroundColour(sectionBackgroundColour);
-
 	filterGui.setBackgroundColour (sectionBackgroundColour);
 }
 
 LittleTeknoDrummerAudioProcessorEditor::~LittleTeknoDrummerAudioProcessorEditor()
 {
-	//setLookAndFeel (nullptr);
 }
 
 //==============================================================================
@@ -49,8 +43,6 @@ void LittleTeknoDrummerAudioProcessorEditor::paint (Graphics& g)
 	auto headerArea = area.removeFromTop(kTitleHeight).reduced(8);
 	auto titleArea = headerArea.removeFromLeft (area.getWidth() / 2);
 	auto creditsArea = headerArea;
-
-
 
 	// draw title
 	g.setColour(Colours::black);
