@@ -40,14 +40,20 @@ void LittleTeknoDrummerAudioProcessorEditor::paint (Graphics& g)
 
 	// draw title
 	g.setColour(Colours::black);
-	g.setFont(Font(38.0f, Font::bold));
-	g.drawText("TeknoDrumz", titleArea, Justification::left, true);
+	g.setFont(Font(40.0f, Font::bold));
+	g.drawText("TeknoDRUMZ", titleArea, Justification::left, true);
 
 	// draw credits
 	g.setColour(Colours::black);
-	g.setFont(Font(14.0f, Font::bold));
-	g.drawText("Version 0.1", creditsArea.removeFromTop(10), Justification::right, true);
-	g.drawText("Daniele Filaretti LTD", creditsArea, Justification::right, true);
+	g.setFont(Font(15.0f, Font::bold));
+	
+	g.drawText("Version 0.1", 
+		       creditsArea.removeFromTop (creditsArea.getHeight() / 2), 
+		       Justification::centredRight, true);
+
+	g.drawText("www.danielefilaretti.com", 
+		       creditsArea,
+		       Justification::centredRight, true);
 }
 
 void LittleTeknoDrummerAudioProcessorEditor::resized()
