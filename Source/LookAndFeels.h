@@ -30,7 +30,69 @@ public:
 		setColour(Label::textColourId, Colours::lightgrey);
 		setColour(Slider::textBoxOutlineColourId, Colours::transparentBlack);
 		setColour(Slider::textBoxTextColourId, Colours::grey);
+
+		setColour(TextButton::buttonColourId, Colours::grey);
+		setColour(TextButton::textColourOnId, Colours::black);
+		setColour(TextButton::textColourOffId, Colours::black);
 	}
+
+	void drawButtonBackground(Graphics& g, Button& button, const Colour& backgroundColour,
+		bool isMouseOverButton, bool isButtonDown) override
+	{
+		//auto buttonArea = button.getLocalBounds();
+		//g.setColour(backgroundColour);
+		//g.fillRect(buttonArea);
+
+		auto buttonArea = button.getLocalBounds();
+		auto edge = 4;
+		buttonArea.removeFromLeft(edge);
+		buttonArea.removeFromTop(edge);
+		// shadow
+		g.setColour(Colours::black);
+		g.fillRoundedRectangle (buttonArea.toFloat(), 4);
+		auto offset = isButtonDown ? -edge / 2 : -edge;
+		buttonArea.translate(offset, offset);
+		g.setColour(backgroundColour);
+		g.fillRoundedRectangle(buttonArea.toFloat(), 4);
+	}
+
+
+
+	void drawButtonText(Graphics& g, TextButton& button, bool isMouseOverButton, bool isButtonDown) override
+	{
+		auto font = getTextButtonFont(button, button.getHeight());
+		g.setFont(font);
+		g.setColour(button.findColour(button.getToggleState() ? TextButton::textColourOnId
+			: TextButton::textColourOffId)
+			.withMultipliedAlpha(button.isEnabled() ? 1.0f : 0.5f));
+		auto yIndent = jmin(4, button.proportionOfHeight(0.3f));
+		auto cornerSize = jmin(button.getHeight(), button.getWidth()) / 2;
+		auto fontHeight = roundToInt(font.getHeight() * 0.6f);
+		auto leftIndent = jmin(fontHeight, 2 + cornerSize / (button.isConnectedOnLeft() ? 4 : 2));
+		auto rightIndent = jmin(fontHeight, 2 + cornerSize / (button.isConnectedOnRight() ? 4 : 2));
+		auto textWidth = button.getWidth() - leftIndent - rightIndent;
+		auto edge = 4;
+		auto offset = isButtonDown ? edge / 2 : 0;
+		if (textWidth > 0)
+			g.drawFittedText(button.getButtonText(),
+				leftIndent + offset, yIndent + offset, textWidth, button.getHeight() - yIndent * 2 - edge,
+				Justification::centred, 2);
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	void drawLinearSlider (Graphics&                 g, 
 		                   int                       x, 

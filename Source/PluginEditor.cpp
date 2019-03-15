@@ -19,17 +19,53 @@ LittleTeknoDrummerAudioProcessorEditor::LittleTeknoDrummerAudioProcessorEditor (
 	  noiseSectionGui  (p, 4, 1, "Noise",      Colours::black),
 	  masterSectionGui (p, 4, 1, "Master",     Colours::black)
 {
+	setLookAndFeel (&lookAndFeel);
+
 	setSize (kWidth, kHeight);
 	addAndMakeVisible (oscSectionGui);
 	addAndMakeVisible (masterSectionGui);
 	addAndMakeVisible (noiseSectionGui);
+	
+	// TODO: refactor? (e.g. move to separate function)
+	resetButton.onClick = [&]() 
+	{
+		auto paramsToReset = 
+		{ 
+			"FREQ", 
+			"ATTACK",
+			"DECAY",
+			"WAVE-TYPE",
+			"PITCH-ENV-AMOUNT",
+			"PITCH-ENV-RATE",
+			"PITCH-LFO-AMOUNT",
+			"PITCH-LFO-RATE",
+			"FILTER-TYPE",
+			"FILTER-CUTOFF",
+			"FILTER-RESONANCE",
+			"NOISE-ATTACK",
+			"NOISE-DECAY",
+			"MASTER-MIX",
+			"MASTER-DISTORT",
+			"MASTER-LEVEL"
+		};
 
-	// setup buttons
-	resetButton.setButtonText("Panic! Reset my patch please!");
+		for (auto paramtoReset : paramsToReset)
+		{
+			auto param = dynamic_cast<juce::AudioProcessorParameterWithID*>(p.parameters.getParameter(paramtoReset));
+			auto defaultValueNormalised = param->getDefaultValue();
+			param->setValueNotifyingHost(defaultValueNormalised);
+		}
+	}; 
+	
+	resetButton.setButtonText("Panic!");
 	addAndMakeVisible(resetButton);
+
 }
 
-LittleTeknoDrummerAudioProcessorEditor::~LittleTeknoDrummerAudioProcessorEditor() {}
+LittleTeknoDrummerAudioProcessorEditor::~LittleTeknoDrummerAudioProcessorEditor() 
+{ 
+	setLookAndFeel (nullptr); 
+}
 
 //==============================================================================
 void LittleTeknoDrummerAudioProcessorEditor::paint (Graphics& g)
@@ -74,6 +110,6 @@ void LittleTeknoDrummerAudioProcessorEditor::resized()
 	masterSectionGui.setBounds(mainArea.removeFromLeft(kWidth / 4));
 
 	// setup bottom area
-	resetButton.setBounds (bottomArea);
+	resetButton.setBounds (bottomArea.removeFromLeft (area.getWidth() / 4));
 
 }

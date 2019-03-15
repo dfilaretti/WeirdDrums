@@ -29,6 +29,8 @@ public:
     void paint (Graphics&) override;
     void resized() override;
 
+	//==============================================================================
+	LittleTeknoDrummerLookAndFeel lookAndFeel;
 private:
 	//==============================================================================
 	// TODO: factorize Oscillator/Noise/Master/SectionEditor into a single class
@@ -41,7 +43,7 @@ private:
 
 	//==============================================================================
 	const float kWidth         = 500;
-	const float kHeight        = 440 + 40 + 40;
+	const float kHeight        = 420 + 40 + 30;
 	const int   kTitleHeight   = 40;
 
 	//==============================================================================
