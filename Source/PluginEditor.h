@@ -38,8 +38,13 @@ private:
 	MasterSectionEditor masterSectionGui;
 	NoiseSectionEditor noiseSectionGui;
 
+	//==============================================================================
 	TextButton resetButton;
 	TextButton randomButton; // TODO
+
+	//==============================================================================
+	void initResetButton();
+	void initRandomButton();
 
 	//==============================================================================
 	const float kWidth         = 500;
@@ -49,6 +54,9 @@ private:
 	//==============================================================================
     LittleTeknoDrummerAudioProcessor& processor;
 
+	//==============================================================================
+	Random randomNumberGenerator;
+	
 	//==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LittleTeknoDrummerAudioProcessorEditor)
 };

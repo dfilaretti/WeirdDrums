@@ -79,20 +79,11 @@ public:
 				Justification::centred, 2);
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	Font getTextButtonFont(TextButton&, int buttonHeight) override
+	{
+		//return { jmin(16.0f, buttonHeight * 0.6f) };
+		return Font(15.0f, Font::bold);
+	}
 
 	void drawLinearSlider (Graphics&                 g, 
 		                   int                       x, 

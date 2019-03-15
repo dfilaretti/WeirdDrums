@@ -25,42 +25,12 @@ LittleTeknoDrummerAudioProcessorEditor::LittleTeknoDrummerAudioProcessorEditor (
 	addAndMakeVisible (oscSectionGui);
 	addAndMakeVisible (masterSectionGui);
 	addAndMakeVisible (noiseSectionGui);
-	
-	// TODO: refactor? (e.g. move to separate function)
-	resetButton.onClick = [&]() 
-	{
-		auto paramsToReset = 
-		{ 
-			"FREQ", 
-			"ATTACK",
-			"DECAY",
-			"WAVE-TYPE",
-			"PITCH-ENV-AMOUNT",
-			"PITCH-ENV-RATE",
-			"PITCH-LFO-AMOUNT",
-			"PITCH-LFO-RATE",
-			"FILTER-TYPE",
-			"FILTER-CUTOFF",
-			"FILTER-RESONANCE",
-			"NOISE-ATTACK",
-			"NOISE-DECAY",
-			"MASTER-MIX",
-			"MASTER-DISTORT",
-			"MASTER-LEVEL"
-		};
 
-		for (auto paramtoReset : paramsToReset)
-		{
-			auto param = dynamic_cast<juce::AudioProcessorParameterWithID*>(p.parameters.getParameter(paramtoReset));
-			auto defaultValueNormalised = param->getDefaultValue();
-			param->setValueNotifyingHost(defaultValueNormalised);
-		}
-	}; 
-	
-	resetButton.setButtonText("Panic!");
-	addAndMakeVisible(resetButton);
-
+	initResetButton();
+	initRandomButton();
 }
+
+
 
 LittleTeknoDrummerAudioProcessorEditor::~LittleTeknoDrummerAudioProcessorEditor() 
 { 
@@ -81,7 +51,7 @@ void LittleTeknoDrummerAudioProcessorEditor::paint (Graphics& g)
 	// draw title
 	g.setColour(Colours::black);
 	g.setFont(Font(40.0f, Font::bold));
-	g.drawText("TeknoDrums", titleArea, Justification::left, true);
+	g.drawText("Weirdrums", titleArea, Justification::left, true);
 
 	// draw credits
 	g.setColour(Colours::black);
@@ -99,9 +69,19 @@ void LittleTeknoDrummerAudioProcessorEditor::paint (Graphics& g)
 void LittleTeknoDrummerAudioProcessorEditor::resized()
 {
 	auto area = getLocalBounds();
+	auto width = area.getWidth();
+
 	auto titleArea = area.removeFromTop(kTitleHeight);
+
+	auto buttonWidth = (width - 8) / 4.0;
 	auto bottomArea = area.removeFromBottom(kTitleHeight).reduced (8, 0);
 	bottomArea.removeFromBottom(8);
+	auto button1Area = bottomArea.removeFromLeft(buttonWidth).reduced(10, 2);
+	auto button2Area = bottomArea.removeFromLeft(buttonWidth).reduced(10, 2);
+	auto button3Area = bottomArea.removeFromLeft(buttonWidth).reduced(10, 2);
+	auto button4Area = bottomArea.removeFromLeft(buttonWidth).reduced(10, 2);
+
+
 	auto mainArea = area.reduced(4);
 	
 	// setup main area
@@ -110,6 +90,79 @@ void LittleTeknoDrummerAudioProcessorEditor::resized()
 	masterSectionGui.setBounds(mainArea.removeFromLeft(kWidth / 4));
 
 	// setup bottom area
-	resetButton.setBounds (bottomArea.removeFromLeft (area.getWidth() / 4));
+	resetButton.setBounds (button1Area);
+	randomButton.setBounds (button2Area);
+}
 
+//==============================================================================
+void LittleTeknoDrummerAudioProcessorEditor::initResetButton()
+{
+	resetButton.onClick = [&]()
+	{
+		auto paramsToReset =
+		{
+			"FREQ",
+			"ATTACK",
+			"DECAY",
+			"WAVE-TYPE",
+			"PITCH-ENV-AMOUNT",
+			"PITCH-ENV-RATE",
+			"PITCH-LFO-AMOUNT",
+			"PITCH-LFO-RATE",
+			"FILTER-TYPE",
+			"FILTER-CUTOFF",
+			"FILTER-RESONANCE",
+			"NOISE-ATTACK",
+			"NOISE-DECAY",
+			"MASTER-MIX",
+			"MASTER-DISTORT",
+			"MASTER-LEVEL"
+		};
+
+		for (auto paramtoReset : paramsToReset)
+		{
+			auto param = dynamic_cast<juce::AudioProcessorParameterWithID*>(processor.parameters.getParameter(paramtoReset));
+			auto defaultValueNormalised = param->getDefaultValue();
+			param->setValueNotifyingHost(defaultValueNormalised);
+		}
+	};
+
+	addAndMakeVisible(resetButton);
+	resetButton.setButtonText("Init");
+}
+
+void LittleTeknoDrummerAudioProcessorEditor::initRandomButton()
+{
+	randomButton.onClick = [&]()
+	{
+		auto paramsToReset =
+		{
+			"FREQ",
+			"ATTACK",
+			"DECAY",
+			"WAVE-TYPE",
+			"PITCH-ENV-AMOUNT",
+			"PITCH-ENV-RATE",
+			"PITCH-LFO-AMOUNT",
+			"PITCH-LFO-RATE",
+			"FILTER-TYPE",
+			"FILTER-CUTOFF",
+			"FILTER-RESONANCE",
+			"NOISE-ATTACK",
+			"NOISE-DECAY",
+			"MASTER-MIX",
+			"MASTER-DISTORT"
+			//"MASTER-LEVEL"
+		};
+
+		for (auto paramtoReset : paramsToReset)
+		{
+			auto param = dynamic_cast<juce::AudioProcessorParameterWithID*>(processor.parameters.getParameter(paramtoReset));
+			auto randomValueNormalised = randomNumberGenerator.nextFloat();
+			param->setValueNotifyingHost(randomValueNormalised);
+		}
+	};
+
+	addAndMakeVisible(randomButton);
+	randomButton.setButtonText("Rand");
 }
