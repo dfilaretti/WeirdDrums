@@ -60,7 +60,8 @@ void LittleTeknoDrummerAudioProcessorEditor::paint (Graphics& g)
 	// draw title
 	g.setColour(Colours::black);
 	g.setFont(Font(40.0f, Font::bold));
-	g.drawText("WeirDDrums", titleArea, Justification::left, true);
+	titleArea.removeFromLeft(4);
+	g.drawText("WeirdDrums", titleArea, Justification::left, true);
 
 	// draw credits
 	
