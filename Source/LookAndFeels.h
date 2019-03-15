@@ -39,19 +39,17 @@ public:
 	void drawButtonBackground(Graphics& g, Button& button, const Colour& backgroundColour,
 		bool isMouseOverButton, bool isButtonDown) override
 	{
-		//auto buttonArea = button.getLocalBounds();
-		//g.setColour(backgroundColour);
-		//g.fillRect(buttonArea);
-
 		auto buttonArea = button.getLocalBounds();
 		auto edge = 4;
 		buttonArea.removeFromLeft(edge);
 		buttonArea.removeFromTop(edge);
+
 		// shadow
 		g.setColour(Colours::black);
-		g.fillRoundedRectangle (buttonArea.toFloat(), 4);
+		g.fillRoundedRectangle(buttonArea.toFloat(), 4);
 		auto offset = isButtonDown ? -edge / 2 : -edge;
 		buttonArea.translate(offset, offset);
+
 		g.setColour(backgroundColour);
 		g.fillRoundedRectangle(buttonArea.toFloat(), 4);
 	}
@@ -72,7 +70,7 @@ public:
 		auto rightIndent = jmin(fontHeight, 2 + cornerSize / (button.isConnectedOnRight() ? 4 : 2));
 		auto textWidth = button.getWidth() - leftIndent - rightIndent;
 		auto edge = 4;
-		auto offset = isButtonDown ? edge / 2 : 0;
+		auto offset = 0; // isButtonDown ? edge / 2 : 0;
 		if (textWidth > 0)
 			g.drawFittedText(button.getButtonText(),
 				leftIndent + offset, yIndent + offset, textWidth, button.getHeight() - yIndent * 2 - edge,

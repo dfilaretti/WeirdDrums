@@ -25,9 +25,17 @@ LittleTeknoDrummerAudioProcessorEditor::LittleTeknoDrummerAudioProcessorEditor (
 	addAndMakeVisible (oscSectionGui);
 	addAndMakeVisible (masterSectionGui);
 	addAndMakeVisible (noiseSectionGui);
-
+	 
 	initResetButton();
 	initRandomButton();
+
+
+	// setup version slider
+	versionLabel.setColour(Label::textColourId, Colours::black);
+	versionLabel.setFont(Font(16.0f, Font::bold));
+	versionLabel.setText("Version 0.1.1", dontSendNotification);
+	versionLabel.setJustificationType(Justification::right);
+	addAndMakeVisible(versionLabel);
 }
 
 
@@ -47,23 +55,21 @@ void LittleTeknoDrummerAudioProcessorEditor::paint (Graphics& g)
 	auto headerArea = area.removeFromTop(kTitleHeight).reduced(8);
 	auto titleArea = headerArea.removeFromLeft (area.getWidth() / 2);
 	auto creditsArea = headerArea;
+	creditsArea.removeFromRight(4);
 
 	// draw title
 	g.setColour(Colours::black);
 	g.setFont(Font(40.0f, Font::bold));
-	g.drawText("Weirdrums", titleArea, Justification::left, true);
+	g.drawText("WeirDDrums", titleArea, Justification::left, true);
 
 	// draw credits
-	g.setColour(Colours::black);
-	g.setFont(Font(15.0f, Font::bold));
 	
-	g.drawText("Version 0.1.1", 
-		       creditsArea.removeFromTop (creditsArea.getHeight() / 2), 
-		       Justification::centredRight, true);
+	g.setColour(Colours::black);
+	g.setFont(Font(16.0f, Font::bold));
 
 	g.drawText("www.danielefilaretti.com", 
 		       creditsArea,
-		       Justification::centredRight, true);
+		       Justification::bottomRight, true);
 }
 
 void LittleTeknoDrummerAudioProcessorEditor::resized()
@@ -73,13 +79,12 @@ void LittleTeknoDrummerAudioProcessorEditor::resized()
 
 	auto titleArea = area.removeFromTop(kTitleHeight);
 
-	auto buttonWidth = (width - 8) / 4.0;
+	auto buttonWidth = (width - 8) / 4;
 	auto bottomArea = area.removeFromBottom(kTitleHeight).reduced (8, 0);
 	bottomArea.removeFromBottom(8);
 	auto button1Area = bottomArea.removeFromLeft(buttonWidth).reduced(10, 2);
 	auto button2Area = bottomArea.removeFromLeft(buttonWidth).reduced(10, 2);
-	auto button3Area = bottomArea.removeFromLeft(buttonWidth).reduced(10, 2);
-	auto button4Area = bottomArea.removeFromLeft(buttonWidth).reduced(10, 2);
+	auto versionArea = bottomArea.removeFromLeft(buttonWidth * 2);
 
 
 	auto mainArea = area.reduced(4);
@@ -92,6 +97,8 @@ void LittleTeknoDrummerAudioProcessorEditor::resized()
 	// setup bottom area
 	resetButton.setBounds (button1Area);
 	randomButton.setBounds (button2Area);
+
+	versionLabel.setBounds (versionArea);
 }
 
 //==============================================================================

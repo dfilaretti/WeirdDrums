@@ -40,7 +40,8 @@ private:
 
 	//==============================================================================
 	TextButton resetButton;
-	TextButton randomButton; // TODO
+	TextButton randomButton; 
+	Label versionLabel;
 
 	//==============================================================================
 	void initResetButton();
@@ -48,7 +49,7 @@ private:
 
 	//==============================================================================
 	const float kWidth         = 500;
-	const float kHeight        = 420 + 40 + 30;
+	const float kHeight        = 600;
 	const int   kTitleHeight   = 40;
 
 	//==============================================================================
