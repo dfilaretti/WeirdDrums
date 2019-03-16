@@ -26,6 +26,6 @@ public:
 
 private:
 	//==============================================================================
-	std::string pluginTitle;
-	std::string pluginCompany; 
+	Label m_pluginTitleLabel;
+	Label m_pluginCompanyLabel;
 };

@@ -11,40 +11,38 @@
 #include "TitleSectionEditor.h"
 
 //==============================================================================
-TitleSectionEditor::TitleSectionEditor(std::string m_title, std::string m_company) 
-	: pluginTitle {m_title}, pluginCompany {m_company}
+TitleSectionEditor::TitleSectionEditor(std::string title, std::string company) 
 {
-	// Nothing to be done here, for now.
+	// Setup title
+	m_pluginTitleLabel.setColour(Label::textColourId, Colours::black);
+	m_pluginTitleLabel.setFont(Font(40.0f, Font::bold));
+	m_pluginTitleLabel.setText(title, dontSendNotification);
+	m_pluginTitleLabel.setJustificationType(Justification::left);
+	addAndMakeVisible(m_pluginTitleLabel);
+
+	// Setup credits
+	m_pluginCompanyLabel.setColour(Label::textColourId, Colours::black);
+	m_pluginCompanyLabel.setFont(Font(16.0f, Font::bold));
+	m_pluginCompanyLabel.setText(company, dontSendNotification);
+	m_pluginCompanyLabel.setJustificationType(Justification::right);
+	addAndMakeVisible(m_pluginCompanyLabel);
 }
 
 TitleSectionEditor::~TitleSectionEditor() {}
 
 //==============================================================================
-void TitleSectionEditor::paint (Graphics& g)
-{
-	// draw title area
-	auto area   = getLocalBounds();
-	auto width  = area.getWidth();
-	auto height = area.getHeight();
-
-	auto titleArea   = area.removeFromLeft (width / 2);
-	auto creditsArea = area;
-
-	// draw title
-	g.setColour(Colours::black);
-	g.setFont(Font(40.0f, Font::bold)); // TODO: move to centralised place
-	g.drawText(pluginTitle, titleArea, Justification::left, true);
-
-	// draw credits
-	g.setColour(Colours::black);
-	g.setFont(Font(16.0f, Font::bold));
-
-	g.drawText(pluginCompany, creditsArea, Justification::right, true);
-}
+void TitleSectionEditor::paint (Graphics& g) {}
 
 void TitleSectionEditor::resized()
 {
-	// TODO
+	auto area        = getLocalBounds();
+	auto width       = area.getWidth();
+	auto height      = area.getHeight();
+	auto titleArea   = area.removeFromLeft(width / 2);
+	auto creditsArea = area;
+
+	m_pluginTitleLabel.setBounds(titleArea);
+	m_pluginCompanyLabel.setBounds(creditsArea);
 }
 
 //==============================================================================
