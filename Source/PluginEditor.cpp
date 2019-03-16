@@ -15,7 +15,8 @@
 LittleTeknoDrummerAudioProcessorEditor::LittleTeknoDrummerAudioProcessorEditor (LittleTeknoDrummerAudioProcessor& p)
     : AudioProcessorEditor (&p), 
 	  processor (p), 
-	  oscSectionGui    (p, 4, 2, "Oscillator", Colours::black), 
+	  titleSectionGui  ("LolDrumz", "www.danielefilaretti.com"),
+	  oscSectionGui    (p, 4, 2, "Oscillator", Colours::black),
 	  noiseSectionGui  (p, 4, 1, "Noise",      Colours::black),
 	  masterSectionGui (p, 4, 1, "Master",     Colours::black)
 {

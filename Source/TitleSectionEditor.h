@@ -17,12 +17,15 @@ class TitleSectionEditor : public Component
 {
 public:
 	//==============================================================================
-	TitleSectionEditor();
+	TitleSectionEditor (std::string /*title*/, std::string /*company*/);
 	~TitleSectionEditor();
 
 	//==============================================================================
 	void paint(Graphics&) override;
 	void resized() override;
+
 private:
-	// ?
+	//==============================================================================
+	std::string pluginTitle;
+	std::string pluginCompany; 
 };

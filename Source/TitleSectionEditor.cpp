@@ -11,7 +11,12 @@
 #include "TitleSectionEditor.h"
 
 //==============================================================================
-TitleSectionEditor::TitleSectionEditor() {}
+TitleSectionEditor::TitleSectionEditor(std::string m_title, std::string m_company) 
+	: pluginTitle {m_title}, pluginCompany {m_company}
+{
+	// Nothing to be done here, for now.
+}
+
 TitleSectionEditor::~TitleSectionEditor() {}
 
 //==============================================================================
@@ -27,14 +32,14 @@ void TitleSectionEditor::paint (Graphics& g)
 
 	// draw title
 	g.setColour(Colours::black);
-	g.setFont(Font(40.0f, Font::bold));
-	g.drawText("WeirdDrums", titleArea, Justification::left, true);
+	g.setFont(Font(40.0f, Font::bold)); // TODO: move to centralised place
+	g.drawText(pluginTitle, titleArea, Justification::left, true);
 
 	// draw credits
 	g.setColour(Colours::black);
 	g.setFont(Font(16.0f, Font::bold));
 
-	g.drawText("www.danielefilaretti.com", creditsArea, Justification::right, true);
+	g.drawText(pluginCompany, creditsArea, Justification::right, true);
 }
 
 void TitleSectionEditor::resized()
