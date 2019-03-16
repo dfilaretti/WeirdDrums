@@ -19,16 +19,19 @@ LittleTeknoDrummerAudioProcessorEditor::LittleTeknoDrummerAudioProcessorEditor (
 	  noiseSectionGui  (p, 4, 1, "Noise",      Colours::black),
 	  masterSectionGui (p, 4, 1, "Master",     Colours::black)
 {
+	setSize (kWidth, kHeight);
+
 	setLookAndFeel (&lookAndFeel);
 
-	setSize (kWidth, kHeight);
+	//addAndMakeVisible(titleSectionGui); // TODO
 	addAndMakeVisible (oscSectionGui);
 	addAndMakeVisible (masterSectionGui);
 	addAndMakeVisible (noiseSectionGui);
+	//addAndMakeVisible(bottomSectionGui); // TODO
 	 
+	// -------- TODO: move to subcomponents ----
 	initResetButton();
 	initRandomButton();
-
 
 	// setup version slider
 	versionLabel.setColour(Label::textColourId, Colours::black);
@@ -36,9 +39,8 @@ LittleTeknoDrummerAudioProcessorEditor::LittleTeknoDrummerAudioProcessorEditor (
 	versionLabel.setText("Version 0.1.1", dontSendNotification);
 	versionLabel.setJustificationType(Justification::right);
 	addAndMakeVisible(versionLabel);
+	// -------- TODO: move to subcomponents ----
 }
-
-
 
 LittleTeknoDrummerAudioProcessorEditor::~LittleTeknoDrummerAudioProcessorEditor() 
 { 
@@ -98,7 +100,6 @@ void LittleTeknoDrummerAudioProcessorEditor::resized()
 	// setup bottom area
 	resetButton.setBounds (button1Area);
 	randomButton.setBounds (button2Area);
-
 	versionLabel.setBounds (versionArea);
 }
 
@@ -160,7 +161,7 @@ void LittleTeknoDrummerAudioProcessorEditor::initRandomButton()
 			"NOISE-DECAY",
 			"MASTER-MIX",
 			"MASTER-DISTORT"
-			//"MASTER-LEVEL"
+			//"MASTER-LEVEL" // don't randomize this!
 		};
 
 		for (auto paramtoReset : paramsToReset)
@@ -171,6 +172,6 @@ void LittleTeknoDrummerAudioProcessorEditor::initRandomButton()
 		}
 	};
 
-	addAndMakeVisible(randomButton);
-	randomButton.setButtonText("Rand");
+	addAndMakeVisible (randomButton);
+	randomButton.setButtonText ("Rand");
 }
