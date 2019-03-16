@@ -16,7 +16,7 @@ LittleTeknoDrummerAudioProcessorEditor::LittleTeknoDrummerAudioProcessorEditor (
     : AudioProcessorEditor (&p), 
 	  processor (p), 
 	  bottomSectionGui (p, "Version 999.2"),
-	  titleSectionGui  ("LolDrumz", "www.danielefilaretti.com"),
+	  titleSectionGui  ("WeirdDrums", "www.danielefilaretti.com"),
 	  oscSectionGui    (p, 4, 2, "Oscillator", Colours::black),
 	  noiseSectionGui  (p, 4, 1, "Noise",      Colours::black),
 	  masterSectionGui (p, 4, 1, "Master",     Colours::black)
