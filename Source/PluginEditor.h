@@ -12,6 +12,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
+#include "TitleSectionEditor.h"
 #include "OscillatorSectionEditor.h"
 #include "NoiseSectionEditor.h"
 #include "MasterSectionEditor.h"
@@ -34,6 +35,7 @@ public:
 private:
 	//==============================================================================
 	// TODO: factorize Oscillator/Noise/Master/SectionEditor into a single class
+	TitleSectionEditor titleSectionGui;
 	OscillatorSectionEditor oscSectionGui;
 	MasterSectionEditor masterSectionGui;
 	NoiseSectionEditor noiseSectionGui;

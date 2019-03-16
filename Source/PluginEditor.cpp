@@ -23,7 +23,7 @@ LittleTeknoDrummerAudioProcessorEditor::LittleTeknoDrummerAudioProcessorEditor (
 
 	setLookAndFeel (&lookAndFeel);
 
-	//addAndMakeVisible(titleSectionGui); // TODO
+	addAndMakeVisible(titleSectionGui);
 	addAndMakeVisible (oscSectionGui);
 	addAndMakeVisible (masterSectionGui);
 	addAndMakeVisible (noiseSectionGui);
@@ -50,29 +50,7 @@ LittleTeknoDrummerAudioProcessorEditor::~LittleTeknoDrummerAudioProcessorEditor(
 //==============================================================================
 void LittleTeknoDrummerAudioProcessorEditor::paint (Graphics& g)
 {
-	g.fillAll (Colours::lightgrey);
-
-	// draw title area
-	auto area = getLocalBounds();
-	auto headerArea = area.removeFromTop(kTitleHeight).reduced(8);
-	auto titleArea = headerArea.removeFromLeft (area.getWidth() / 2);
-	auto creditsArea = headerArea;
-	creditsArea.removeFromRight(4);
-
-	// draw title
-	g.setColour(Colours::black);
-	g.setFont(Font(40.0f, Font::bold));
-	titleArea.removeFromLeft(4);
-	g.drawText("WeirdDrums", titleArea, Justification::left, true);
-
-	// draw credits
-	
-	g.setColour(Colours::black);
-	g.setFont(Font(16.0f, Font::bold));
-
-	g.drawText("www.danielefilaretti.com", 
-		       creditsArea,
-		       Justification::bottomRight, true);
+	g.fillAll (Colours::lightgrey); // TODO: move to centralised place
 }
 
 void LittleTeknoDrummerAudioProcessorEditor::resized()
@@ -91,7 +69,10 @@ void LittleTeknoDrummerAudioProcessorEditor::resized()
 
 
 	auto mainArea = area.reduced(4);
-	
+
+	// setup title area
+	titleSectionGui.setBounds (titleArea);
+
 	// setup main area
 	oscSectionGui.setBounds(mainArea.removeFromLeft(kWidth / 2));
 	noiseSectionGui.setBounds(mainArea.removeFromLeft(kWidth / 4));
