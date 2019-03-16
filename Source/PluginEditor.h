@@ -13,6 +13,8 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 #include "TitleSectionEditor.h"
+
+#include "BottomSectionEditor.h"
 #include "OscillatorSectionEditor.h"
 #include "NoiseSectionEditor.h"
 #include "MasterSectionEditor.h"
@@ -34,20 +36,12 @@ public:
 	LittleTeknoDrummerLookAndFeel lookAndFeel;
 private:
 	//==============================================================================
-	// TODO: factorize Oscillator/Noise/Master/SectionEditor into a single class
+	BottomSectionEditor bottomSectionGui;
 	TitleSectionEditor titleSectionGui;
+	// TODO: factorize Oscillator/Noise/Master/SectionEditor into a single class
 	OscillatorSectionEditor oscSectionGui;
 	MasterSectionEditor masterSectionGui;
 	NoiseSectionEditor noiseSectionGui;
-
-	//==============================================================================
-	TextButton resetButton;
-	TextButton randomButton; 
-	Label versionLabel;
-
-	//==============================================================================
-	void initResetButton();
-	void initRandomButton();
 
 	//==============================================================================
 	const float kWidth         = 500;
@@ -56,9 +50,6 @@ private:
 
 	//==============================================================================
     LittleTeknoDrummerAudioProcessor& processor;
-
-	//==============================================================================
-	Random randomNumberGenerator;
 	
 	//==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LittleTeknoDrummerAudioProcessorEditor)
