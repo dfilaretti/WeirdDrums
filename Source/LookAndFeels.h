@@ -30,7 +30,6 @@ public:
 		setColour(Label::textColourId, Colours::lightgrey);
 		setColour(Slider::textBoxOutlineColourId, Colours::transparentBlack);
 		setColour(Slider::textBoxTextColourId, Colours::grey);
-
 		setColour(TextButton::buttonColourId, Colours::grey);
 		setColour(TextButton::textColourOnId, Colours::black);
 		setColour(TextButton::textColourOffId, Colours::black);
@@ -54,8 +53,6 @@ public:
 		g.fillRoundedRectangle(buttonArea.toFloat(), 4);
 	}
 
-
-
 	void drawButtonText(Graphics& g, TextButton& button, bool isMouseOverButton, bool isButtonDown) override
 	{
 		auto font = getTextButtonFont(button, button.getHeight());
@@ -77,112 +74,150 @@ public:
 				Justification::centred, 2);
 	}
 
+	void drawRotarySlider(Graphics& g,
+		int x,
+		int y,
+		int width,
+		int height,
+		float sliderPos,
+		const float rotaryStartAngle,
+		const float rotaryEndAngle,
+		Slider& slider) override
+	{
+		auto radius = jmin(width / 2, height / 2) - 4.0f;
+		auto centreX = x + width * 0.5f;
+		auto centreY = y + height * 0.5f;
+
+		// draw ellipse (circle)
+		auto rx = centreX - radius;
+		auto ry = centreY - radius;
+		auto rw = radius * 2.0f;
+		g.setColour(slider.findColour(Slider::backgroundColourId));
+		g.fillEllipse(rx, ry, rw, rw);
+
+		// outline
+		//g.setColour(Colours::red);
+		//g.drawEllipse(rx, ry, rw, rw, 1.0f);
+
+		// draw pointer
+		Path p;
+		auto pointerLength = radius * 0.60f;
+		auto pointerThickness = 8.0f;
+		auto angle = rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle);
+		p.addRectangle(-pointerThickness * 0.5f, -radius, pointerThickness, pointerLength);
+		p.applyTransform(AffineTransform::rotation(angle).translated(centreX, centreY));
+
+		// pointer
+		g.setColour(slider.findColour(Slider::thumbColourId));
+		g.fillPath(p);
+	}
+
 	Font getTextButtonFont(TextButton&, int buttonHeight) override
 	{
 		//return { jmin(16.0f, buttonHeight * 0.6f) };
 		return Font(15.0f, Font::bold);
 	}
 
-	void drawLinearSlider (Graphics&                 g, 
-		                   int                       x, 
-		                   int                       y, 
-		                   int                       width, 
-		                   int                       height,
-                           float                     sliderPos,
-                           float                     minSliderPos,
-                           float                     maxSliderPos,
-                           const Slider::SliderStyle style, 
-		                   Slider&                   slider) override
-	{
-		if (slider.isBar())
-		{
-			g.setColour (slider.findColour (Slider::trackColourId));
-			g.fillRect (slider.isHorizontal() ? Rectangle<float> (static_cast<float> (x), y + 0.5f, sliderPos - x, height - 1.0f)
-											  : Rectangle<float> (x + 0.5f, sliderPos, width - 1.0f, y + (height - sliderPos)));
-		}
-		else
-		{
-			auto isTwoVal   = (style == Slider::SliderStyle::TwoValueVertical   || style == Slider::SliderStyle::TwoValueHorizontal);
-			auto isThreeVal = (style == Slider::SliderStyle::ThreeValueVertical || style == Slider::SliderStyle::ThreeValueHorizontal);
+	//void drawLinearSlider (Graphics&                 g, 
+	//	                   int                       x, 
+	//	                   int                       y, 
+	//	                   int                       width, 
+	//	                   int                       height,
+ //                          float                     sliderPos,
+ //                          float                     minSliderPos,
+ //                          float                     maxSliderPos,
+ //                          const Slider::SliderStyle style, 
+	//	                   Slider&                   slider) override
+	//{
+	//	if (slider.isBar())
+	//	{
+	//		g.setColour (slider.findColour (Slider::trackColourId));
+	//		g.fillRect (slider.isHorizontal() ? Rectangle<float> (static_cast<float> (x), y + 0.5f, sliderPos - x, height - 1.0f)
+	//										  : Rectangle<float> (x + 0.5f, sliderPos, width - 1.0f, y + (height - sliderPos)));
+	//	}
+	//	else
+	//	{
+	//		auto isTwoVal   = (style == Slider::SliderStyle::TwoValueVertical   || style == Slider::SliderStyle::TwoValueHorizontal);
+	//		auto isThreeVal = (style == Slider::SliderStyle::ThreeValueVertical || style == Slider::SliderStyle::ThreeValueHorizontal);
 
-			auto trackWidth = jmin (6.0f, slider.isHorizontal() ? height * 0.25f : width * 0.25f) * 1.3f;
+	//		auto trackWidth = jmin (6.0f, slider.isHorizontal() ? height * 0.25f : width * 0.25f) * 1.3f;
 
-			Point<float> startPoint (slider.isHorizontal() ? x : x + width * 0.5f,
-									 slider.isHorizontal() ? y + height * 0.5f : height + y);
+	//		Point<float> startPoint (slider.isHorizontal() ? x : x + width * 0.5f,
+	//								 slider.isHorizontal() ? y + height * 0.5f : height + y);
 
-			Point<float> endPoint (slider.isHorizontal() ? width + x : startPoint.x,
-								   slider.isHorizontal() ? startPoint.y : y);
+	//		Point<float> endPoint (slider.isHorizontal() ? width + x : startPoint.x,
+	//							   slider.isHorizontal() ? startPoint.y : y);
 
-			Path backgroundTrack;
-			backgroundTrack.startNewSubPath (startPoint);
-			backgroundTrack.lineTo (endPoint);
-			g.setColour (slider.findColour (Slider::backgroundColourId));
-			g.strokePath (backgroundTrack, { trackWidth, PathStrokeType::curved, PathStrokeType::rounded });
+	//		Path backgroundTrack;
+	//		backgroundTrack.startNewSubPath (startPoint);
+	//		backgroundTrack.lineTo (endPoint);
+	//		g.setColour (slider.findColour (Slider::backgroundColourId));
+	//		g.strokePath (backgroundTrack, { trackWidth, PathStrokeType::curved, PathStrokeType::rounded });
 
-			Path valueTrack;
-			Point<float> minPoint, maxPoint, thumbPoint;
+	//		Path valueTrack;
+	//		Point<float> minPoint, maxPoint, thumbPoint;
 
-			if (isTwoVal || isThreeVal)
-			{
-				minPoint = { slider.isHorizontal() ? minSliderPos : width * 0.5f,
-							 slider.isHorizontal() ? height * 0.5f : minSliderPos };
+	//		if (isTwoVal || isThreeVal)
+	//		{
+	//			minPoint = { slider.isHorizontal() ? minSliderPos : width * 0.5f,
+	//						 slider.isHorizontal() ? height * 0.5f : minSliderPos };
 
-				if (isThreeVal)
-					thumbPoint = { slider.isHorizontal() ? sliderPos : width * 0.5f,
-								   slider.isHorizontal() ? height * 0.5f : sliderPos };
+	//			if (isThreeVal)
+	//				thumbPoint = { slider.isHorizontal() ? sliderPos : width * 0.5f,
+	//							   slider.isHorizontal() ? height * 0.5f : sliderPos };
 
-				maxPoint = { slider.isHorizontal() ? maxSliderPos : width * 0.5f,
-							 slider.isHorizontal() ? height * 0.5f : maxSliderPos };
-			}
-			else
-			{
-				auto kx = slider.isHorizontal() ? sliderPos : (x + width * 0.5f);
-				auto ky = slider.isHorizontal() ? (y + height * 0.5f) : sliderPos;
+	//			maxPoint = { slider.isHorizontal() ? maxSliderPos : width * 0.5f,
+	//						 slider.isHorizontal() ? height * 0.5f : maxSliderPos };
+	//		}
+	//		else
+	//		{
+	//			auto kx = slider.isHorizontal() ? sliderPos : (x + width * 0.5f);
+	//			auto ky = slider.isHorizontal() ? (y + height * 0.5f) : sliderPos;
 
-				minPoint = startPoint;
-				maxPoint = { kx, ky };
-			}
+	//			minPoint = startPoint;
+	//			maxPoint = { kx, ky };
+	//		}
 
-			auto thumbWidth = getSliderThumbRadius (slider) * 0.5;
+	//		auto thumbWidth = getSliderThumbRadius (slider) * 0.5;
 
-			valueTrack.startNewSubPath (minPoint);
-			valueTrack.lineTo (isThreeVal ? thumbPoint : maxPoint);
-			g.setColour (slider.findColour (Slider::trackColourId));
-			g.strokePath (valueTrack, { trackWidth, PathStrokeType::curved, PathStrokeType::rounded });
+	//		valueTrack.startNewSubPath (minPoint);
+	//		valueTrack.lineTo (isThreeVal ? thumbPoint : maxPoint);
+	//		g.setColour (slider.findColour (Slider::trackColourId));
+	//		g.strokePath (valueTrack, { trackWidth, PathStrokeType::curved, PathStrokeType::rounded });
 
-			if (! isTwoVal)
-			{
-				g.setColour (slider.findColour (Slider::thumbColourId));
-				g.fillEllipse (Rectangle<float> (static_cast<float> (thumbWidth), static_cast<float> (thumbWidth)).withCentre (isThreeVal ? thumbPoint : maxPoint));
-			}
+	//		if (! isTwoVal)
+	//		{
+	//			g.setColour (slider.findColour (Slider::thumbColourId));
+	//			g.fillEllipse (Rectangle<float> (static_cast<float> (thumbWidth), static_cast<float> (thumbWidth)).withCentre (isThreeVal ? thumbPoint : maxPoint));
+	//		}
 
-			if (isTwoVal || isThreeVal)
-			{
-				auto sr = jmin (trackWidth, (slider.isHorizontal() ? height : width) * 0.4f);
-				auto pointerColour = slider.findColour (Slider::thumbColourId);
+	//		if (isTwoVal || isThreeVal)
+	//		{
+	//			auto sr = jmin (trackWidth, (slider.isHorizontal() ? height : width) * 0.4f);
+	//			auto pointerColour = slider.findColour (Slider::thumbColourId);
 
-				if (slider.isHorizontal())
-				{
-					drawPointer (g, minSliderPos - sr,
-								 jmax (0.0f, y + height * 0.5f - trackWidth * 2.0f),
-								 trackWidth * 2.0f, pointerColour, 2);
+	//			if (slider.isHorizontal())
+	//			{
+	//				drawPointer (g, minSliderPos - sr,
+	//							 jmax (0.0f, y + height * 0.5f - trackWidth * 2.0f),
+	//							 trackWidth * 2.0f, pointerColour, 2);
 
-					drawPointer (g, maxSliderPos - trackWidth,
-								 jmin (y + height - trackWidth * 2.0f, y + height * 0.5f),
-								 trackWidth * 2.0f, pointerColour, 4);
-				}
-				else
-				{
-					drawPointer (g, jmax (0.0f, x + width * 0.5f - trackWidth * 2.0f),
-								 minSliderPos - trackWidth,
-								 trackWidth * 2.0f, pointerColour, 1);
+	//				drawPointer (g, maxSliderPos - trackWidth,
+	//							 jmin (y + height - trackWidth * 2.0f, y + height * 0.5f),
+	//							 trackWidth * 2.0f, pointerColour, 4);
+	//			}
+	//			else
+	//			{
+	//				drawPointer (g, jmax (0.0f, x + width * 0.5f - trackWidth * 2.0f),
+	//							 minSliderPos - trackWidth,
+	//							 trackWidth * 2.0f, pointerColour, 1);
 
-					drawPointer (g, jmin (x + width - trackWidth * 2.0f, x + width * 0.5f), maxSliderPos - sr,
-								 trackWidth * 2.0f, pointerColour, 3);
-				}
-			}
-		}
-	}
+	//				drawPointer (g, jmin (x + width - trackWidth * 2.0f, x + width * 0.5f), maxSliderPos - sr,
+	//							 trackWidth * 2.0f, pointerColour, 3);
+	//			}
+	//		}
+	//	}
+	//}
 
 	/*void drawRotarySlider (Graphics& g, int x, int y, int width, int height, float sliderPos,
                 const float rotaryStartAngle, const float rotaryEndAngle, Slider& slider) override
@@ -233,45 +268,6 @@ public:
 		g.setColour (slider.findColour (Slider::thumbColourId));
 		g.fillEllipse (Rectangle<float> (thumbWidth, thumbWidth).withCentre (thumbPoint));
 	}*/
-
-	void drawRotarySlider(Graphics& g,
-		int x,
-		int y,
-		int width,
-		int height,
-		float sliderPos,
-		const float rotaryStartAngle,
-		const float rotaryEndAngle,
-		Slider& slider) override
-	{
-		auto radius = jmin(width / 2, height / 2) - 4.0f;
-		auto centreX = x + width * 0.5f;
-		auto centreY = y + height * 0.5f;
-
-		// draw ellipse (circle)
-		auto rx = centreX - radius;
-		auto ry = centreY - radius;
-		auto rw = radius * 2.0f;
-		g.setColour(slider.findColour(Slider::backgroundColourId));
-		g.fillEllipse(rx, ry, rw, rw);
-
-		// outline
-		//g.setColour(Colours::red);
-		//g.drawEllipse(rx, ry, rw, rw, 1.0f);
-
-		// draw pointer
-		Path p;
-		auto pointerLength = radius * 0.60f;
-		auto pointerThickness = 8.0f;
-		auto angle = rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle);
-		p.addRectangle(-pointerThickness * 0.5f, -radius, pointerThickness, pointerLength);
-		p.applyTransform(AffineTransform::rotation(angle).translated(centreX, centreY));
-
-		// pointer
-		g.setColour(slider.findColour(Slider::thumbColourId));
-		g.fillPath(p);
-	}
-
 };
 
 //==============================================================================
