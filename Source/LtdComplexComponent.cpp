@@ -103,7 +103,6 @@ LtdComplexComponent::LtdComplexComponentTitle::~LtdComplexComponentTitle()
 
 void LtdComplexComponent::LtdComplexComponentTitle::paint (Graphics& g)
 {
-
 	auto area = getLocalBounds().reduced (4);
 
 	g.setColour(background);
