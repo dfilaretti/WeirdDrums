@@ -85,15 +85,6 @@ void LtdComplexComponent::LinkComponentToAttachment(Component* component, std::s
 		attachments.push_back(std::make_unique<SliderAttachment>(processor.parameters, attachmentId, *(c->getSlider())));
 }
 
-void LtdComplexComponent::resetAllComponents()
-{
-	//for (auto const& c : controls)
-	//{
-	//	auto component = c.first;
-	//	component->;
-	//}
-}
-
 //==============================================================================
 LtdComplexComponentTitle::LtdComplexComponentTitle (std::string t)
 	: title {t}
