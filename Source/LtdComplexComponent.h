@@ -15,26 +15,6 @@
 #include "LtdSlider.h"
 #include <variant>
 
-// TODO: this shouldn't probably be here... Options:
-//       1) make it an inner/nested class
-//       2) move to its own file
-//       3) just get rid of the class and integrate in LtdComplexComponent
-//       4) ...
-class LtdComplexComponentTitle : public Component
-{
-public:
-	//==============================================================================
-	LtdComplexComponentTitle (std::string);
-	~LtdComplexComponentTitle();
-
-	//==============================================================================
-	void paint(Graphics&) override;
-private:
-	//==============================================================================
-	std::string title;
-	Colour background = Colours::grey;
-};
-
 class LtdComplexComponent :		public Component
 {
 public:
@@ -49,6 +29,23 @@ public:
 	//==============================================================================
 	void paint(Graphics&) override;
 	void resized() override;
+
+	//==============================================================================
+	class LtdComplexComponentTitle : public Component
+	{
+	public:
+		//==============================================================================
+		LtdComplexComponentTitle(std::string);
+		~LtdComplexComponentTitle();
+
+		//==============================================================================
+		void paint(Graphics&) override;
+		void resized() override;
+	private:
+		//==============================================================================
+		Label titleLabel;
+		Colour background = Colours::grey;
+	};
 
 protected:
 	//==============================================================================

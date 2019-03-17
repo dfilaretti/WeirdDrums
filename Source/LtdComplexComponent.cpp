@@ -16,10 +16,12 @@ LtdComplexComponent::LtdComplexComponent(LittleTeknoDrummerAudioProcessor& p,
 	                                     int columns, 
 	                                     std::string title, 
 	                                     Colour backgroundColour) :
-	processor(p), nRows {rows}, nCols {columns}, titleComponent {title}, backgroundColour {backgroundColour}
+	processor(p), 
+	nRows {rows}, 
+	nCols {columns}, 
+	titleComponent {title}, 
+	backgroundColour {backgroundColour}
 {
-	backgroundColour = Colours::white;
-
 	addAndMakeVisible (titleComponent);
 }
 
@@ -38,8 +40,8 @@ void LtdComplexComponent::paint(Graphics& g)
 void LtdComplexComponent::resized()
 {
 	auto area             = getLocalBounds().reduced(4);
-	
-	auto titleArea = area.removeFromTop (kTitleSectionHeight);
+	auto titleArea        = area.removeFromTop (kTitleSectionHeight);
+
 	titleComponent.setBounds (titleArea);
 
 	int nComponents       = nRows;
@@ -86,23 +88,30 @@ void LtdComplexComponent::LinkComponentToAttachment(Component* component, std::s
 }
 
 //==============================================================================
-LtdComplexComponentTitle::LtdComplexComponentTitle (std::string t)
-	: title {t}
+LtdComplexComponent::LtdComplexComponentTitle::LtdComplexComponentTitle (std::string t)
+{
+	titleLabel.setColour(Label::textColourId, Colours::black);
+	titleLabel.setFont(Font(15.0f, Font::bold));
+	titleLabel.setText(t, dontSendNotification);
+	titleLabel.setJustificationType(Justification::centred);
+	addAndMakeVisible(titleLabel);
+}
+
+LtdComplexComponent::LtdComplexComponentTitle::~LtdComplexComponentTitle()
 {
 }
 
-LtdComplexComponentTitle::~LtdComplexComponentTitle()
-{
-}
-
-void LtdComplexComponentTitle::paint (Graphics& g)
+void LtdComplexComponent::LtdComplexComponentTitle::paint (Graphics& g)
 {
 
 	auto area = getLocalBounds().reduced (4);
+
 	g.setColour(background);
 	g.fillRoundedRectangle(area.toFloat(), 3);
-	
-	g.setColour(Colours::black);
-	g.setFont(Font(15.0f, Font::bold));
-	g.drawText(title, area, Justification::centred, true);
+}
+
+void LtdComplexComponent::LtdComplexComponentTitle::resized()
+{
+	auto area = getLocalBounds().reduced(4);
+	titleLabel.setBounds(area);
 }
