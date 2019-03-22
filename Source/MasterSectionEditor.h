@@ -32,9 +32,6 @@ public:
 
 private:
 	//==============================================================================
-	LittleTeknoDrummerLookAndFeel lookAndFeel;
-
-	//==============================================================================
 	LtdRotarySlider mixSlider{ juce::String("Mix") };
 	LtdRotarySlider eqFreqSlider{ juce::String("Eq Freq") };
 	LtdRotarySlider distortSlider{ juce::String("Distort") };

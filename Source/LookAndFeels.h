@@ -23,18 +23,21 @@
 class LittleTeknoDrummerLookAndFeel : public LookAndFeel_V4 
 {
 public:
+	//==============================================================================
+	// We currently use a simple 4-colours scheme. Not sure is this is idea, and 
+	// not sure if we'll be changing it in future. Let's keep it for the time being.
+
+	Colour colour1; // plugin title, version, author etc.
+	Colour colour2; // "dark" colour
+	Colour colour3; // "medium" colour
+	Colour colour4; // "light" colour
+
+	//==============================================================================
 	LittleTeknoDrummerLookAndFeel ()
 	{
-		//setColour(Slider::thumbColourId, Colours::black);
-		//setColour(Slider::backgroundColourId, Colours::lightgrey);
-		//setColour(Label::textColourId, Colours::lightgrey);
-		//setColour(Slider::textBoxOutlineColourId, Colours::transparentBlack);
-		//setColour(Slider::textBoxTextColourId, Colours::grey);
-		//setColour(TextButton::buttonColourId, Colours::grey);
-		//setColour(TextButton::textColourOnId, Colours::black);
-		//setColour(TextButton::textColourOffId, Colours::black);
 	}
 
+	//==============================================================================
 	void drawButtonBackground(Graphics& g, Button& button, const Colour& backgroundColour,
 		bool isMouseOverButton, bool isButtonDown) override
 	{
@@ -68,6 +71,12 @@ public:
 				Justification::centred, 2);
 	}
 
+	Font getTextButtonFont(TextButton&, int buttonHeight) override
+	{
+		return Font(15.0f, Font::bold);
+	}
+
+	//==============================================================================
 	void drawRotarySlider(Graphics& g,
 		int x,
 		int y,
@@ -106,58 +115,42 @@ public:
 		g.fillPath(p);
 	}
 
-	Font getTextButtonFont(TextButton&, int buttonHeight) override
-	{
-		return Font(15.0f, Font::bold);
-	}
-
-	Colour colour1;
-	Colour colour2;
-	Colour colour3;
-	Colour colour4;
-
-
+	//==============================================================================
 	void setTheme1() 
 	{
-		colour1 = Colours::black;      // titles etc.
-		colour2 = Colours::black;      // DARK
-		colour3 = Colours::grey;       // MEDIUM
-		colour4 = Colours::lightgrey;  // LIGHT
-
+		colour1 = Colours::black;
+		colour2 = Colours::black;
+		colour3 = Colours::grey;
+		colour4 = Colours::lightgrey;
 		initColours();
 	}
 
 	void setTheme2()
 	{
-		colour1 = Colour(0xff771bc6); // titles etc.
+		colour1 = Colour(0xff771bc6);
 		colour2 = Colour(0xff771bc6);
 		colour3 = Colour(0xfff26ab9);
 		colour4 = Colour(0xffffe07a);
-
 		initColours();
 	}
 
 	void setTheme3()
 	{
-		colour1 = Colour(0xff2172ba); // titles etc.
+		colour1 = Colour(0xff2172ba);
 		colour2 = Colour(0xff2172ba);
 		colour3 = Colour(0xff2098ba);
 		colour4 = Colour(0xff1fbaa8);
-
 		initColours();
 	}
 
 	void setTheme4()
 	{
-		colour1 = Colour(0xff9f4ebf); // titles etc.
-		colour2 = Colour(0xff9f4ebf); // dark
-		colour3 = Colour(0xff3e9157); // medium
-		colour4 = Colour(0xfff4a358); // light
-
+		colour1 = Colour(0xff9f4ebf);
+		colour2 = Colour(0xff9f4ebf);
+		colour3 = Colour(0xff3e9157);
+		colour4 = Colour(0xfff4a358);
 		initColours();
 	}
-
-
 
 private:
 	void initColours()
@@ -169,7 +162,6 @@ private:
 		setColour(TextButton::buttonColourId,     colour3);
 		setColour(Slider::backgroundColourId,     colour4);
 		setColour(Label::textColourId,            colour4);
-		
 		setColour(Slider::textBoxOutlineColourId, Colours::transparentBlack);
 	}
 };

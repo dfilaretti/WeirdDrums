@@ -32,9 +32,6 @@ public:
 
 private:
 	//==============================================================================
-	LittleTeknoDrummerLookAndFeel lookAndFeel;
-
-	//==============================================================================
 	LtdRotarySlider m_oscSlider{ juce::String("Waveform") };
 	LtdRotarySlider m_freqSlider{ juce::String("Freq") };
 	LtdRotarySlider m_attackSlider{ juce::String("Attack") };

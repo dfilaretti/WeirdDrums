@@ -15,14 +15,14 @@
 LittleTeknoDrummerAudioProcessorEditor::LittleTeknoDrummerAudioProcessorEditor (LittleTeknoDrummerAudioProcessor& p)
     : AudioProcessorEditor (&p), 
 	  processor (p), 
-	  bottomSectionGui (p, "Version 999.2"),
+	  bottomSectionGui (p, "Version 0.1.1"),
 	  titleSectionGui  ("WeirdDrums", "www.danielefilaretti.com"),
 	  oscSectionGui    (p, 4, 2, "Oscillator", Colours::black),
 	  noiseSectionGui  (p, 4, 1, "Noise",      Colours::black),
 	  masterSectionGui (p, 4, 1, "Master",     Colours::black)
 {
 	setLookAndFeel (&lookAndFeel);
-	lookAndFeel.setTheme4();
+	lookAndFeel.setTheme1();
 
 	addAndMakeVisible (titleSectionGui);
 	addAndMakeVisible (oscSectionGui);
@@ -45,7 +45,7 @@ void LittleTeknoDrummerAudioProcessorEditor::paint (Graphics& g)
 	if (auto lf = dynamic_cast<LittleTeknoDrummerLookAndFeel*> (&getLookAndFeel()))
 		backgroundColour = lf->colour4;
 
-	g.fillAll (backgroundColour); // TODO: move to centralised place
+	g.fillAll (backgroundColour);
 }
 
 void LittleTeknoDrummerAudioProcessorEditor::resized()

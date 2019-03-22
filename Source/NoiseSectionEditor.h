@@ -33,9 +33,6 @@ public:
 
 private:
 	//==============================================================================
-	LittleTeknoDrummerLookAndFeel lookAndFeel;
-
-	//==============================================================================
 	LtdRotarySlider filterCutoffSlider{ juce::String("Cutoff")  };
 	LtdRotarySlider filterResonanceSlider{ juce::String("Res") };
 	LtdRotarySlider attackSlider{ juce::String("Attack") };

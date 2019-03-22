@@ -13,7 +13,6 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 #include "TitleSectionEditor.h"
-
 #include "BottomSectionEditor.h"
 #include "OscillatorSectionEditor.h"
 #include "NoiseSectionEditor.h"

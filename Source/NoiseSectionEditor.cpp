@@ -18,8 +18,6 @@ NoiseSectionEditor::NoiseSectionEditor(LittleTeknoDrummerAudioProcessor& p,
 	                                   Colour backgroundColour) :
 	LtdComplexComponent (p, nRows, nCols, title, backgroundColour)
 {
-	//setLookAndFeel(&lookAndFeel);
-
 	controls = 
 	{
 		{ &filterCutoffSlider ,   "FILTER-CUTOFF"},
