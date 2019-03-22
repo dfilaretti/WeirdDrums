@@ -13,9 +13,16 @@ Here some audio examples (more to come!):
 * [gabba](http://danielefilaretti.com/downloads/misc/LittleTeknoDrummer-examples/gabba.mp3)
 * [tek](http://danielefilaretti.com/downloads/misc/LittleTeknoDrummer-examples/tek.mp3)
 
-## Builds
+## Binaries
 
-Coming soon! (in the meanwhile... build it yourself, or drop me a line if need help!)
+Coming soon!
+
+## How to build
+
+There are no external dependencies apart from the JUCE framework. 
+You should be able to build the project using the usual JUCE/projucer workflow (i.e. open the `.jucer` files with the Projucer and take it from there). 
+
+At some point I will update this `README` with more detailed instructions. In the meanwhile, please feel free to drop me a line if you have trouble building. 
 
 ## Architecture / how to use
 
