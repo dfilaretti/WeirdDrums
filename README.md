@@ -2,7 +2,7 @@
 
 A simple drum synthesiser plugin inspired by the awesome [Sonic Charge Microtonic](https://soniccharge.com/microtonic), one of my favourite plugins. All sounds are synthesised in realtime - no samples used. 
 
-![Screenshot](img/composition.png)
+![Screenshot](img/composition-2.png)
 
 Here some audio examples (more to come!):
 
