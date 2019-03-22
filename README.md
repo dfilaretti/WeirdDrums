@@ -1,6 +1,6 @@
 # WeirdDrums Free
 
-A free and open source little drum synth plugin inspired by the awesome [Sonic Charge Microtonic](https://soniccharge.com/microtonic), one of my favourite plugins. All sounds are synthesised in realtime - no samples used! 🎹
+A free and open source little drum synth plugin inspired by the awesome [Sonic Charge Microtonic](https://soniccharge.com/microtonic), one of my favourite plugins. All sounds are synthesised in realtime - no samples used!
 
 ![Screenshot](img/composition-2.png)
 
