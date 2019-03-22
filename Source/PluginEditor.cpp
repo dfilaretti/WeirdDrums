@@ -22,7 +22,7 @@ LittleTeknoDrummerAudioProcessorEditor::LittleTeknoDrummerAudioProcessorEditor (
 	  masterSectionGui (p, 4, 1, "Master",     Colours::black)
 {
 	setLookAndFeel (&lookAndFeel);
-	lookAndFeel.setTheme1();
+	lookAndFeel.setTheme3();
 
 	addAndMakeVisible (titleSectionGui);
 	addAndMakeVisible (oscSectionGui);

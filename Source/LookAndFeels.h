@@ -152,6 +152,15 @@ public:
 		initColours();
 	}
 
+	void setTheme5()
+	{
+		colour1 = Colours::darkgrey;
+		colour2 = Colours::grey;
+		colour3 = Colours::darkgrey;
+		colour4 = Colours::lightgrey;
+		initColours();
+	}
+
 private:
 	void initColours()
 	{
