@@ -1,6 +1,6 @@
-# Little Tekno Drummer (LTD)
+# WeirdDrums Free
 
-A simple drum synthesiser plugin inspired by the awesome [Sonic Charge Microtonic](https://soniccharge.com/microtonic), one of my favourite plugins. All sounds are synthesised in realtime - no samples used. 
+A free and open source little drum synth plugin inspired by the awesome [Sonic Charge Microtonic](https://soniccharge.com/microtonic), one of my favourite plugins. All sounds are synthesised in realtime - no samples used! 🎹
 
 ![Screenshot](img/composition-2.png)
 
@@ -25,6 +25,11 @@ In a bit more detail...
 
 * **master section**: here the _oscillator_ and _noise_ signal are mixed together (via the _mix_ slider) and some effects and global level/pan are applied. Currently only distortion is available, but we may add more in future. 
 
+Finally we have to handy buttons:
+
+* the **init** button restores the patch to its initial value
+* the **randomize** button gives you a completely random sound (notice that all parameters are randomized except for the *level*, which is kept unchanged). 
+
 ## Faq
 
 ### Why there is no step-sequencer? And why there aren't multiple "drum pads" like in most other drum instruments?
@@ -41,6 +46,11 @@ Here are some of the reasons for this:
 
 Having said that, a step sequencer sounds like a nice future addition and a great learning exercise ;) 
 
+### What about presets?
+
+WeirdDrums Free currently has no presets. Instead, we encourage you to experiment!! 
+Suggested workflow: press the **init** button to reset the patch, then tweak the parameters until you got something you like - the layout is quite simple and everything fits in one page, so it shouldn't be too hard to keep track of things. 
+For some crazyness, use the **randomize** button instead 😊
 
 ## Todo / Contributions
 
@@ -52,7 +62,6 @@ Here are a few needed improvements that comes to mind...
 * dedicated envelope type for claps 
 * global EQ
 * Optimize performance
-* Make UI prettier 
 * ..... 
 
 For more details, please take a look at the [issues](https://github.com/dfilaretti/LittleTeknoDrummer/issues) and feel free to open new ones is needed. 
