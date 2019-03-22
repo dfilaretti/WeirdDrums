@@ -12,6 +12,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
+#include "LookAndFeels.h"
 
 class BottomSectionEditor : public Component
 {

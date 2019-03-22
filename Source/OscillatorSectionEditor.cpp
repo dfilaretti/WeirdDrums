@@ -18,7 +18,7 @@ OscillatorSectionEditor::OscillatorSectionEditor (LittleTeknoDrummerAudioProcess
 	                                              Colour backgroundColour) 
 	: LtdComplexComponent(p, nRows, nCols, title, backgroundColour)
 {
-	setLookAndFeel(&lookAndFeel);
+	//setLookAndFeel(&lookAndFeel);
 
 	// TODO: in future, rather than directly accessing 
 	//       LtdComplexComponent::controls like we are 

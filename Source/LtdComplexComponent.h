@@ -13,6 +13,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 #include "LtdSlider.h"
+#include "LookAndFeels.h"
 #include <variant>
 
 class LtdComplexComponent :		public Component

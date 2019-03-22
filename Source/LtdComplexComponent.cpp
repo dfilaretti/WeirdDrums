@@ -33,6 +33,12 @@ LtdComplexComponent::~LtdComplexComponent()
 void LtdComplexComponent::paint(Graphics& g)
 {
 	auto area = getLocalBounds().reduced(4);
+
+	Colour backgroundColour;
+	if (auto lf = dynamic_cast<LittleTeknoDrummerLookAndFeel*> (&getLookAndFeel()))
+		backgroundColour = lf->colour2;
+
+
 	g.setColour (backgroundColour);
 	g.fillRoundedRectangle (area.toFloat(), 3);
 }
@@ -90,7 +96,7 @@ void LtdComplexComponent::LinkComponentToAttachment(Component* component, std::s
 //==============================================================================
 LtdComplexComponent::LtdComplexComponentTitle::LtdComplexComponentTitle (std::string t)
 {
-	titleLabel.setColour(Label::textColourId, Colours::black);
+	/*titleLabel.setColour(Label::textColourId, Colours::black);*/
 	titleLabel.setFont(Font(15.0f, Font::bold));
 	titleLabel.setText(t, dontSendNotification);
 	titleLabel.setJustificationType(Justification::centred);
@@ -105,12 +111,24 @@ void LtdComplexComponent::LtdComplexComponentTitle::paint (Graphics& g)
 {
 	auto area = getLocalBounds().reduced (4);
 
-	g.setColour(background);
+	Colour backgroundColour;
+	if (auto lf = dynamic_cast<LittleTeknoDrummerLookAndFeel*> (&getLookAndFeel()))
+		backgroundColour = lf->colour3;
+
+	g.setColour(backgroundColour);
+
 	g.fillRoundedRectangle(area.toFloat(), 3);
 }
 
 void LtdComplexComponent::LtdComplexComponentTitle::resized()
 {
 	auto area = getLocalBounds().reduced(4);
+
+	Colour textColour;
+	if (auto lf = dynamic_cast<LittleTeknoDrummerLookAndFeel*> (&getLookAndFeel()))
+		textColour = lf->colour2;
+
+	titleLabel.setColour(Label::textColourId, textColour);
+
 	titleLabel.setBounds(area);
 }

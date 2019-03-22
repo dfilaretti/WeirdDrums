@@ -25,14 +25,14 @@ class LittleTeknoDrummerLookAndFeel : public LookAndFeel_V4
 public:
 	LittleTeknoDrummerLookAndFeel ()
 	{
-		setColour(Slider::thumbColourId, Colours::black);
-		setColour(Slider::backgroundColourId, Colours::lightgrey);
-		setColour(Label::textColourId, Colours::lightgrey);
-		setColour(Slider::textBoxOutlineColourId, Colours::transparentBlack);
-		setColour(Slider::textBoxTextColourId, Colours::grey);
-		setColour(TextButton::buttonColourId, Colours::grey);
-		setColour(TextButton::textColourOnId, Colours::black);
-		setColour(TextButton::textColourOffId, Colours::black);
+		//setColour(Slider::thumbColourId, Colours::black);
+		//setColour(Slider::backgroundColourId, Colours::lightgrey);
+		//setColour(Label::textColourId, Colours::lightgrey);
+		//setColour(Slider::textBoxOutlineColourId, Colours::transparentBlack);
+		//setColour(Slider::textBoxTextColourId, Colours::grey);
+		//setColour(TextButton::buttonColourId, Colours::grey);
+		//setColour(TextButton::textColourOnId, Colours::black);
+		//setColour(TextButton::textColourOffId, Colours::black);
 	}
 
 	void drawButtonBackground(Graphics& g, Button& button, const Colour& backgroundColour,
@@ -109,5 +109,67 @@ public:
 	Font getTextButtonFont(TextButton&, int buttonHeight) override
 	{
 		return Font(15.0f, Font::bold);
+	}
+
+	Colour colour1;
+	Colour colour2;
+	Colour colour3;
+	Colour colour4;
+
+
+	void setTheme1() 
+	{
+		colour1 = Colours::black;      // titles etc.
+		colour2 = Colours::black;      // DARK
+		colour3 = Colours::grey;       // MEDIUM
+		colour4 = Colours::lightgrey;  // LIGHT
+
+		initColours();
+	}
+
+	void setTheme2()
+	{
+		colour1 = Colour(0xff771bc6); // titles etc.
+		colour2 = Colour(0xff771bc6);
+		colour3 = Colour(0xfff26ab9);
+		colour4 = Colour(0xffffe07a);
+
+		initColours();
+	}
+
+	void setTheme3()
+	{
+		colour1 = Colour(0xff2172ba); // titles etc.
+		colour2 = Colour(0xff2172ba);
+		colour3 = Colour(0xff2098ba);
+		colour4 = Colour(0xff1fbaa8);
+
+		initColours();
+	}
+
+	void setTheme4()
+	{
+		colour1 = Colour(0xff9f4ebf); // titles etc.
+		colour2 = Colour(0xff9f4ebf); // dark
+		colour3 = Colour(0xff3e9157); // medium
+		colour4 = Colour(0xfff4a358); // light
+
+		initColours();
+	}
+
+
+
+private:
+	void initColours()
+	{
+		setColour(Slider::thumbColourId,          colour2);
+		setColour(TextButton::textColourOnId,     colour2);
+		setColour(TextButton::textColourOffId,    colour2);
+		setColour(Slider::textBoxTextColourId,    colour3);
+		setColour(TextButton::buttonColourId,     colour3);
+		setColour(Slider::backgroundColourId,     colour4);
+		setColour(Label::textColourId,            colour4);
+		
+		setColour(Slider::textBoxOutlineColourId, Colours::transparentBlack);
 	}
 };

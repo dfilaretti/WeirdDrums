@@ -21,15 +21,16 @@ LittleTeknoDrummerAudioProcessorEditor::LittleTeknoDrummerAudioProcessorEditor (
 	  noiseSectionGui  (p, 4, 1, "Noise",      Colours::black),
 	  masterSectionGui (p, 4, 1, "Master",     Colours::black)
 {
-	setSize (kWidth, kHeight);
-
 	setLookAndFeel (&lookAndFeel);
+	lookAndFeel.setTheme4();
 
-	addAndMakeVisible(titleSectionGui);
+	addAndMakeVisible (titleSectionGui);
 	addAndMakeVisible (oscSectionGui);
 	addAndMakeVisible (masterSectionGui);
 	addAndMakeVisible (noiseSectionGui);
-	addAndMakeVisible(bottomSectionGui); 
+	addAndMakeVisible (bottomSectionGui); 
+
+	setSize (kWidth, kHeight);
 }
 
 LittleTeknoDrummerAudioProcessorEditor::~LittleTeknoDrummerAudioProcessorEditor() 
@@ -40,7 +41,11 @@ LittleTeknoDrummerAudioProcessorEditor::~LittleTeknoDrummerAudioProcessorEditor(
 //==============================================================================
 void LittleTeknoDrummerAudioProcessorEditor::paint (Graphics& g)
 {
-	g.fillAll (Colours::lightgrey); // TODO: move to centralised place
+	Colour backgroundColour;
+	if (auto lf = dynamic_cast<LittleTeknoDrummerLookAndFeel*> (&getLookAndFeel()))
+		backgroundColour = lf->colour4;
+
+	g.fillAll (backgroundColour); // TODO: move to centralised place
 }
 
 void LittleTeknoDrummerAudioProcessorEditor::resized()

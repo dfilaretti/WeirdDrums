@@ -18,7 +18,8 @@ MasterSectionEditor::MasterSectionEditor(LittleTeknoDrummerAudioProcessor& p,
 	                                     Colour backgroundColour) : 
 	LtdComplexComponent(p, nRows, nCols, title, backgroundColour)
 {
-	setLookAndFeel(&lookAndFeel);
+	//setLookAndFeel(&lookAndFeel);
+	//lookAndFeel.setTheme2();
 
 	controls = { { &mixSlider,        "MASTER-MIX"},
 			     { &distortSlider,    "MASTER-DISTORT" },
