@@ -6,12 +6,12 @@ A simple drum synthesiser plugin inspired by the awesome [Sonic Charge Microtoni
 
 Here some audio examples (more to come!):
 
-* [boredom](https://dfilaretti.github.io/assets/downloads/misc/LittleTeknoDrummer-examples/boredom.mp3)
-* [slow-techno](https://dfilaretti.github.io/assets/downloads/misc/LittleTeknoDrummer-examples/slow-techno.mp3)
-* [electro-1](https://dfilaretti.github.io/assets/downloads/misc/LittleTeknoDrummer-examples/electro-1.mp3)
-* [electro-2](https://dfilaretti.github.io/assets/downloads/misc/LittleTeknoDrummer-examples/electro-2.mp3)
-* [gabba](https://dfilaretti.github.io/assets/downloads/misc/LittleTeknoDrummer-examples/gabba.mp3)
-* [tek](https://dfilaretti.github.io/assets/downloads/misc/LittleTeknoDrummer-examples/tek.mp3)
+* [boredom](http://danielefilaretti.com/downloads/misc/LittleTeknoDrummer-examples/boredom.mp3)
+* [slow-techno](http://danielefilaretti.com/downloads/misc/LittleTeknoDrummer-examples/slow-techno.mp3)
+* [electro-1](http://danielefilaretti.com/downloads/misc/LittleTeknoDrummer-examples/electro-1.mp3)
+* [electro-2](http://danielefilaretti.com/downloads/misc/LittleTeknoDrummer-examples/electro-2.mp3)
+* [gabba](http://danielefilaretti.com/downloads/misc/LittleTeknoDrummer-examples/gabba.mp3)
+* [tek](http://danielefilaretti.com/downloads/misc/LittleTeknoDrummer-examples/tek.mp3)
 
 ## Architecture / how to use
 
