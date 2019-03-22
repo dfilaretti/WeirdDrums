@@ -13,6 +13,10 @@ Here some audio examples (more to come!):
 * [gabba](http://danielefilaretti.com/downloads/misc/LittleTeknoDrummer-examples/gabba.mp3)
 * [tek](http://danielefilaretti.com/downloads/misc/LittleTeknoDrummer-examples/tek.mp3)
 
+## Builds
+
+Coming soon! (in the meanwhile... build it yourself, or drop me a line if need help!)
+
 ## Architecture / how to use
 
 As in the original Mictoronic, the architecture is quite simple. 
