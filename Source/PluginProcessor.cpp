@@ -12,7 +12,7 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-LittleTeknoDrummerAudioProcessor::LittleTeknoDrummerAudioProcessor()
+WdAudioProcessor::WdAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
 	: AudioProcessor(BusesProperties()
 #if ! JucePlugin_IsMidiEffect
@@ -22,19 +22,19 @@ LittleTeknoDrummerAudioProcessor::LittleTeknoDrummerAudioProcessor()
 		.withOutput("Output", AudioChannelSet::stereo(), true)
 #endif
 	), 
-	parameters(*this, nullptr, "LittleTeknoDrummer", createParameterLayout())
+	parameters(*this, nullptr, "WeirdDrums", createParameterLayout())
 #endif
 {	
 	initSynth();
 	passParamPointersToVoices();
 }
 
-LittleTeknoDrummerAudioProcessor::~LittleTeknoDrummerAudioProcessor()
+WdAudioProcessor::~WdAudioProcessor()
 {
 }
 
 //==============================================================================
-AudioProcessorValueTreeState::ParameterLayout LittleTeknoDrummerAudioProcessor::createParameterLayout()
+AudioProcessorValueTreeState::ParameterLayout WdAudioProcessor::createParameterLayout()
 {
     std::vector<std::unique_ptr<AudioParameterFloat>> params;
 
@@ -314,12 +314,12 @@ AudioProcessorValueTreeState::ParameterLayout LittleTeknoDrummerAudioProcessor::
 }
 
 //==============================================================================
-const String LittleTeknoDrummerAudioProcessor::getName() const
+const String WdAudioProcessor::getName() const
 {
     return JucePlugin_Name;
 }
 
-bool LittleTeknoDrummerAudioProcessor::acceptsMidi() const
+bool WdAudioProcessor::acceptsMidi() const
 {
    #if JucePlugin_WantsMidiInput
     return true;
@@ -328,7 +328,7 @@ bool LittleTeknoDrummerAudioProcessor::acceptsMidi() const
    #endif
 }
 
-bool LittleTeknoDrummerAudioProcessor::producesMidi() const
+bool WdAudioProcessor::producesMidi() const
 {
    #if JucePlugin_ProducesMidiOutput
     return true;
@@ -337,7 +337,7 @@ bool LittleTeknoDrummerAudioProcessor::producesMidi() const
    #endif
 }
 
-bool LittleTeknoDrummerAudioProcessor::isMidiEffect() const
+bool WdAudioProcessor::isMidiEffect() const
 {
    #if JucePlugin_IsMidiEffect
     return true;
@@ -346,49 +346,49 @@ bool LittleTeknoDrummerAudioProcessor::isMidiEffect() const
    #endif
 }
 
-double LittleTeknoDrummerAudioProcessor::getTailLengthSeconds() const
+double WdAudioProcessor::getTailLengthSeconds() const
 {
     return 0.0;
 }
 
-int LittleTeknoDrummerAudioProcessor::getNumPrograms()
+int WdAudioProcessor::getNumPrograms()
 {
     return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
                 // so this should be at least 1, even if you're not really implementing programs.
 }
 
-int LittleTeknoDrummerAudioProcessor::getCurrentProgram()
+int WdAudioProcessor::getCurrentProgram()
 {
     return 0;
 }
 
-void LittleTeknoDrummerAudioProcessor::setCurrentProgram (int index)
+void WdAudioProcessor::setCurrentProgram (int index)
 {
 }
 
-const String LittleTeknoDrummerAudioProcessor::getProgramName (int index)
+const String WdAudioProcessor::getProgramName (int index)
 {
     return {};
 }
 
-void LittleTeknoDrummerAudioProcessor::changeProgramName (int index, const String& newName)
+void WdAudioProcessor::changeProgramName (int index, const String& newName)
 {
 }
 
 //==============================================================================
-void LittleTeknoDrummerAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
+void WdAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
 	mySynth.prepare ({ sampleRate, (uint32) samplesPerBlock, 2 });
 }
 
-void LittleTeknoDrummerAudioProcessor::releaseResources()
+void WdAudioProcessor::releaseResources()
 {
     // When playback stops, you can use this as an opportunity to free up any
     // spare memory, etc.
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
-bool LittleTeknoDrummerAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
+bool WdAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) const
 {
   #if JucePlugin_IsMidiEffect
     ignoreUnused (layouts);
@@ -411,7 +411,7 @@ bool LittleTeknoDrummerAudioProcessor::isBusesLayoutSupported (const BusesLayout
 }
 #endif
 
-void LittleTeknoDrummerAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
+void WdAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBuffer& midiMessages)
 {
     ScopedNoDenormals noDenormals;
 
@@ -432,7 +432,7 @@ void LittleTeknoDrummerAudioProcessor::processBlock (AudioBuffer<float>& buffer,
 
 //==============================================================================
 // TODO: maybe the synth itself should do this?
-void LittleTeknoDrummerAudioProcessor::initSynth()
+void WdAudioProcessor::initSynth()
 {
 	// Add voices to the synth
 	mySynth.clearVoices();
@@ -446,7 +446,7 @@ void LittleTeknoDrummerAudioProcessor::initSynth()
 	mySynth.addSound(new SynthSound());
 }
 
-void LittleTeknoDrummerAudioProcessor::passParamPointersToVoices()
+void WdAudioProcessor::passParamPointersToVoices()
 {
 	// Pass pointers to params to the synth voice
 	for (int i = 0; i < mySynth.getNumVoices(); i++)
@@ -479,25 +479,25 @@ void LittleTeknoDrummerAudioProcessor::passParamPointersToVoices()
 }
 
 //==============================================================================
-bool LittleTeknoDrummerAudioProcessor::hasEditor() const
+bool WdAudioProcessor::hasEditor() const
 {
     return true; // (change this to false if you choose to not supply an editor)
 }
 
-AudioProcessorEditor* LittleTeknoDrummerAudioProcessor::createEditor()
+AudioProcessorEditor* WdAudioProcessor::createEditor()
 {
-    return new LittleTeknoDrummerAudioProcessorEditor (*this);
+    return new WdAudioProcessorEditor (*this);
 }
 
 //==============================================================================
-void LittleTeknoDrummerAudioProcessor::getStateInformation (MemoryBlock& destData)
+void WdAudioProcessor::getStateInformation (MemoryBlock& destData)
 {
 	auto state = parameters.copyState();
 	std::unique_ptr<XmlElement> xml(state.createXml());
 	copyXmlToBinary(*xml, destData);
 }
 
-void LittleTeknoDrummerAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
+void WdAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
 	std::unique_ptr<XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
 
@@ -510,5 +510,5 @@ void LittleTeknoDrummerAudioProcessor::setStateInformation (const void* data, in
 // This creates new instances of the plugin..
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
-    return new LittleTeknoDrummerAudioProcessor();
+    return new WdAudioProcessor();
 }

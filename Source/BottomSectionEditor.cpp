@@ -11,7 +11,7 @@
 #include "BottomSectionEditor.h"
 
 //==============================================================================
-BottomSectionEditor::BottomSectionEditor(LittleTeknoDrummerAudioProcessor& processor,
+BottomSectionEditor::BottomSectionEditor(WdAudioProcessor& processor,
 	                                     std::string versionInfo)
 	: m_processor {processor}, m_versionInfo {versionInfo}
 {
@@ -48,7 +48,7 @@ void BottomSectionEditor::resized()
 	auto versionInfoArea = area;
 
 	Colour textColour;
-	if (auto lf = dynamic_cast<LittleTeknoDrummerLookAndFeel*> (&getLookAndFeel()))
+	if (auto lf = dynamic_cast<WdLookAndFeel*> (&getLookAndFeel()))
 		textColour = lf->colour1;
 
 	m_versionLabel.setColour(Label::textColourId, textColour);

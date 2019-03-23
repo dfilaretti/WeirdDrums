@@ -20,19 +20,19 @@
 
 //==============================================================================
 
-class LittleTeknoDrummerAudioProcessorEditor  : public AudioProcessorEditor
+class WdAudioProcessorEditor  : public AudioProcessorEditor
 {
 public:
 	//==============================================================================
-    LittleTeknoDrummerAudioProcessorEditor (LittleTeknoDrummerAudioProcessor&);
-    ~LittleTeknoDrummerAudioProcessorEditor();
+    WdAudioProcessorEditor (WdAudioProcessor&);
+    ~WdAudioProcessorEditor();
 
 	//==============================================================================
     void paint (Graphics&) override;
     void resized() override;
 
 	//==============================================================================
-	LittleTeknoDrummerLookAndFeel lookAndFeel;
+	WdLookAndFeel lookAndFeel;
 private:
 	//==============================================================================
 	BottomSectionEditor bottomSectionGui;
@@ -48,8 +48,8 @@ private:
 	const int   kTitleHeight   = 40;
 
 	//==============================================================================
-    LittleTeknoDrummerAudioProcessor& processor;
+    WdAudioProcessor& processor;
 	
 	//==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LittleTeknoDrummerAudioProcessorEditor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WdAudioProcessorEditor)
 };

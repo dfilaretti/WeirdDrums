@@ -13,17 +13,17 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 #include "LookAndFeels.h"
-#include "LtdRotarySlider.h"
-#include "LtdComplexComponent.h"
+#include "LabelledRotarySlider.h"
+#include "Grid2d.h"
 #include <variant>
 
 //==============================================================================
 
-class NoiseSectionEditor	: public LtdComplexComponent
+class NoiseSectionEditor	: public Grid2d
 {
 public:
 	//==============================================================================
-    NoiseSectionEditor(LittleTeknoDrummerAudioProcessor&, 
+    NoiseSectionEditor(WdAudioProcessor&, 
 		               int,  
 		               int, 
 		               std::string, 
@@ -33,10 +33,10 @@ public:
 
 private:
 	//==============================================================================
-	LtdRotarySlider filterCutoffSlider{ juce::String("Cutoff")  };
-	LtdRotarySlider filterResonanceSlider{ juce::String("Res") };
-	LtdRotarySlider attackSlider{ juce::String("Attack") };
-	LtdRotarySlider decaySlider{ juce::String("Decay") };
+	LabelledRotarySlider filterCutoffSlider{ juce::String("Cutoff")  };
+	LabelledRotarySlider filterResonanceSlider{ juce::String("Res") };
+	LabelledRotarySlider attackSlider{ juce::String("Attack") };
+	LabelledRotarySlider decaySlider{ juce::String("Decay") };
 
 	//==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NoiseSectionEditor)

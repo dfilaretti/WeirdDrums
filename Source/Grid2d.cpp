@@ -1,21 +1,21 @@
 /*
   ==============================================================================
 
-    LtdComplexComponent.cpp
+    Grid2d.cpp
     Created: 5 Mar 2019 3:46:46pm
     Author:  dfila
 
   ==============================================================================
 */
 
-#include "LtdComplexComponent.h"
+#include "Grid2d.h"
 
 //==============================================================================
-LtdComplexComponent::LtdComplexComponent(LittleTeknoDrummerAudioProcessor& p, 
-	                                     int rows, 
-	                                     int columns, 
-	                                     std::string title, 
-	                                     Colour backgroundColour) :
+Grid2d::Grid2d(WdAudioProcessor& p, 
+	                             int rows, 
+	                             int columns, 
+	                             std::string title, 
+	                             Colour backgroundColour) :
 	processor(p), 
 	nRows {rows}, 
 	nCols {columns}, 
@@ -25,25 +25,24 @@ LtdComplexComponent::LtdComplexComponent(LittleTeknoDrummerAudioProcessor& p,
 	addAndMakeVisible (titleComponent);
 }
 
-LtdComplexComponent::~LtdComplexComponent()
+Grid2d::~Grid2d()
 {
 }
 
 //==============================================================================
-void LtdComplexComponent::paint(Graphics& g)
+void Grid2d::paint(Graphics& g)
 {
 	auto area = getLocalBounds().reduced(4);
 
 	Colour backgroundColour;
-	if (auto lf = dynamic_cast<LittleTeknoDrummerLookAndFeel*> (&getLookAndFeel()))
+	if (auto lf = dynamic_cast<WdLookAndFeel*> (&getLookAndFeel()))
 		backgroundColour = lf->colour2;
-
 
 	g.setColour (backgroundColour);
 	g.fillRoundedRectangle (area.toFloat(), 3);
 }
 
-void LtdComplexComponent::resized()
+void Grid2d::resized()
 {
 	auto area             = getLocalBounds().reduced(4);
 	auto titleArea        = area.removeFromTop (kTitleSectionHeight);
@@ -72,29 +71,29 @@ void LtdComplexComponent::resized()
 }
 
 //==============================================================================
-void LtdComplexComponent::setupChild(std::pair<Component*, std::string> p)
+void Grid2d::setupChild(std::pair<Component*, std::string> p)
 {
 	addAndMakeVisible(p.first);
 	LinkComponentToAttachment(p.first, p.second);
 }
 
-void LtdComplexComponent::setupChildren()
+void Grid2d::setupChildren()
 {
 	for (auto const& c : controls)
 		setupChild (c);
 }
 
-void LtdComplexComponent::LinkComponentToAttachment(Component* component, std::string attachmentId)
+void Grid2d::LinkComponentToAttachment(Component* component, std::string attachmentId)
 {
 	if (ComboBox* c = dynamic_cast<ComboBox*> (component))
 		attachments.push_back(std::make_unique<ComboBoxAttachment>(processor.parameters, attachmentId, *c));
 
-	if (LtdSlider* c = dynamic_cast<LtdSlider*> (component))
+	if (LabelledSlider* c = dynamic_cast<LabelledSlider*> (component))
 		attachments.push_back(std::make_unique<SliderAttachment>(processor.parameters, attachmentId, *(c->getSlider())));
 }
 
 //==============================================================================
-LtdComplexComponent::LtdComplexComponentTitle::LtdComplexComponentTitle (std::string t)
+Grid2d::Grid2dTitle::Grid2dTitle (std::string t)
 {
 	/*titleLabel.setColour(Label::textColourId, Colours::black);*/
 	titleLabel.setFont(Font(15.0f, Font::bold));
@@ -103,16 +102,16 @@ LtdComplexComponent::LtdComplexComponentTitle::LtdComplexComponentTitle (std::st
 	addAndMakeVisible(titleLabel);
 }
 
-LtdComplexComponent::LtdComplexComponentTitle::~LtdComplexComponentTitle()
+Grid2d::Grid2dTitle::~Grid2dTitle()
 {
 }
 
-void LtdComplexComponent::LtdComplexComponentTitle::paint (Graphics& g)
+void Grid2d::Grid2dTitle::paint (Graphics& g)
 {
 	auto area = getLocalBounds().reduced (4);
 
 	Colour backgroundColour;
-	if (auto lf = dynamic_cast<LittleTeknoDrummerLookAndFeel*> (&getLookAndFeel()))
+	if (auto lf = dynamic_cast<WdLookAndFeel*> (&getLookAndFeel()))
 		backgroundColour = lf->colour3;
 
 	g.setColour(backgroundColour);
@@ -120,12 +119,12 @@ void LtdComplexComponent::LtdComplexComponentTitle::paint (Graphics& g)
 	g.fillRoundedRectangle(area.toFloat(), 3);
 }
 
-void LtdComplexComponent::LtdComplexComponentTitle::resized()
+void Grid2d::Grid2dTitle::resized()
 {
 	auto area = getLocalBounds().reduced(4);
 
 	Colour textColour;
-	if (auto lf = dynamic_cast<LittleTeknoDrummerLookAndFeel*> (&getLookAndFeel()))
+	if (auto lf = dynamic_cast<WdLookAndFeel*> (&getLookAndFeel()))
 		textColour = lf->colour2;
 
 	titleLabel.setColour(Label::textColourId, textColour);

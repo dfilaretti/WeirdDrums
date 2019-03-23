@@ -13,16 +13,16 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 #include "LookAndFeels.h"
-#include "LtdComplexComponent.h"
-#include "LtdRotarySlider.h"
+#include "Grid2d.h"
+#include "LabelledRotarySlider.h"
 
 //==============================================================================
 
-class MasterSectionEditor    : public LtdComplexComponent
+class MasterSectionEditor    : public Grid2d
 {
 public:
 	//==============================================================================
-    MasterSectionEditor(LittleTeknoDrummerAudioProcessor&, 
+    MasterSectionEditor(WdAudioProcessor&, 
 		                int, 
 		                int, 
 		                std::string, 
@@ -32,13 +32,13 @@ public:
 
 private:
 	//==============================================================================
-	LtdRotarySlider mixSlider{ juce::String("Mix") };
-	LtdRotarySlider eqFreqSlider{ juce::String("Eq Freq") };
-	LtdRotarySlider distortSlider{ juce::String("Distort") };
-	LtdRotarySlider eqGainSlider{ juce::String("Eq Gain") };
-	LtdRotarySlider levelSlider{ juce::String("Level") };
-	LtdRotarySlider panSlider{ juce::String("Pan") };
-	LtdRotarySlider filterTypeSlider{ juce::String("Filter Type") };
+	LabelledRotarySlider mixSlider{ juce::String("Mix") };
+	LabelledRotarySlider eqFreqSlider{ juce::String("Eq Freq") };
+	LabelledRotarySlider distortSlider{ juce::String("Distort") };
+	LabelledRotarySlider eqGainSlider{ juce::String("Eq Gain") };
+	LabelledRotarySlider levelSlider{ juce::String("Level") };
+	LabelledRotarySlider panSlider{ juce::String("Pan") };
+	LabelledRotarySlider filterTypeSlider{ juce::String("Filter Type") };
 
 	//==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MasterSectionEditor)

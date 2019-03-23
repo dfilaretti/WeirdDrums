@@ -12,7 +12,7 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-LittleTeknoDrummerAudioProcessorEditor::LittleTeknoDrummerAudioProcessorEditor (LittleTeknoDrummerAudioProcessor& p)
+WdAudioProcessorEditor::WdAudioProcessorEditor (WdAudioProcessor& p)
     : AudioProcessorEditor (&p), 
 	  processor (p), 
 	  bottomSectionGui (p, "Version 0.1.1"),
@@ -33,22 +33,22 @@ LittleTeknoDrummerAudioProcessorEditor::LittleTeknoDrummerAudioProcessorEditor (
 	setSize (kWidth, kHeight);
 }
 
-LittleTeknoDrummerAudioProcessorEditor::~LittleTeknoDrummerAudioProcessorEditor() 
+WdAudioProcessorEditor::~WdAudioProcessorEditor() 
 { 
 	setLookAndFeel (nullptr); 
 }
 
 //==============================================================================
-void LittleTeknoDrummerAudioProcessorEditor::paint (Graphics& g)
+void WdAudioProcessorEditor::paint (Graphics& g)
 {
 	Colour backgroundColour;
-	if (auto lf = dynamic_cast<LittleTeknoDrummerLookAndFeel*> (&getLookAndFeel()))
+	if (auto lf = dynamic_cast<WdLookAndFeel*> (&getLookAndFeel()))
 		backgroundColour = lf->colour4;
 
 	g.fillAll (backgroundColour);
 }
 
-void LittleTeknoDrummerAudioProcessorEditor::resized()
+void WdAudioProcessorEditor::resized()
 {
 	auto area  = getLocalBounds();
 	auto width = area.getWidth();

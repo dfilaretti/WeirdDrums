@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    LtdSlider.h
+    LabelledSlider.h
     Created: 5 Mar 2019 8:38:02am
     Author:  dfila
 
@@ -12,12 +12,12 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
-class LtdSlider :	public Component
+class LabelledSlider :	public Component
 {
 public:
 	//==============================================================================
-	LtdSlider (juce::String label);
-	~LtdSlider();
+	LabelledSlider (juce::String label);
+	~LabelledSlider();
 
 	//==============================================================================
 	void paint(Graphics&) override = 0;

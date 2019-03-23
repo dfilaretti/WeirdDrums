@@ -20,7 +20,7 @@
    NB: the drawLinearSlider and drawRotarySlider methods are mostly copy
        of JUCE's builtin versions, with some modifications. 
 */
-class LittleTeknoDrummerLookAndFeel : public LookAndFeel_V4 
+class WdLookAndFeel : public LookAndFeel_V4 
 {
 public:
 	//==============================================================================
@@ -33,7 +33,7 @@ public:
 	Colour colour4; // "light" colour
 
 	//==============================================================================
-	LittleTeknoDrummerLookAndFeel ()
+	WdLookAndFeel ()
 	{
 	}
 

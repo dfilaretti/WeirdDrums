@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="Tv2EuB" name="LittleTeknoDrummer" projectType="audioplug"
-              jucerVersion="5.4.3" pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
-              pluginFormats="buildStandalone,buildVST3" defines="JUCE_VST3_CAN_REPLACE_VST2=0"
+<JUCERPROJECT id="Tv2EuB" name="WeirdDrums" projectType="audioplug" jucerVersion="5.4.3"
+              pluginCharacteristicsValue="pluginIsSynth,pluginProducesMidiOut,pluginWantsMidiIn"
+              pluginFormats="buildVST3" defines="JUCE_VST3_CAN_REPLACE_VST2=0"
               version="0.1" companyName="Daniele Filaretti" companyEmail="dfilaretti@gmail.com"
-              companyWebsite="dfilaretti.github.io" cppLanguageStandard="latest">
-  <MAINGROUP id="iGEfRU" name="LittleTeknoDrummer">
+              companyWebsite="danielefilaretti.com" cppLanguageStandard="latest"
+              pluginManufacturerCode="Dani" pluginCode="DfWd">
+  <MAINGROUP id="iGEfRU" name="WeirdDrums">
     <GROUP id="{AA863529-B8B7-5D1E-5015-BA54E06BED19}" name="Source">
       <GROUP id="{5633249D-B53E-0946-92DD-FAC6184FFC44}" name="Processor">
         <FILE id="pmsZRf" name="Envelope.h" compile="0" resource="0" file="Source/Envelope.h"/>
@@ -30,16 +31,16 @@
               file="Source/TitleSectionEditor.cpp"/>
         <FILE id="mGKtnM" name="TitleSectionEditor.h" compile="0" resource="0"
               file="Source/TitleSectionEditor.h"/>
-        <FILE id="nYx6dp" name="LtdComplexComponent.cpp" compile="1" resource="0"
-              file="Source/LtdComplexComponent.cpp"/>
-        <FILE id="uaq7mJ" name="LtdComplexComponent.h" compile="0" resource="0"
-              file="Source/LtdComplexComponent.h"/>
-        <FILE id="QslMLf" name="LtdRotarySlider.cpp" compile="1" resource="0"
-              file="Source/LtdRotarySlider.cpp"/>
-        <FILE id="LtFSwI" name="LtdRotarySlider.h" compile="0" resource="0"
-              file="Source/LtdRotarySlider.h"/>
-        <FILE id="U5jKZJ" name="LtdSlider.cpp" compile="1" resource="0" file="Source/LtdSlider.cpp"/>
-        <FILE id="I4fjvD" name="LtdSlider.h" compile="0" resource="0" file="Source/LtdSlider.h"/>
+        <FILE id="nYx6dp" name="Grid2d.cpp" compile="1" resource="0" file="Source/Grid2d.cpp"/>
+        <FILE id="uaq7mJ" name="Grid2d.h" compile="0" resource="0" file="Source/Grid2d.h"/>
+        <FILE id="QslMLf" name="LabelledRotarySlider.cpp" compile="1" resource="0"
+              file="Source/LabelledRotarySlider.cpp"/>
+        <FILE id="LtFSwI" name="LabelledRotarySlider.h" compile="0" resource="0"
+              file="Source/LabelledRotarySlider.h"/>
+        <FILE id="U5jKZJ" name="LabelledSlider.cpp" compile="1" resource="0"
+              file="Source/LabelledSlider.cpp"/>
+        <FILE id="I4fjvD" name="LabelledSlider.h" compile="0" resource="0"
+              file="Source/LabelledSlider.h"/>
         <FILE id="SyRGGk" name="LookAndFeels.h" compile="0" resource="0" file="Source/LookAndFeels.h"/>
         <FILE id="WTOnVD" name="PluginEditor.cpp" compile="1" resource="0"
               file="Source/PluginEditor.cpp"/>

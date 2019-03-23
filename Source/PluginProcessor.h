@@ -18,12 +18,12 @@
 //==============================================================================
 /**
 */
-class LittleTeknoDrummerAudioProcessor  : public AudioProcessor
+class WdAudioProcessor  : public AudioProcessor
 {
 public:
     //==============================================================================
-    LittleTeknoDrummerAudioProcessor();
-    ~LittleTeknoDrummerAudioProcessor();
+    WdAudioProcessor();
+    ~WdAudioProcessor();
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
@@ -74,12 +74,12 @@ private:
 
 	//==============================================================================
 	const int kNumVoices = 3;
-	const Identifier kValueTreeId = Identifier("LittleTeknoDrummer");
+	const Identifier kValueTreeId = Identifier("WeirdDrums");
 
 	//==============================================================================
 	void initSynth();
 	void passParamPointersToVoices();
 
 	//==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (LittleTeknoDrummerAudioProcessor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (WdAudioProcessor)
 };

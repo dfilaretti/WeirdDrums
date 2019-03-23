@@ -1,34 +1,34 @@
 /*
   ==============================================================================
 
-    LtdRotarySlider.cpp
+    LabelledRotarySlider.cpp
     Created: 5 Mar 2019 8:38:14am
     Author:  dfila
 
   ==============================================================================
 */
 
-#include "LtdRotarySlider.h"
+#include "LabelledRotarySlider.h"
 
-LtdRotarySlider::LtdRotarySlider (juce::String label)
-	: LtdSlider (label) // call base ctor
+LabelledRotarySlider::LabelledRotarySlider (juce::String label)
+	: LabelledSlider (label) // call base ctor
 {
 	m_slider.setSliderStyle  (Slider::RotaryHorizontalVerticalDrag);
 	addAndMakeVisible (&m_slider);
 
 }
 
-LtdRotarySlider::~LtdRotarySlider()
+LabelledRotarySlider::~LabelledRotarySlider()
 {
 	// TODO (probably nothing)
 }
 
-void LtdRotarySlider::paint(Graphics& g)
+void LabelledRotarySlider::paint(Graphics& g)
 {
 	//g.fillAll (Colours::darkgrey);
 }
 
-void LtdRotarySlider::resized()
+void LabelledRotarySlider::resized()
 {
 	auto r      = getLocalBounds();
 	auto width  = r.getWidth();

@@ -40,7 +40,7 @@ void TitleSectionEditor::resized()
 	auto creditsArea = area;
 
 	Colour textColour;
-	if (auto lf = dynamic_cast<LittleTeknoDrummerLookAndFeel*> (&getLookAndFeel()))
+	if (auto lf = dynamic_cast<WdLookAndFeel*> (&getLookAndFeel()))
 		textColour = lf->colour1;
 
 	// Setup title

@@ -18,7 +18,7 @@ class BottomSectionEditor : public Component
 {
 public:
 	//==============================================================================
-	BottomSectionEditor (LittleTeknoDrummerAudioProcessor& /*processor*/,
+	BottomSectionEditor (WdAudioProcessor& /*processor*/,
 		                 std::string /*versionInfo*/);
 	
 	~BottomSectionEditor();
@@ -29,7 +29,7 @@ public:
 
 private:
 	//==============================================================================
-	LittleTeknoDrummerAudioProcessor& m_processor;
+	WdAudioProcessor& m_processor;
 	std::string m_versionInfo;
 
 	//==============================================================================

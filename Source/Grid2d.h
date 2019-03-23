@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    LtdComplexComponent.h
+    Grid2d.h
     Created: 5 Mar 2019 3:46:46pm
     Author:  dfila
 
@@ -12,32 +12,32 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
-#include "LtdSlider.h"
+#include "LabelledSlider.h"
 #include "LookAndFeels.h"
 #include <variant>
 
-class LtdComplexComponent :		public Component
+class Grid2d :		public Component
 {
 public:
 	//==============================================================================
-	LtdComplexComponent (LittleTeknoDrummerAudioProcessor& /*processor*/,  
-		                 int                               /*nRows*/, 
-		                 int                               /*nColumns*/, 
-		                 std::string                       /*title*/, 
-		                 Colour                            /*backgroundColour*/);
-	~LtdComplexComponent();
+	Grid2d (WdAudioProcessor& /*processor*/,  
+		    int               /*nRows*/, 
+		    int               /*nColumns*/, 
+		    std::string       /*title*/, 
+		    Colour            /*backgroundColour*/);
+	~Grid2d();
 
 	//==============================================================================
 	void paint(Graphics&) override;
 	void resized() override;
 
 	//==============================================================================
-	class LtdComplexComponentTitle : public Component
+	class Grid2dTitle : public Component
 	{
 	public:
 		//==============================================================================
-		LtdComplexComponentTitle(std::string);
-		~LtdComplexComponentTitle();
+		Grid2dTitle(std::string);
+		~Grid2dTitle();
 
 		//==============================================================================
 		void paint(Graphics&) override;
@@ -74,10 +74,10 @@ private:
 	void setupChild(std::pair<Component*, std::string>);
 
 	//==============================================================================
-	LtdComplexComponentTitle titleComponent;
+	Grid2dTitle titleComponent;
 
 	//==============================================================================
-	LittleTeknoDrummerAudioProcessor& processor;
+	WdAudioProcessor& processor;
 
 	//==============================================================================
 	std::vector<Attachment> attachments;

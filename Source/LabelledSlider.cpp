@@ -1,16 +1,16 @@
 /*
   ==============================================================================
 
-    LtdSlider.cpp
+    LabelledSlider.cpp
     Created: 5 Mar 2019 8:38:02am
     Author:  dfila
 
   ==============================================================================
 */
 
-#include "LtdSlider.h"
+#include "LabelledSlider.h"
 
-LtdSlider::LtdSlider (juce::String label)
+LabelledSlider::LabelledSlider (juce::String label)
 {
 	// Set up name label
 	m_nameLabel.setFont(Font(15.0f, Font::bold));
@@ -19,12 +19,12 @@ LtdSlider::LtdSlider (juce::String label)
 	addAndMakeVisible (m_nameLabel);
 };
 
-LtdSlider::~LtdSlider()
+LabelledSlider::~LabelledSlider()
 {
 	// TODO (probably nothing)
 }
 
-Slider* LtdSlider::getSlider()
+Slider* LabelledSlider::getSlider()
 {
 	return &m_slider;
 }

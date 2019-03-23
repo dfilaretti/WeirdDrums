@@ -13,17 +13,17 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 #include "LookAndFeels.h"
-#include "LtdComplexComponent.h"
-#include "LtdRotarySlider.h"
+#include "Grid2d.h"
+#include "LabelledRotarySlider.h"
 
 //==============================================================================
 /*
 */
-class OscillatorSectionEditor    : public LtdComplexComponent
+class OscillatorSectionEditor    : public Grid2d
 {
 public:
 	//==============================================================================
-    OscillatorSectionEditor(LittleTeknoDrummerAudioProcessor&, 
+    OscillatorSectionEditor(WdAudioProcessor&, 
 		                    int, 
 		                    int, 
 		                    std::string, 
@@ -32,14 +32,14 @@ public:
 
 private:
 	//==============================================================================
-	LtdRotarySlider m_oscSlider{ juce::String("Waveform") };
-	LtdRotarySlider m_freqSlider{ juce::String("Freq") };
-	LtdRotarySlider m_attackSlider{ juce::String("Attack") };
-	LtdRotarySlider m_decaySlider{ juce::String("Decay") };
-	LtdRotarySlider m_pitchEnvAmountSlider  { juce::String("Env Amt") };
-	LtdRotarySlider m_pitchEnvRateSlider{ juce::String("Env Rate") };
-	LtdRotarySlider m_pitchLfoAmountSlider{ juce::String("LFO Amt") };
-	LtdRotarySlider m_pitchLfoRateSlider { juce::String("LFO Rate") };
+	LabelledRotarySlider m_oscSlider{ juce::String("Waveform") };
+	LabelledRotarySlider m_freqSlider{ juce::String("Freq") };
+	LabelledRotarySlider m_attackSlider{ juce::String("Attack") };
+	LabelledRotarySlider m_decaySlider{ juce::String("Decay") };
+	LabelledRotarySlider m_pitchEnvAmountSlider  { juce::String("Env Amt") };
+	LabelledRotarySlider m_pitchEnvRateSlider{ juce::String("Env Rate") };
+	LabelledRotarySlider m_pitchLfoAmountSlider{ juce::String("LFO Amt") };
+	LabelledRotarySlider m_pitchLfoRateSlider { juce::String("LFO Rate") };
 
 	//==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (OscillatorSectionEditor)

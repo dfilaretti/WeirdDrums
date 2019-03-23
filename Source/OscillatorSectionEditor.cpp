@@ -12,11 +12,11 @@
 #include "OscillatorSectionEditor.h"
 
 //==============================================================================
-OscillatorSectionEditor::OscillatorSectionEditor (LittleTeknoDrummerAudioProcessor& p, 
+OscillatorSectionEditor::OscillatorSectionEditor (WdAudioProcessor& p, 
 	                                              int nRows, int nCols, 
 	                                              std::string title, 
 	                                              Colour backgroundColour) 
-	: LtdComplexComponent(p, nRows, nCols, title, backgroundColour)
+	: Grid2d(p, nRows, nCols, title, backgroundColour)
 {
 	// TODO: in future, rather than directly accessing 
 	//       LtdComplexComponent::controls like we are 

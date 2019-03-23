@@ -12,11 +12,11 @@
 #include "MasterSectionEditor.h"
 
 //==============================================================================
-MasterSectionEditor::MasterSectionEditor(LittleTeknoDrummerAudioProcessor& p, 
+MasterSectionEditor::MasterSectionEditor(WdAudioProcessor& p, 
 	                                     int nRows, int nCols, 
 	                                     std::string title, 
 	                                     Colour backgroundColour) : 
-	LtdComplexComponent(p, nRows, nCols, title, backgroundColour)
+	Grid2d(p, nRows, nCols, title, backgroundColour)
 {
 	controls = { { &mixSlider,        "MASTER-MIX"},
 			     { &distortSlider,    "MASTER-DISTORT" },

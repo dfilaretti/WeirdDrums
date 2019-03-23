@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    LtdRotarySlider.h
+    LabelledRotarySlider.h
     Created: 5 Mar 2019 8:38:14am
     Author:  dfila
 
@@ -10,13 +10,13 @@
 
 #pragma once
 
-#include "LtdSlider.h"
+#include "LabelledSlider.h"
 
-class LtdRotarySlider	: public LtdSlider
+class LabelledRotarySlider	: public LabelledSlider
 {
 public:
-	LtdRotarySlider (juce::String label);
-	~LtdRotarySlider();
+	LabelledRotarySlider (juce::String label);
+	~LabelledRotarySlider();
 
 private:
 	const float squeezeFactor = 5; // TODO: rename?
