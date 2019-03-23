@@ -95,7 +95,6 @@ void Grid2d::LinkComponentToAttachment(Component* component, std::string attachm
 //==============================================================================
 Grid2d::Grid2dTitle::Grid2dTitle (std::string t)
 {
-	/*titleLabel.setColour(Label::textColourId, Colours::black);*/
 	titleLabel.setFont(Font(15.0f, Font::bold));
 	titleLabel.setText(t, dontSendNotification);
 	titleLabel.setJustificationType(Justification::centred);

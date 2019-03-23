@@ -19,7 +19,6 @@ public:
 	Distortion()
 	{
 		auto& waveshaper = processorChain.template get<waveshaperIndex>();
-		//waveshaper.functionToUse = [] (Type x) { return jlimit (Type (-0.1), Type (0.1), x); };
 
 		waveshaper.functionToUse = [](Type x)
 		{

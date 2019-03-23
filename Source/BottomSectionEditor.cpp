@@ -20,7 +20,6 @@ BottomSectionEditor::BottomSectionEditor(WdAudioProcessor& processor,
 	initRandomButton();
 
 	// setup version slider
-	//m_versionLabel.setColour(Label::textColourId, Colours::black);
 	m_versionLabel.setFont(Font(16.0f, Font::bold));
 	m_versionLabel.setText(m_versionInfo, dontSendNotification);
 	m_versionLabel.setJustificationType(Justification::right);
@@ -52,7 +51,6 @@ void BottomSectionEditor::resized()
 		textColour = lf->colour1;
 
 	m_versionLabel.setColour(Label::textColourId, textColour);
-
 
 	m_resetButton.setBounds  (button1Area);
 	m_randomButton.setBounds (button2Area);

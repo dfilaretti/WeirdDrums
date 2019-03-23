@@ -15,7 +15,6 @@ LabelledRotarySlider::LabelledRotarySlider (juce::String label)
 {
 	m_slider.setSliderStyle  (Slider::RotaryHorizontalVerticalDrag);
 	addAndMakeVisible (&m_slider);
-
 }
 
 LabelledRotarySlider::~LabelledRotarySlider()
@@ -25,7 +24,6 @@ LabelledRotarySlider::~LabelledRotarySlider()
 
 void LabelledRotarySlider::paint(Graphics& g)
 {
-	//g.fillAll (Colours::darkgrey);
 }
 
 void LabelledRotarySlider::resized()
