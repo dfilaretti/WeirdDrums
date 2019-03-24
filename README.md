@@ -6,12 +6,14 @@ A free and open source little drum synth plugin inspired by the awesome [Sonic C
 
 Here some audio examples (more to come!):
 
-* [boredom](http://danielefilaretti.com/downloads/misc/WeirdDrums-examples/boredom.mp3)
-* [slow-techno](http://danielefilaretti.com/downloads/misc/WeirdDrums-examples/slow-techno.mp3)
-* [electro-1](http://danielefilaretti.com/downloads/misc/WeirdDrums-examples/electro-1.mp3)
-* [electro-2](http://danielefilaretti.com/downloads/misc/WeirdDrums-examples/electro-2.mp3)
-* [gabba](http://danielefilaretti.com/downloads/misc/WeirdDrums-examples/gabba.mp3)
-* [tek](http://danielefilaretti.com/downloads/misc/WeirdDrums-examples/tek.mp3)
+
+
+* [boredom](http://danielefilaretti.com/assets/downloads/misc/wd-examples/boredom.mp3)
+* [slow-techno](http://danielefilaretti.com/assets/downloads/misc/wd-examples/slow-techno.mp3)
+* [electro-1](http://danielefilaretti.com/assets/downloads/misc/wd-examples/electro-1.mp3)
+* [electro-2](http://danielefilaretti.com/assets/downloads/misc/wd-examples/electro-2.mp3)
+* [gabba](http://danielefilaretti.com/assets/downloads/misc/wd-examples/gabba.mp3)
+* [tek](http://danielefilaretti.com/assets/downloads/misc/wd-examples/tek.mp3)
 
 ## Binaries
 
