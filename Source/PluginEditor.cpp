@@ -17,9 +17,9 @@ WdAudioProcessorEditor::WdAudioProcessorEditor (WdAudioProcessor& p)
 	  processor (p), 
 	  bottomSectionGui (p, "Version 0.1.1"),
 	  titleSectionGui  ("WeirdDrums", "www.danielefilaretti.com"),
-	  oscSectionGui    (p, 4, 2, "Oscillator", Colours::black),
-	  noiseSectionGui  (p, 4, 1, "Noise",      Colours::black),
-	  masterSectionGui (p, 4, 1, "Master",     Colours::black)
+	  oscSectionGui    (p, 4, 2, "Oscillator"),
+	  noiseSectionGui  (p, 4, 1, "Noise"),
+	  masterSectionGui (p, 4, 1, "Master")
 {
 	setLookAndFeel (&lookAndFeel);
 	lookAndFeel.setTheme3();
@@ -51,7 +51,6 @@ void WdAudioProcessorEditor::paint (Graphics& g)
 void WdAudioProcessorEditor::resized()
 {
 	auto area  = getLocalBounds();
-	auto width = area.getWidth();
 
 	auto titleArea  = area.removeFromTop(kTitleHeight);
 	auto bottomArea = area.removeFromBottom(kTitleHeight);

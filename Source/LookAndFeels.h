@@ -49,7 +49,7 @@ public:
 		g.fillRoundedRectangle(buttonArea.toFloat(), 4);
 	}
 
-	void drawButtonText(Graphics& g, TextButton& button, bool isMouseOverButton, bool isButtonDown) override
+	void drawButtonText(Graphics& g, TextButton& button, bool /*isMouseOverButton*/, bool /*isButtonDown*/) override
 	{
 		auto font = getTextButtonFont(button, button.getHeight());
 		g.setFont(font);
@@ -71,7 +71,7 @@ public:
 				Justification::centred, 2);
 	}
 
-	Font getTextButtonFont(TextButton&, int buttonHeight) override
+	Font getTextButtonFont(TextButton&, int /*buttonHeight*/) override
 	{
 		return Font(15.0f, Font::bold);
 	}

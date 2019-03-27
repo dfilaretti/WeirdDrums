@@ -54,7 +54,13 @@ public:
 				case saw:
 					return [](Type x) { return jmap(x, Type(-MathConstants<double>::pi), Type(MathConstants<double>::pi), Type(-1), Type(1)); };
 				case square:
-					return [](Type x) { return (sgn(std::sin(x))); };
+				default:
+					return [](Type x) 
+					{ 
+						auto v = std::sin(x);
+						return static_cast<float>((0 < v) - (v < 0));
+					};
+
 			}
 		}();
 
@@ -88,13 +94,6 @@ public:
 		square,
 	};
 private:
-	//==============================================================================
-	template <typename T>
-	static int sgn(T val)
-	{
-		return (T (0) < val) - (val < T (0));
-	}
-
 	//==============================================================================
 	enum
 	{

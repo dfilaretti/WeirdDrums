@@ -22,7 +22,7 @@ LabelledRotarySlider::~LabelledRotarySlider()
 	// TODO (probably nothing)
 }
 
-void LabelledRotarySlider::paint(Graphics& g)
+void LabelledRotarySlider::paint(Graphics& /*g*/)
 {
 }
 
@@ -36,8 +36,8 @@ void LabelledRotarySlider::resized()
 	m_slider.setTextBoxStyle (Slider::TextBoxBelow, 
 		                      true, 
 		                      width, 
-		                      labelsHeight);
+		                      static_cast<int>(labelsHeight));
 
-	m_nameLabel.setBounds  (r.removeFromTop (labelsHeight));
+	m_nameLabel.setBounds  (r.removeFromTop (static_cast<int>(labelsHeight)));
 	m_slider.setBounds (r);
 }

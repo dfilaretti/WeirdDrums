@@ -43,9 +43,9 @@ private:
 	NoiseSectionEditor noiseSectionGui;
 
 	//==============================================================================
-	const float kWidth         = 500;
-	const float kHeight        = 600;
-	const int   kTitleHeight   = 40;
+	const int kWidth         = 500;
+	const int kHeight        = 600;
+	const int kTitleHeight   = 40;
 
 	//==============================================================================
     WdAudioProcessor& processor;

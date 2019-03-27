@@ -33,7 +33,7 @@ BottomSectionEditor::~BottomSectionEditor()
 
 //==============================================================================
 
-void BottomSectionEditor::paint(Graphics& g) 
+void BottomSectionEditor::paint(Graphics& /*g*/) 
 {
 }
 
@@ -41,7 +41,6 @@ void BottomSectionEditor::resized()
 {
 	auto area            = getLocalBounds();
 	auto width           = area.getWidth();
-	auto height          = area.getHeight();
 	auto button1Area     = area.removeFromLeft(width / 4);
 	auto button2Area     = area.removeFromLeft(width / 4);
 	auto versionInfoArea = area;

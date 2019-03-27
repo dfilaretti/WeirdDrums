@@ -30,7 +30,7 @@ public:
 		// Setup amp envelope smoothing
 		auto modSampleRate   = (spec.sampleRate / m_modulationUpdateRate);
 		auto modSamplePeriod = 1 / modSampleRate;
-		oscSectionProcessorChain.get<oscSectionOscIndex>().setRampDuration (modSamplePeriod);
+		oscSectionProcessorChain.get<oscSectionOscIndex>().setRampDuration (static_cast<float>(modSamplePeriod));
 
 		// prepare processing chains
 		oscSectionProcessorChain.prepare (spec);
@@ -50,7 +50,7 @@ public:
 	//==============================================================================
 	void setParamPointers ( float* oscAttack 
 		                  , float* oscDecay 
-		                  , float* oscFrequency 
+		                  , float* oscFreq 
 		                  , float* oscSelection 
 		                  , float* oscPitchEnvAmount 
 		                  , float* oscPitchEnvRate 
@@ -70,7 +70,7 @@ public:
 	{
 		envAttack            = oscAttack;
 		envDecay             = oscDecay;
-		currentNoteFrequency = oscFrequency;
+		currentNoteFrequency = oscFreq;
 		oscWaveform          = oscSelection;
 		pitchEnvAmount       = oscPitchEnvAmount;
 		pitchEnvRate         = oscPitchEnvRate;
@@ -95,8 +95,10 @@ public:
 		return dynamic_cast<SynthSound*> (sound) != nullptr;
 	}
 
-	void startNote(int midiNoteNumber, float velocity, SynthesiserSound* sound,
-		int currentPitchWheelPosition) override
+	void startNote(int /*midiNoteNumber*/, 
+		           float velocity, 
+		           SynthesiserSound* /*sound*/,
+		           int /*currentPitchWheelPosition*/) override
 	{
 		setPerNoteParams();
 		
@@ -107,17 +109,17 @@ public:
 		m_currentNoteVelocity = velocity;
 	}
 	
-	void stopNote(float velocity, bool allowTailOf) override
+	void stopNote(float /*velocity*/, bool allowTailOf) override
 	{
 		if (allowTailOf) {} // Nothing to do - one-shot drum envelope here
 		else             clearCurrentNote();
 	}
 
-	void pitchWheelMoved (int newPitchWheelValue) override
+	void pitchWheelMoved (int /*newPitchWheelValue*/) override
 	{
 	}
 
-	void controllerMoved (int controllerNumber, int newControllerValue) override
+	void controllerMoved (int /*controllerNumber*/, int /*newControllerValue*/) override
 	{
 	}
 
@@ -198,7 +200,7 @@ private:
 		// pitch LFO
 		// https://dsp.stackexchange.com/questions/2349/help-with-algorithm-for-modulating-oscillator-pitch-using-lfo
 		auto pitchLfoOut = pitchLfo.processSample (0.0f);
-		oscFrequency = *currentNoteFrequency * pow (2, (1 / 1200.0 + pitchLfoOut * *pitchLfoAmount));
+		oscFrequency = *currentNoteFrequency * pow (2.f, (1.f / 1200.0f + pitchLfoOut * *pitchLfoAmount));
 
 		// pitch env
 		float fMin = oscFrequency;
@@ -221,7 +223,7 @@ private:
 	void setPerNoteParams()
 	{
 		oscSectionProcessorChain.get<oscSectionOscIndex>().reset (); // reset phase to avoid clicks
-		oscSectionProcessorChain.get<oscSectionOscIndex>().setWaveform (*oscWaveform);
+		oscSectionProcessorChain.get<oscSectionOscIndex>().setWaveform (static_cast<int>(*oscWaveform));
 
 		// Global FX chain
 		masterSectionProcessorChain
@@ -237,7 +239,7 @@ private:
 		m_noiseAmpEnv.setParameters({ *noiseEnvAttack, *noiseEnvDecay });
 
 		// modulation
-		m_oscPitchEnv.setParameters({ 0.001, *pitchEnvRate });
+		m_oscPitchEnv.setParameters({ 0.001f, *pitchEnvRate });
 		pitchLfo.setFrequency(*pitchLfoRate, true);
 
 		// set filter params
@@ -321,7 +323,7 @@ private:
 	juce::dsp::ProcessorChain<Distortion, Gain> masterSectionProcessorChain;
 
 	//==============================================================================
-	double m_currentNoteVelocity;
+	float m_currentNoteVelocity;
 	float  oscFrequency; // actual frequency taking LFO and pitch env into account
  	
 	//==============================================================================

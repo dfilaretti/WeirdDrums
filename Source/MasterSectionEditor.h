@@ -25,8 +25,7 @@ public:
     MasterSectionEditor(WdAudioProcessor&, 
 		                int, 
 		                int, 
-		                std::string, 
-		                Colour);
+		                std::string);
 
     ~MasterSectionEditor();
 

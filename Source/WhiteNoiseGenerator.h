@@ -15,7 +15,7 @@
 class WhiteNoiseGenerator
 {
 public:
-	void prepare(const juce::dsp::ProcessSpec& spec)
+	void prepare(const juce::dsp::ProcessSpec& /*spec*/)
 	{
 	}
 
@@ -50,7 +50,6 @@ public:
 
 		for (int channel = 0; channel < numChannels; channel++)
 		{
-			auto* src = inBlock.getChannelPointer(channel);
 			auto* dst = outBlock.getChannelPointer(channel);
 
 			for (int i = 0; i < len; i++)

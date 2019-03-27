@@ -126,7 +126,7 @@ public:
 		else if (currentState == State::tailOff)
 		{
 			envelopeVal *= tailOff;
-            tailOff     *= 0.99;
+            tailOff     *= 0.99f;
 
 			if (tailOff <= 0.005)
 				reset();
@@ -152,8 +152,8 @@ private:
     State currentState = State::idle;
     Parameters currentParameters;
 
-    double sr = 0.0;
-	double tailOff = 0.0;
+    double sr = 0.0f;
+	float tailOff = 0.0f;
 
     float envelopeVal = 0.0f;
 

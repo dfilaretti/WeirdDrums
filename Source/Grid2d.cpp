@@ -14,13 +14,11 @@
 Grid2d::Grid2d(WdAudioProcessor& p, 
 	                             int rows, 
 	                             int columns, 
-	                             std::string title, 
-	                             Colour backgroundColour) :
+	                             std::string title) :
 	processor(p), 
 	nRows {rows}, 
 	nCols {columns}, 
-	titleComponent {title}, 
-	backgroundColour {backgroundColour}
+	titleComponent {title}
 {
 	addAndMakeVisible (titleComponent);
 }
@@ -50,7 +48,6 @@ void Grid2d::resized()
 	titleComponent.setBounds (titleArea);
 
 	int nComponents       = nRows;
-	auto nItems           = controls.size();
 	auto width            = area.getWidth();
 	auto height           = area.getHeight();
 	auto componentWidth   = height / nComponents;

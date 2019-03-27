@@ -26,8 +26,7 @@ public:
     OscillatorSectionEditor(WdAudioProcessor&, 
 		                    int, 
 		                    int, 
-		                    std::string, 
-		                    Colour);
+		                    std::string);
     ~OscillatorSectionEditor();
 
 private:

@@ -14,9 +14,8 @@
 //==============================================================================
 OscillatorSectionEditor::OscillatorSectionEditor (WdAudioProcessor& p, 
 	                                              int nRows, int nCols, 
-	                                              std::string title, 
-	                                              Colour backgroundColour) 
-	: Grid2d(p, nRows, nCols, title, backgroundColour)
+	                                              std::string title) 
+	: Grid2d(p, nRows, nCols, title)
 {
 	// TODO: in future, rather than directly accessing 
 	//       LtdComplexComponent::controls like we are 

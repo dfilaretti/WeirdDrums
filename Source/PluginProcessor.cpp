@@ -83,26 +83,28 @@ AudioProcessorValueTreeState::ParameterLayout WdAudioProcessor::createParameterL
 
 	params.push_back (std::make_unique<AudioParameterFloat> ("WAVE-TYPE", 
 			                                                 "Wave Type", 
-                 			                                 NormalisableRange<float>(0, 2, 1),
-			                                                 0, 
+                 			                                 NormalisableRange<float>(0.f, 2.f, 1.f),
+			                                                 0.f, 
 															 "Wave Type", 
 															 AudioProcessorParameter::genericParameter,
 															 [](float value, int) 
 			                                                 {
-                                                                 if (0 == value)
-                                                                 	return "SINE";
-                                                                 else if (1 == value)
-                                                                 	return "SAW";
-                                                                 else if (2 == value)
-                                                                 	return "SQUARE";									
+			if (0 == value)
+				return "SINE";
+			else if (1 == value)
+				return "SAW";
+			else if (2 == value)
+				return "SQUARE";
+			else
+				return "ERR";
                                                                  
 			                                                 },
 															 nullptr));
 	
 	params.push_back (std::make_unique<AudioParameterFloat> ("PITCH-ENV-AMOUNT", 
 		                                                     "Pitch Env Amount", 
-		                                                     NormalisableRange<float>(0, 1),
-		                                                     0, 
+		                                                     NormalisableRange<float>(0.f, 1.f),
+		                                                     0.f, 
 		                                                     "Pitch Env Amount",
 		                                                     AudioProcessorParameter::genericParameter,
 		                                                     [] (float value, int) { return juce::String::toDecimalStringWithSignificantFigures (jmap (value, 0.f, 100.f), 2) + " %" ;  },
@@ -124,8 +126,8 @@ AudioProcessorValueTreeState::ParameterLayout WdAudioProcessor::createParameterL
 
 	params.push_back (std::make_unique<AudioParameterFloat> ("PITCH-LFO-AMOUNT", 
 		                                                     "Pitch Lfo Amount", 
-		                                                     NormalisableRange<float>(0, 1),
-		                                                     0, 
+		                                                     NormalisableRange<float>(0.f, 1.f),
+		                                                     0.f, 
 		                                                     "Pitch Lfo Amount", 
 		                                                     AudioProcessorParameter::genericParameter,
 		                                                     [](float value, int) { return juce::String::toDecimalStringWithSignificantFigures(jmap(value, 0.f, 100.f), 2) + " %";  },
@@ -144,18 +146,20 @@ AudioProcessorValueTreeState::ParameterLayout WdAudioProcessor::createParameterL
 
 	params.push_back (std::make_unique<AudioParameterFloat> ("FILTER-TYPE", 
 			                                                 "Filter Type", 
-			                                                 NormalisableRange<float>(0, 2, 1), 
-			                                                 0,
+			                                                 NormalisableRange<float>(0.f, 2.f, 1.f), 
+			                                                 0.f,
 			                                                 "Filter Type",
 			                                                 AudioProcessorParameter::genericParameter,
 			                                                 [](float value, int)
 			                                                 {
-			                                                 if (0 == value)
-			                                                  	return "LP";
-			                                                 else if (1 == value)
-			                                                  	return "HP";
-			                                                 else if (2 == value)
-			                                                  	return "BP";
+			if (0 == value)
+				return "LP";
+			else if (1 == value)
+				return "HP";
+			else if (2 == value)
+				return "BP";
+			else
+				return "ERR";
 			                                                  
 			                                                 },
 			                                                 nullptr));
@@ -172,8 +176,8 @@ AudioProcessorValueTreeState::ParameterLayout WdAudioProcessor::createParameterL
 	
 	params.push_back (std::make_unique<AudioParameterFloat> ("FILTER-RESONANCE", 
 			                                                  "Resonance", 
-			                                                  NormalisableRange<float>(1, 5), 
-															  1,
+			                                                  NormalisableRange<float>(1.f, 5.f), 
+															  1.f,
 			                                                  "Resonance", 
 			                                                  AudioProcessorParameter::genericParameter, 
 			                                                  [](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 2);  }, 
@@ -210,7 +214,7 @@ AudioProcessorValueTreeState::ParameterLayout WdAudioProcessor::createParameterL
 
 	params.push_back (std::make_unique<AudioParameterFloat> ("MASTER-MIX", 
 			                                                 "Mix", 
-			                                                 NormalisableRange<float>(0, 1), 
+			                                                 NormalisableRange<float>(0.f, 1.f), 
 			                                                 0.5f, 
 			                                                 "Mix",
 			                                                 AudioProcessorParameter::genericParameter,
@@ -226,8 +230,8 @@ AudioProcessorValueTreeState::ParameterLayout WdAudioProcessor::createParameterL
 
 	params.push_back (std::make_unique<AudioParameterFloat> ("MASTER-DISTORT", 
 			                                                 "Distort", 
-			                                                 NormalisableRange<float>(0, 50),
-			                                                 0, 
+			                                                 NormalisableRange<float>(0.f, 50.f),
+			                                                 0.f, 
 			                                                 "Distort",
 			                                                 AudioProcessorParameter::genericParameter,
 			                                                 [](double value, int /*l*/) { return juce::String::toDecimalStringWithSignificantFigures(value, 3);  },
@@ -294,16 +298,16 @@ int WdAudioProcessor::getCurrentProgram()
     return 0;
 }
 
-void WdAudioProcessor::setCurrentProgram (int index)
+void WdAudioProcessor::setCurrentProgram (int /*index*/)
 {
 }
 
-const String WdAudioProcessor::getProgramName (int index)
+const String WdAudioProcessor::getProgramName (int /*index*/)
 {
     return {};
 }
 
-void WdAudioProcessor::changeProgramName (int index, const String& newName)
+void WdAudioProcessor::changeProgramName (int /*index*/, const String& /*newName*/)
 {
 }
 
@@ -383,7 +387,7 @@ void WdAudioProcessor::passParamPointersToVoices()
 	// Pass pointers to params to the synth voice
 	for (int i = 0; i < mySynth.getNumVoices(); i++)
 	{
-		if ((myVoice = dynamic_cast<SynthVoice*> (mySynth.getVoice(i))))
+		if ((myVoice = dynamic_cast<SynthVoice*> (mySynth.getVoice(i))) != nullptr)
 		{
 			myVoice -> setParamPointers (
 				parameters.getRawParameterValue ("ATTACK"), 

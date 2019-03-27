@@ -23,8 +23,7 @@ public:
 	Grid2d (WdAudioProcessor& /*processor*/,  
 		    int               /*nRows*/, 
 		    int               /*nColumns*/, 
-		    std::string       /*title*/, 
-		    Colour            /*backgroundColour*/);
+		    std::string       /*title*/);
 	~Grid2d();
 
 	//==============================================================================
@@ -45,7 +44,6 @@ public:
 	private:
 		//==============================================================================
 		Label titleLabel;
-		Colour background = Colours::grey;
 	};
 
 protected:
@@ -65,7 +63,6 @@ private:
 	const int kTitleSectionHeight = 30;
 
 	//==============================================================================
-	Colour backgroundColour;
 	int nRows;
 	int nCols;
 

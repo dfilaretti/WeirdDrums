@@ -29,13 +29,12 @@ TitleSectionEditor::TitleSectionEditor(std::string title, std::string company)
 TitleSectionEditor::~TitleSectionEditor() {}
 
 //==============================================================================
-void TitleSectionEditor::paint (Graphics& g) {}
+void TitleSectionEditor::paint (Graphics& /*g*/) {}
 
 void TitleSectionEditor::resized()
 {
 	auto area        = getLocalBounds();
 	auto width       = area.getWidth();
-	auto height      = area.getHeight();
 	auto titleArea   = area.removeFromLeft(width / 2);
 	auto creditsArea = area;
 

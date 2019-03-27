@@ -26,8 +26,7 @@ public:
     NoiseSectionEditor(WdAudioProcessor&, 
 		               int,  
 		               int, 
-		               std::string, 
-		               Colour);
+		               std::string);
 
     ~NoiseSectionEditor();
 
