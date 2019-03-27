@@ -327,7 +327,6 @@ private:
 	float  oscFrequency; // actual frequency taking LFO and pitch env into account
  	
 	//==============================================================================
-
 	// OSC 
 	float* oscWaveform;
 	float* currentNoteFrequency;
