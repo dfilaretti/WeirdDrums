@@ -404,11 +404,8 @@ void WdAudioProcessor::passParamPointersToVoices()
 				parameters.getRawParameterValue ("NOISE-ATTACK"),
 				parameters.getRawParameterValue ("NOISE-DECAY"),
 				parameters.getRawParameterValue ("MASTER-MIX"),
-				parameters.getRawParameterValue ("MASTER-EQ-FREQ"),
-				parameters.getRawParameterValue ("MASTER-EQ-GAIN"),
 				parameters.getRawParameterValue ("MASTER-DISTORT"),
-				parameters.getRawParameterValue ("MASTER-LEVEL"),
-				parameters.getRawParameterValue ("MASTER-PAN")
+				parameters.getRawParameterValue ("MASTER-LEVEL")
 			);
 		}
 	}

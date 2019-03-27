@@ -62,11 +62,8 @@ public:
 		                  , float* noiseAttack 
 		                  , float* noiseDecay
 		                  , float* masterMix 
-		                  , float* masterEqFreq 
-		                  , float* masterEqGain 
 		                  , float* masterDistortionAmount 
-		                  , float* masterLevel 
-		                  , float* masterPan ) 
+		                  , float* masterLevel ) 
 	{
 		envAttack            = oscAttack;
 		envDecay             = oscDecay;
@@ -82,11 +79,8 @@ public:
 		noiseEnvAttack       = noiseAttack;
 		noiseEnvDecay        = noiseDecay;
 		mix                  = masterMix;
-		eqFreq               = masterEqFreq;
-		eqGain               = masterEqGain;
 		distortionAmount     = masterDistortionAmount;
 	    level                = masterLevel;
-	    pan                  = masterPan;
 	}
 	
 	//==============================================================================
@@ -346,9 +340,6 @@ private:
 
 	// MASTER 
 	float* mix; 
-	float* eqFreq;            // todo
-	float* eqGain;            // todo
 	float* distortionAmount;
 	float* level; 
-	float* pan;               // todo
 };
