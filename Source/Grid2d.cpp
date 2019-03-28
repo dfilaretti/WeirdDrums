@@ -78,13 +78,15 @@ void Grid2d::addRotarySlider(juce::String name, std::string paramId)
 
 void Grid2d::setupChild(Component* component, std::string paramId)
 {
+	// Make component visible
 	addAndMakeVisible(component);
 
+	// "Connect" component to the desired param, via the appropriate Attachment
 	if (ComboBox * c = dynamic_cast<ComboBox*> (component))
 		attachments.push_back(std::make_unique<ComboBoxAttachment>(processor.parameters, paramId, *c));
-
 	if (LabelledSlider * c = dynamic_cast<LabelledSlider*> (component))
 		attachments.push_back(std::make_unique<SliderAttachment>(processor.parameters, paramId, *(c->getSlider())));
+	// if (...)
 }
 
 //==============================================================================
