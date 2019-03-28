@@ -14,9 +14,7 @@
 #include "PluginProcessor.h"
 #include "TitleSectionEditor.h"
 #include "BottomSectionEditor.h"
-#include "OscillatorSectionEditor.h"
-#include "NoiseSectionEditor.h"
-#include "MasterSectionEditor.h"
+#include "Grid2d.h"
 
 //==============================================================================
 
@@ -37,10 +35,11 @@ private:
 	//==============================================================================
 	BottomSectionEditor bottomSectionGui;
 	TitleSectionEditor titleSectionGui;
-	// TODO: factorize Oscillator/Noise/Master/SectionEditor into a single class
-	OscillatorSectionEditor oscSectionGui;
-	MasterSectionEditor masterSectionGui;
-	NoiseSectionEditor noiseSectionGui;
+
+	//==============================================================================
+	Grid2d oscSectionGui;
+	Grid2d masterSectionGui;
+	Grid2d noiseSectionGui;
 
 	//==============================================================================
 	const int kWidth         = 500;

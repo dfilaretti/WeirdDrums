@@ -14,6 +14,7 @@
 #include "PluginProcessor.h"
 #include "LabelledSlider.h"
 #include "LookAndFeels.h"
+#include "LabelledRotarySlider.h"
 #include <variant>
 
 class Grid2d :		public Component
@@ -24,6 +25,7 @@ public:
 		    int               /*nRows*/, 
 		    int               /*nColumns*/, 
 		    std::string       /*title*/);
+
 	~Grid2d();
 
 	//==============================================================================
@@ -45,15 +47,21 @@ public:
 		//==============================================================================
 		Label titleLabel;
 	};
-
-protected:
+	
 	//==============================================================================
-	void setupChildren();
+	void addRotarySlider(juce::String name, std::string paramId);
+	//void addComboBox  (...);
+	//void addSlider    (...);
+	// ... etc ...
 
 	//==============================================================================
-	std::vector<std::pair<Component*, std::string>> controls;
+	void setupChild(Component*, std::string);
 
 private:
+	//==============================================================================
+	std::vector<std::unique_ptr<Component>> components;
+	std::vector<std::string> paramIds;
+
 	//==============================================================================
 	typedef AudioProcessorValueTreeState::SliderAttachment SliderAttachment;
 	typedef AudioProcessorValueTreeState::ComboBoxAttachment ComboBoxAttachment;
@@ -65,10 +73,6 @@ private:
 	//==============================================================================
 	int nRows;
 	int nCols;
-
-	//==============================================================================
-	void LinkComponentToAttachment(Component*, std::string);
-	void setupChild(std::pair<Component*, std::string>);
 
 	//==============================================================================
 	Grid2dTitle titleComponent;

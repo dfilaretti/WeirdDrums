@@ -58,35 +58,33 @@ void Grid2d::resized()
 		columns.push_back (area.removeFromLeft (width / nCols));
 	}
 
-	for (auto i = 0; i < controls.size(); i++)
+	for (auto i = 0; i < components.size(); i++)
 	{
 		auto columnId = i / nRows;
 		auto componentArea = columns[columnId].removeFromTop(componentWidth).reduced(10);
 
-		controls[i].first->setBounds (componentArea);
+		components[i]->setBounds (componentArea);
 	}
 }
 
 //==============================================================================
-void Grid2d::setupChild(std::pair<Component*, std::string> p)
+void Grid2d::addRotarySlider(juce::String name, std::string paramId)
 {
-	addAndMakeVisible(p.first);
-	LinkComponentToAttachment(p.first, p.second);
+	components.push_back(std::unique_ptr<Component> {new LabelledRotarySlider{ name }});
+	paramIds.push_back (paramId);
+
+	setupChild(components.back().get(), paramId);
 }
 
-void Grid2d::setupChildren()
+void Grid2d::setupChild(Component* component, std::string paramId)
 {
-	for (auto const& c : controls)
-		setupChild (c);
-}
+	addAndMakeVisible(component);
 
-void Grid2d::LinkComponentToAttachment(Component* component, std::string attachmentId)
-{
-	if (ComboBox* c = dynamic_cast<ComboBox*> (component))
-		attachments.push_back(std::make_unique<ComboBoxAttachment>(processor.parameters, attachmentId, *c));
+	if (ComboBox * c = dynamic_cast<ComboBox*> (component))
+		attachments.push_back(std::make_unique<ComboBoxAttachment>(processor.parameters, paramId, *c));
 
-	if (LabelledSlider* c = dynamic_cast<LabelledSlider*> (component))
-		attachments.push_back(std::make_unique<SliderAttachment>(processor.parameters, attachmentId, *(c->getSlider())));
+	if (LabelledSlider * c = dynamic_cast<LabelledSlider*> (component))
+		attachments.push_back(std::make_unique<SliderAttachment>(processor.parameters, paramId, *(c->getSlider())));
 }
 
 //==============================================================================
