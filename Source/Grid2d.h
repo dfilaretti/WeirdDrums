@@ -12,7 +12,6 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
-#include "LabelledSlider.h"
 #include "LookAndFeels.h"
 #include "LabelledRotarySlider.h"
 #include <variant>
