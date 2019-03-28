@@ -45,18 +45,6 @@
         <FILE id="WTOnVD" name="PluginEditor.cpp" compile="1" resource="0"
               file="Source/PluginEditor.cpp"/>
         <FILE id="PdLP1F" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
-        <FILE id="PmixhL" name="OscillatorSectionEditor.cpp" compile="1" resource="0"
-              file="Source/OscillatorSectionEditor.cpp"/>
-        <FILE id="XwzEVa" name="OscillatorSectionEditor.h" compile="0" resource="0"
-              file="Source/OscillatorSectionEditor.h"/>
-        <FILE id="D43XiB" name="MasterSectionEditor.cpp" compile="1" resource="0"
-              file="Source/MasterSectionEditor.cpp"/>
-        <FILE id="xyO1Tj" name="MasterSectionEditor.h" compile="0" resource="0"
-              file="Source/MasterSectionEditor.h"/>
-        <FILE id="zSaJsC" name="NoiseSectionEditor.cpp" compile="1" resource="0"
-              file="Source/NoiseSectionEditor.cpp"/>
-        <FILE id="QTSuME" name="NoiseSectionEditor.h" compile="0" resource="0"
-              file="Source/NoiseSectionEditor.h"/>
       </GROUP>
     </GROUP>
   </MAINGROUP>
