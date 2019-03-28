@@ -265,7 +265,7 @@ private:
 	}
 
 	//==============================================================================
-	static constexpr size_t m_modulationUpdateRate = 10;
+	static constexpr size_t m_modulationUpdateRate = 1;
 	size_t m_modulationUpdateCounter = m_modulationUpdateRate;
 
 	//==============================================================================
