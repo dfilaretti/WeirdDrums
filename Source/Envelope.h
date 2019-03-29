@@ -95,7 +95,7 @@ public:
     //==============================================================================
     /** Returns the next sample value for an ADSR object.
     */
-    float getNextSample()
+    double getNextSample()
     {
         if (currentState == State::idle)
             return 0.0f;
@@ -161,8 +161,8 @@ private:
         // need to call setSampleRate() first!
         jassert (sr > 0.0);
 
-		attackLenSamples = parameters.attack * sr;
-		decayLenSamples  = parameters.decay  * sr;
+		attackLenSamples = static_cast<unsigned long long> (parameters.attack * sr);
+		decayLenSamples  = static_cast<unsigned long long> (parameters.decay  * sr);
 
 		attackMultiplier = calculateMultiplier (minimumValue, 1.0, attackLenSamples);
 		decayMultiplier = calculateMultiplier (1.0, minimumValue, decayLenSamples);;
@@ -170,13 +170,13 @@ private:
 
 
 	//==============================================================================
-	float minimumValue = 0.0001;
+	double minimumValue = 0.0001;
 
 	//==============================================================================
-    double sr          = 0.0f;
-	float tailOff      = 0.0f;
-    float envelopeVal  = 0.0f;
-    float sustainLevel = 0.0f;
+    double sr           = 0;
+	double tailOff      = 0;
+    double envelopeVal  = 0;
+    double sustainLevel = 0;
 
 	//==============================================================================
 	unsigned long long currentSampleIndex;
@@ -184,6 +184,6 @@ private:
 	unsigned long long decayLenSamples;
 
 	//==============================================================================
-	float attackMultiplier   = 0.0f;
-	float decayMultiplier    = 0.0f;
+	double attackMultiplier   = 0;
+	double decayMultiplier    = 0;
 };
