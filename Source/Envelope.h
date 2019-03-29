@@ -43,7 +43,6 @@ public:
     void setParameters (const Parameters& newParameters)
     {
         currentParameters = newParameters;
-
         calculateRates (newParameters);
     }
 
@@ -69,7 +68,7 @@ public:
     /** Resets the envelope to an idle state. */
     void reset()
     {
-        envelopeVal  = 0.0f;
+        envelopeVal  = minimumValue;
 		tailOff      = 0;
         currentState = State::idle;
     }
@@ -77,8 +76,8 @@ public:
     /** Starts the attack phase of the envelope. */
     void noteOn()
     {
-        if      (attackRate > 0.0f)  currentState = State::attack;
-        else if (decayRate > 0.0f)   currentState = State::decay;
+        if      (attackMultiplier > 0.0f)  currentState = State::attack;
+        else if (decayMultiplier > 0.0f)   currentState = State::decay;
     }
 
     /** Starts the release phase of the envelope. */
@@ -96,37 +95,43 @@ public:
     //==============================================================================
     /** Returns the next sample value for an ADSR object.
     */
-    float getNextSample()
+    double getNextSample()
     {
-
         if (currentState == State::idle)
             return 0.0f;
 
         if (currentState == State::attack)
         {
-            envelopeVal += attackRate;
+            envelopeVal *= attackMultiplier;
+			currentSampleIndex++;
 
-            if (envelopeVal >= 1.0f)
-            {
-                envelopeVal = 1.0f;
+			if (currentSampleIndex == attackLenSamples)
+			{
+				envelopeVal = 1.0f;
+				currentSampleIndex = 0;
 
-				jassert (decayRate > 0);
+				jassert(decayMultiplier > 0);
 				currentState = State::decay;
-            }
+			}
         }
         else if (currentState == State::decay)
         {
-            envelopeVal -= decayRate;
+            envelopeVal *= decayMultiplier;
+			currentSampleIndex++;
 
-            if (envelopeVal <= 0 )
-            {
+			if (currentSampleIndex == decayLenSamples)
+			{
+				currentSampleIndex = 0;
 				reset();
-            }
+			}
         }
+
 		else if (currentState == State::tailOff)
 		{
 			envelopeVal *= tailOff;
             tailOff     *= 0.99f;
+
+			currentSampleIndex = 0;
 
 			if (tailOff <= 0.005)
 				reset();
@@ -136,27 +141,49 @@ public:
     }
 
 private:
-    //==============================================================================
-    void calculateRates (const Parameters& parameters)
+	//==============================================================================
+    enum class State { idle, attack, decay, tailOff };
+    State currentState = State::idle;
+
+	//==============================================================================
+    Parameters currentParameters;
+
+	//==============================================================================
+	double calculateMultiplier (double startLevel,
+		                        double endLevel,
+		                        unsigned long long lengthInSamples) 
+	{
+		return (1.0 + (log (endLevel) - log (startLevel)) / (lengthInSamples));
+	}
+	
+	void calculateRates (const Parameters& parameters)
     {
         // need to call setSampleRate() first!
         jassert (sr > 0.0);
 
-        attackRate  = (parameters.attack  > 0.0f ? static_cast<float> (1.0f                  / (parameters.attack * sr))  : -1.0f);
-        decayRate   = (parameters.decay   > 0.0f ? static_cast<float> ((1.0f - sustainLevel) / (parameters.decay * sr))   : -1.0f);
+		attackLenSamples = static_cast<unsigned long long> (parameters.attack * sr);
+		decayLenSamples  = static_cast<unsigned long long> (parameters.decay  * sr);
+
+		attackMultiplier = calculateMultiplier (minimumValue, 1.0, attackLenSamples);
+		decayMultiplier = calculateMultiplier (1.0, minimumValue, decayLenSamples);;
     }
 
-    //==============================================================================
-    enum class State { idle, attack, decay, tailOff };
 
-    State currentState = State::idle;
-    Parameters currentParameters;
+	//==============================================================================
+	double minimumValue = 0.0001;
 
-    double sr = 0.0f;
-	float tailOff = 0.0f;
+	//==============================================================================
+    double sr           = 0;
+	double tailOff      = 0;
+    double envelopeVal  = 0;
+    double sustainLevel = 0;
 
-    float envelopeVal = 0.0f;
+	//==============================================================================
+	unsigned long long currentSampleIndex;
+	unsigned long long attackLenSamples;
+	unsigned long long decayLenSamples;
 
-    float sustainLevel = 0.0f;
-    float attackRate = 0.0f, decayRate = 0.0f;
+	//==============================================================================
+	double attackMultiplier   = 0;
+	double decayMultiplier    = 0;
 };

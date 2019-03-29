@@ -189,7 +189,7 @@ private:
 		// amp envelope
 		auto currentAmpEnv = m_oscAmpEnv.getNextSample();
 		auto oscLevel = currentAmpEnv * m_currentNoteVelocity;
-		oscSectionProcessorChain.get<oscSectionOscIndex>().setLevel (oscLevel);
+		oscSectionProcessorChain.get<oscSectionOscIndex>().setLevel (static_cast<float>(oscLevel));
 
 		// pitch LFO
 		// https://dsp.stackexchange.com/questions/2349/help-with-algorithm-for-modulating-oscillator-pitch-using-lfo
@@ -199,7 +199,7 @@ private:
 		// pitch env
 		float fMin = oscFrequency;
 		float fMax = jlimit(0.0f, 20000.0f, fMin + (1000 * *pitchEnvAmount));
-		float pitchEnvOut = m_oscPitchEnv.getNextSample();
+		float pitchEnvOut = static_cast<float>(m_oscPitchEnv.getNextSample());
 		oscFrequency = jmap (pitchEnvOut, 0.0f, 1.0f, fMin, fMax); 
 
 		// set pitch with combined frequency
@@ -210,7 +210,7 @@ private:
 
 		auto currentNoiseEnv = m_noiseAmpEnv.getNextSample();
 		auto noiseLevel = currentNoiseEnv * m_currentNoteVelocity;
-		noiseSectionProcessorChain.get<noiseSectionOscIndex>().setLevel(noiseLevel);
+		noiseSectionProcessorChain.get<noiseSectionOscIndex>().setLevel(static_cast<float>(noiseLevel));
 	}
 
 	//==============================================================================
@@ -265,7 +265,7 @@ private:
 	}
 
 	//==============================================================================
-	static constexpr size_t m_modulationUpdateRate = 10;
+	static constexpr size_t m_modulationUpdateRate = 1;
 	size_t m_modulationUpdateCounter = m_modulationUpdateRate;
 
 	//==============================================================================
