@@ -4,9 +4,9 @@ A free and open source little drum synth plugin inspired by the awesome [Sonic C
 
 ![Screenshot](img/composition-2.png)
 
-Here some audio examples (more to come!):
+**See a [video demo here](https://youtu.be/fYtIJXaXj_k)!**
 
-
+Audio examples (more to come!):
 
 * [boredom](http://danielefilaretti.com/assets/downloads/misc/wd-examples/boredom.mp3)
 * [slow-techno](http://danielefilaretti.com/assets/downloads/misc/wd-examples/slow-techno.mp3)
