@@ -30,10 +30,10 @@ public:
     struct Parameters
     {
         /** Attack time in seconds. */
-        float attack  = 0.1f;
+		float attack { 0.1f };
 
         /** Decay time in seconds. */
-        float decay   = 0.1f;
+		float decay { 0.1f };
     };
 
     /** Sets the parameters that will be used by an ADSR object.
@@ -166,16 +166,15 @@ private:
 		decayLenSamples  = static_cast<size_t> (parameters.decay  * sr);
 
 		attackMultiplier = calculateMultiplier (minimumValue, 1.0, attackLenSamples);
-		decayMultiplier = calculateMultiplier (1.0, minimumValue, decayLenSamples);;
+		decayMultiplier  = calculateMultiplier (1.0, minimumValue, decayLenSamples);;
     }
 
 	//==============================================================================
-	double minimumValue       { 0.0001 };
+	const double minimumValue       { 0.0001 };
 	//==============================================================================
     double sr                 { 0 };
 	double tailOff            { 0 };
     double envelopeVal        { 0 };
-    double sustainLevel       { 0 };
 	//==============================================================================
 	size_t currentSampleIndex { 0 };
 	size_t attackLenSamples   { 0 };
