@@ -12,7 +12,8 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 
 /**
-    A very simple percussive-style envelope class.
+    A very simple percussive-style envelope class, with exponential decay. 
+	See: http://www.martin-finke.de/blog/articles/audio-plugins-011-envelopes/
 */
 class Envelope
 {
@@ -167,7 +168,6 @@ private:
 		attackMultiplier = calculateMultiplier (minimumValue, 1.0, attackLenSamples);
 		decayMultiplier = calculateMultiplier (1.0, minimumValue, decayLenSamples);;
     }
-
 
 	//==============================================================================
 	double minimumValue = 0.0001;
