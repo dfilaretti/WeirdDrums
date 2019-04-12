@@ -152,7 +152,7 @@ private:
 	//==============================================================================
 	double calculateMultiplier (double startLevel,
 		                        double endLevel,
-		                        unsigned long long lengthInSamples) 
+		                        size_t lengthInSamples) 
 	{
 		return (1.0 + (log (endLevel) - log (startLevel)) / (lengthInSamples));
 	}
@@ -162,28 +162,25 @@ private:
         // need to call setSampleRate() first!
         jassert (sr > 0.0);
 
-		attackLenSamples = static_cast<unsigned long long> (parameters.attack * sr);
-		decayLenSamples  = static_cast<unsigned long long> (parameters.decay  * sr);
+		attackLenSamples = static_cast<size_t> (parameters.attack * sr);
+		decayLenSamples  = static_cast<size_t> (parameters.decay  * sr);
 
 		attackMultiplier = calculateMultiplier (minimumValue, 1.0, attackLenSamples);
 		decayMultiplier = calculateMultiplier (1.0, minimumValue, decayLenSamples);;
     }
 
 	//==============================================================================
-	double minimumValue = 0.0001;
-
+	double minimumValue       { 0.0001 };
 	//==============================================================================
-    double sr           = 0;
-	double tailOff      = 0;
-    double envelopeVal  = 0;
-    double sustainLevel = 0;
-
+    double sr                 { 0 };
+	double tailOff            { 0 };
+    double envelopeVal        { 0 };
+    double sustainLevel       { 0 };
 	//==============================================================================
-	size_t currentSampleIndex;
-	size_t attackLenSamples;
-	size_t decayLenSamples;
-
+	size_t currentSampleIndex { 0 };
+	size_t attackLenSamples   { 0 };
+	size_t decayLenSamples    { 0 };
 	//==============================================================================
-	double attackMultiplier   = 0;
-	double decayMultiplier    = 0;
+	double attackMultiplier   { 0 };
+	double decayMultiplier    { 0 };
 };
