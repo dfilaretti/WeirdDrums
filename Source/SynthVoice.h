@@ -38,7 +38,7 @@ public:
 		masterSectionProcessorChain.prepare (spec);
 
 		//init envelopes
-		m_oscAmpEnv.setSampleRate (spec.sampleRate / m_modulationUpdateRate);
+		m_oscAmpEnv.setSampleRate   (spec.sampleRate / m_modulationUpdateRate);
 		m_noiseAmpEnv.setSampleRate (spec.sampleRate / m_modulationUpdateRate);
 		m_oscPitchEnv.setSampleRate (spec.sampleRate / m_modulationUpdateRate);
 		
@@ -95,11 +95,9 @@ public:
 		           int /*currentPitchWheelPosition*/) override
 	{
 		setPerNoteParams();
-		
 		m_oscAmpEnv.noteOn();
 		m_noiseAmpEnv.noteOn();
 		m_oscPitchEnv.noteOn();
-
 		m_currentNoteVelocity = velocity;
 	}
 	
@@ -197,9 +195,9 @@ private:
 		oscFrequency = *currentNoteFrequency * pow (2.f, (1.f / 1200.0f + pitchLfoOut * *pitchLfoAmount));
 
 		// pitch env
-		float fMin = oscFrequency;
-		float fMax = jlimit(0.0f, 20000.0f, fMin + (1000 * *pitchEnvAmount));
-		float pitchEnvOut = static_cast<float>(m_oscPitchEnv.getNextSample());
+		auto fMin = oscFrequency;
+		auto fMax = jlimit(0.0f, 20000.0f, fMin + (1000 * *pitchEnvAmount));
+		auto pitchEnvOut = static_cast<float>(m_oscPitchEnv.getNextSample());
 		oscFrequency = jmap (pitchEnvOut, 0.0f, 1.0f, fMin, fMax); 
 
 		// set pitch with combined frequency
@@ -265,7 +263,7 @@ private:
 	}
 
 	//==============================================================================
-	static constexpr size_t m_modulationUpdateRate = 1;
+	static constexpr size_t m_modulationUpdateRate { 1 };
 	size_t m_modulationUpdateCounter = m_modulationUpdateRate;
 
 	//==============================================================================
