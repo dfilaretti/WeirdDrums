@@ -48,22 +48,22 @@ public:
 	}
 
 	//==============================================================================
-	void setParamPointers ( float* oscAttack 
-		                  , float* oscDecay 
-		                  , float* oscFreq 
-		                  , float* oscSelection 
-		                  , float* oscPitchEnvAmount 
-		                  , float* oscPitchEnvRate 
-		                  , float* oscPitchLfoAmount 
-		                  , float* oscPitchLfoRate
-		                  , float* noiseFilterType 
-		                  , float* noiseFilterCutoff 
-		                  , float* noiseFilterRes 
-		                  , float* noiseAttack 
-		                  , float* noiseDecay
-		                  , float* masterMix 
-		                  , float* masterDistortionAmount 
-		                  , float* masterLevel ) 
+	void setParamPointers ( float* oscAttack,  
+		                    float* oscDecay,
+		                    float* oscFreq,
+		                    float* oscSelection,
+		                    float* oscPitchEnvAmount,
+		                    float* oscPitchEnvRate,
+		                    float* oscPitchLfoAmount,
+		                    float* oscPitchLfoRate,
+		                    float* noiseFilterType,
+		                    float* noiseFilterCutoff,
+		                    float* noiseFilterRes,
+		                    float* noiseAttack,
+		                    float* noiseDecay,
+		                    float* masterMix,
+		                    float* masterDistortionAmount,
+		                    float* masterLevel ) 
 	{
 		envAttack            = oscAttack;
 		envDecay             = oscDecay;

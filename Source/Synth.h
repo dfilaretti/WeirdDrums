@@ -17,7 +17,7 @@ class Synth : public Synthesiser
 public:
     //==============================================================================
 	/** Initialises the synth */
-	void prepare(const juce::dsp::ProcessSpec& spec) noexcept
+	void prepare (const juce::dsp::ProcessSpec& spec) noexcept
 	{
 		setCurrentPlaybackSampleRate (spec.sampleRate);
 

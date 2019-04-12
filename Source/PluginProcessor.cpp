@@ -89,15 +89,15 @@ AudioProcessorValueTreeState::ParameterLayout WdAudioProcessor::createParameterL
 															 AudioProcessorParameter::genericParameter,
 															 [](float value, int) 
 			                                                 {
-			if (0 == value)
-				return "SINE";
-			else if (1 == value)
-				return "SAW";
-			else if (2 == value)
-				return "SQUARE";
-			else
-				return "ERR";
-                                                                 
+																 if (0 == value)
+																 	return "SINE";
+																 else if (1 == value)
+																 	return "SAW";
+																 else if (2 == value)
+																 	return "SQUARE";
+																 else
+																 	return "ERR";
+                                                                  
 			                                                 },
 															 nullptr));
 	
@@ -152,15 +152,15 @@ AudioProcessorValueTreeState::ParameterLayout WdAudioProcessor::createParameterL
 			                                                 AudioProcessorParameter::genericParameter,
 			                                                 [](float value, int)
 			                                                 {
-			if (0 == value)
-				return "LP";
-			else if (1 == value)
-				return "HP";
-			else if (2 == value)
-				return "BP";
-			else
-				return "ERR";
-			                                                  
+																if (0 == value)
+																	return "LP";
+																else if (1 == value)
+																	return "HP";
+																else if (2 == value)
+																	return "BP";
+																else
+																	return "ERR";
+																  
 			                                                 },
 			                                                 nullptr));
 	
