@@ -44,13 +44,12 @@ void Grid2d::resized()
 {
 	auto area             = getLocalBounds().reduced(4);
 	auto titleArea        = area.removeFromTop (kTitleSectionHeight);
-
-	titleComponent.setBounds (titleArea);
-
-	int nComponents       = nRows;
+	auto nComponents      = nRows;
 	auto width            = area.getWidth();
 	auto height           = area.getHeight();
 	auto componentWidth   = height / nComponents;
+	
+	titleComponent.setBounds (titleArea);
 
 	std::vector<Rectangle<int>> columns;
 	for (auto i = 0; i < nCols; i++)
@@ -61,7 +60,7 @@ void Grid2d::resized()
 	for (auto i = 0; i < components.size(); i++)
 	{
 		auto columnId = i / nRows;
-		auto componentArea = columns[columnId].removeFromTop(componentWidth).reduced(10);
+		auto componentArea = columns[columnId].removeFromTop (componentWidth).reduced(10);
 
 		components[i]->setBounds (componentArea);
 	}
@@ -70,32 +69,32 @@ void Grid2d::resized()
 //==============================================================================
 void Grid2d::addRotarySlider(juce::String name, std::string paramId)
 {
-	components.push_back(std::unique_ptr<Component> {new LabelledRotarySlider{ name }});
+	components.push_back(std::unique_ptr<Component> {new LabelledRotarySlider { name }});
 	paramIds.push_back (paramId);
 
-	setupChild(components.back().get(), paramId);
+	setupChild (components.back().get(), paramId);
 }
 
-void Grid2d::setupChild(Component* component, std::string paramId)
+void Grid2d::setupChild (Component* component, std::string paramId)
 {
 	// Make component visible
 	addAndMakeVisible(component);
 
 	// "Connect" component to the desired param, via the appropriate Attachment
 	if (ComboBox * c = dynamic_cast<ComboBox*> (component))
-		attachments.push_back(std::make_unique<ComboBoxAttachment>(processor.parameters, paramId, *c));
+		attachments.push_back (std::make_unique<ComboBoxAttachment> (processor.parameters, paramId, *c));
 	if (LabelledSlider * c = dynamic_cast<LabelledSlider*> (component))
-		attachments.push_back(std::make_unique<SliderAttachment>(processor.parameters, paramId, *(c->getSlider())));
+		attachments.push_back (std::make_unique<SliderAttachment> (processor.parameters, paramId, *(c->getSlider())));
 	// if (...)
 }
 
 //==============================================================================
 Grid2d::Grid2dTitle::Grid2dTitle (std::string t)
 {
-	titleLabel.setFont(Font(15.0f, Font::bold));
-	titleLabel.setText(t, dontSendNotification);
-	titleLabel.setJustificationType(Justification::centred);
-	addAndMakeVisible(titleLabel);
+	titleLabel.setFont (Font(15.0f, Font::bold));
+	titleLabel.setText (t, dontSendNotification);
+	titleLabel.setJustificationType (Justification::centred);
+	addAndMakeVisible (titleLabel);
 }
 
 Grid2d::Grid2dTitle::~Grid2dTitle()
@@ -112,7 +111,7 @@ void Grid2d::Grid2dTitle::paint (Graphics& g)
 
 	g.setColour(backgroundColour);
 
-	g.fillRoundedRectangle(area.toFloat(), 3);
+	g.fillRoundedRectangle (area.toFloat(), 3);
 }
 
 void Grid2d::Grid2dTitle::resized()
@@ -125,5 +124,5 @@ void Grid2d::Grid2dTitle::resized()
 
 	titleLabel.setColour(Label::textColourId, textColour);
 
-	titleLabel.setBounds(area);
+	titleLabel.setBounds (area);
 }

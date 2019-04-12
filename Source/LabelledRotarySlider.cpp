@@ -28,9 +28,9 @@ void LabelledRotarySlider::paint(Graphics& /*g*/)
 
 void LabelledRotarySlider::resized()
 {
-	auto r      = getLocalBounds();
-	auto width  = r.getWidth();
-	auto height = r.getHeight();
+	auto r            = getLocalBounds();
+	auto width        = r.getWidth();
+	auto height       = r.getHeight();
 	auto labelsHeight = height / squeezeFactor;
 
 	m_slider.setTextBoxStyle (Slider::TextBoxBelow, 

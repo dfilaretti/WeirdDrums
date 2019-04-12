@@ -67,18 +67,14 @@ private:
 	typedef std::variant<std::unique_ptr<SliderAttachment>, std::unique_ptr<ComboBoxAttachment>> Attachment;
 
 	//==============================================================================
-	const int kTitleSectionHeight = 30;
+	const int kTitleSectionHeight { 30 };
 
 	//==============================================================================
+	Grid2dTitle titleComponent;
 	int nRows;
 	int nCols;
 
 	//==============================================================================
-	Grid2dTitle titleComponent;
-
-	//==============================================================================
 	WdAudioProcessor& processor;
-
-	//==============================================================================
 	std::vector<Attachment> attachments;
 };

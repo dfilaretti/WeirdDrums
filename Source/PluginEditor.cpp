@@ -26,23 +26,23 @@ WdAudioProcessorEditor::WdAudioProcessorEditor (WdAudioProcessor& p)
 	lookAndFeel.setTheme3(); 
 
 	// add OSC SECTION children
-	oscSectionGui.addRotarySlider(juce::String("Waveform"),       "WAVE-TYPE");
-	oscSectionGui.addRotarySlider(juce::String("Freq"),           "FREQ");
-	oscSectionGui.addRotarySlider(juce::String("Attack"),         "ATTACK");
-	oscSectionGui.addRotarySlider(juce::String("Decay"),          "DECAY");
-	oscSectionGui.addRotarySlider(juce::String("Env Amt"),        "PITCH-ENV-AMOUNT");
-	oscSectionGui.addRotarySlider(juce::String("Env Rate"),       "PITCH-ENV-RATE");
-	oscSectionGui.addRotarySlider(juce::String("LFO Amt"),        "PITCH-LFO-AMOUNT");
-	oscSectionGui.addRotarySlider(juce::String("LFO Rate"),       "PITCH-LFO-RATE");
+	oscSectionGui.addRotarySlider(juce::String("Waveform"), "WAVE-TYPE");
+	oscSectionGui.addRotarySlider(juce::String("Freq"), "FREQ");
+	oscSectionGui.addRotarySlider(juce::String("Attack"), "ATTACK");
+	oscSectionGui.addRotarySlider(juce::String("Decay"), "DECAY");
+	oscSectionGui.addRotarySlider(juce::String("Env Amt"), "PITCH-ENV-AMOUNT");
+	oscSectionGui.addRotarySlider(juce::String("Env Rate"), "PITCH-ENV-RATE");
+	oscSectionGui.addRotarySlider(juce::String("LFO Amt"), "PITCH-LFO-AMOUNT");
+	oscSectionGui.addRotarySlider(juce::String("LFO Rate"), "PITCH-LFO-RATE");
 	// NOISE ...
-	noiseSectionGui.addRotarySlider(juce::String("Cutoff"),       "FILTER-CUTOFF");
-	noiseSectionGui.addRotarySlider(juce::String("Res"),          "FILTER-RESONANCE");
-	noiseSectionGui.addRotarySlider(juce::String("Attack"),       "NOISE-ATTACK");
-	noiseSectionGui.addRotarySlider(juce::String("Decay"),        "NOISE-DECAY");
+	noiseSectionGui.addRotarySlider(juce::String("Cutoff"), "FILTER-CUTOFF");
+	noiseSectionGui.addRotarySlider(juce::String("Res"), "FILTER-RESONANCE");
+	noiseSectionGui.addRotarySlider(juce::String("Attack"), "NOISE-ATTACK");
+	noiseSectionGui.addRotarySlider(juce::String("Decay"), "NOISE-DECAY");
 	// MASTER ...
-	masterSectionGui.addRotarySlider(juce::String("Mix"),         "MASTER-MIX");
-	masterSectionGui.addRotarySlider(juce::String("Distort"),     "MASTER-DISTORT");
-	masterSectionGui.addRotarySlider(juce::String("Level"),       "MASTER-LEVEL");
+	masterSectionGui.addRotarySlider(juce::String("Mix"), "MASTER-MIX");
+	masterSectionGui.addRotarySlider(juce::String("Distort"), "MASTER-DISTORT");
+	masterSectionGui.addRotarySlider(juce::String("Level"), "MASTER-LEVEL");
 	masterSectionGui.addRotarySlider(juce::String("Filter Type"), "FILTER-TYPE");
 	
 	addAndMakeVisible (titleSectionGui);
@@ -54,8 +54,6 @@ WdAudioProcessorEditor::WdAudioProcessorEditor (WdAudioProcessor& p)
 	setSize (kWidth, kHeight);
 }
 
-
-
 WdAudioProcessorEditor::~WdAudioProcessorEditor() 
 { 
 	setLookAndFeel (nullptr); 
@@ -65,6 +63,7 @@ WdAudioProcessorEditor::~WdAudioProcessorEditor()
 void WdAudioProcessorEditor::paint (Graphics& g)
 {
 	Colour backgroundColour;
+	
 	if (auto lf = dynamic_cast<WdLookAndFeel*> (&getLookAndFeel()))
 		backgroundColour = lf->colour4;
 
@@ -73,11 +72,10 @@ void WdAudioProcessorEditor::paint (Graphics& g)
 
 void WdAudioProcessorEditor::resized()
 {
-	auto area  = getLocalBounds();
-
+	auto area       = getLocalBounds();
 	auto titleArea  = area.removeFromTop(kTitleHeight);
 	auto bottomArea = area.removeFromBottom(kTitleHeight);
-	auto mainArea = area/*.reduced(4)*/;
+	auto mainArea   = area/*.reduced(4)*/;
 
 	titleSectionGui.setBounds (titleArea);
 	oscSectionGui.setBounds(mainArea.removeFromLeft(kWidth / 2));

@@ -19,7 +19,7 @@ public:
 	~LabelledRotarySlider();
 
 private:
-	const float squeezeFactor = 5; // TODO: rename?
+	const float squeezeFactor { 5 }; // TODO: rename?
 
 	void paint(Graphics&) override;
 	void resized() override;

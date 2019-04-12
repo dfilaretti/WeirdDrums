@@ -13,17 +13,18 @@
 //==============================================================================
 BottomSectionEditor::BottomSectionEditor(WdAudioProcessor& processor,
 	                                     std::string versionInfo)
-	: m_processor {processor}, m_versionInfo {versionInfo}
+	: m_processor {processor}, 
+	  m_versionInfo {versionInfo}
 {
 	// init buttons functionality
 	initResetButton();
 	initRandomButton();
 
 	// setup version slider
-	m_versionLabel.setFont(Font(16.0f, Font::bold));
-	m_versionLabel.setText(m_versionInfo, dontSendNotification);
-	m_versionLabel.setJustificationType(Justification::right);
-	addAndMakeVisible(m_versionLabel);
+	m_versionLabel.setFont (Font(16.0f, Font::bold));
+	m_versionLabel.setText (m_versionInfo, dontSendNotification);
+	m_versionLabel.setJustificationType (Justification::right);
+	addAndMakeVisible (m_versionLabel);
 }
 
 BottomSectionEditor::~BottomSectionEditor()
@@ -46,6 +47,7 @@ void BottomSectionEditor::resized()
 	auto versionInfoArea = area;
 
 	Colour textColour;
+	
 	if (auto lf = dynamic_cast<WdLookAndFeel*> (&getLookAndFeel()))
 		textColour = lf->colour1;
 
