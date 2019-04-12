@@ -179,9 +179,9 @@ private:
     double sustainLevel = 0;
 
 	//==============================================================================
-	unsigned long long currentSampleIndex;
-	unsigned long long attackLenSamples;
-	unsigned long long decayLenSamples;
+	size_t currentSampleIndex;
+	size_t attackLenSamples;
+	size_t decayLenSamples;
 
 	//==============================================================================
 	double attackMultiplier   = 0;
